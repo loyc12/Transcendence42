@@ -1,7 +1,7 @@
 Testing ...
 
 * AV
-* Loyc
+* LL
 * VJ
-* Ian
+* IM
 * GE
