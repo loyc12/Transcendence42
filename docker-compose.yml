@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3'
 services:
   hello_world:
@@ -11,3 +12,73 @@ services:
       - "80:80"
 #    volumes:
 #      - ./requirements/wordpress/volume/:/var/www
+=======
+version: '3.5'
+services:
+  nestjs:
+    container_name: "nestjs_backend"
+    # env_file: .env
+    restart:  on-failure
+    build: 
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - trans_net
+    volumes:
+      - prisma_volume:/var/www/html
+
+  # angular:
+  #   container_name: "angular_frontend"
+  #   # env_file: .env
+  #   restart:  on-failure
+  #   build: 
+  #     context: ./ft-transcendence
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - "3001:3001"
+  #   networks:
+  #     - trans_net
+
+networks:
+  trans_net:
+    name: trans_net
+    driver: bridge
+
+volumes:
+  prisma_volume:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./volume
+
+
+  # wordpress:
+  #   container_name: "wordpress_inception"
+  #   env_file: .env
+  #   restart:  on-failure
+  #   build: 
+  #     context: ./requirements/wordpress
+  #     dockerfile: ./Dockerfile
+  #   depends_on:
+  #     - mariadb
+  #   networks:
+  #     - inception
+  #   volumes:
+  #     - wordpress_vlm:/var/www/html
+
+  # mariadb:
+  #   container_name: "mariadb_inception"
+  #   env_file: .env
+  #   restart:  on-failure
+  #   build: 
+  #     context: ./requirements/mariadb
+  #     dockerfile: ./Dockerfile
+  #   networks:
+  #     - inception
+  #   volumes:
+  #     - mariadb_vlm:/var/lib/mysql
+
+>>>>>>> DEV
