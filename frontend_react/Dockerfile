@@ -11,9 +11,10 @@ RUN npm i --save-dev @types/node --no-cache
 
 COPY . .
 RUN yarn install --no-cache
+RUN yarn install -g http-server --no-cache
 
-RUN yarn build
+#RUN yarn build
 
-EXPOSE 3000
+EXPOSE 3500
 
-CMD [ "yarn", "run", "start:dev" ]
+CMD [ "http-server", "./dist", "-p", "3500" " || ", "/bin/sh"]
