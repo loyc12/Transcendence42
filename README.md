@@ -9,20 +9,9 @@ Ft-Transcendence
 
 ```bash
 # development
-$ cd ft-transcendence/
 
-## NOTE -> À court terme, on fait ces commandes, mais éventuellement vont passer dans package.json.
-# Compilation
-$ yarn build
-# Executer
-$ yarn run start
+docker compose up
 
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
 ```
 
 ## Test

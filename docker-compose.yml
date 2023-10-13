@@ -4,7 +4,7 @@ services:
     container_name: "nestjs_backend"
     # env_file: .env
     restart:  on-failure
-    build: 
+    build:
       context: ./backend
       dockerfile: ./Dockerfile
     ports:
@@ -18,7 +18,7 @@ services:
   #   container_name: "angular_frontend"
   #   # env_file: .env
   #   restart:  on-failure
-  #   build: 
+  #   build:
   #     context: ./ft-transcendence
   #     dockerfile: ./Dockerfile
   #   ports:
@@ -44,7 +44,7 @@ volumes:
   #   container_name: "wordpress_inception"
   #   env_file: .env
   #   restart:  on-failure
-  #   build: 
+  #   build:
   #     context: ./requirements/wordpress
   #     dockerfile: ./Dockerfile
   #   depends_on:
@@ -58,7 +58,7 @@ volumes:
   #   container_name: "mariadb_inception"
   #   env_file: .env
   #   restart:  on-failure
-  #   build: 
+  #   build:
   #     context: ./requirements/mariadb
   #     dockerfile: ./Dockerfile
   #   networks:
