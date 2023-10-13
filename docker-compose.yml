@@ -1,0 +1,63 @@
+version: '3.5'
+services:
+  nginx:
+    container_name: "nginx_inception"
+    env_file: .env
+    restart:  on-failure
+    build: 
+      context: ./requirements/nginx
+      dockerfile: ./Dockerfile
+    ports:
+      - "443:443"
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress_vlm:/var/www/html
+
+  wordpress:
+    container_name: "wordpress_inception"
+    env_file: .env
+    restart:  on-failure
+    build: 
+      context: ./requirements/wordpress
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    volumes:
+      - wordpress_vlm:/var/www/html
+
+  mariadb:
+    container_name: "mariadb_inception"
+    env_file: .env
+    restart:  on-failure
+    build: 
+      context: ./requirements/mariadb
+      dockerfile: ./Dockerfile
+    networks:
+      - inception
+    volumes:
+      - mariadb_vlm:/var/lib/mysql
+
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
+
+volumes:
+  wordpress_vlm:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/iamongeo/data/wordpress
+  mariadb_vlm:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/iamongeo/data/mariadb
