@@ -6,7 +6,7 @@
     #npm
     #...
 
-#sudo npm install -g "@nestjs/cli"
+sudo npm install -g "@nestjs/cli"
 
 #Install npm backend requirments (looks for package.json in the argument dir)
 if [ -d "./backend" ] & [ -f "./backend/package.json" ]; then
