@@ -5,7 +5,7 @@ services:
     # env_file: .env
     restart:  on-failure
     build: 
-      context: ./ft-transcendence
+      context: ./backend
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
@@ -27,7 +27,7 @@ services:
   #     - trans_net
 
 networks:
-  inception:
+  trans_net:
     name: trans_net
     driver: bridge
 
