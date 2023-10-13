@@ -27,3 +27,4 @@ alias GQCKP='echo "\n > !!!! making quick commit !!!! < \n" &! $SCRIPTS/.gitquic
 #alias CONT_START="docker start -i project-transcendence"
 
 alias CONT_COMPOSE="docker compose up"
+alias OS_UPDATE="sudo apt update | sudo apt upgrade"
