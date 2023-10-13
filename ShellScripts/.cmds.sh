@@ -14,7 +14,6 @@ alias GMRG='echo "\n > !! merging from given branch !! < \n" &! git merge' #				
 alias GPSH='echo "\n > !!! pushing commited changes to branch !!! < \n" &! git push' #						git push
 alias GQCKP='echo "\n > !!!! making quick commit !!!! < \n" &! $SCRIPTS/.gitquick.sh' #						git quickpush
 
-
 # one for fetch
 # one for merge from DEV
 # one for merge from STABLE
@@ -22,8 +21,9 @@ alias GQCKP='echo "\n > !!!! making quick commit !!!! < \n" &! $SCRIPTS/.gitquic
 # use script to fix order issues (use gq script as example)
 
 # ENV COMMANDS
-alias CONT_BUILD="docker build -t project-transcendence ."
-alias CONT_MAKE="docker run -it --name project-transcendence project-transcendence"
-alias CONT_STOP="docker stop project-transcendence"
-alias CONT_START="docker start -i project-transcendence"
-alias CONT_DELETE="docker rm -f project-transcendence"
+#alias CONT_BUILD="docker build -t project-transcendence ."
+#alias CONT_MAKE="docker run -it --name project-transcendence project-transcendence"
+#alias CONT_STOP="docker stop project-transcendence"
+#alias CONT_START="docker start -i project-transcendence"
+
+alias CONT_COMPOSE="docker compose up"
