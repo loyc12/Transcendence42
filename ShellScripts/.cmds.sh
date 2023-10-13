@@ -1,4 +1,4 @@
-source $SCRIPTS/.colours.sh
+# source $SCRIPTS/.colours.sh
 source $SCRIPTS/.help.sh
 
 # GIT COMMANDS
