@@ -9,11 +9,11 @@ alias GU='echo "\n > updating remote repos  < \n" &! git remote update' #							
 alias GA='echo "\n > adding all changes to commit queue \033[1;91m!!! < \n" &! git add * || git add -u' #	git add
 alias GC='echo "\n > commiting change queue with given message < \n" &! git commit -m' #					git commit
 alias GG='echo "\n > switching to given branch < \n" &! git switch' #										git go
-alias GM='echo "\n > !! merging from given branch !! < \n" &! git merge' #									git merge
-alias GG='echo "\n > ! creating new specified branch ! < \n" &! git push origin -u' #										git go
+alias GNB='echo "\n > ! creating new specified branch ! < \n" &! git push origin -u' #						git go
+alias GMRG='echo "\n > !! merging from given branch !! < \n" &! git merge' #								git merge
+alias GPSH='echo "\n > !!! pushing commited changes to branch !!! < \n" &! git push' #						git push
+alias GCQP='echo "\n > !!! making quick commit !!! < \n" &! $HOME/.gitquick.zsh' #							git quickpush
 
-# alias gpush='echo "\n > !!! pushing commited changes to branch !!! < \n" &! git push'						git push
-# alias gqckp='echo "\n > !! making quick commit !! < \n" &! $HOME/.gitquick.zsh' #							git quickpush
 
 # one for fetch
 # one for merge from DEV
