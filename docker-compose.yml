@@ -2,8 +2,16 @@ version: '3.5'
 services:
   nestjs:
     container_name: "nestjs_backend"
-    # env_file: .env
     restart:  on-failure
+
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: psql
+      DB_PASSWORD: ReMoVeMeFrOmHeRe
+      DB_NAME: nestdb
+      DATABASE_URL: "postgresql://psql:ReMoVeMeFrOmHeRe@localhost:5432/nestdb?schema=public"
+
     build: 
       context: ./backend
       dockerfile: ./Dockerfile
@@ -11,20 +19,52 @@ services:
       - "3000:3000"
     networks:
       - trans_net
-    volumes:
-      - prisma_volume:/var/www/html
+    #volumes:
+    #  - postgres_volume:/var/postgress/
 
-  # angular:
-  #   container_name: "angular_frontend"
-  #   # env_file: .env
-  #   restart:  on-failure
-  #   build: 
-  #     context: ./ft-transcendence
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - "3001:3001"
-  #   networks:
-  #     - trans_net
+  postgres:
+    container_name: "postgres_db"
+    image: postgres:alpine3.18
+    restart:  always
+    environment:
+      - POSTGRES_USER=psql
+      - POSTGRES_PASSWORD=ReMoVeMeFrOmHeRe
+      - POSTGRES_DB=nestdb
+      - PGDATA="/var/lib/postgres/data/pgdata"
+
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_volume:/var/lib/postgress/data
+    networks:
+      - trans_net
+
+  angular:
+    container_name: "angular_frontend"
+    # env_file: .env
+    restart:  on-failure
+    build: 
+      context: ./frontend_angular
+      dockerfile: ./Dockerfile
+    ports:
+      - "4000:4000"
+    networks:
+      - trans_net
+
+  react:
+    container_name: "react_frontend"
+    # env_file: .env
+    restart:  on-failure
+    build: 
+      context: ./frontend_react
+      dockerfile: ./Dockerfile
+    ports:
+      - "3500:3500"
+    networks:
+      - trans_net
+
+
+
 
 networks:
   trans_net:
@@ -32,12 +72,12 @@ networks:
     driver: bridge
 
 volumes:
-  prisma_volume:
+  postgres_volume:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ./volume
+      device: ./postgres/postgres_volume
 
 
   # wordpress:

@@ -4,9 +4,9 @@ if [[ $(git status) -eq 0 ]]
 then
 	echo "\n\033[1;91mCannot use git here !!!\033[0m\n"
 else
-	if [[ $(git status | grep -c "master") -gt 0 ]]
+	if [[ $(git status | grep -c "MASTER") -gt 0 ]]
 	then
-		echo "\n\033[1;91mCannot use gitquick on branch master !!!\033[0m\n"
+		echo "\n\033[1;91mCannot use gitquick on branch MASTER !!!\033[0m\n"
 	else
 		git status || true
 		git remote update || true
