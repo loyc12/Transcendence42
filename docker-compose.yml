@@ -54,14 +54,17 @@ services:
   react:
     container_name: "react_frontend"
     # env_file: .env
-    restart:  on-failure
+    #restart:  on-failure
     build: 
       context: ./frontend_react
       dockerfile: ./Dockerfile
     ports:
-      - "3500:3500"
+      - "5173:5173"
     networks:
       - trans_net
+    volumes:
+      - ./frontend_react/frontend_vite_react/src:/app/frontend_vite_react/src
+      - ./frontend_react/frontend_vite_react/dist:/app/frontend_vite_react/dist
 
 
 

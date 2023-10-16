@@ -14,6 +14,6 @@ RUN yarn install --no-cache
 
 RUN yarn build
 
-EXPOSE 3000
+EXPOSE 3500
 
 CMD [ "yarn", "run", "start:dev" ]
