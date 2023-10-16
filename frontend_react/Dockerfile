@@ -11,10 +11,13 @@ RUN npm i --save-dev @types/node --no-cache
 
 COPY . .
 RUN yarn install --no-cache
-RUN yarn install -g http-server --no-cache
+#RUN yarn install -g http-server --no-cache
 
+RUN yarn install vite --no-cache
 #RUN yarn build
 
-EXPOSE 3500
+#EXPOSE 3500
+EXPOSE 5173
 
-CMD [ "http-server", "./dist", "-p", "3500" " || ", "/bin/sh"]
+CMD [ "npm" , "run", "dev", "--", "--host"]
+#CMD [ "http-server", "./dist", "-p", "3500" " || ", "/bin/sh"]
