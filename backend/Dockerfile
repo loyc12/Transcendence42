@@ -8,12 +8,14 @@ RUN yarn -v
 RUN npm install -g typescript --force --no-cache
 RUN tsc -v
 RUN npm i --save-dev @types/node --no-cache
+RUN mkdir dist
+
 
 COPY . .
 RUN yarn install --no-cache
 
 RUN yarn build
 
-EXPOSE 3500
+EXPOSE 3000
 
 CMD [ "yarn", "run", "start:dev" ]

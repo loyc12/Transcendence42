@@ -19,6 +19,9 @@ services:
       - "3000:3000"
     networks:
       - trans_net
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
     #volumes:
     #  - postgres_volume:/var/postgress/
 
@@ -30,7 +33,7 @@ services:
       - POSTGRES_USER=psql
       - POSTGRES_PASSWORD=ReMoVeMeFrOmHeRe
       - POSTGRES_DB=nestdb
-      - PGDATA="/var/lib/postgres/data/pgdata"
+      - PGDATA="/var/lib/postgres/data"
 
     ports:
       - 5432:5432
@@ -50,23 +53,24 @@ services:
       - "4000:4000"
     networks:
       - trans_net
-
-  react:
-    container_name: "react_frontend"
-    # env_file: .env
-    #restart:  on-failure
-    build: 
-      context: ./frontend_react
-      dockerfile: ./Dockerfile
-    ports:
-      - "5173:5173"
-    networks:
-      - trans_net
     volumes:
-      - ./frontend_react/frontend_vite_react/src:/app/frontend_vite_react/src
-      - ./frontend_react/frontend_vite_react/dist:/app/frontend_vite_react/dist
+      - ./src:/app/src
+      - ./dist:/app/dist
 
-
+  # react:
+  #   container_name: "react_frontend"
+  #   # env_file: .env
+  #   #restart:  on-failure
+  #   build: 
+  #     context: ./frontend_react
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - "5173:5173"
+  #   networks:
+  #     - trans_net
+  #   volumes:
+  #     - ./frontend_react/frontend_vite_react/src:/app/frontend_vite_react/src
+  #     - ./frontend_react/frontend_vite_react/dist:/app/frontend_vite_react/dist
 
 
 networks:
