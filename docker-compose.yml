@@ -3,9 +3,11 @@ services:
   nestjs:
     container_name: "nestjs_backend"
     restart:  on-failure
+    depends_on:
+      - postgres
 
     environment:
-      DB_HOST: db
+      DB_HOST: localhost
       DB_PORT: 5432
       DB_USER: psql
       DB_PASSWORD: ReMoVeMeFrOmHeRe
@@ -21,9 +23,7 @@ services:
       - trans_net
     volumes:
       - ./backend/src:/app/src
-      - ./backend/prisma:/app/prisma
-    #volumes:
-    #  - postgres_volume:/var/postgress/
+
 
   postgres:
     container_name: "postgres_db"
@@ -33,12 +33,12 @@ services:
       - POSTGRES_USER=psql
       - POSTGRES_PASSWORD=ReMoVeMeFrOmHeRe
       - POSTGRES_DB=nestdb
-      - PGDATA="/var/lib/postgres/data"
+      - PGDATA=/var/lib/postgres/data
 
     ports:
       - 5432:5432
     volumes:
-      - postgres_volume:/var/lib/postgress/data
+      - postgres_volume:/var/lib/postgres/data
     networks:
       - trans_net
 
@@ -54,7 +54,8 @@ services:
     networks:
       - trans_net
     volumes:
-      - ./angular/src:/app/src
+      - ./frontend_angular/src:/app/src
+      - ./frontend_angular/dist:/app/dist
 
   # react:
   #   container_name: "react_frontend"
@@ -91,7 +92,7 @@ volumes:
   #   container_name: "wordpress_inception"
   #   env_file: .env
   #   restart:  on-failure
-  #   build: 
+  #   build:
   #     context: ./requirements/wordpress
   #     dockerfile: ./Dockerfile
   #   depends_on:
@@ -105,7 +106,7 @@ volumes:
   #   container_name: "mariadb_inception"
   #   env_file: .env
   #   restart:  on-failure
-  #   build: 
+  #   build:
   #     context: ./requirements/mariadb
   #     dockerfile: ./Dockerfile
   #   networks:
