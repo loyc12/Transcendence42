@@ -1,1 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
+.box>* {
+	float: left;
+}
+
+.box {
+	display: flex;
+}
+
+.chat {
+	background-color: #F5CEBB;
+	width: 30%;
+	height: 900px;
+}
+
+.game {
+	background-color: #8FA7C6;
+	width: 70%;
+	height: 900px;
+}
+
+nav {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+header {
+	background-color: #D3D3D3;
+}
+
+footer {
+	background-color: #D3D3D3;
+	display: flex;
+}
