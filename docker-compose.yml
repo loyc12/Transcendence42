@@ -20,8 +20,8 @@ services:
     networks:
       - trans_net
     volumes:
-      - ./src:/app/src
-      - ./prisma:/app/prisma
+      - ./backend/src:/app/src
+      - ./backend/prisma:/app/prisma
     #volumes:
     #  - postgres_volume:/var/postgress/
 
@@ -54,8 +54,7 @@ services:
     networks:
       - trans_net
     volumes:
-      - ./src:/app/src
-      - ./dist:/app/dist
+      - ./angular/src:/app/src
 
   # react:
   #   container_name: "react_frontend"
@@ -84,7 +83,8 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ./postgres/postgres_volume
+      device: ./postgres/data
+      #device: ./postgres/postgres_volume
 
 
   # wordpress:
