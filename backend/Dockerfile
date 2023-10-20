@@ -1,20 +1,21 @@
-FROM node:18
+FROM node:18-alpine
 
 WORKDIR /app
 
 RUN node -v
-RUN npm install -g yarn --force
+RUN npm install -g yarn --force --no-cache
 RUN yarn -v
-RUN npm install -g typescript --force
+RUN npm install -g typescript --force --no-cache
 RUN tsc -v
-RUN npm i --save-dev @types/node
+RUN npm i --save-dev @types/node --no-cache
+RUN mkdir dist
 
-COPY package*.json ./
-
-RUN yarn install
 
 COPY . .
+RUN yarn install --no-cache
 
 RUN yarn build
+
+EXPOSE 3000
 
 CMD [ "yarn", "run", "start:dev" ]
