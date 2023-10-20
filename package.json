@@ -2,6 +2,7 @@
   "dependencies": {
     "@angular/cli": "^16.2.6",
     "@nestjs/cli": "^10.1.18",
+    "@nestjs/platform-socket.io": "^10.2.7",
     "http-server": "^14.1.1"
   }
 }
