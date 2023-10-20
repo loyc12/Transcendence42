@@ -16,6 +16,9 @@ RUN yarn install --no-cache
 
 RUN yarn build
 
+
 EXPOSE 3000
+
+ENTRYPOINT [ "./tools/entrypoint.sh" ]
 
 CMD [ "yarn", "run", "start:dev" ]

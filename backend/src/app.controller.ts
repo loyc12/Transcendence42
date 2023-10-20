@@ -7,10 +7,12 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  // getHello(): string {
-  //   return this.appService.getHello();
-  // }
-  getHello(@Res() res: Response) {
+  getHello(): string {
+    return this.appService.getHello();
+  }
+  
+  @Get('/germain')
+  kingGermain(@Res() res: Response) {
     res.sendFile('/workspaces/Transcendence42/frontend/frame/index.html');//, { root: 'public' });
   }
 }

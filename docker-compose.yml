@@ -3,9 +3,11 @@ services:
   nestjs:
     container_name: "nestjs_backend"
     restart:  on-failure
+    depends_on:
+      - postgres
 
     environment:
-      DB_HOST: db
+      DB_HOST: localhost
       DB_PORT: 5432
       DB_USER: psql
       DB_PASSWORD: ReMoVeMeFrOmHeRe
@@ -20,10 +22,8 @@ services:
     networks:
       - trans_net
     volumes:
-      - ./src:/app/src
-      - ./prisma:/app/prisma
-    #volumes:
-    #  - postgres_volume:/var/postgress/
+      - ./backend/src:/app/src
+
 
   postgres:
     container_name: "postgres_db"
@@ -33,12 +33,12 @@ services:
       - POSTGRES_USER=psql
       - POSTGRES_PASSWORD=ReMoVeMeFrOmHeRe
       - POSTGRES_DB=nestdb
-      - PGDATA="/var/lib/postgres/data"
+      - PGDATA=/var/lib/postgres/data
 
     ports:
       - 5432:5432
     volumes:
-      - postgres_volume:/var/lib/postgress/data
+      - postgres_volume:/var/lib/postgres/data
     networks:
       - trans_net
 
@@ -54,8 +54,8 @@ services:
     networks:
       - trans_net
     volumes:
-      - ./src:/app/src
-      - ./dist:/app/dist
+      - ./frontend_angular/src:/app/src
+      - ./frontend_angular/dist:/app/dist
 
   # react:
   #   container_name: "react_frontend"
@@ -84,7 +84,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ./postgres/postgres_volume
+      device: ./postgres/data
 
 
   # wordpress:
