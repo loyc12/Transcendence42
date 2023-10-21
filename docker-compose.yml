@@ -47,15 +47,15 @@ services:
     # env_file: .env
     restart:  on-failure
     build: 
-      context: ./frontend_angular
+      context: ./frontend
       dockerfile: ./Dockerfile
     ports:
       - "4000:4000"
     networks:
       - trans_net
     volumes:
-      - ./frontend_angular/src:/app/src
-      - ./frontend_angular/dist:/app/dist
+      - ./frontend/src:/app/src
+      - ./frontend/dist:/app/dist
 
   # react:
   #   container_name: "react_frontend"
