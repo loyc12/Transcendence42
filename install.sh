@@ -7,7 +7,9 @@ if [ ! $(which yarn) ]; then
 fi
 
 #Mise en place du projet initial ( Ne pas refaire svp)
-sudo npm install
+#sudo npm install
 #nest new ft-transcendence
 #Choose yarn
+
+bash install_requirements.sh
 

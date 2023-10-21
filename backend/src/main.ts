@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { ChatGateway } from './chat-gateway/chat-gateway.gateway';
+//import { ChatGateway } from './chat-gateway/chat-gateway.gateway';
 
 const listen_port: string = '3000';
 

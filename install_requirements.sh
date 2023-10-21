@@ -6,15 +6,23 @@
     #npm
     #...
 
-sudo npm install -g "@nestjs/cli"
+sudo yarn global add "@nestjs/cli"
+sudo yarn global add "@angular/cli"
+#sudo npm install -g "@angular/cli"
 
 #Install npm backend requirments (looks for package.json in the argument dir)
 if [ -d "./backend" ] & [ -f "./backend/package.json" ]; then
-    sudo npm install --prefix ./backend/transcendence_backend ./backend/transcendence_backend
+    cd backend
+    yarn install --no-cache
+    cd ..
+    #sudo yarn install --prefix ./backend/transcendence_backend ./backend/transcendence_backend
 fi
 
 #Install npm frontend requirments
 if [ -d "./frontend" ] && [ -f "./frontend/package.json" ]; then
-    sudo npm install --prefix ./frontend/transcendence_frontend ./backend/transcendence_frontend
+    cd frontend
+    yarn install --no-cache
+    cd ..
+    #sudo yarn install --prefix ./frontend/transcendence_frontend ./backend/transcendence_frontend
 fi
     
