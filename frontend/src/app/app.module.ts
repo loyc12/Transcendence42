@@ -9,7 +9,7 @@ import { ListComponent } from './list/list.component';
 import { MainComponent } from './main/main.component';
 
 @NgModule({
-    import: [
+    imports: [
         BrowserModule,
         ReactiveFormsModule,
         RouterModule.forRoot([
