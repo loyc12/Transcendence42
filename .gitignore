@@ -48,6 +48,7 @@
 *.pdb
 
 # Kernel Module Compile Results
+# *.mod*
 .tmp_versions/
 modules.order
 Module.symvers
