@@ -13,6 +13,7 @@ export class AppController {
   
   @Get('/germain')
   kingGermain(@Res() res: Response) {
+    //res.sendFile('./frame/index.html');//, { root: 'public' });
     res.sendFile('/workspaces/Transcendence42/frontend/frame/index.html');//, { root: 'public' });
   }
 }

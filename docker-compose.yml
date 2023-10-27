@@ -1,7 +1,8 @@
 version: '3.5'
 services:
-  nestjs:
-    container_name: "nestjs_backend"
+ 
+  django:
+    container_name: "django_backend"
     restart:  on-failure
     depends_on:
       - postgres
@@ -15,14 +16,14 @@ services:
       DATABASE_URL: "postgresql://psql:ReMoVeMeFrOmHeRe@localhost:5432/nestdb?schema=public"
 
     build: 
-      context: ./backend
+      context: ./backend_django
       dockerfile: ./Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3001"
     networks:
       - trans_net
     volumes:
-      - ./backend/src:/app/src
+      - ./backend_django/src:/app/src
 
 
   postgres:
@@ -42,20 +43,46 @@ services:
     networks:
       - trans_net
 
-  angular:
-    container_name: "angular_frontend"
-    # env_file: .env
-    restart:  on-failure
-    build: 
-      context: ./frontend
-      dockerfile: ./Dockerfile
-    ports:
-      - "4000:4000"
-    networks:
-      - trans_net
-    volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/dist:/app/dist
+   #nestjs:
+  #  container_name: "nestjs_backend"
+  #  restart:  on-failure
+  #  depends_on:
+  #    - postgres
+#
+  #  environment:
+  #    DB_HOST: localhost
+  #    DB_PORT: 5432
+  #    DB_USER: psql
+  #    DB_PASSWORD: ReMoVeMeFrOmHeRe
+  #    DB_NAME: nestdb
+  #    DATABASE_URL: "postgresql://psql:ReMoVeMeFrOmHeRe@localhost:5432/nestdb?schema=public"
+#
+  #  build: 
+  #    context: ./backend
+  #    dockerfile: ./Dockerfile
+  #  ports:
+  #    - "3000:3000"
+  #  networks:
+  #    - trans_net
+  #  volumes:
+  #    - ./backend/src:/app/src
+
+
+#  angular:
+#    container_name: "angular_frontend"
+#    # env_file: .env
+#    restart:  on-failure
+#    depends_on:
+#      - nestjs
+#    build: 
+#      context: ./frontend
+#      dockerfile: ./Dockerfile
+#    ports:
+#      - "4000:4000"
+#    networks:
+#      - trans_net
+#    volumes:
+#      - ./frontend/src:/app/src
 
   # react:
   #   container_name: "react_frontend"
@@ -70,7 +97,6 @@ services:
   #     - trans_net
   #   volumes:
   #     - ./frontend_react/frontend_vite_react/src:/app/frontend_vite_react/src
-  #     - ./frontend_react/frontend_vite_react/dist:/app/frontend_vite_react/dist
 
 
 networks:
@@ -84,7 +110,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ./postgres/data
+      device: ./postgres/volume/data
       #device: ./postgres/postgres_volume
 
 
