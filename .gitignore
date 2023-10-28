@@ -1,3 +1,5 @@
+**/.env
+
 # 42
 *.DS_Store
 *.vscode

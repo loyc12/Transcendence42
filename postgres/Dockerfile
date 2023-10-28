@@ -1,3 +1,5 @@
-FROM postgres:alpine3.18
+# UNUSED 
 
-EXPOSE 5432
+#FROM postgres:alpine3.18
+
+#EXPOSE 5432

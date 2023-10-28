@@ -7,41 +7,53 @@ services:
     depends_on:
       - postgres
 
-    environment:
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_USER: psql
-      DB_PASSWORD: ReMoVeMeFrOmHeRe
-      DB_NAME: nestdb
-      DATABASE_URL: "postgresql://psql:ReMoVeMeFrOmHeRe@localhost:5432/nestdb?schema=public"
+    env_file:
+      - .env
+      #- ./django_service/.env
+#    environment:
+#      DB_HOST: '127.0.0.1'
+#      DB_PORT: 5432
+#      DB_USER: postgres
+#      DB_PASS: ReMoVeMeFrOmHeRe
+#      DB_NAME: djangodb
+#      DATABASE_URL: "postgresql://postgres:ReMoVeMeFrOmHeRe@127.0.0.1:5432/djangodb?schema=public"
 
     build: 
-      context: ./backend_django
+      context: ./django_service
       dockerfile: ./Dockerfile
     ports:
-      - "3001:3001"
+      - "3000:3000"
     networks:
-      - trans_net
+      #- trans_net
+      trans_net:
+        ipv4_address: 192.130.0.3
+
     volumes:
-      - ./backend_django/src:/app/src
+      - ./django_service/FrontApp:/app/FrontApp
 
 
   postgres:
     container_name: "postgres_db"
     image: postgres:alpine3.18
     restart:  always
+    env_file:
+      - .env
+      #- ./postgres/.env
     environment:
-      - POSTGRES_USER=psql
-      - POSTGRES_PASSWORD=ReMoVeMeFrOmHeRe
-      - POSTGRES_DB=nestdb
       - PGDATA=/var/lib/postgres/data
+#      - POSTGRES_USER=psql
+#      - POSTGRES_PASSWORD=ReMoVeMeFrOmHeRe
+#      - POSTGRES_DB=djangodb
 
-    ports:
-      - 5432:5432
+#    ports:
+#      - 5432:5432
     volumes:
       - postgres_volume:/var/lib/postgres/data
+#    networks:
+#      - trans_net
     networks:
-      - trans_net
+      trans_net:
+        ipv4_address: 192.130.0.2
 
    #nestjs:
   #  container_name: "nestjs_backend"
@@ -103,6 +115,10 @@ networks:
   trans_net:
     name: trans_net
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.130.0.0/16
+          gateway: 192.130.0.1
 
 volumes:
   postgres_volume:
