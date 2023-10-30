@@ -18,7 +18,6 @@ alias GPSH='echo "\n > !!! pushing commited changes to branch !!! < \n" &! git p
 alias GQCKP='echo "\n > !!!! making quick commit !!!! < \n" &! $SCRIPTS/.gitquick.sh' #						git quickpush
 
 # fetch origin && git reset --hard origin/<BRANCH>
-
 # use script to fix order issues (use gq script as example)
 
 # ENV COMMANDS
