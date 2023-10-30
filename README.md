@@ -10,10 +10,10 @@ source ./start.sh
 
 ```
 
-## Running the app
+## Running the app (without database)
 
 ```bash
-CONT_COMPOSE
+make local 
 ```
 
 ## Test
