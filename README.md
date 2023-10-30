@@ -5,22 +5,24 @@ Ft-Transcendence
 
 ## Installation
 
-```bash
-source ./start.sh
-
-```
-
 ## Running the app
 
 ```bash
-CONT_COMPOSE
+# development
+
+docker compose up
+
 ```
 
 ## Test
 
 ## Support
 
+
 ## Stay in touch
+
 
 ## License
 
+### order command
+    
