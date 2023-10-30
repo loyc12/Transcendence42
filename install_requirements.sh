@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TO UPDATE -> REQUIREMENTS FOR LOCAL COMPILATION
+
 #sudo apt-get -y update && sudo apt-get -y upgrade
 
 #sudo apt-get -y install \
