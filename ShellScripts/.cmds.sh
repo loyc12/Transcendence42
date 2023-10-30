@@ -8,13 +8,14 @@ alias GP='echo "\n > pulling branch updates < \n" &! git pull' #											git p
 alias GU='echo "\n > updating remote repos  < \n" &! git remote update' #									git update (remote upadte)
 alias GA='echo "\n > adding all changes to commit queue \033[1;91m!!! < \n" &! git add * || git add -u' #	git add
 alias GC='echo "\n > commiting change queue with given message < \n" &! git commit -m' #					git commit ...
+alias GL='echo "\n > listing all branches < \n" &! git branch -a' #											git list (branch -a)
 alias GG='echo "\n > switching to given branch < \n" &! git switch' #										git go (switch)
 
-alias GNB='echo "\n > ! creating new specified branch ! < \n" &! git push origin' #							git push (on new branch)
+alias GNB='echo "\n > ! pushing to new branch ! < \n" &! git push origin' #									git new branch (push <branch>)
+alias GDB='echo "\n > ! unfollowing given branch < \n" &! git branch -d' #									git delete branch (branch -d)
 alias GMRG='echo "\n > !! merging from given branch !! < \n" &! git merge' #								git merge ...
 alias GPSH='echo "\n > !!! pushing commited changes to branch !!! < \n" &! git push' #						git push
 alias GQCKP='echo "\n > !!!! making quick commit !!!! < \n" &! $SCRIPTS/.gitquick.sh' #						git quickpush
-
 
 # fetch origin && git reset --hard origin/<BRANCH>
 
@@ -26,5 +27,5 @@ alias GQCKP='echo "\n > !!!! making quick commit !!!! < \n" &! $SCRIPTS/.gitquic
 #alias CONT_STOP="docker stop project-transcendence"
 #alias CONT_START="docker start -i project-transcendence"
 
-alias CONT_COMPOSE="docker compose up"
-alias OS_UPDATE="sudo apt update | sudo apt upgrade"
+#alias CONT_COMPOSE="docker compose up"
+#alias OS_UPDATE="sudo apt update | sudo apt upgrade"
