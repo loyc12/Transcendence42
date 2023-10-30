@@ -1,43 +1,133 @@
 version: '3.5'
 services:
-  nestjs:
-    container_name: "nestjs_backend"
-    # env_file: .env
+ 
+  django:
+    container_name: "django_backend"
     restart:  on-failure
-    build:
-      context: ./backend
+    depends_on:
+      - postgres
+
+    env_file:
+      - .env
+      #- ./django_service/.env
+#    environment:
+#      DB_HOST: '127.0.0.1'
+#      DB_PORT: 5432
+#      DB_USER: postgres
+#      DB_PASS: ReMoVeMeFrOmHeRe
+#      DB_NAME: djangodb
+#      DATABASE_URL: "postgresql://postgres:ReMoVeMeFrOmHeRe@127.0.0.1:5432/djangodb?schema=public"
+
+    build: 
+      context: ./django_service
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
     networks:
-      - trans_net
-    volumes:
-      - prisma_volume:/var/www/html
+      #- trans_net
+      trans_net:
+        ipv4_address: 192.130.0.3
 
-  # angular:
-  #   container_name: "angular_frontend"
+    volumes:
+      - ./django_service/FrontApp:/app/FrontApp
+
+
+  postgres:
+    container_name: "postgres_db"
+    image: postgres:alpine3.18
+    restart:  always
+    env_file:
+      - .env
+      #- ./postgres/.env
+    environment:
+      - PGDATA=/var/lib/postgres/data
+#      - POSTGRES_USER=psql
+#      - POSTGRES_PASSWORD=ReMoVeMeFrOmHeRe
+#      - POSTGRES_DB=djangodb
+
+#    ports:
+#      - 5432:5432
+    volumes:
+      - postgres_volume:/var/lib/postgres/data
+#    networks:
+#      - trans_net
+    networks:
+      trans_net:
+        ipv4_address: 192.130.0.2
+
+   #nestjs:
+  #  container_name: "nestjs_backend"
+  #  restart:  on-failure
+  #  depends_on:
+  #    - postgres
+#
+  #  environment:
+  #    DB_HOST: localhost
+  #    DB_PORT: 5432
+  #    DB_USER: psql
+  #    DB_PASSWORD: ReMoVeMeFrOmHeRe
+  #    DB_NAME: nestdb
+  #    DATABASE_URL: "postgresql://psql:ReMoVeMeFrOmHeRe@localhost:5432/nestdb?schema=public"
+#
+  #  build: 
+  #    context: ./backend
+  #    dockerfile: ./Dockerfile
+  #  ports:
+  #    - "3000:3000"
+  #  networks:
+  #    - trans_net
+  #  volumes:
+  #    - ./backend/src:/app/src
+
+
+#  angular:
+#    container_name: "angular_frontend"
+#    # env_file: .env
+#    restart:  on-failure
+#    depends_on:
+#      - nestjs
+#    build: 
+#      context: ./frontend
+#      dockerfile: ./Dockerfile
+#    ports:
+#      - "4000:4000"
+#    networks:
+#      - trans_net
+#    volumes:
+#      - ./frontend/src:/app/src
+
+  # react:
+  #   container_name: "react_frontend"
   #   # env_file: .env
-  #   restart:  on-failure
-  #   build:
-  #     context: ./ft-transcendence
+  #   #restart:  on-failure
+  #   build: 
+  #     context: ./frontend_react
   #     dockerfile: ./Dockerfile
   #   ports:
-  #     - "3001:3001"
+  #     - "5173:5173"
   #   networks:
   #     - trans_net
+  #   volumes:
+  #     - ./frontend_react/frontend_vite_react/src:/app/frontend_vite_react/src
+
 
 networks:
   trans_net:
     name: trans_net
     driver: bridge
+    ipam:
+      config:
+        - subnet: 192.130.0.0/16
+          gateway: 192.130.0.1
 
 volumes:
-  prisma_volume:
+  postgres_volume:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ./volume
+      device: ./postgres/volume/data
+      #device: ./postgres/postgres_volume
 
 
   # wordpress:
