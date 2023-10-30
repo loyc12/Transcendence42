@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "FrontApp"# Contains and manages all application content 
-#    "api"
+    "FrontApp",# Contains and manages all application content 
+    "api",
+    "api.auth"
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "django_service.urls"
+ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
     {
@@ -74,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "django_service.wsgi.application"
+WSGI_APPLICATION = "core.wsgi.application"
 
 
 # Database
@@ -86,18 +87,18 @@ if env("DG_RUN_WITH_DB"):
             #"ENGINE": "django.db.backends.sqlite3",
             #"NAME": BASE_DIR / "db.sqlite3",
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": env("DB_NAME"),
-            "USER": env("DB_USER"),
-            "PASSWORD": env("DB_PASS"),
+            "NAME": env("POSTGRES_DB"),
+            "USER": env("POSTGRES_USER"),
+            "PASSWORD": env("POSTGRES_PASSWORD"),
             "HOST": env("DB_HOST"),
-            "PORT": env("DB_PORT"),
+            "PORT": env("DB_PORT")
         }
     }
 else:
     DATABASES = {}
 
-print("Database : ")
-print(DATABASES)
+#print("Database : ")
+#print(DATABASES)
 
 
 # Password validation
