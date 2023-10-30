@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+# from django.shortcuts import render
+# from django.http import HttpResponse
 from FrontApp.dummy_responses import dummy_responses as dummy
-#import . from dummy_responses.dummy_responses
+# import . from dummy_responses.dummy_responses
 
 # Create your views here.
 def say_hello_to_my_little_puppy(request):
