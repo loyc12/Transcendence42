@@ -1,5 +1,5 @@
-#from django.shortcuts import render
-#from django.http import HttpResponse
+# from django.shortcuts import render
+# from django.http import HttpResponse
 from FrontApp.dummy_responses import dummy_responses as dummy
 #import . from dummy_responses.dummy_responses
 
@@ -19,7 +19,6 @@ def say_generic_hello(request):
     #return render(request, 'hello.html')#, {'name': 'generic person'})
 
 def list_members(request):
-
     members = [
         dummy.dummy('Ginette', 'Légaré'),
         dummy.dummy('Jonny', 'Rousseau')

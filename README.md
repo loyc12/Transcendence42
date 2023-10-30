@@ -5,13 +5,15 @@ Ft-Transcendence
 
 ## Installation
 
-## Running the app
+```bash
+source ./start.sh
+
+```
+
+## Running the app (without database)
 
 ```bash
-# development
-
-docker compose up
-
+make local 
 ```
 
 ## Test
