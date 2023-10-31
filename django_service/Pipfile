@@ -8,6 +8,10 @@ django-environ = "*"
 django = {extras = ["argon2"], version = "*"}
 psycopg2 = "*"
 psycopg2-binary = "*"
+django-extensions = "*"
+werkzeug = "*"
+pyopenssl = "*"
+django-bootstrap-v5 = "*"
 
 [dev-packages]
 

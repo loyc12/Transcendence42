@@ -1,4 +1,6 @@
 **/.env
+**/*.crt
+**/*.key
 
 # 42
 *.DS_Store

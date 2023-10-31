@@ -30,7 +30,7 @@ SECRET_KEY = "django-insecure-%h_d1w07jpoik5d&&@$8-3*p$=f7+&s54s*laqwige$&&@gr01
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",
+    "bootstrap5",
     "FrontApp",# Contains and manages all application content 
     "api",
     "api.auth"
@@ -58,6 +60,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
+
+# HTTPS certificate policy config
+SECURE_HSTS_SECONDS = 3600#31536000  # 1 year HSTS (recommended)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+#SECURE_SSL_REDIRECT = True
+
 
 TEMPLATES = [
     {
