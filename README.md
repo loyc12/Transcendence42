@@ -37,19 +37,19 @@ TRANSCENDENCE42/
         Pipfile #DEPENDENCY
         Pipfile.lock #DEPENDENCY
         api/__init__.py # - - - - - - - - - - - - - - - - - - - - - - - API
-            apps.py
-            models.py
-            urls.py
-            views.py
+            models.py #CLASSES, DATA_STRUCT
+            urls.py #LINK PATH
+            views.py #EXECUTION
 
+            apps.py  #TAGS
             admin.py #PV
             tests.py #PV
             auth/__init__.py # - - - - - - - - - - - - - - - - - - AUTH_USER
-                apps.py
-                models.py
+                models.py  #CLASSES, DATA_STRUCT
                 urls.py
-                views.py
+                views.py #EXECUTION
 
+                apps.py #TAGS
                 admin.py #PV
                 tests.py #PV
                 migrations/__init__.py #DEPENDENCY
@@ -60,16 +60,22 @@ TRANSCENDENCE42/
             urls.py
             wsgi.py
         FrontApp/__init__.py # - - - - - - - - - - - - - - - - - FRONT_END
-                apps.py
-                models.py
+                models.py  #CLASSES, DATA_STRUCT
                 urls.py
-                views.py
-                
+                views.py #EXECUTION
+
+                apps.py #TAGS
                 admin.py #PV
                 tests.py #PV
-                dummy_responses/__init__.py # - - - - - - - - - - - - - 
-                                dummy_responses.py
-                templates/__init__.py # - - - - - - - - - - - - - - - -
+                templates/__init__.py # - - - - - - - - - - - - - -  PAGES
+                            home/ # - - - - - - - - - - - - - - - - - HOME
+                                css/empty.css
+                                js/
+                                    home.js
+                                    select.js
+                                home.html
+                                init.html
+                                select.html
                             hello.html
                             list_components.html
                 migrations/__init__.py #DEPENDENCY
