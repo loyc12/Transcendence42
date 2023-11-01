@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "FrontApp",# Contains and manages all application content 
+    "FrontApp",# Contains and manages all application content
+    "frontHome",
     "api",
     "api.auth"
 ]
