@@ -1,6 +1,8 @@
 
-
 all:
+	make up
+
+up:
 	docker-compose up --build -d
 
 down:

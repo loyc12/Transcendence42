@@ -3,7 +3,7 @@
 
 # SHORTCUTS
 export REPO="/workspaces/Transcendence42"
-export SCRIPTS="/workspaces/Transcendence42/ShellScripts"
+export SCRIPTS="/workspaces/Transcendence42/shellscripts"
 
 source $SCRIPTS/.colours.sh
 source $SCRIPTS/.cmds.sh
