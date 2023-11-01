@@ -25,7 +25,8 @@ https:	$(CERT_CRT) $(CERT_KEY)
 		&& pipenv install \
 		&& pipenv run python manage.py runserver_plus \
 			--cert-file=$(CERT_CRT) --key-file=$(CERT_KEY) '0.0.0.0:3000'
-#		&& pipenv run python manage.py runserver '0.0.0.0:3000'
+
+
 
 _update_and_certutils:
 	#sudo apt-get update -y && sudo apt-get upgrade -y
@@ -36,11 +37,6 @@ $(BREW_EXE): _update_and_certutils
 	@if [ ! -f $(BREW_EXE) ]; then \
 		./ShellScripts/mkcert_install.sh $(BREW_DIR) $(BREW_EXE); \
 	fi
-#	/bin/bash -c "$(shell curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
-#		&& test -d ~/.linuxbrew && eval "$(shell ~/.linuxbrew/bin/brew shellenv)" \
-#		&& test -d $(BREW_DIR) && eval "$(shell $(BREW_EXE) shellenv)" \
-#		&& echo "eval \"\$(shell $(brew --prefix)/bin/brew shellenv)\"" >> ~/.bashrc \
-#		&& brew install mkcert
 
 $(CERT_CRT) $(CERT_KEY):	$(BREW_EXE)
 	@if [ ! -f $(CERT_CRT) && ! -f $(CERT_KEY) ]; then \
