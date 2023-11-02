@@ -1,21 +1,9 @@
 from django.shortcuts import render
-# from django.http import HttpResponse
+#from django.http import HttpResponse
 from FrontApp.dummy_responses import dummy_responses as dummy
-# import . from dummy_responses.dummy_responses
+#import . from dummy_responses.dummy_responses
 
 # Create your views here.
-def home(request):
-    print(request)
-    #return (render(request, 'home/home.html'))
-    return (render(request, 'FrontApp/home_blocky.html'))
-
-def home_title(request):
-    print(request)
-    return (render(request, 'FrontApp/home_extra.html'))
-
-
-
-
 def say_hello_to_my_little_puppy(request):
     print(request)
     return (dummy.dummy_say_hello_to_my_little_puppy(request))
@@ -31,9 +19,21 @@ def say_generic_hello(request):
     #return render(request, 'hello.html')#, {'name': 'generic person'})
 
 def list_members(request):
+
     members = [
         dummy.dummy('Ginette', 'Légaré'),
         dummy.dummy('Jonny', 'Rousseau')
         #42
     ]
     return (dummy.dummy_list_members(request, {'mymembers': members}))
+
+
+# Germain Stuff
+def home_page(request):
+    return render(request, 'theme_plate/home.html')
+
+def init_page(request):
+    return render(request, 'theme_plate/init.html')
+
+def select_page(request):
+    return render(request, 'theme_plate/select.html')
