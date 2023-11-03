@@ -8,5 +8,5 @@ from . import views
 # ]
 
 urlpatterns = [
-    path('', views.jai_faim)
+    path('', views.index)
 ]
