@@ -3,6 +3,7 @@ from django.shortcuts import render
 from FrontApp.dummy_responses import dummy_responses as dummy
 # import . from dummy_responses.dummy_responses
 
+
 # Create your views here.
 def home(request):
     print(request)
@@ -12,6 +13,17 @@ def home(request):
 def home_title(request):
     print(request)
     return (render(request, 'FrontApp/home_extra.html'))
+
+def show_game(request):
+    print(request)
+    return (render(request, 'FrontApp/game_canvas.html'))
+
+
+def show_game2(request):
+    print(request)
+    return (render(request, 'FrontApp/game2_view.html'))
+
+
 
 
 
