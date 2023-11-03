@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div id="TopBar">
+        <!-- Content for the TopBar -->
+        {% include 'login.html' %}
+    </div>
+    <div id="NavBar">
+        <!-- Content for the NavBar -->
+    </div>
+    <div id="Content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
