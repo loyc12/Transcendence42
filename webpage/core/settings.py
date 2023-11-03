@@ -42,11 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "api",
+    
     "Home",
-    # "FrontApp",# Contains and manages all application content
-    "frontHome",
-    "api.auth"
+    "frontHome",# html val
 ]
 
 MIDDLEWARE = [

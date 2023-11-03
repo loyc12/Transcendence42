@@ -27,7 +27,7 @@ def login_view(request):
     else:
         form = LoginForm()
 
-    return render(request, 'login.html', {'form': form, 'error_message': error_message if 'error_message' in locals() else ''})
+    return render(request, 'Login/login.html', {'form': form, 'error_message': error_message if 'error_message' in locals() else ''})
 
 
 # def login_view(request):
