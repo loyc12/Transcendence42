@@ -1,4 +1,4 @@
-
+""" Django settings for webpage project. """
 # Django settings (Django 4.2.6.)
 # Command : django-admin startproject
 # DOC
@@ -11,14 +11,21 @@
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-from pathlib import Path
 import os
+from pathlib import Path
+# from pathlib import Path
+# import os
 # import environ
 # env = environ.Env()
 # environ.Env.read_env('../.env')
 
-BASE_DIR = Path(__file__).resolve().parent.parent # Build paths inside the project like this: BASE_DIR / 'subdir'.
-SECRET_KEY = "django-insecure-%h_d1w07jpoik5d&&@$8-3*p$=f7+&s54s*laqwige$&&@gr01" # SECURITY WARNING: keep the secret key used in production secret! # TODO :ALERT
+BASE_DIR = Path(__file__).resolve().parent.parent
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
+                'django-insecure-%h_d1w07jpoik5d&&@$8-3*p$=f7+&s54s*laqwige$&&@gr01')
+
+DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+
+SECRET_KEY = "django-insecure-%h_d1w07jpoik5d&&@$8-3*p$=f7+&s54s*laqwige$&&@gr01" 
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = []
 
@@ -31,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "Home",
-    "frontHome", # TODO : DELETE AFTER MIGRATION
+    "frontHome",
 ]
 
 MIDDLEWARE = [

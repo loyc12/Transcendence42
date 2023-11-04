@@ -1,10 +1,11 @@
+""" This file contains the URL patterns for the Home app. """
 from django.urls import path
-from . import views
+from .views import home_view, login_view
 
 urlpatterns = [
     # URL for the main page (home)
-    path('Home/', views.home_view, name='home'),
+    path('home/', home_view, name='home'),
     # URL for the login page
-    path('Login/', views.login_view, name='login'),
+    path('login/', login_view, name='login'),
 
 ]
