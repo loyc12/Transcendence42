@@ -13,7 +13,7 @@ source ./start.sh
 ## Running the app (without database)
 
 ```bash
-make local 
+make local
 ```
 
 ## Test
@@ -28,8 +28,7 @@ TRANSCENDENCE42/
     Pipfile #DEPENDENCY
     Pipfile.lock #DEPENDENCY
     README.md
-    start.sh #ENTRYPOINT UTILS
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     django_service/
         Dockerfile
         entrypoint.sh #ACCESS DATA
@@ -79,7 +78,7 @@ TRANSCENDENCE42/
                             hello.html
                             list_components.html
                 migrations/__init__.py #DEPENDENCY
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -        
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     postgres/
         Dockerfile
         volume/
@@ -88,6 +87,8 @@ TRANSCENDENCE42/
         .colours.sh
         .gitquick.sh
         .help.sh
+		guide.txt
+   		start.sh #ENTRYPOINT UTILS
 ```
 
 
@@ -97,4 +98,3 @@ TRANSCENDENCE42/
 ## License
 
 ### order command
-    
