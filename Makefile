@@ -11,13 +11,13 @@ BREW_EXE	= /home/linuxbrew/.linuxbrew/bin/brew
 
 MKCERT_PATH	= /usr/bin/mkcert
 
-all:	public_ip
+all:
 	docker-compose up --build -d
 
 down:
 	docker-compose down
 
-local:	public_ip
+local:
 	cd django_service/ \
 		&& pipenv install \
 		&& pipenv run python3 manage.py runserver '0.0.0.0:3000'
