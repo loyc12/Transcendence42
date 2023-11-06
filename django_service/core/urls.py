@@ -19,7 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('', include('FrontApp.urls')),
     path("app/", include('FrontApp.urls')),
-    path("auth/", include('api.auth.urls'))
+    path("oauth/", include('oauth.urls'))
 ]

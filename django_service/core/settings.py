@@ -12,20 +12,31 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import environ
 
-env = environ.Env()
-environ.Env.read_env('../.env')
+from io import StringIO
+from dotenv import load_dotenv
+import urllib.request
+
+env_stream = open('../.env', 'r')
+load_dotenv(stream=env_stream)
+env_stream.close()
+env = os.environ
+
+external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+#env = environ.Env()
+#environ.Env.read_env('../.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+env["APP42_OAUTH_REDIRECT"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/receive_code"
+env["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/confirm"
+print("APP42_OAUTH_REDIRECT : ", env["APP42_OAUTH_REDIRECT"])
+print("APP42_OAUTH_CONFIRM : ", env["APP42_OAUTH_CONFIRM"])
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%h_d1w07jpoik5d&&@$8-3*p$=f7+&s54s*laqwige$&&@gr01"
+SECRET_KEY = env["DJANGO_SECRET_KEY"]# DELETE THIS -> "django-insecure-%h_d1w07jpoik5d&&@$8-3*p$=f7+&s54s*laqwige$&&@gr01"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -43,10 +54,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    "oauth2_provider",
     "bootstrap5",
     "FrontApp",# Contains and manages all application content 
     "api",
-    "api.auth"
+    "oauth",
+    "users"
 ]
 
 MIDDLEWARE = [
@@ -71,6 +84,17 @@ CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 #SECURE_SSL_REDIRECT = True
 
+# OpenID OAuth2 config
+LOGIN_URL='/admin/login/'
+
+OAUTH2_PROVIDER = {
+    "OIDC_ENABLED": True,
+    "OIDC_RSA_PRIVATE_KEY": env["OIDC_RSA_PRIVATE_KEY"],
+    "SCOPES": {
+        "openid": "OpenID Connect scope",
+    },
+}
+
 
 TEMPLATES = [
     {
@@ -94,17 +118,17 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if env("DG_RUN_WITH_DB"):
+if env["DG_RUN_WITH_DB"]:
     DATABASES = {
         "default": {
             #"ENGINE": "django.db.backends.sqlite3",
             #"NAME": BASE_DIR / "db.sqlite3",
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": env("POSTGRES_DB"),
-            "USER": env("POSTGRES_USER"),
-            "PASSWORD": env("POSTGRES_PASSWORD"),
-            "HOST": env("DB_HOST"),
-            "PORT": env("DB_PORT")
+            "NAME": env["POSTGRES_DB"],
+            "USER": env["POSTGRES_USER"],
+            "PASSWORD": env["POSTGRES_PASSWORD"],
+            "HOST": env["DB_HOST"],
+            "PORT": env["DB_PORT"]
         }
     }
 else:
@@ -140,6 +164,8 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
     "django.contrib.auth.hashers.ScryptPasswordHasher",
 ]
+
+AUTH_USER_MODEL = "users.User"
 
 
 # Internationalization

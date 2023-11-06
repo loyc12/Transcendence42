@@ -12,6 +12,9 @@ django-extensions = "*"
 werkzeug = "*"
 pyopenssl = "*"
 django-bootstrap-v5 = "*"
+python-dotenv = "*"
+requests = "*"
+django-oauth-toolkit = "*"
 
 [dev-packages]
 
