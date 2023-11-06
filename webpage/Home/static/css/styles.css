@@ -1,4 +1,9 @@
 /* Apply some basic styling to the TopBar */
+
+#Header {
+    background-color: #D3D3D3;
+} 
+
 #TopBar {
     background-color: #333;
     color: #fff;
@@ -7,10 +12,12 @@
 
 /* Style the navigation bar */
 #NavBar {
-    background-color: #007bff; /* Change the background color to suit your design */
+    background-color: #D3D3D3; /* Change the background color to suit your design */
     color: #fff;
     padding: 10px;
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -30,6 +37,11 @@
 /* Style the HeroDiv */
 #HeroDiv {
     padding: 20px;
+}
+
+#Footer {
+    background-color: #D3D3D3;
+    display: flex;    
 }
 
 /* Add more styles as needed for your specific layout */
