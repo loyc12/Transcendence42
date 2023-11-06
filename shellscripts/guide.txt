@@ -18,4 +18,4 @@ TO DO 'source start.zsh BY DEFAULT'		(avoids doing it manually every time)
 
 TO USE ZSH BY DEFAULT					(fix formating issues with cmds output)
 
-set default profile to 'zsh'			(the '+v' tab, above the terminal)
+set default profile to 'zsh'			(the '+v' button, above the VScode terminal)
