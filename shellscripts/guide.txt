@@ -8,11 +8,11 @@ TO DO 'source start.zsh BY DEFAULT'		(avoids doing it manually every time)
 'cd ~'									(go to root)
 
 'nano .zshrc'
-	add 'source /workspaces/Transcendence42/start.sh'	(at the end of the file)
-	ctrl-o & ENTER & ctrl-x								(to save and quit)
-'nano .zshrc'
-	add 'source /workspaces/Transcendence42/start.sh'	(at the end of the file)
-	ctrl-o & ENTER & ctrl-x								(to save and quit)
+	add 'source /workspaces/Transcendence42/shellscripts/start.sh'	(at the end of the file)
+	ctrl-o & ENTER & ctrl-x											(to save and quit)
+'nano .bashrc'
+	add 'source /workspaces/Transcendence42/shellscripts/start.sh'	(at the end of the file)
+	ctrl-o & ENTER & ctrl-x											(to save and quit)
 
 
 
