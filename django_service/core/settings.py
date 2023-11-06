@@ -12,25 +12,47 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-# import environ
+import subprocess
 
-# env = environ.Env()
-# environ.Env.read_env('../.env')
+#from io import StringIO
+from dotenv import load_dotenv
+import urllib.request
+
+
+env = os.environ
+
+if not 'DG_RUN_WITH_DB' in env:
+    env_stream = open('../.env', 'r')
+    load_dotenv(stream=env_stream)
+    env_stream.close()
+print("Environment acquired !")
+
+subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
+with open('public.ip', 'r') as file:
+    external_ip = file.read()
+
+#external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
+#external_ip = "10.10.10.10"
+print("external IP acquired : ", external_ip)
+#env = environ.Env()
+#environ.Env.read_env('../.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+env["APP42_OAUTH_REDIRECT"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/receive_code"
+env["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/confirm"
+print("APP42_OAUTH_REDIRECT : ", env["APP42_OAUTH_REDIRECT"])
+print("APP42_OAUTH_CONFIRM : ", env["APP42_OAUTH_CONFIRM"])
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv('DJANGO_KEY'))
+SECRET_KEY = env["DJANGO_SECRET_KEY"]# DELETE THIS -> "django-insecure-%h_d1w07jpoik5d&&@$8-3*p$=f7+&s54s*laqwige$&&@gr01"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -42,11 +64,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "FrontApp",# Contains and manages all application content
-    "frontHome",
+    "django_extensions",
+    #"oauth2_provider",
+    #"bootstrap5",
+    "FrontApp",# Contains and manages all application content 
     "api",
-    "api.auth"
+    #"oauth",
+    #"users"
 ]
+
+#AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -59,6 +86,28 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
+
+# HTTPS certificate policy config
+SECURE_HSTS_SECONDS = 3600#31536000  # 1 year HSTS (recommended)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+#SECURE_SSL_REDIRECT = True
+
+# OpenID OAuth2 config
+LOGIN_URL='/admin/login/'
+
+OAUTH2_PROVIDER = {
+    "OIDC_ENABLED": True,
+    "OIDC_RSA_PRIVATE_KEY": env["OIDC_RSA_PRIVATE_KEY"],
+    "SCOPES": {
+        "openid": "OpenID Connect scope",
+    },
+}
+
 
 TEMPLATES = [
     {
@@ -82,21 +131,21 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# if env("DG_RUN_WITH_DB"):
-#     DATABASES = {
-#         "default": {
-#             #"ENGINE": "django.db.backends.sqlite3",
-#             #"NAME": BASE_DIR / "db.sqlite3",
-#             "ENGINE": "django.db.backends.postgresql",
-#             "NAME": env("POSTGRES_DB"),
-#             "USER": env("POSTGRES_USER"),
-#             "PASSWORD": env("POSTGRES_PASSWORD"),
-#             "HOST": env("DB_HOST"),
-#             "PORT": env("DB_PORT")
-#         }
-#     }
-# else:
-#     DATABASES = {}
+if env["DG_RUN_WITH_DB"]:
+    DATABASES = {
+        "default": {
+            #"ENGINE": "django.db.backends.sqlite3",
+            #"NAME": BASE_DIR / "db.sqlite3",
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env["POSTGRES_DB"],
+            "USER": env["POSTGRES_USER"],
+            "PASSWORD": env["POSTGRES_PASSWORD"],
+            "HOST": env["DB_HOST"],
+            "PORT": env["DB_PORT"]
+        }
+    }
+else:
+    DATABASES = {}
 
 #print("Database : ")
 #print(DATABASES)
@@ -130,6 +179,7 @@ PASSWORD_HASHERS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -146,6 +196,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
