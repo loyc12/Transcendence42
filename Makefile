@@ -12,6 +12,9 @@ BREW_EXE	= /home/linuxbrew/.linuxbrew/bin/brew
 MKCERT_PATH	= /usr/bin/mkcert
 
 all:
+	@if [ ! -d ./postgres/volume/data ]; then\
+		mkdir -p ./postgres/volume/data;\
+	fi
 	docker-compose up --build -d
 
 down:
@@ -50,15 +53,11 @@ $(MKCERT_PATH): _update_and_certutils
 
 	@echo "MKCERT_PATH dependency"
 	@if [ ! -f $(MKCERT_PATH) ]; then \
-		echo "INSIDE MKCERT_PATH dependency if statment"\
+			echo "INSIDE MKCERT_PATH dependency if statment"\
 			&& wget "https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64"\
 			&& sudo mv "mkcert-v1.4.3-linux-amd64" $(MKCERT_PATH)\
 			&& sudo chmod +x $(MKCERT_PATH)\
 			&& mkcert --version;\
-	fi
-
-#	@if [ ! -f $(MKCERT_PATH) ]; then \
-		./shellscripts/mkcert_install.sh $(MKCERT_PATH);\
 	fi
 
 $(BREW_EXE): _update_and_certutils
@@ -69,6 +68,7 @@ $(BREW_EXE): _update_and_certutils
 $(CERT_CRT) $(CERT_KEY):	$(MKCERT_PATH)
 	@if [ ! test -f $(CERT_CRT) || ! test -f $(CERT_KEY) ]; then \
 		echo "INSIDE CERTS dependency if statment"\
+			&& mkdir $(CERTS_DIR)\
 			&& mkcert -install \
 			&& mkcert -cert-file $(CERT_CRT) -key-file $(CERT_KEY) localhost 127.0.0.1; \
 	fi
