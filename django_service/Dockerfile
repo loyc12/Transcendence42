@@ -21,11 +21,11 @@ RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
-# run server in virtual environment with
-#RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 3000
 
-ENTRYPOINT [ "/app/entrypoint.sh" ]
+#CMD [ "sleep", "infinity" ]
+
+ENTRYPOINT [ "sh", "/app/entrypoint.sh" ]
 CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000" ]
