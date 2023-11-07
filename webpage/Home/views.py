@@ -35,19 +35,4 @@ def login_view(request):
 
 def logo_view(request):
     """ This function is used to render the home page."""
-    context = {}
-    if not request.user.is_authenticated:
-        context['show_login_form'] = True
-
-    return render(request, 'logo.html', context)
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             # Process form data and perform login here
-#             return redirect('home')  # Redirect to the home page after login
-#     else:
-#         form = LoginForm()
-
-#     return render(request, 'Home/login.html', {'form': form})
+    return render(request, 'logo.html')

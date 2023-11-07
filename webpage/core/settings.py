@@ -95,7 +95,8 @@ INSTALLED_APPS = [
     "django_extensions",
     #"oauth2_provider",
     #"bootstrap5",
-    "Home", 
+    "Home",
+    "Display",
     #"oauth",
     #"users"
 ]
