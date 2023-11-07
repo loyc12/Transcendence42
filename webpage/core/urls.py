@@ -14,7 +14,6 @@ urlpatterns = [
 ]
 
 """
-#path("", include('frontHome.urls')), # TODO : DELETE AFTER MIGRATION
 Examples:
 Function views
     1. Add an import:  from my_app import views
