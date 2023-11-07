@@ -3,9 +3,9 @@
 alias HELP="$SCRIPTS/.help.sh"
 
 echo ""
-echo " >>> HELP MENU <<< "
+echo " ================================> HELP MENU <================================ "
 echo ""
-echo "GIT SHORTCUTS :"
+echo "  GIT SHORTCUTS :"
 echo ""
 echo "    GO   : git optain < repo-url >   : git clone < repo-url >"
 echo "    GS   : git status                : git status"

@@ -20,7 +20,7 @@ alias GPSH='echo "\n$MAGENTA > !! pushing commited changes to branch !! <$DEFCOL
 alias GQCKP='echo "\n$RED > !!! making quick commit !!! <$DEFCOL \n" &! $SCRIPTS/.gitquick.sh' #						git quickpush
 alias GRSET='echo "\n$RED > !!! resetting branch to origin !!! <$DEFCOL \n" &! git reset --hard origin/' #				git reset --hard origin/< branch >
 
-alias GRLD='echo "\n$GREEN > ! reloaded zsh scripts ! <$DEFCOL \n" &! source $SCRIPTS/.cmds.sh'
+alias GRLD='echo "\n$GREEN > ! reloading zsh scripts ! <$DEFCOL \n" &! source $SCRIPTS/.cmds.sh'
 
 #implement colours codes (for zsh terminals)
 # use script to fix order issues (use gq script as example)
