@@ -9,10 +9,13 @@ class User(AbstractBaseUser):
     # DB Fields
     email =         models.EmailField(unique=True)
     username =      models.CharField(max_length=32, unique=True)
-    date_joined =   models.DateTimeField(default=timezone.now)
-
+    created_at =    models.DateTimeField(auto_now_add=True)
+    updated_at =    models.DateTimeField(auto_now=True)
     #is_active =     models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
 
     objects = UserManager()
+
+    def __str__(self):
+        return f"User: {self.username}, email: {self.email}, created_at: {self.created_at}, updated_at: {self.updated_at}, hash: {self.password}"

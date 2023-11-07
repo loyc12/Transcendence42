@@ -97,7 +97,7 @@ INSTALLED_APPS = [
     #"bootstrap5",
     "Home", 
     #"oauth",
-    #"users"
+    "users"
 ]
 
 #AUTH_USER_MODEL = "users.User"
