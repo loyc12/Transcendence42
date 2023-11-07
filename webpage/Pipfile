@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django-environ = "*"
+django = {extras = ["argon2"], version = "*"}
+psycopg2 = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+django-extensions = "*"
+werkzeug = "*"
+pyopenssl = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

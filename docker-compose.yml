@@ -1,6 +1,6 @@
 version: '3.5'
 services:
- 
+
   django:
     container_name: "django_backend"
     restart:  on-failure
@@ -10,8 +10,8 @@ services:
     env_file:
       - .env
 
-    build: 
-      context: ./django_service
+    build:
+      context: ./webpage
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
@@ -20,7 +20,7 @@ services:
         ipv4_address: 192.130.0.3
 
     volumes:
-      - ./django_service/FrontApp:/app/FrontApp
+      - ./webpage/FrontApp:/app/FrontApp
 
 
   postgres:
