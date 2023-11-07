@@ -1,0 +1,43 @@
+{% extends 'master.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block header %}
+<header>
+    <nav>
+        <h1>This is the HEADER</h1>
+        <div>
+            <a href="something.html">Nav from header</a>
+            <a href="buttons.html">buttons?</a>
+            <a href="img.hmtl">img of avatar?</a>
+        </div>
+    </nav>
+</header>
+{% endblock %}
+
+
+{% block content %}
+	<!-- Main will make a module on itself  -->
+	<main>
+		<h2>CHAT and GAME will be HERE in "main"</h2>
+		<div class="box">
+			<div class="chat">Chat here
+				<li>Friend list</li>
+				<li>Chat list</li>
+				<li>Lists list</li>
+			</div> <!--Element html "chat" to associate with TypeScript-->
+			<div class="game">Game here
+				<p> module dynamic <br> to be load as directive sent <br> by Angular to Nest</p>
+			</div> <!--Element html "game" to associate with TypeScript-->
+		</div>
+	</main>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <p>footer - Built with &#x2661</p>
+</footer>
+{% endblock %}

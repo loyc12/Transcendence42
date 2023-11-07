@@ -11,7 +11,7 @@ services:
       - .env
 
     build: 
-      context: ./django_service
+      context: ./webpage
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
@@ -20,7 +20,7 @@ services:
         ipv4_address: 192.130.0.3
 
     volumes:
-      - ./django_service/FrontApp:/app/FrontApp
+      - ./webpage/FrontApp:/app/FrontApp
 
 
   postgres:

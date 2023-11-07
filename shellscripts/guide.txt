@@ -1,0 +1,21 @@
+
+steps to make your terminal load the cmds by default :
+
+
+
+TO DO 'source start.zsh BY DEFAULT'		(avoids doing it manually every time)
+
+'cd ~'									(go to root)
+
+'nano .zshrc'
+	add 'source /workspaces/Transcendence42/shellscripts/start.sh'	(at the end of the file)
+	ctrl-o & ENTER & ctrl-x											(to save and quit)
+'nano .bashrc'
+	add 'source /workspaces/Transcendence42/shellscripts/start.sh'	(at the end of the file)
+	ctrl-o & ENTER & ctrl-x											(to save and quit)
+
+
+
+TO USE ZSH BY DEFAULT					(fix formating issues with cmds output)
+
+set default profile to 'zsh'			(the '+v' button, above the VScode terminal)
