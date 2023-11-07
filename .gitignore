@@ -94,5 +94,4 @@ dkms.conf
 !.vscode/extensions.json
 
 # Security
-
 **/certs/*
