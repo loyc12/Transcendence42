@@ -1,0 +1,27 @@
+{% extends 'master.html' %}
+
+
+<!-- <div class="container"> -->
+	{% block topbar %}
+		<div class="TopNav">
+		<!-- Statistics and Options -->
+		</div>
+	{% endblock %}
+	{% block navbar %}
+		<div class="NavBar">
+			<!-- Game information -->
+		</div>
+	{% endblock %}
+	{% block content %}
+		<div class="HeroDiv">
+		<!-- Profile information -->
+			{% if user.is_authenticated %}
+            	<!-- Load the main content when the user is authenticated -->
+           		{% include "main_content.html" %}
+      		{% else %}
+            	<!-- Display an image when the user is not authenticated -->
+				{% include "logo.html" %}
+        	{% endif %}
+        </div>
+{% endblock %}
+		<!-- </div> -->
