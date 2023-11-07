@@ -3,6 +3,13 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .forms import LoginForm
 
+def home_view(request):
+    """ This function is used to render the home page."""
+    context = {}
+    if not request.user.is_authenticated:
+        context['show_login_form'] = True
+
+    return render(request, 'Home/home.html', context)
 
 def login_view(request):
     """ This function is used to render the login page."""
@@ -32,16 +39,7 @@ def logo_view(request):
     if not request.user.is_authenticated:
         context['show_login_form'] = True
 
-    return render(request, 'Home/home.html', context)
-
-def home_view(request):
-    """ This function is used to render the home page."""
-    context = {}
-    if not request.user.is_authenticated:
-        context['show_login_form'] = True
-
-    return render(request, 'Home/home.html', context)
-
+    return render(request, 'logo.html', context)
 
 # def login_view(request):
 #     if request.method == 'POST':
