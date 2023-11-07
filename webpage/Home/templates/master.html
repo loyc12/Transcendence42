@@ -1,66 +1,26 @@
+
+
+
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <html lang="fr">  <!--Do we want to put it as English??-->
-    <head>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-        <meta charset="UTF-8">
-        <!--Maybe we will need other META stuff HERE--> 
-        <title>HEAD: Ping Pang Pong</title> <!--We can change it. DO NOT WORRY-->
-        <!-- <link href="./style.css" rel="stylesheet"> link to our CSS file; if not same folder, we need to add path -->
-        <!-- All the scripts needed to make the game works. I guess any TypeScript, Javascript... ?? GO below-->
-        <!--Order is VERY IMPORTANT-->
-        <!--Example:
-        <script src="scripts/config.js" defer></script>
-        -->
-                <!--If we want to use any kind of special fonts, we will need to add them HERE too-->
-            <!-- <style type="text/css" >
-                .box>* {
-                    float: left;
-                }
-                
-                .box {
-                    display: flex;
-                }
-                
-                .chat {
-                    background-color: #F5CEBB;
-                    width: 30%;
-                    height: 900px;
-                }
-                
-                .game {
-                    background-color: #8FA7C6;
-                    width: 70%;
-                    height: 900px;
-                }
-            </style> -->
-    </head>
-    <header>
-        <div id="Header">
-                {% block head %}{% endblock %}   
-            </div>
-    </header>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
-    <body>
-
+</head>
+<body>
     <div id="TopBar">
-            <!-- Content for the TopBar -->
-        </div>
-
-        <div id="NavBar">
-        {% block header %}{% endblock %}   
-        </div>
-
-        <div id="Content">
-            {% block content %}{% endblock %}
-        </div>
-
-    </body>
-
-    <footer>
-        <div id="Footer">
-            {% block footer %}{% endblock %}
-        </div>
-    </footer>
+        <!-- Content for the TopBar -->
+        {% include "Login/login_form.html" %}
+    </div>
+    <div id="NavBar">
+        <!-- Content for the NavBar -->
+    </div>
+    <div id="HeroDiv">
+        <!-- Content for the HeroDiv -->
+        {% block hero %}
+            LOGO GOES HERE
+        {% endblock %}
+    </div>
+</body>
 </html>
