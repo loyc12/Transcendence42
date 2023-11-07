@@ -1,4 +1,4 @@
-
+""" Django settings for core project. """
 # Django settings (Django 4.2.6.)
 # Command : django-admin startproject
 # DOC
@@ -17,7 +17,8 @@ import os
 # env = environ.Env()
 # environ.Env.read_env('../.env')
 
-BASE_DIR = Path(__file__).resolve().parent.parent # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('DJANGO_KEY'))
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = []
@@ -30,9 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     "Home",
-    "frontHome", # TODO : DELETE AFTER MIGRATION
 ]
 
 MIDDLEWARE = [
@@ -121,5 +120,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 #     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 #     "django.contrib.auth.hashers.ScryptPasswordHasher",
 # ]
-
-
