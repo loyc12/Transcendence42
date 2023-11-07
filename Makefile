@@ -11,7 +11,14 @@ BREW_EXE	= /home/linuxbrew/.linuxbrew/bin/brew
 
 MKCERT_PATH	= /usr/bin/mkcert
 
-all:
+DOTENV		= .env
+
+RED			= '\033[1;91m'
+DEFCOL		= '\033[0m'
+
+ENV_IN_DB_MODE	:= "$(shell grep -e 'DG_RUN_WITH_DB=True' .env)"
+
+all:	_activate_db_mode $(DOTENV)
 	@if [ ! -d ./postgres/volume/data ]; then\
 		mkdir -p ./postgres/volume/data;\
 	fi
@@ -20,12 +27,14 @@ all:
 down:
 	docker-compose down
 
-local:
+
+
+local:	_deactivate_db_mode $(DOTENV)
 	cd django_service/ \
 		&& pipenv install \
 		&& pipenv run python3 manage.py runserver '0.0.0.0:3000'
 
-https:	$(CERT_CRT) $(CERT_KEY)
+https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 	cd django_service/ \
 		&& echo "Installing django server dependencies ... in silence ..." \
 		&& pipenv install \
@@ -33,9 +42,23 @@ https:	$(CERT_CRT) $(CERT_KEY)
 			--cert-file=$(LOCAL_CERT_CRT) --key-file=$(LOCAL_CERT_KEY) '0.0.0.0:3000'
 
 
+_activate_db_mode:		$(DOTENV)
+	@sed -i 's/DG_RUN_WITH_DB=\"\"/DG_RUN_WITH_DB=True/g' .env
+_deactivate_db_mode:	$(DOTENV)
+	@sed -i 's/DG_RUN_WITH_DB=True/DG_RUN_WITH_DB=\"\"/g' .env
+
+
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
 	# ... Add dependency installation as needed.
+
+$(DOTENV):
+	# Tests that .env exist and is not empty
+	@if [ ! -s .env ]; then\
+		echo $(RED) "MISSING OR EMPTY .env FILE" $(DEFCOL);\
+		exit 1;\
+	fi
+
 
 _install_python_pipenv:
 	@if [ ! $(which python;) ]; then \
@@ -45,7 +68,7 @@ _install_python_pipenv:
 
 _update_and_certutils:
 	sudo apt-get update -y && sudo apt-get upgrade -y
-	sudo apt-get install	\
+	sudo apt-get install -y	\
 		libpq-dev \
 		libnss3-tools
 
