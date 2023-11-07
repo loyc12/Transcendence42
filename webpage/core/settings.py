@@ -76,6 +76,7 @@ SECURE_HSTS_PRELOAD = True
 #XSS protection
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True #Againts MIME sniffing
+#CSP_DEFAULT_SRC = ("'self'",) # CSP policies TODO: add CSP policies
 # X-Frame-Options (Against Clickjacking)
 X_FRAME_OPTIONS = 'DENY' 
 # Secure session management
