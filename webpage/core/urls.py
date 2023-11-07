@@ -1,4 +1,4 @@
-
+""" URL Configuration for core app. """
 #URL configuration
 # DOC
 # https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -10,11 +10,11 @@ from django.urls import path, include
 # The `urlpatterns` list routes URLs to views.
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include('frontHome.urls')), # TODO : DELETE AFTER MIGRATION
-    path("home/", include('Home.urls')),
+    path("", include('Home.urls')),
 ]
 
 """
+#path("", include('frontHome.urls')), # TODO : DELETE AFTER MIGRATION
 Examples:
 Function views
     1. Add an import:  from my_app import views
