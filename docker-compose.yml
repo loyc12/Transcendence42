@@ -1,6 +1,6 @@
 version: '3.5'
 services:
- 
+
   django:
     container_name: "django_backend"
     restart:  on-failure
@@ -10,7 +10,7 @@ services:
     env_file:
       - .env
 
-    build: 
+    build:
       context: ./webpage
       dockerfile: ./Dockerfile
     ports:

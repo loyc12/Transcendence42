@@ -3,6 +3,7 @@ FROM python:3.10-alpine3.18
 
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual .build-deps \
+    curl \
     ca-certificates gcc \
     postgresql-dev postgresql-client \
     linux-headers musl-dev \
@@ -24,6 +25,7 @@ COPY . .
 # run server in virtual environment with
 #RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/get_public_ip.sh
 
 EXPOSE 3000
 
