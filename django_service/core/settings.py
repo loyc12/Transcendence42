@@ -17,14 +17,10 @@ from io import StringIO
 from dotenv import load_dotenv
 import urllib.request
 
-
+env_stream = open('../.env', 'r')
+load_dotenv(stream=env_stream)
+env_stream.close()
 env = os.environ
-
-if not env["DG_RUN_WITH_DB"]:
-    env_stream = open('../.env', 'r')
-    load_dotenv(stream=env_stream)
-    env_stream.close()
-
 
 external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
 #env = environ.Env()
