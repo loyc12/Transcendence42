@@ -16,26 +16,28 @@ import subprocess
 
 #from io import StringIO
 from dotenv import load_dotenv
-import urllib.request
 
 
+
+# Setting up environment variables from .env
 env = os.environ
-
-if not 'DG_RUN_WITH_DB' in env:
+if not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
     env_stream = open('../.env', 'r')
     load_dotenv(stream=env_stream)
     env_stream.close()
 print("Environment acquired !")
 
-subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
+# Find public IP for OAuth2 redirect_uri
+if not os.path.exists('public.ip'):
+    subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
+
 with open('public.ip', 'r') as file:
     external_ip = file.read()
 
-#external_ip = urllib.request.urlopen('https://ident.me').read().decode('utf8')
-#external_ip = "10.10.10.10"
 print("external IP acquired : ", external_ip)
-#env = environ.Env()
-#environ.Env.read_env('../.env')
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -131,7 +133,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if env["DG_RUN_WITH_DB"]:
+if "DJG_WITH_DB" in env and env["DJG_WITH_DB"]:
     DATABASES = {
         "default": {
             #"ENGINE": "django.db.backends.sqlite3",

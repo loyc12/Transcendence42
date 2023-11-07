@@ -42,9 +42,9 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 
 
 _activate_db_mode:		$(DOTENV)
-	@sed -i 's/DG_RUN_WITH_DB=\"\"/DG_RUN_WITH_DB=True/g' .env
+	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
 _deactivate_db_mode:	$(DOTENV)
-	@sed -i 's/DG_RUN_WITH_DB=True/DG_RUN_WITH_DB=\"\"/g' .env
+	@sed -i 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' .env
 
 
 ### DEPENDENCY INSTALLS START >>>
