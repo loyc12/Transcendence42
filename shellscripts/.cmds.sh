@@ -15,10 +15,10 @@ alias GG='echo "\n$GREEN > switching to given branch <$DEFCOL \n" &! git switch'
 alias GNB='echo "\n$YELLOW > ! pushing to new branch ! <$DEFCOL \n" &! git push origin' #								git new_branch (push origin < src_branch:new_branch >)
 alias GDB='echo "\n$YELLOW > ! unfollowing given branch <$DEFCOL \n" &! git branch -d' #								git delete_branch (branch -d)
 alias GFT='echo "\n$YELLOW > ! fetching from given branch ! <$DEFCOL \n" &! git fetch origin' #							git fetch origin/< branch >
-alias GMRG='echo "\n$RED > !! merging from given branch !! <$DEFCOL \n" &! git merge' #									git merge < src_branch >
-alias GPSH='echo "\n$RED > !! pushing commited changes to branch !! <$DEFCOL \n" &! git push' #							git push
-alias GQCKP='echo "\n$MAGENTA > !!! making quick commit !!! <$DEFCOL \n" &! $SCRIPTS/.gitquick.sh' #					git quickpush
-alias GRSET='echo "\n$MAGENTA > !!! resetting branch to origin !!! <$DEFCOL \n" &! git reset --hard origin/' #			git reset --hard origin/< branch >
+alias GMRG='echo "\n$MAGENTA > !! merging from given branch !! <$DEFCOL \n" &! git merge' #								git merge < src_branch >
+alias GPSH='echo "\n$MAGENTA > !! pushing commited changes to branch !! <$DEFCOL \n" &! git push' #						git push
+alias GQCKP='echo "\n$RED > !!! making quick commit !!! <$DEFCOL \n" &! $SCRIPTS/.gitquick.sh' #						git quickpush
+alias GRSET='echo "\n$RED > !!! resetting branch to origin !!! <$DEFCOL \n" &! git reset --hard origin/' #				git reset --hard origin/< branch >
 
 alias GRLD='echo "\n$GREEN > ! reloaded zsh scripts ! <$DEFCOL \n" &! source $SCRIPTS/.cmds.sh'
 
