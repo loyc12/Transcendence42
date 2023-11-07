@@ -16,7 +16,6 @@ DOTENV		= .env
 RED			= '\033[1;91m'
 DEFCOL		= '\033[0m'
 
-ENV_IN_DB_MODE	:= "$(shell grep -e 'DG_RUN_WITH_DB=True' .env)"
 
 all:	_activate_db_mode $(DOTENV)
 	@if [ ! -d ./postgres/volume/data ]; then\
