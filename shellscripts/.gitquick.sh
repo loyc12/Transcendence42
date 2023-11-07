@@ -21,7 +21,7 @@ else
 			git status || true
 			git commit -m 'minor (gitquick)' || true
 			git push || true
-			echo "\n\033[1;92mDone !\033[0m\n"
+			echo "\n\033[1;92m ========> ! Done ! <========\033[0m\n"
 		fi
 	fi
 fi
