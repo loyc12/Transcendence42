@@ -1,4 +1,4 @@
-
+""" URL Configuration for core app. """
 #URL configuration
 # DOC
 # https://docs.djangoproject.com/en/4.2/topics/http/urls/
