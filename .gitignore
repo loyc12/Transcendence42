@@ -97,3 +97,4 @@ dkms.conf
 **/certs/*
 webpage/.certs/transcendence.key
 webpage/.certs/transcendence.crt
+webpage/public.ip
