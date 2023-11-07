@@ -22,18 +22,3 @@ echo "    GMRG : git merge < src-branch-name > : git merge ..."
 echo "    GPSH : git push                      : git push"
 echo "    GCQP : git quickpush                 : ( add, commit and push with comment \"minor\" )"
 echo ""
-
-alias GL='echo "\n > listing all branches < \n" &! git branch -a' #					git list (branch -a)
-alias GDB='echo "\n > ! unfollowing given branch < \n" &! git branch -d' #		git delete branch (branch -d)
-
-
-# echo ""
-# echo "DOCKER ENV COMMANDS :"
-# echo "   CONT_BUILD  : build image             : 1st time only"
-# echo "   CONT_MAKE   : build container         : 1st time only"
-# echo "   CONT_START  : start container"
-# echo "   CONT_STOP   : stop container"
-# echo "   CONT_DELETE : destroy container"
-# echo ""
-# echo "   CONT_CONST  : run docker composer"
-# echo "   OS_UPDATE   : update et upgrade"

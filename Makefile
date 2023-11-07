@@ -8,6 +8,9 @@ BREW_DIR	= /home/linuxbrew/.linuxbrew
 BREW_EXE	= /home/linuxbrew/.linuxbrew/bin/brew
 
 all:
+	make up
+
+up:
 	docker-compose up --build -d
 
 down:
