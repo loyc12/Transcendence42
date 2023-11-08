@@ -1,26 +1,21 @@
 {% extends 'master.html' %}
 
-<!-- <div class="container"> -->
-	{% block topbar %}
-	<!-- Statistics and Options -->
-		<!-- <div id="TopBar">		</div> -->
-			{% include "Login/login_form.html" %}
-	{% endblock %}
 
-	<!-- Game information -->
-	<!-- <div id="NavBar">	</div> -->
+{% block topbar %}	{% endblock %}
+
+	{% include "Login/login_form.html" %}
+
 	{% block navbar %}
 		{% include "UserSelect/userSelect.html" %}
 	{% endblock %}
 	
-	<!-- <div id="HeroDiv">	</div> -->
-	<!-- Profile information -->
+
 	{% block hero %}
 		{% if user.is_authenticated %}
-			<!-- Load the alt logo content when the user is authenticated -->
+
 			{% include "Logo/logo2.html" %}
 		{% else %}
-			<!-- Display an init logo when the user is not authenticated -->
+
 			{% include "Logo/logo.html" %}
 		{% endif %}
 	{% endblock %}
