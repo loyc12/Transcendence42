@@ -2,26 +2,26 @@
 
 <!-- <div class="container"> -->
 	{% block topbar %}
-		<div class="TopBar">
-		<!-- Statistics and Options -->
-		{% include "Login/login_form.html" %}
-		</div>
+	<!-- Statistics and Options -->
+		<!-- <div id="TopBar">		</div> -->
+			{% include "Login/login_form.html" %}
 	{% endblock %}
+
+	<!-- Game information -->
+	<!-- <div id="NavBar">	</div> -->
 	{% block navbar %}
-		<div class="NavBar">
-			<!-- Game information -->
-		</div>
+		{% include "UserSelect/userSelect.html" %}
 	{% endblock %}
-	{% block content %}
-		<div class="HeroDiv">
-			<!-- Profile information -->
-			{% if user.is_authenticated %}
-            	<!-- Load the main content when the user is authenticated -->
-				{% include "logo.html" %}
-			{% else %}
-			<!-- Display an image when the user is not authenticated -->
-				{% include "main_content.html" %}
-        	{% endif %}
-        </div>
-{% endblock %}
+	
+	<!-- <div id="HeroDiv">	</div> -->
+	<!-- Profile information -->
+	{% block hero %}
+		{% if user.is_authenticated %}
+			<!-- Load the alt logo content when the user is authenticated -->
+			{% include "Logo/logo2.html" %}
+		{% else %}
+			<!-- Display an init logo when the user is not authenticated -->
+			{% include "Logo/logo.html" %}
+		{% endif %}
+	{% endblock %}
 

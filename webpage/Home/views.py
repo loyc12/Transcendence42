@@ -8,8 +8,8 @@ def home_view(request):
     context = {}
     if not request.user.is_authenticated:
         context['show_login_form'] = True
-
     return render(request, 'Home/home.html', context)
+
 
 def login_view(request):
     """ This function is used to render the login page."""
@@ -23,9 +23,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 return redirect('home')
-
             error_message = 'Invalid email or password. Please try again.'
-
     else:
         form = LoginForm()
 
@@ -33,6 +31,12 @@ def login_view(request):
             {'form': form, 'error_message': error_message
                  if 'error_message' in locals() else ''})
 
+
 def logo_view(request):
     """ This function is used to render the home page."""
     return render(request, 'logo.html')
+
+
+def selector_view(request):
+    """ This function is used to render the home page."""
+    return render(request, 'userSelect.html')

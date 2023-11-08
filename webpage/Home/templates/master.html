@@ -8,24 +8,17 @@
 <body>
     <div id="TopBar">
         <!-- Content for the TopBar -->
-        {% block topbar %}  
+        <!-- {% block topbar %}          {% endblock %} -->
             <!-- {% include "Login/login_form.html" %} -->
-        {% endblock %}
     </div>
     <div id="NavBar">
         <!-- Content for the NavBar -->
-        {% block navbar %}
-
-        {% endblock %}
+        {% block navbar %}     {% endblock %}
     </div>
 
-    <div class="HeroDiv">
-        {% block hero %}
+    <div id="HeroDiv">
+        <!-- {% block hero %}{% endblock %} -->
         <!-- Other content for the login page -->
-            <!-- <h5>LOGO GOES HERE</h5> -->
-            <!-- {% include "Logo/logo.html" %} -->
-          <!-- <img src="{% static 'img/logo.png' %}" alt="Logo" /> -->
-        {% endblock %}
     </div>
     
 </body>
