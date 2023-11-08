@@ -19,9 +19,6 @@ services:
       trans_net:
         ipv4_address: 192.130.0.3
 
-    volumes:
-      - ./webpage/FrontApp:/app/FrontApp
-
 
   postgres:
     container_name: "postgres_db"

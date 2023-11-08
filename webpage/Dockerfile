@@ -30,8 +30,4 @@ RUN chmod +x /app/get_public_ip.sh
 EXPOSE 3000
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
-#CMD ["pipenv", "run", "python", "hello.py"]
 CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000" ]
-#ENTRYPOINT [ "./tools/entrypoint.sh" ]
-
-#CMD [ "yarn", "run", "start:dev" ]

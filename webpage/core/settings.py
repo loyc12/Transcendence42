@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     
     "Home", 
     #"oauth",
-    #"users"
+    "users"
 ]
 
 #AUTH_USER_MODEL = "users.User"
