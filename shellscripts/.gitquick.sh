@@ -2,15 +2,15 @@
 
 if [[ $(git status) -eq 0 ]]
 then
-	echo "\n\033[1;91mCannot use git here !!!\033[0m\n"
+	echo "\n$RED Cannot use git here !!!$DEFCOL \n"
 else
 	if [[ $(git status | grep -c "MASTER") -gt 0 ]]
 	then
-		echo "\n\033[1;91mCannot use gitquick on branch MASTER !!!\033[0m\n"
+		echo "\n$RED Cannot use gitquick on branch MASTER !!!$DEFCOL \n"
 	else
 		if [[ $(git status | grep -c "STABLE") -gt 0 ]]
 		then
-			echo "\n\033[1;91mCannot use gitquick on branch STABLE !!!\033[0m\n"
+			echo "\n$RED Cannot use gitquick on branch STABLE !!!$DEFCOL \n"
 		else
 			git status || true
 			git remote update || true
@@ -21,7 +21,7 @@ else
 			git status || true
 			git commit -m 'minor (gitquick)' || true
 			git push || true
-			echo "\n\033[1;92mDone !\033[0m\n"
+			echo "$GREEN ========> ! Done ! <========$DEFCOL \n"
 		fi
 	fi
 fi
