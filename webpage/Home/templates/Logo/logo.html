@@ -1,10 +1,12 @@
 {% load static %}
-<!DOCTYPE html>
-<html>
-<body>
-    <p> IMAGES TITLES </p>
-    <img src="{% static 'img/logo.png' %}" alt="Logo" />
+<!-- <!DOCTYPE html> -->
+<!-- <html>
+<body> -->
+{% block hero %}
+    <!-- Content for the HeroDiv -->
+    <img src="{% static 'img/logo.png' %}" alt="Logo" width="512" height="512"/>
+{% endblock %}
 
 
-</body>
-</html>
+<!-- </body>
+</html> -->

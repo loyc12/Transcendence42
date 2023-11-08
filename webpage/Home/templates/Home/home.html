@@ -1,10 +1,10 @@
 {% extends 'master.html' %}
 
-
 <!-- <div class="container"> -->
 	{% block topbar %}
 		<div class="TopBar">
 		<!-- Statistics and Options -->
+		{% include "Login/login_form.html" %}
 		</div>
 	{% endblock %}
 	{% block navbar %}
@@ -14,14 +14,14 @@
 	{% endblock %}
 	{% block content %}
 		<div class="HeroDiv">
-		<!-- Profile information -->
+			<!-- Profile information -->
 			{% if user.is_authenticated %}
             	<!-- Load the main content when the user is authenticated -->
-           		{% include "main_content.html" %}
-      		{% else %}
-            	<!-- Display an image when the user is not authenticated -->
 				{% include "logo.html" %}
+			{% else %}
+			<!-- Display an image when the user is not authenticated -->
+				{% include "main_content.html" %}
         	{% endif %}
         </div>
 {% endblock %}
-		<!-- </div> -->
+

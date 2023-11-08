@@ -3,6 +3,7 @@
     background-color: #333;
     color: #fff;
     padding: 10px;
+    width: 100%;
 }
 
 /* Style the navigation bar */
@@ -12,6 +13,8 @@
     padding: 10px;
     display: flex;
     justify-content: space-between;
+    width: 35%;
+    float: left;
 }
 
 /* Style the navigation links */
@@ -31,10 +34,12 @@
 #HeroDiv {
     background-color: #316299; /* Change the background color to suit your design */
     color: #fff;
-    padding: 120px;
+    /* padding: 120px; */
+    width: 65%;
+    float: right;
 }
 #HeroDdiv img {
-    max-width: 100%;
+    max-width: 50%;
     height: auto;
     display: block;
     margin: 0 auto;
