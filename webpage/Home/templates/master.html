@@ -1,25 +1,23 @@
 
 
-
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <div id="TopBar">
+    <head>
+        <!-- DIV ID LINKER TO STYLES.CSS REF. -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    </head>
+
+    <body>
         <!-- Content for the TopBar -->
-        {% include "Login/login_form.html" %}</a>
-    </div>
-    <div id="NavBar">
+        <div id="TopBar"> {% include "Login/login_form.html" %}</a> </div>
+
         <!-- Content for the NavBar -->
-    </div>
-    <div id="HeroDiv">
+        <div id="NavBar"></div>
+
         <!-- Content for the HeroDiv -->
-        {% block hero %}
-            LOGO GOES HERE
-        {% endblock %}
-    </div>
-</body>
+        <div id="HeroDiv"> {% block hero %} LOGO GOES HERE {% endblock %} </div>
+
+    </body>
+
 </html>

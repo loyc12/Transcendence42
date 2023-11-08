@@ -1,50 +1,51 @@
-/* Apply some basic styling to the TopBar */
 
-#Header {
-    background-color: #D3D3D3;
-} 
+/* REF
+color : text color
+padding : space between text and border
+background-color : background color
 
+*/
+
+/* TOPBAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #TopBar {
+    color: #fff;
+    padding: 10px;
     background-color: #333;
-    color: #fff;
-    padding: 10px;
 }
+    #ButtonLogin {
+        cursor: pointer;
+        color: #333;
+        padding: 5px;
+        background-color: #D3D3D3;
+    }
 
-#button-container {
-    cursor: pointer;
-    padding: 5px;
-    background-color: #D3D3D3;
-}
-
-/* Style the navigation bar */
+/* NAVBAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #NavBar {
-    background-color: #D3D3D3; /* Change the background color to suit your design */
     color: #fff;
-    padding: 10px;
+    padding: 15px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    background-color: #D3D3D3;
 }
+    #NavBar ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 20px;
+    }
 
-/* Style the navigation links */
-#NavBar ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-}
+    #NavBar ul li {
+        margin: 0;
+        padding: 0;
+    }
 
-#NavBar ul li {
-    margin: 0;
-    padding: 0;
-}
-
-/* Style the HeroDiv */
+/* HERO-GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - */
 #HeroDiv {
     padding: 20px;
 }
-
+/* FOOTER - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - */
 #Footer {
     background-color: #D3D3D3;
     display: flex;    
