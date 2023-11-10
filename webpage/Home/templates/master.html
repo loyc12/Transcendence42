@@ -5,6 +5,9 @@
 <html>
     <head>
         <!-- DIV ID LINKER TO STYLES.CSS REF. -->
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     </head>
 
@@ -13,7 +16,7 @@
         <div id="TopBar"> {% include "Login/login_form.html" %}</a> </div>
 
         <!-- Content for the NavBar -->
-        <div id="NavBar"></div>
+        <div id="NavBar"> {% block nav %} NAVBAR {% endblock %} </div>
 
         <!-- Content for the HeroDiv -->
         <div id="HeroDiv"> {% block hero %} LOGO GOES HERE {% endblock %} </div>

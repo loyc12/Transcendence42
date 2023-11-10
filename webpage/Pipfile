@@ -12,6 +12,7 @@ python-dotenv = "*"
 django-extensions = "*"
 werkzeug = "*"
 pyopenssl = "*"
+django-bootstrap-v5 = "*"
 
 [dev-packages]
 

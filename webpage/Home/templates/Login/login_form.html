@@ -1,6 +1,13 @@
-
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <a id="ButtonLogin" href="{% url 'login' %}"> LOGIN</a>
+  {% csrf_token %} {{ form.as_p }}
+  <button type="button" class="bg-primary">
+    <a href="{% url 'login' %}">LOGIN</a>
+  </button>
+  <!-- <a id="ButtonLogin" href="{% url 'login' %}"> LOGIN</a> -->
 </form>
+
+<!-- <script>
+      document.getElementById("ButtonLogin").addEventListener("click", () => {
+          document.getElementById("first").style.display="none";
+      }, false);
+  </script> -->
