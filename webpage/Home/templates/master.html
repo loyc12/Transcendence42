@@ -2,21 +2,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Single Page Website</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-
+    
 </head>
 <body>
     <div id="TopBar"> 
         <p>TopBar</p>
-    </div>
-
-    <div id="NavBar">
-        <p>NavBar</p>
-    </div>
-
-    <div id="HeroDiv">
-        <p>HeroDiv</p>
+        {% block topbar %}{% endblock %}
     </div>
     
+    <div id="NavBar">
+        <p>NavBar</p>
+        {% block navbar %}{% endblock %}
+    </div>
+    
+    <div id="HeroDiv">
+        <p>HeroDiv</p>
+        {% block heroDiv %}{% endblock %}
+    </div>
+    <!-- <script src="{% static 'js/script.js' %}" defer></script> -->
+    <script>
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        var module1Content = '<div>Content for Module 1</div>';
+        var module2Content = '<div>Content for Module 2</div>';
+        var heroDiv = document.querySelector('.HeroDiv');
+    
+        // Add click event listeners to NavBar links
+        document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function () {
+            heroDiv.innerHTML = module1Content;
+        });
+    
+        document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
+            heroDiv.innerHTML = module2Content;
+        });
+    });
+    </script>
 </body>
 </html>

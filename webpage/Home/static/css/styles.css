@@ -43,6 +43,13 @@
     float: right;
     border: 2px solid rgb(108, 114, 0);
 }
+#HeroDiv {
+    display: none;
+}
+
+#HeroDiv.active {
+    display: block;
+}
 
 /* #HeroDiv img {
     width: auto; 

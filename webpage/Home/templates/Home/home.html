@@ -1,22 +1,22 @@
-{% extends 'master.html' %}
+{% extends "master.html" %}
 
-
-{% block topbar %}	{% endblock %}
-
-	{% include "Login/login_form.html" %}
-
-	{% block navbar %}
-		{% include "UserSelect/userSelect.html" %}
-	{% endblock %}
 	
+		{% block topbar %}	
+			<div class="TopBar">	</div>
+		{% endblock %}        <!-- Content for TopBar -->
 
-	{% block hero %}
-		{% if user.is_authenticated %}
+		{% block navbar %}
+			<div class="NavBar" style="float: right; width: 35%; ">
+				<a href="#module1">Module 1</a>
+				<a href="#module2">Module 2</a>
+			</div>
+		{% endblock %}
 
-			{% include "Logo/logo2.html" %}
-		{% else %}
-
-			{% include "Logo/logo.html" %}
-		{% endif %}
-	{% endblock %}
+		{% block heroDiv %}
+			<div class="HeroDiv" style="width: 65%; ">
+				<!-- Content for HeroDiv -->
+				<div>Initial Content</div>
+			</div>
+		{% endblock %}
+	
 
