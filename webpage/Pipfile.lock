@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "506153f506ce7f6b7bac940e06732e57d27e3609a754ee7f6bced91d977d923d"
+            "sha256": "577cbbce5252608e43839d6d3d154a97a0e2a39ae4e33c2855d630c6084c6c83"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -163,6 +163,13 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==4.2.7"
+        },
+        "django-bootstrap-colors": {
+            "hashes": [
+                "sha256:c1b06901be8cb3cc03c74eec840c72605e4c1f9795b24d1fc3c62a04a73ce670"
+            ],
+            "index": "pypi",
+            "version": "==5.2.1"
         },
         "django-bootstrap-v5": {
             "hashes": [

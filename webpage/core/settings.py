@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "django_extensions",
     #"oauth2_provider",
     "bootstrap5",
-    
+    "bootstrap_colors",
     "Home", 
     #"oauth",
     "users"
@@ -178,6 +178,8 @@ STATICFILES_FINDERS = [
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+BOOTSTRAP_THEME_COLORS = ['#4cbe96', '#e0ded4', '#4cbe', '#178ca8', '#145faf', '#242351']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
