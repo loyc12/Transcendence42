@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     #"oauth2_provider",
     "bootstrap5",
     "bootstrap_colors",
+    "django_sass",
     "Home", 
     #"oauth",
     "users"
