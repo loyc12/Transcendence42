@@ -43,11 +43,11 @@
     float: right;
     border: 2px solid rgb(108, 114, 0);
 }
-#HeroDiv {
+.heroDiv {
     display: none;
 }
 
-#HeroDiv.active {
+.heroDiv.active {
     display: block;
 }
 
