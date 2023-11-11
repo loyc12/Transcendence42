@@ -41,11 +41,11 @@ CERTS_DIR		= $(DJANGO_DIR)/.certs
 CERT_CRT		= $(DJANGO_DIR)/$(LOCAL_CERT_CRT)
 CERT_KEY		= $(DJANGO_DIR)/$(LOCAL_CERT_KEY)
 
+# AUTH0_ALEX
+AUTH0_REQ	=	$(SHELLSCRIPTS)/requirements.txt
 # AUTH0 HANDLING
 AUTH0SDK	= 	auth0spaSDK_install.sh
 AUTH0_INST	=	$(SHELLSCRIPTS)/$(AUTH0SDK)
-# Maybe illegal, idk for now ->
-AUTH0_REQ	=	$(SHELLSCRIPTS)/requirements.txt
 
 # BREW
 BREW_EXE		= $(BREW_PATH)/bin/brew
@@ -65,6 +65,7 @@ down:
 	docker-compose down
 
 # LOCAL - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+# AUTH0_ALEX
 local:	_deactivate_db_mode $(DOTENV) _auth0_requirements
 	cd webpage/ \
 		&& pipenv install \
@@ -96,7 +97,7 @@ _update_and_certutils:
 		libpq-dev \
 		libnss3-tools
 
-#	auth0 requirements, maybe illegal, pas sure que ma conditon marche non plus
+# AUTH0_ALEX
 _auth0_requirements:
 	@if [ ! $(which authlib;) ]; then \
 	sudo apt-get -qq update -y && sudo apt-get -qq upgrade -y \

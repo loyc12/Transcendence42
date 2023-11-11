@@ -1,7 +1,14 @@
 from django.shortcuts import render, redirect, HttpResponse, HttpResponsePermanentRedirect
 from core.settings import env
-from urllib.parse import urlencode, urlunsplit
+from urllib.parse import urlencode, urlunsplit, quote_plus
 #import requests
+
+
+# AUTH0_ALEX
+import json
+from authlib.integrations.django_client import OAuth
+from django.conf import settings
+from django.urls import reverse
 
 # Create your views here.
 

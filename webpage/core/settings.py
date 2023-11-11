@@ -1,43 +1,73 @@
 from pathlib import Path
 import os
 import subprocess
-
 #from io import StringIO
 from dotenv import load_dotenv
 
+# AUTH0_ALEX
+#import { createAuth0Client } from '@auth0/auth0-spa-js';
 
+# ENVIRONNEMENT VAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # Setting up environment variables from .env
-env = os.environ
-if not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
-    env_stream = open('../.env', 'r')
-    load_dotenv(stream=env_stream)
-    env_stream.close()
+ENV_FILE = os.environ
+
+# Load environment variables from .env file
+if not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"]):
+    ENV_STREAM = open('../.env', 'r')
+    load_dotenv(stream=ENV_STREAM)
+    ENV_STREAM.close()
 print("Environment acquired !")
 
-# Find public IP for OAuth2 redirect_uri
+SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
+DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+# HTTPS config/protection
+SECURE_HSTS_SECONDS = 3600 #31536000  # 1 year HSTS (recommended)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+#XSS protection
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True #Againts MIME sniffing
+#CSP_DEFAULT_SRC = ("'self'",) # CSP policies TODO: add CSP policies
+# X-Frame-Options (Against Clickjacking)
+X_FRAME_OPTIONS = 'DENY' 
+# Secure session management
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+#SECURE_SSL_REDIRECT = True
+
+# AUTH0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+# Get public IP from file or from shell command for OAuth2 redirect_uri
 if not os.path.exists('public.ip'):
     subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
-
 with open('public.ip', 'r') as file:
     external_ip = file.read()
-
 print("external IP acquired : ", external_ip)
+
+APP42_UID = ENV_FILE["APP42_UID"];
+APP42_SECRET = ENV_FILE["APP42_SECRET"];
+APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"];
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env["APP42_OAUTH_REDIRECT"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/receive_code"
-env["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/confirm"
-print("APP42_OAUTH_REDIRECT : ", env["APP42_OAUTH_REDIRECT"])
-print("APP42_OAUTH_CONFIRM : ", env["APP42_OAUTH_CONFIRM"])
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env["DJANGO_SECRET_KEY"]
-DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# AUTH0_ALEX call back ?
+ENV_FILE["APP42_OAUTH_REDIRECT"] = f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}/oauth/receive_code"
+# AUTH0_ALEX Logout ?
+ENV_FILE["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}/oauth/confirm"
 
+print("APP42_OAUTH_REDIRECT : ", ENV_FILE["APP42_OAUTH_REDIRECT"])
+print("APP42_OAUTH_CONFIRM : ", ENV_FILE["APP42_OAUTH_CONFIRM"])
 
-# Application definition
+# AUTH0_ALEX
+#TEMPLATE_DIR = os.path.join(BASE_DIR, "webpage", "templates")
+
+#  APPS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -69,40 +99,23 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "core.urls"
 
-# HTTPS config/protection
-SECURE_HSTS_SECONDS = 3600 #31536000  # 1 year HSTS (recommended)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-#XSS protection
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True #Againts MIME sniffing
-#CSP_DEFAULT_SRC = ("'self'",) # CSP policies TODO: add CSP policies
-# X-Frame-Options (Against Clickjacking)
-X_FRAME_OPTIONS = 'DENY' 
-# Secure session management
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-SESSION_COOKIE_HTTPONLY = True
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-#SECURE_SSL_REDIRECT = True
-
 
 # OpenID OAuth2 config
 LOGIN_URL='/admin/login/'
 
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
-    "OIDC_RSA_PRIVATE_KEY": env["OIDC_RSA_PRIVATE_KEY"],
+    "OIDC_RSA_PRIVATE_KEY": ENV_FILE["OIDC_RSA_PRIVATE_KEY"],
     "SCOPES": {
         "openid": "OpenID Connect scope",
     },
 }
 
+# AUTH0_ALEX
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [], #[TEMPLATE_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -121,17 +134,17 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if "DJG_WITH_DB" in env and env["DJG_WITH_DB"]:
+if "DJG_WITH_DB" in ENV_FILE and ENV_FILE["DJG_WITH_DB"]:
     DATABASES = {
         "default": {
             #"ENGINE": "django.db.backends.sqlite3",
             #"NAME": BASE_DIR / "db.sqlite3",
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": env["POSTGRES_DB"],
-            "USER": env["POSTGRES_USER"],
-            "PASSWORD": env["POSTGRES_PASSWORD"],
-            "HOST": env["DB_HOST"],
-            "PORT": env["DB_PORT"]
+            "NAME": ENV_FILE["POSTGRES_DB"],
+            "USER": ENV_FILE["POSTGRES_USER"],
+            "PASSWORD": ENV_FILE["POSTGRES_PASSWORD"],
+            "HOST": ENV_FILE["DB_HOST"],
+            "PORT": ENV_FILE["DB_PORT"]
         }
     }
 else:

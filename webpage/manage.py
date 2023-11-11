@@ -3,10 +3,6 @@
 import os
 import sys
 
-# Possible because of shellscripts/requirements.txt, need legal verif.
-from dotenv import load_dotenv, find_dotenv
-#import { createAuth0Client } from '@auth0/auth0-spa-js';
-
 
 def main():
     """Run administrative tasks."""
