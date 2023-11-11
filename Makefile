@@ -91,15 +91,17 @@ _install_python_pipenv:
 
 #	certs_utils
 _update_and_certutils:
-	sudo apt-get update -y && sudo apt-get upgrade -y
-	sudo apt-get install -y	\
+	sudo apt-get update -qq -y && sudo apt-get upgrade -qq -y
+	sudo apt-get install -qq -y	\
 		libpq-dev \
 		libnss3-tools
 
-#	auth0 requirements, maybe illegal
+#	auth0 requirements, maybe illegal, pas sure que ma conditon marche non plus
 _auth0_requirements:
-	sudo apt-get update -y && sudo apt-get upgrade -y
-	pip install -r $(AUTH0_REQ)
+	@if [ ! $(which authlib;) ]; then \
+	sudo apt-get -qq update -y && sudo apt-get -qq upgrade -y \
+	&& pip install -q -r $(AUTH0_REQ); \
+	fi
 
 $(MKCERT_PATH): _update_and_certutils
 	@echo "MKCERT_PATH dependency"
