@@ -10,6 +10,7 @@ DOTCERT			= .certs/transcendence
 # VERSION
 VPYTHON			= python3.10
 VCERT			= "mkcert-v1.4.3-linux-amd64"
+VAUTH0			= auth0-spa-js
 
 # GET
 GETCERT			= "https://github.com/FiloSottile/mkcert/releases/download/\
@@ -19,6 +20,14 @@ GETCERT			= "https://github.com/FiloSottile/mkcert/releases/download/\
 BIN_PATH		= /usr/bin
 BREW_PATH		= /home/linuxbrew/.linuxbrew
 MKCERT_PATH		= $(BIN_PATH)/mkcert
+AUTH0_PATH		= auth0/$(VAUTH0)
+
+# DATABASE CONTENT
+DATA			= /postgres/volume/data
+
+# NETWORK
+PORT			= '0.0.0.0:3000'
+LOCALHOST		= 127.0.0.1
 
 
 # CERTIFICATE HANDLING
@@ -32,17 +41,11 @@ CERTS_DIR		= $(DJANGO_DIR)/.certs
 CERT_CRT		= $(DJANGO_DIR)/$(LOCAL_CERT_CRT)
 CERT_KEY		= $(DJANGO_DIR)/$(LOCAL_CERT_KEY)
 
-
-# DATABASE CONTENT
-DATA			= /postgres/volume/data
-
-# NETWORK
-PORT			= '0.0.0.0:3000'
-LOCALHOST		= 127.0.0.1
-
 # AUTH0 HANDLING
 AUTH0SDK	= 	auth0spaSDK_install.sh
 AUTH0_INST	=	$(SHELLSCRIPTS)/$(AUTH0SDK)
+# Maybe illegal, idk for now ->
+AUTH0_REQ	=	$(SHELLSCRIPTS)/requirements.txt
 
 # BREW
 BREW_EXE		= $(BREW_PATH)/bin/brew
@@ -62,7 +65,7 @@ down:
 	docker-compose down
 
 # LOCAL - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-local:	_deactivate_db_mode $(DOTENV)
+local:	_deactivate_db_mode $(DOTENV) _auth0_requirements
 	cd webpage/ \
 		&& pipenv install \
 		&& pipenv run python3 manage.py runserver $(PORT)
@@ -92,6 +95,11 @@ _update_and_certutils:
 	sudo apt-get install -y	\
 		libpq-dev \
 		libnss3-tools
+
+#	auth0 requirements, maybe illegal
+_auth0_requirements:
+	sudo apt-get update -y && sudo apt-get upgrade -y
+	pip install -r $(AUTH0_REQ)
 
 $(MKCERT_PATH): _update_and_certutils
 	@echo "MKCERT_PATH dependency"

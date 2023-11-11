@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+#import { createAuth0Client } from '@auth0/auth0-spa-js';
 
 
 def main():
