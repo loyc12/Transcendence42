@@ -22,6 +22,20 @@ oauth.register(
     server_metadata_url=f"https://{settings.APP42_DOMAIN}/auth/authorize",
 )
 
+def oauth42_login(request):
+    return oauth.auth0.authorize_redirect(
+        request,
+        redirect_uri=request.build_absolute_uri(reverse("callback"))
+    )
+    
+def oauth42_callback(request):
+    token = oauth.auth0.authorize_access_token(request)
+    print("token : ", token)
+    request.session["token"] = token
+    return redirect(
+        request.build_absolute_uri(reverse("index"))
+    )
+
 def oauth42(req):
     print(req)
     base_url = "https://api.intra.42.fr/oauth/authorize"

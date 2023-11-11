@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    {% comment %} <h1>Login</h1>
+    <h1>Login</h1>
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
         
@@ -32,5 +32,5 @@
 
             <button type="submit">Log In</button>
         </form>
-    </div> {% endcomment %}
+    </div>
 {% endblock %}

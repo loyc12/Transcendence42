@@ -13,9 +13,9 @@ ENV_FILE = os.environ
 
 # Load environment variables from .env file
 if not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"]):
-    ENV_STREAM = open('../.env', 'r')
-    load_dotenv(stream=ENV_STREAM)
-    ENV_STREAM.close()
+    env = open('../.env', 'r')
+    load_dotenv(stream=env)
+    env.close()
 print("Environment acquired !")
 
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
@@ -64,9 +64,6 @@ ENV_FILE["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT'
 print("APP42_OAUTH_REDIRECT : ", ENV_FILE["APP42_OAUTH_REDIRECT"])
 print("APP42_OAUTH_CONFIRM : ", ENV_FILE["APP42_OAUTH_CONFIRM"])
 
-# AUTH0_ALEX
-#TEMPLATE_DIR = os.path.join(BASE_DIR, "webpage", "templates")
-
 #  APPS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
 INSTALLED_APPS = [
@@ -81,7 +78,7 @@ INSTALLED_APPS = [
     #"bootstrap5",
     
     "Home", 
-    #"oauth",
+    "oauth",
     "users"
 ]
 
@@ -112,10 +109,12 @@ OAUTH2_PROVIDER = {
 }
 
 # AUTH0_ALEX
+TEMPLATE_DIR = os.path.join(BASE_DIR, "Home", "templates")
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [], #[TEMPLATE_DIR],
+        "DIRS": [TEMPLATE_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

@@ -16,6 +16,11 @@ COPY Pipfile.lock .
 
 RUN pip3 install pipenv
 
+# AUTH0_ALEX
+RUN pip3 install authlib
+RUN pip3 install python-dotenv
+RUN pip3 install requests
+
 # installs all packages from Pipfile.lock
 #RUN pipenv sync
 RUN pipenv install --deploy --ignore-pipfile
@@ -30,4 +35,4 @@ RUN chmod +x /app/get_public_ip.sh
 EXPOSE 3000
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
-CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000" ]
+CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000"]
