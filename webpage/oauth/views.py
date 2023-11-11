@@ -10,7 +10,17 @@ from authlib.integrations.django_client import OAuth
 from django.conf import settings
 from django.urls import reverse
 
-# Create your views here.
+oauth = OAuth()
+
+oauth.register(
+    "auth0",
+    client_id=settings.APP42_UID,
+    client_secret=settings.APP42_SECRET,
+    client_kwargs={
+        "scope": "public",
+    },
+    server_metadata_url=f"https://{settings.APP42_DOMAIN}/auth/authorize",
+)
 
 def oauth42(req):
     print(req)
