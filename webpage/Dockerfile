@@ -17,13 +17,13 @@ COPY Pipfile.lock .
 RUN pip3 install pipenv
 
 # AUTH0_ALEX
-RUN pip3 install authlib
-RUN pip3 install python-dotenv
-RUN pip3 install requests
+RUN pip install Authlib
+RUN pip install python-dotenv
+RUN pip install requests
 
 # installs all packages from Pipfile.lock
-#RUN pipenv sync
-RUN pipenv install --deploy --ignore-pipfile
+RUN pipenv sync
+#RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 

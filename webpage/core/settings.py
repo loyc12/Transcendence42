@@ -13,9 +13,9 @@ ENV_FILE = os.environ
 
 # Load environment variables from .env file
 if not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"]):
-    env = open('../.env', 'r')
-    load_dotenv(stream=env)
-    env.close()
+    envStream = open('../.env', 'r')
+    load_dotenv(stream=envStream)
+    envStream.close()
 print("Environment acquired !")
 
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
@@ -48,11 +48,6 @@ with open('public.ip', 'r') as file:
     external_ip = file.read()
 print("external IP acquired : ", external_ip)
 
-APP42_UID = ENV_FILE["APP42_UID"];
-APP42_SECRET = ENV_FILE["APP42_SECRET"];
-APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"];
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,8 +76,6 @@ INSTALLED_APPS = [
     "oauth",
     "users"
 ]
-
-#AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -190,6 +183,14 @@ STATICFILES_FINDERS = [
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+APP42_UID = ENV_FILE["APP42_UID"]
+APP42_SECRET = ENV_FILE["APP42_SECRET"]
+APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"]
+
+AUTH_USER_MODEL = "users.User"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
