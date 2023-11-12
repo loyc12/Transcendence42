@@ -180,7 +180,13 @@ STATICFILES_FINDERS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-BOOTSTRAP_THEME_COLORS = ['#4cbe96', '#e0ded4', '#4cbe', '#178ca8', '#145faf', '#242351']
+SASS_PROCESSOR_ENABLED = True
+SASS_PROCESSOR_ROOT = STATIC_URL
+SASS_PROCESSOR_INCLUDE_DIRS = [
+    STATIC_URL,
+]
+SASS_PROCESSOR_OUTPUT_DIR = 'css'
+SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

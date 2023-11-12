@@ -1,0 +1,9 @@
+@import 'bootstrap';
+
+@import 'custom';
+
+$primary-color: #3498db;
+
+button {
+  background-color: $primary-color;
+}

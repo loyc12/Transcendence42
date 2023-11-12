@@ -6,7 +6,7 @@ background-color : background color
 */
 
 /* TOPBAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-#TopBar {
+/* #TopBar {
   color: #fff;
   padding: 10px;
   background-color: #333;
@@ -16,10 +16,10 @@ background-color : background color
   color: #333;
   padding: 5px;
   background-color: #d3d3d3;
-}
+} */
 
 /* NAVBAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-#NavBar {
+/* #NavBar {
   color: #fff;
   padding: 15px;
   display: flex;
@@ -38,16 +38,16 @@ background-color : background color
 #NavBar ul li {
   margin: 0;
   padding: 0;
-}
+} */
 
 /* HERO-GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - */
-#HeroDiv {
+/* #HeroDiv {
   padding: 20px;
-}
+} */
 /* FOOTER - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - */
-#Footer {
+/* #Footer {
   background-color: #d3d3d3;
   display: flex;
-}
+} */
 
 /* Add more styles as needed for your specific layout */

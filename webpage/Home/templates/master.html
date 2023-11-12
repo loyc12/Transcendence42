@@ -8,7 +8,11 @@
         {% load bootstrap5 %}
         {% bootstrap_css %}
         {% bootstrap_javascript %}
-        <link rel="stylesheet" type="text/css" href="{% url 'colors' %}">
+        {% with primaryColor='#4cbe96' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'main.scss' %}">
+         {% endwith %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+        <!-- <link rel="stylesheet" type="text/css" href="{% url 'colors' %}"> -->
         <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> -->
     </head>
 
