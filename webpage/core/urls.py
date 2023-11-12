@@ -1,4 +1,3 @@
-""" URL Configuration for core app. """
 #URL configuration
 # DOC
 # https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -6,12 +5,12 @@
 from django.contrib import admin
 from django.urls import path, include
 
+#from . import views
 
-# The `urlpatterns` list routes URLs to views.
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include('Home.urls')),
-    path("oauth/", include('oauth.urls')),
+    path("", include('Home.urls'), name="home"),
+    #path("oauth/", include('oauth.urls'), name="oauth"),
     path("users/", include('users.urls'))
 ]
 

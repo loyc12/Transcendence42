@@ -100,9 +100,7 @@ _update_and_certutils:
 # AUTH0_ALEX
 _auth0_requirements:
 	sudo apt-get -qq update -y && sudo apt-get -qq upgrade -y \
-	&& pip install authlib \
-	&& pip install python-dotenv \
-	&& pip install requests
+	&& pip3 install -r webpage/requirements.txt
 
 $(MKCERT_PATH): _update_and_certutils
 	@echo "MKCERT_PATH dependency"

@@ -16,14 +16,13 @@ COPY Pipfile.lock .
 
 RUN pip3 install pipenv
 
-# AUTH0_ALEX
-RUN pip install Authlib
-RUN pip install python-dotenv
-RUN pip install requests
+# AUTH0
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 # installs all packages from Pipfile.lock
-RUN pipenv sync
-#RUN pipenv install --deploy --ignore-pipfile
+#RUN pipenv sync
+RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
@@ -31,6 +30,9 @@ COPY . .
 #RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
 RUN chmod +x /app/get_public_ip.sh
+
+#Migrate the database
+#RUN python manage.py migrate
 
 EXPOSE 3000
 
