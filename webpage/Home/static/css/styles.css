@@ -1,11 +1,12 @@
 /* HOME FOLDER Apply some basic styling to the TopBar */
 #TopBar {
-    background-color: #b0b3b9;
-    color: #0c0000;
+    /* background-color: #b0b3b9; */
+    background-color: #145faf;
+    color: #f0ffff;
     /* padding: 10px; */
-    width: 99%;
+    width: 100%;
     height: 35vh;
-    border: 2px solid #de1bd4;
+    border: 2px solid #242351;
 }
 #ButtonLogin {
   cursor: pointer;
@@ -16,7 +17,8 @@
 
 /* Style the navigation ba60vhr */
 #NavBar {
-    background-color: #becfc5; /* Change the background color to suit your design */
+    /* background-color: #becfc5; Change the background color to suit your design */
+    background-color: #3a8ad5;
     color: #0c0000;
     /* padding: 10px; */
     /* display: flex; */
@@ -40,7 +42,8 @@
 
 /* Style the HeroDiv */
 #HeroDiv {
-    background-color: #6a585f; /* Change the background color to suit your design */
+    /* background-color: #6a585f; Change the background color to suit your design */
+    background-color: #178ca8;
     color: #0c0000;
     position: inherit;
     /* padding: 120px; */
@@ -59,6 +62,7 @@
 .heroDiv.active {
     display: block;
 }
+
 
 /* #HeroDiv img {
     width: auto; 
