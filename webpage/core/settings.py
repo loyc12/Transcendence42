@@ -41,23 +41,16 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 #SECURE_SSL_REDIRECT = True
 
 # AUTH0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-# Get public IP from file or from shell command for OAuth2 redirect_uri
-if not os.path.exists('public.ip'):
-    subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
-with open('public.ip', 'r') as file:
-    external_ip = file.read()
-print("external IP acquired : ", external_ip)
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# AUTH0_ALEX call back ?
-#ENV_FILE["APP42_OAUTH_REDIRECT"] = "http://127.0.0.1"#f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}/index"#/oauth/receive_code"
-# AUTH0_ALEX Logout ?
-ENV_FILE["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}"#/oauth/confirm"
+# BAZINGA
+APP42_UID = ENV_FILE["APP42_UID"]
+APP42_SECRET = ENV_FILE["APP42_SECRET"]
+APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"]
 
-print("APP42_OAUTH_REDIRECT : ", ENV_FILE["APP42_OAUTH_REDIRECT"])
-print("APP42_OAUTH_CONFIRM : ", ENV_FILE["APP42_OAUTH_CONFIRM"])
+AUTH_USER_MODEL = "users.User"
+
 
 #  APPS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
@@ -122,7 +115,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -183,14 +175,6 @@ STATICFILES_FINDERS = [
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
-APP42_UID = ENV_FILE["APP42_UID"]
-APP42_SECRET = ENV_FILE["APP42_SECRET"]
-APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"]
-
-AUTH_USER_MODEL = "users.User"
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

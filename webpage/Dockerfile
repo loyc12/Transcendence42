@@ -29,7 +29,6 @@ COPY . .
 # run server in virtual environment with
 #RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
-RUN chmod +x /app/get_public_ip.sh
 
 #Migrate the database
 #RUN python manage.py migrate

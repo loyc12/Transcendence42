@@ -1,12 +1,7 @@
 """ This file is used to render the home page and login page. """
-import json
+#import json
 from core.settings import ENV_FILE
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect#, HttpResponseRedirect#, HttpResponsePermanentRedirect
-from django.urls import reverse_lazy#, reverse
-#from urllib.parse import urlencode, urlunsplit, quote_plus
-#import requests
-#from django.contrib.auth.decorators import permission_required
+from django.shortcuts import render, redirect
 
 def login_view(request):
     return render(request, 'Index/index.html')
