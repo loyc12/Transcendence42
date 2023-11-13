@@ -1,5 +1,5 @@
 """ This file is used to render the home page and login page. """
-#from django.http import HttpResponse
+from django.http import HttpResponse
 from core.settings import ENV_FILE
 from django.shortcuts import render, redirect
 #import requests
@@ -15,10 +15,6 @@ def home_view(request):
     return render(request, 'Home/home.html', context)
 
 def api_view(request):
-    # Overkill for now, suppose to be the user id code part.
-    # context = {"session": request.session.get("user"),
-    #            "pretty": json.dumps(request.session.get("user"), indent=4),}
-
 #   Making the url for the api call
     api_url =   ENV_FILE['HTTP_PROTOCOL'] + \
                 ENV_FILE['APP42_DOMAIN'] + \
@@ -29,12 +25,12 @@ def api_view(request):
                 
 #   Redirecting to the api call, put the callback url in a variable
     callback = redirect(api_url)
-#  Return to the callback url, contain a code to get the token
+ #     # Get the code from the callback url
     return (callback)
     #return (get_token(callback))
 
 
-# POST request to get the token
+#POST request to get the token
 # def get_token(request):
 #     # Get the code from the callback url
 #     code = request.GET.get('code')

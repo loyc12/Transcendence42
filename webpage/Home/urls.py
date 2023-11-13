@@ -7,5 +7,5 @@ urlpatterns = [
     path("", home_view),
     path('index/', login_view, name='index'),
     path('login/', api_view, name='42login'),
-    #path('api/', get_token, name='api'),
+    # path('api/', get_token, name='api'),
 ]
