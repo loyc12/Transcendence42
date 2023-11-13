@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         showModule('module2');
     });
+
 });
 
 function showModule(moduleId) {
@@ -17,6 +18,7 @@ function showModule(moduleId) {
     var modules = document.querySelectorAll('.HeroDiv');
     modules.forEach(function (module) {
         module.classList.remove('active');
+        history.replaceState({}, document.title, window.location.pathname);
     });
 
     // Show the selected module

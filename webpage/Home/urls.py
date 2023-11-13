@@ -4,7 +4,7 @@ from .views import home_view, login_view, logo_view, selector_view
 
 urlpatterns = [
     # URL for the main page (home)
-    path("", home_view),
+    path("", home_view, name='home' ),
     # URL for the login page (http://127.0.0.1:3000/login/)
     path('Login/', login_view, name='login'),
     #
