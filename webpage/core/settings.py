@@ -52,9 +52,9 @@ print("external IP acquired : ", external_ip)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # AUTH0_ALEX call back ?
-ENV_FILE["APP42_OAUTH_REDIRECT"] = f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}/oauth/receive_code"
+#ENV_FILE["APP42_OAUTH_REDIRECT"] = "http://127.0.0.1"#f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}/index"#/oauth/receive_code"
 # AUTH0_ALEX Logout ?
-ENV_FILE["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}/oauth/confirm"
+ENV_FILE["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{ENV_FILE['DJANGO_LISTEN_PORT']}"#/oauth/confirm"
 
 print("APP42_OAUTH_REDIRECT : ", ENV_FILE["APP42_OAUTH_REDIRECT"])
 print("APP42_OAUTH_CONFIRM : ", ENV_FILE["APP42_OAUTH_CONFIRM"])
