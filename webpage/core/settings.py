@@ -1,11 +1,7 @@
 from pathlib import Path
 import os
 import subprocess
-#from io import StringIO
 from dotenv import load_dotenv
-
-# AUTH0_ALEX
-#import { createAuth0Client } from '@auth0/auth0-spa-js';
 
 # ENVIRONNEMENT VAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # Setting up environment variables from .env
