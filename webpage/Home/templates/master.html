@@ -1,31 +1,60 @@
-
-
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- DIV ID LINKER TO STYLES.CSS REF. -->
-        {% load bootstrap5 %}
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
-        {% with primaryColor='#4cbe96' %}
-        <link rel="stylesheet" type="text/css" href="{% static 'main.scss' %}">
-         {% endwith %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-        <!-- <link rel="stylesheet" type="text/css" href="{% url 'colors' %}"> -->
-        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> -->
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Single Page Website</title>
+    
+    <!-- folder static css and js -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <!-- root static     -->
+    <link rel="stylesheet" type="text/css" href="{% static 'static/css/styles.css' %}">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <body>
-        <!-- Content for the TopBar -->
-        <div id="TopBar"> {% include "Login/login_form.html" %}</a> </div>
+    <script src="{% static 'js/script.js' %}" defer></script>
+        
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    
+    
+</head>
 
-        <!-- Content for the NavBar -->
-        <div id="NavBar"> {% block nav %} NAVBAR {% endblock %} </div>
+<body>
+    <div class="container">
 
-        <!-- Content for the HeroDiv -->
-        <div id="HeroDiv"> {% block hero %} LOGO GOES HERE {% endblock %} </div>
-
-    </body>
-
+        <div id="TopBar"> 
+            <!-- <p>TopBar</p> -->
+            {% block topbar %}{% endblock %}
+        </div>
+        
+        <div id="NavBar">
+            <!-- <p>NavBar</p> -->
+            {% block navbar %}{% endblock %}
+        </div>
+        
+        <div id="HeroDiv">
+            <!-- <p>HeroDiv</p> -->
+            {% block HeroDiv %}{% endblock %}
+        </div>
+        
+    </div>    
+    <script>        
+        document.addEventListener('DOMContentLoaded', function () {
+            var module1Content = '<div>Content for Module 1</div>';
+            var module2Content = '<div>Content for Module 2</div>';
+            var HeroDiv = document.querySelector('.HeroDiv');
+        
+            // Add click event listeners to NavBar links
+            document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function () {
+                HeroDiv.innerHTML = module1Content;
+            });
+        
+            document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
+                HeroDiv.innerHTML = module2Content;
+            });
+        });
+    </script>
+    <!-- <script src="{% static 'js/script.js' %}" defer></script> -->
+</body>
 </html>

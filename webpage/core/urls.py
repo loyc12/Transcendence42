@@ -10,8 +10,7 @@ from django.urls import path, include
 # The `urlpatterns` list routes URLs to views.
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include('Home.urls')),
-    path("users/", include('users.urls'))
+    path("", include('Home.urls'), name ='home'),
 ]
 
 """

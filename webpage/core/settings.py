@@ -48,10 +48,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     #"oauth2_provider",
-    "bootstrap5",
-    "bootstrap_colors",
-    "django_sass",
-    "Home", 
+    #"bootstrap5",
+    "Home",
+    "Display",
     #"oauth",
     "users"
 ]
@@ -178,16 +177,13 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-SASS_PROCESSOR_ENABLED = True
-SASS_PROCESSOR_ROOT = STATIC_URL
-SASS_PROCESSOR_INCLUDE_DIRS = [
-    STATIC_URL,
-]
-SASS_PROCESSOR_OUTPUT_DIR = 'css'
-SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
-
+# static file directory
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# static file directory
+STATICFILES_DIRS = [
+    BASE_DIR, "Home/static",
+    BASE_DIR, "/static",
+    ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 # Static files (CSS, JavaScript, Images)

@@ -1,0 +1,11 @@
+/* static/css/styles.scss */
+
+@import 'variables';
+
+#NavBar{
+    /* Styles for both class NavBar and ID navbar */
+    color: $navbar-text-color;
+    background-color: $navbar-background-color;
+    // border: 2px solid #3c0de5;
+    /* Add any other styles as needed */
+}
