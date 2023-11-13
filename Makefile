@@ -40,6 +40,17 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 		&& pipenv run python3 manage.py runserver_plus \
 			--cert-file=$(LOCAL_CERT_CRT) --key-file=$(LOCAL_CERT_KEY) '0.0.0.0:3000'
 
+re: down all
+
+logs:
+	docker logs $(shell docker ps -aqf "name=^django_backend")
+
+connect:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh
+
+db_connect:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh /app/djg_connect_to_postgres.sh
+	
 
 _activate_db_mode:		$(DOTENV)
 	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env

@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "$DB_HOST:$DB_PORT:$POSTGRES_DB:$POSTGRES_USER:$POSTGRES_PASSWORD" > ~/.pgpass
+chmod 0600 ~/.pgpass
+psql -U $POSTGRES_USER -h $DB_HOST -d $POSTGRES_DB

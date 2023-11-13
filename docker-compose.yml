@@ -18,6 +18,8 @@ services:
     networks:
       trans_net:
         ipv4_address: 192.130.0.3
+    volumes:
+      - django_game_vol:/app/game
 
 
   postgres:
@@ -52,3 +54,9 @@ volumes:
       o: bind
       type: none
       device: ./postgres/volume/data
+  django_game_vol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./webpage/game

@@ -5,14 +5,22 @@
 
 from django.contrib import admin
 from django.urls import path, include
+from core.settings import DJG_DEBUG
 
 
 # The `urlpatterns` list routes URLs to views.
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('Home.urls')),
-    path("users/", include('users.urls'))
+    path("users/", include('users.urls')),
+    path("game/", include('game.urls')),
 ]
+
+# Add paths requiering database here
+if not DJG_DEBUG:
+    urlpatterns += [
+       path('o/', include('oauth2_provider.urls', namespace='oauth2_provider'))
+    ]
 
 """
 Examples:

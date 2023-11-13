@@ -26,6 +26,7 @@ COPY . .
 #RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
 RUN chmod +x /app/get_public_ip.sh
+RUN chmod +x /app/djg_connect_to_postgres.sh
 
 EXPOSE 3000
 

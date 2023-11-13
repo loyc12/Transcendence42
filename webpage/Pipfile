@@ -12,6 +12,11 @@ python-dotenv = "*"
 django-extensions = "*"
 werkzeug = "*"
 pyopenssl = "*"
+django-oauth-toolkit = "*"
+django-cors-headers = "*"
+django-channels = "*"
+channels = "*"
+daphne = "*"
 
 [dev-packages]
 

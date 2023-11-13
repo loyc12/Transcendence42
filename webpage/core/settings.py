@@ -8,7 +8,10 @@ from dotenv import load_dotenv
 
 # Setting up environment variables from .env
 env = os.environ
-if not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
+DJG_DEBUG = not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"])
+if ('DJG_WITH_DB' in env):
+    print("DJG_WITH_DB str in env : ", env["DJG_WITH_DB"], "len : ", len(env["DJG_WITH_DB"]))
+if DJG_DEBUG:#not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
     env_stream = open('../.env', 'r')
     load_dotenv(stream=env_stream)
     env_stream.close()
@@ -45,19 +48,32 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "daphne",
     "django.contrib.staticfiles",
     "django_extensions",
-    #"oauth2_provider",
+    "channels",
     #"bootstrap5",
-    
     "Home", 
     #"oauth",
-    "users"
+    "users",
+    "game"
 ]
 
-#AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.User"
+MIDDLEWARE = []
 
-MIDDLEWARE = [
+if not DJG_DEBUG:#('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
+    print("RUNNING IN ACTIVE DATABASE MODE !")
+    INSTALLED_APPS += [
+        "oauth2_provider"
+    ]
+
+    MIDDLEWARE += [
+        "corsheaders.middleware.CorsMiddleware",
+    ]
+
+
+MIDDLEWARE += [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -115,17 +131,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "core.wsgi.application"
+#WSGI_APPLICATION = "core.wsgi.application"
+ASGI_APPLICATION = "core.asgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if "DJG_WITH_DB" in env and env["DJG_WITH_DB"]:
+if not DJG_DEBUG:#"DJG_WITH_DB" in env and env["DJG_WITH_DB"]:
     DATABASES = {
         "default": {
-            #"ENGINE": "django.db.backends.sqlite3",
-            #"NAME": BASE_DIR / "db.sqlite3",
             "ENGINE": "django.db.backends.postgresql",
             "NAME": env["POSTGRES_DB"],
             "USER": env["POSTGRES_USER"],
@@ -136,8 +151,6 @@ if "DJG_WITH_DB" in env and env["DJG_WITH_DB"]:
     }
 else:
     DATABASES = {}
-#print("Database : ")
-#print(DATABASES)
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -171,6 +184,7 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
+STATIC_ROOT = "static_deploy/"
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -178,6 +192,22 @@ STATICFILES_FINDERS = [
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Channels layers
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+#CHANNEL_LAYERS = {
+#    'default': {
+#        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#        'CONFIG': {
+#            "hosts": [('127.0.0.1', 6379), (external_ip, 3000)], # default redis port is 6379
+#        },
+#    },
+#}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

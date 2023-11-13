@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src={% static 'js/game_websocket.js' %}></script>
+    {{ game_id|json_script:"game-id" }}
+</head>
+<body>
+    <div>
+        <h1>WEBSOCKET RESPONSE GOES HERE : <h1 id="ws_init_msg"></h1></h1>
+        <button onclick="connect_to_game_socket()">Connect</button>
+    </div>
+</body>
+</html>
