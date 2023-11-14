@@ -4,6 +4,27 @@ import json
 import time
 
 class GameConsumer(AsyncWebsocketConsumer):
+    
+    public_games = dict()
+    tournament_games = dict()# structured tournament_games[<tournament_name>][<game_id>]
+
+    #async def validate_user_can_connect_to_game(self, user):
+    #    '''
+    #        Validates that : 
+    #            - User is not already connected to a game.
+    #            - The game isn't already full.
+    #    '''
+#
+    #    if user.running_game:
+    #        if user.running_game in self.public_games:
+    #            # User trying to reconnect to the game they are already connected to.
+    #            return False
+    #        
+    #        if self.public_games[user.running_game]:
+    #            pass
+
+
+
 
     async def connect(self):
         print("REACHED GameConsumer.connect method !")
@@ -15,9 +36,9 @@ class GameConsumer(AsyncWebsocketConsumer):
             user = self.scope['user']
             print(user)
             print('user id : ', user.id)
-            
+
         else:
-            print('scope DOES NOT contains user.')
+            print('scope DOES NOT contain user.')
 
         #user = self.scope['user']
         #username = None
@@ -49,7 +70,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         t0 = time.monotonic()
         for i in range(5):
             await self.send(text_data=json.dumps({'msg': msg + f" {i}"}))
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(1)
 
         t1 = time.monotonic()
 
@@ -78,3 +99,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         #await self.channel_layer.group_send(
         #    self.room_group_name, {"type": "chat.message", "message": message}
         #)
+        #if event_type == 'test':
+        await self.send(text_data=json.dumps({'msg': 'async message received. wow.'}))
+        

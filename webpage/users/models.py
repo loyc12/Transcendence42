@@ -4,7 +4,7 @@ from django.utils import timezone
 from .manager import UserManager
 
 # Create your models here.
-class User(AbstractBaseUser, PermissionsMixin ):
+class User(AbstractBaseUser, PermissionsMixin):
 
     # DB Fields
     email =         models.EmailField(unique=True)
@@ -14,6 +14,7 @@ class User(AbstractBaseUser, PermissionsMixin ):
     is_staff =      models.BooleanField(default=False)
     is_superuser =  models.BooleanField(default=False)
     is_active =     models.BooleanField(default=False)
+    running_game =  models.CharField(max_length=32, default='')
 
     USERNAME_FIELD = "email"
 

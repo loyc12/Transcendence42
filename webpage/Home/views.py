@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .forms import LoginForm
 
+from core.settings import DJG_DEBUG
+
 
 def login_view(request):
     """ This function is used to render the login page."""
@@ -30,8 +32,10 @@ def login_view(request):
 def home_view(request):
     """ This function is used to render the home page."""
     context = {}
-    if not request.user.is_authenticated:
-        context['show_login_form'] = True
+
+    if not DJG_DEBUG:
+        if not request.user.is_authenticated:
+            context['show_login_form'] = True
 
     return render(request, 'Home/home.html', context)
 
