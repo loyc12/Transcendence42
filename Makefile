@@ -78,6 +78,8 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 		&& pipenv install \
 		&& pipenv run python3 manage.py runserver_plus \
 			--cert-file=$(LOCAL_CERT_CRT) --key-file=$(LOCAL_CERT_KEY) $(PORT)
+logs:
+	docker logs $(shell docker ps -aqf "name=^django_backend")
 
 # DEPENDENCY - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #	certs

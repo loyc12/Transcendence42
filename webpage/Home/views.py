@@ -1,8 +1,9 @@
-""" This file is used to render the home page and login page. """
+import requests
 from django.http import HttpResponseRedirect, HttpResponse
 from core.settings import ENV_FILE
-from django.shortcuts import render, redirect
-#import requests
+from django.shortcuts import render
+#import urllib.parse, urllib.request
+
 
 
 def login_view(request):
@@ -11,7 +12,9 @@ def login_view(request):
 def home_view(request):
     authorization_code = request.GET.get('code', None)
     if (authorization_code):
-        return(HttpResponse(authorization_code))
+        token = get_access_token(authorization_code)
+        access_token = requests.post(token)
+        return (HttpResponse(access_token))
     return render(request, 'Home/home.html')
 
 def api_view(request):
@@ -26,39 +29,22 @@ def api_view(request):
 #   Redirecting to the api call, put the callback url in a variable
     return (HttpResponseRedirect(api_url))
 
-
-#POST request to get the token
-# def get_token(request):
-#     # Get the code from the callback url
-#     code = request.GET.get('code')
+def get_access_token(autorization_code):
     
-# #   Making the url for the api call
-# #   Manque pt code_verifier = https://www.oauth.com/oauth2-servers/access-tokens/authorization-code-request/
-#     api_url =   ENV_FILE['HTTP_PROTOCOL'] + \
-#                 ENV_FILE['APP42_DOMAIN'] + \
-#                 ENV_FILE['APP42_TOKEN'] + \
-#                 '?grant_type=authorization_code' + \
-#                 '&code=' + code + \
-#                 '&redirect_uri=' + ENV_FILE['APP42_OAUTH_REDIRECT'] + \
-#                 '&client_id=' + ENV_FILE['APP42_UID'] + \
-#                 '&client_secret=' + ENV_FILE['APP42_SECRET']
+    url   = ENV_FILE['HTTP_PROTOCOL'] + \
+            ENV_FILE['APP42_DOMAIN'] + \
+            ENV_FILE['APP42_TOKEN']
+                
+    client_id     = ENV_FILE['APP42_UID']
+    client_secret = ENV_FILE['APP42_SECRET']
+    #redirect_uri  = ENV_FILE['APP42_OAUTH_REDIRECT']
     
-# #   POST request to get the token
-#     r = requests.post(api_url)
-#     return (HttpResponse(r.text))
-#     # access_token = r.json()['access_token']
-#     # expires_in = r.json()['expires_in']
-#     # if (r.json()['error']):
-#     #     endpoint = HttpResponse(".Error from the API.")
-#     # else:
-#     #     endpoint = HttpResponse(access_token + " " + expires_in)
-#     # return (endpoint)
+    data =  '?grant_type=client_credentials' + \
+            '&client_id=' + client_id + \
+            '&client_secret=' + client_secret + \
+            '&code=' + autorization_code
+    return (url + data)
     
-    
-    
-    
-    
-
-
-#Return Code
-#http://127.0.0.1:3000/?code=8f05c9296f67d4b1cab461944c0c627672ed12f667d9100c745c9514b991521b
+    # with urllib.request.urlopen(url, data=data) as response:
+    #     token_response = response.read()
+    #     return(token_response)
