@@ -1,5 +1,5 @@
 """ This file is used to render the home page and login page. """
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from core.settings import ENV_FILE
 from django.shortcuts import render, redirect
 #import requests
@@ -9,10 +9,10 @@ def login_view(request):
     return render(request, 'Index/index.html')
 
 def home_view(request):
-    context = {}
-    if not request.user.is_authenticated:
-        context['show_login_form'] = True
-    return render(request, 'Home/home.html', context)
+    authorization_code = request.GET.get('code', None)
+    if (authorization_code):
+        return(HttpResponse(authorization_code))
+    return render(request, 'Home/home.html')
 
 def api_view(request):
 #   Making the url for the api call
@@ -24,10 +24,7 @@ def api_view(request):
                 '&response_type=code'
                 
 #   Redirecting to the api call, put the callback url in a variable
-    callback = redirect(api_url)
- #     # Get the code from the callback url
-    return (callback)
-    #return (get_token(callback))
+    return (HttpResponseRedirect(api_url))
 
 
 #POST request to get the token
