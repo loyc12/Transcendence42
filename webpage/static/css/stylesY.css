@@ -50,7 +50,7 @@
 
 /* Style the navigation ba60vhr */
 #NavBar {
-    background-color: #3a8ad5; /* Change the background color to suit your design */
+    background-color: b9b0b8; /* Change the background color to suit your design */
     color: #f0ffff;
     /* padding: 10px; */
     /* display: flex; */
@@ -58,7 +58,7 @@
     width: 32%;
     height: 60vh;
     float: left;
-    border: 2px solid #242351;
+    border: 2px solid #efdc08;
 }
 /* # NavBar {
     color: $navbar-text-color;
@@ -90,7 +90,7 @@
     width: 66%;
     height: 60vh;
     float: right;
-    border: 2px solid #178ca8;
+    border: 2px solid #efdc08;
 }
 .heroDiv {
     display: none;
