@@ -2,19 +2,22 @@
 
 	{% block content %}
 	{% block title %}{% endblock %} <!-- Title for the page -->
-		{% block topbar %}	
-			<div class="TopBar" id="TopBar">	
-				 <p>TopBar</p>
+		{% block navbar %}	
+			<div class="NavBar" id="NavBar">	
+				 
+				 <ul class="list-inline mb-0">
+					<li class="list-inline-item mx-2"><p>NavBar: </p></li>
+					<li class="list-inline-item mx-2">
+						<a href="#module1">Module 1</a>
+					</li>
+					<li class="list-inline-item mx-2">
+						<a href="#module2">Module 2</a>
+					</li>
+				 </ul>
 			</div>
 		{% endblock %}        <!-- Content for TopBar -->
 
-		{% block navbar %}
-			<div class="NavBar" id="navbar" > 
-				<p>NavBar</p>
-				<a href="#module1">Module 1</a>
-				<a href="#module2">Module 2</a>
-			</div>
-		{% endblock %}
+	<!--navbar was here before-->
 
 		{% block HeroDiv %}
 			<div class="HeroDiv" id="HeroDiv" >
@@ -25,4 +28,3 @@
 		{% endblock %}
 	
 	{% endblock %}
-

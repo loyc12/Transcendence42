@@ -1,12 +1,17 @@
 /* HOME FOLDER Apply some basic styling to the TopBar */
+body {
+    font-family: 'Nunito';
+    font-size: 20px;
+}
+
 #TopBar {
     /* background-color: #b0b3b9; */
     background-color: #145faf;
     color: #f0ffff;
     /* padding: 10px; */
-    width: 100%;
+    /* width: 100%;
     height: 35vh;
-    border: 2px solid #242351;
+    border: 2px solid #242351; */
 }
 #ButtonLogin {
   cursor: pointer;
@@ -15,19 +20,30 @@
   background-color: #d3d3d3;
 } */
 
+.NavBar {
+    /* background-color: #145faf; */
+    /* background-color: #40075e; */
+    /* color: #f0ffff; */
+}
+
 /* Style the navigation ba60vhr */
 #NavBar {
     /* background-color: #becfc5; Change the background color to suit your design */
-    background-color: #3a8ad5;
-    color: #0c0000;
-    /* padding: 10px; */
-    /* display: flex; */
-    /* justify-content: space-between; */
+    background-color: #145faf;
+    color: #f0ffff;
+    /* padding: 10px;
+    display: flex;
+    justify-content: space-between;
     width: 32%;
     height: 60vh;
     float: left;
-    border: 2px solid #de1bd4;
+    border: 2px solid #242351; */
 }
+
+#NavBar a{
+    color: #f0ffff;
+}
+
 /* Style the navigation links */
 #NavBar ul {
     list-style: none;
@@ -41,17 +57,23 @@
 } */
 
 /* Style the HeroDiv */
+.HeroDiv {
+    /* background-color: #178ca8; */
+    /* color: #f0ffff; */
+
+}
+
 #HeroDiv {
     /* background-color: #6a585f; Change the background color to suit your design */
     background-color: #178ca8;
-    color: #0c0000;
-    position: inherit;
+    color: #f0ffff;
+    /* position: inherit; */
     /* padding: 120px; */
-    width: 66%;
+    /* width: 66%;
     height: 60vh;
-    float: right;
+    float: right; */
     /* border: 2px solid rgb(108, 114, 0); */
-    border: 2px solid #de1bd4;
+    /* border: 2px solid #de1bd4; */
 
 }
 
@@ -63,7 +85,12 @@
     display: block;
 }
 
-
+footer {
+    background-color: #4cbe;
+    color: #f0ffff;
+    font-family: 'Nunito';
+    font-size: 16px;
+}
 /* #HeroDiv img {
     width: auto; 
     height: auto;
