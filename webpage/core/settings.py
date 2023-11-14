@@ -54,7 +54,7 @@ if not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
 print("Environment acquired !")
 
 # Find public IP for OAuth2 redirect_uri
-if not os.path.exists('public.ip'):
+if not os.path.exists('public.ip'): 
     subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
 
 with open('public.ip', 'r') as file:
@@ -94,7 +94,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     #"oauth2_provider",
-    #"bootstrap5",
+    "bootstrap5",
     "Home",
     "Display",
     #"oauth",
@@ -235,7 +235,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # static file directory
 STATICFILES_DIRS = [
     BASE_DIR, "Home/static",
-    BASE_DIR, "/static",
     ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

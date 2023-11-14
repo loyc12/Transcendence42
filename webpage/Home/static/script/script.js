@@ -1,3 +1,7 @@
+// vanilla-script.js
+console.log("Script loaded successfully!");
+
+
 document.addEventListener('DOMContentLoaded', function () {
     showModule('module1'); // Show the initial module
 
@@ -10,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         showModule('module2');
     });
+    history.replaceState({}, document.title, window.location.pathname);
 
 });
 
@@ -18,7 +23,7 @@ function showModule(moduleId) {
     var modules = document.querySelectorAll('.HeroDiv');
     modules.forEach(function (module) {
         module.classList.remove('active');
-        history.replaceState({}, document.title, window.location.pathname);
+        // history.replaceState({}, document.title, window.location.pathname);
     });
 
     // Show the selected module
