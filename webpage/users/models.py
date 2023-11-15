@@ -20,7 +20,7 @@ class User(AbstractBaseUser):
     updated_at =        models.DateTimeField(auto_now=True)
     
     password =          models.CharField(max_length=120, unique=False)
-    is_active =         models.BooleanField(default=False)
+    #is_active =         models.BooleanField(default=False)
 
     USERNAME_FIELD = "login"
 

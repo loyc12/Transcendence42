@@ -6,14 +6,13 @@ from .models import User
 def import_data(user_data):
     
     login = user_data.json()['login']
-    display_name = user_data.json()['displayname']
-    img_link = user_data.json()['image']['link']
-    # img_vlarg = user_data.json()['versions']['large']
-    # img_vmed = user_data.json()['image']['medium']
-    # img_vsmall = user_data.json()['image']['small']
-    # img_vmicro = user_data.json()['image']['micro']
-    password = "password"
-    return (login + display_name + img_link + password)
+    user =  User.objects.create_user(
+            login=login,
+            display_name=user_data.json()['displayname'],
+            img_link=user_data.json()['image']['link'],
+            password="password", 
+    )
+    return (login)
 
 def user_main(request):
     print(request)
