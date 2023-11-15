@@ -1,7 +1,7 @@
 import requests
 from django.http import HttpResponseRedirect, HttpResponse
 from core.settings import ENV_FILE
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 #http://127.0.0.1:3000/index/
 # Warning : This URL is extra-step,
@@ -30,7 +30,7 @@ def api_view(request):
                 '?client_id=' + ENV_FILE['APP42_UID'] + \
                 '&redirect_uri=' + ENV_FILE['APP42_OAUTH_REDIRECT'] + \
                 '&response_type=code'
-    return (HttpResponseRedirect(api_url))
+    return (redirect(api_url))
 
 def get_access_token(autorization_code):
     url   = ENV_FILE['HTTP_PROTOCOL'] + \
