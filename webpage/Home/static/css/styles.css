@@ -61,7 +61,6 @@ body {
 .HeroDiv {
     /* background-color: #178ca8; */
     /* color: #f0ffff; */
-
 }
 
 #HeroDiv {
@@ -77,6 +76,18 @@ body {
     /* border: 2px solid #de1bd4; */
 
 }
+
+.info {
+    list-style-type: none; /* Remove default bullet points */
+    font-size: 32px;
+}
+
+.info li::before {
+    content: "\2605"; /* Unicode character for a star */
+    color: #f0ffff; /* Change the color to your preference */
+    font-size: 32px; /* Adjust the font size if needed */
+    margin-right: 0.5em; /* Adjust the spacing between the star and text */
+  }
 
 .heroDiv {
     display: none;

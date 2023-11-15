@@ -21,22 +21,23 @@
 
 		{% block HeroDiv %}
 			<div class="HeroDiv" id="HeroDiv" >
-				<div class="row">
+				<div class="row align-items-center">
 					<div class="col-4">
+						<!-- REPLACE img by [profilePic]-->
 						<img src="../../static/img/profile_picTEST.png" alt="profile pic" class="w-100">
 					</div>
-					<div class="col-8">
+					<div class="offset-1 col-7">
 						<ul class="info">
-							<li>prénom</li>
-							<li>nom</li>
-							<li>username</li>
-							<li>status?</li>
+							<li>prénom: [firstName]</li>
+							<li>nom: [lastName]</li>
+							<li>username: [playerLoginName]</li>
+							<li>status: [playerStatus]</li>
 						</ul>
 					</div>
 				</div>
-				<p>HeroDiv</p>
+				<!-- <p>HeroDiv</p> -->
 				<!-- Content for HeroDiv -->
-				<div>Initial Content</div>
+				<!-- <div>Initial Content</div> -->
 			</div>
 		{% endblock %}
 	
