@@ -1,7 +1,7 @@
 import requests
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from core.settings import ENV_FILE
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from users.views import import_data
 
 #http://127.0.0.1:3000/index/
@@ -19,8 +19,8 @@ def home_view(request):
         headers = {'Authorization': 'Bearer ' + access_token}
         url = get_data()
         user_data = requests.get(url, headers=headers)
-        data = import_data(user_data)
-        return (HttpResponse(data))
+        import_data(user_data, request)
+        return render(request, 'Index/index.html')
     return render(request, 'Home/home.html')
 
 #http://127.0.0.1:3000/login
@@ -32,7 +32,7 @@ def api_view(request):
                 '?client_id=' + ENV_FILE['APP42_UID'] + \
                 '&redirect_uri=' + ENV_FILE['APP42_OAUTH_REDIRECT'] + \
                 '&response_type=code'
-    return (redirect(api_url))
+    return (HttpResponseRedirect(api_url))
 
 def get_access_token(autorization_code):
     url   = ENV_FILE['HTTP_PROTOCOL'] + \

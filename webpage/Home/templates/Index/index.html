@@ -4,9 +4,8 @@
     <title>Auth0 Example</title>
   </head>
   <body>
-    {% if session %}
+    {% if request.session.user_id %}
     <h1>Welcome {{session.userinfo.name}}!</h1>
-    <p><a href="{% url '42logout' %}">Logout</a></p>
     <div><pre>{{pretty}}</pre></div>
     {% else %}
     <h1>Welcome Guest</h1>

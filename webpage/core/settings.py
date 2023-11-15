@@ -3,6 +3,11 @@ import os
 import subprocess
 from dotenv import load_dotenv
 
+#SESSION_AV
+from importlib import import_module
+from django.conf import settings
+SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
+
 # ENVIRONNEMENT VAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # Setting up environment variables from .env
 ENV_FILE = os.environ
@@ -46,7 +51,7 @@ APP42_SECRET = ENV_FILE["APP42_SECRET"]
 APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"]
 
 AUTH_USER_MODEL = "users.User"
-
+#https://docs.djangoproject.com/en/4.2/topics/auth/customizing/
 
 #  APPS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 
@@ -107,6 +112,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "core.wsgi.application"
+
+#SESSION_AV
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
