@@ -1,31 +1,32 @@
 {% extends "master.html" %}
 
-	{% block content %}
+	<!-- {% block content %} -->
 	{% block title %}{% endblock %} <!-- Title for the page -->
-		{% block topbar %}	
-			<div class="TopBar">	
-				 <p>TopBar</p>
-			</div>
-		{% endblock %}        <!-- Content for TopBar -->
+	{% block topbar %}	
+		<p> Content for TopBar </p>
+	{% endblock %}     
+		<!-- <div class="TopBar">	
+			<div id="text_bg_primary" > <p>TopBar</p></div>
+		</div> -->
 
-		{% block navbar %}
-			<div class="NavBar" id="navbar" > 
-				<p>NavBar</p>
-				<ul>
-					<li><a href="#module1">Module 1</a></li>
-					<li><a href="#module2">Module 2</a></li>
-					<li><a href="#listContent">listContent</a></li>
-				</ul>
-			</div>
-		{% endblock %}
-
-		{% block HeroDiv %}
-			<!-- <div class="HeroDiv" id="HeroDiv" > -->
-				<p>HeroDiv</p>
-				<!-- Content for HeroDiv -->
-				<div>Initial Content</div>
-			<!-- </div> -->
-		{% endblock %}
-	
+	{% block navbar %}
+		<!-- <div class="NavBar" id="navbar" >  -->
+		<p>NavBar</p>
+		<!-- <ul>
+				<li><a href="#module1">Module 1</a></li>
+				<li><a href="#module2">Module 2</a></li>
+				<li><a href="#listContent">listContent</a></li>
+			</ul> -->
+		<!-- </div> -->
 	{% endblock %}
+
+	{% block HeroDiv %}
+	<!-- <div id="HeroDiv" > -->
+		<p>HeroDiv</p>
+			<!-- Content for HeroDiv -->
+			<!-- <div>Initial Content</div> -->
+	<!-- </div> -->
+	{% endblock %}
+	
+	<!-- {% endblock %} -->
 
