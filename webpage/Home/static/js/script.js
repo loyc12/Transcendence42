@@ -36,8 +36,8 @@ function initState() {
 
 function showSubMenu(selectedOption) {
         // Check if the selected option is to the left of the current state
-        const selectedOptionIndex = ['display', 'game', 'option'].indexOf(selectedOption);
-        const currentStateIndex = ['display', 'game', 'option'].indexOf(currentState);
+        const selectedOptionIndex = ['home','display', 'game', 'option'].indexOf(selectedOption);
+        const currentStateIndex = ['home','display', 'game', 'option'].indexOf(currentState);
 
         if (selectedOption === 'home') {
             // Handle the 'Home' option
@@ -66,7 +66,8 @@ function handleSubOption(subOption) {
     switch (subOption) {
         case 'Display1':
             // Load content into the heroDiv for Display1
-            loadContent('Logo/logo.html');
+            loadContent('heroDiv');
+
             break;
         // Add more cases for other sub-options if needed
         case 'Display2':
@@ -124,13 +125,13 @@ function generateSubOptions(selectedOption) {
     // You can customize this function to generate sub-options based on the selected option
     switch (selectedOption) {
         case 'home':
-            return ['Display', 'Game', 'Option'];
+            return ['home','Display', 'Game', 'Option'];
         case 'display':
-            return ['Home','Display1', 'Display2', 'Display3'];
+            return ['home','Display1', 'Display2', 'Display3'];
         case 'game':
-            return ['Home','Game1', 'Game2', 'Game3'];
+            return ['home','Game1', 'Game2', 'Game3'];
         case 'option':
-            return ['Home','Option1', 'Option2', 'Option3'];
+            return ['home','Option1', 'Option2', 'Option3'];
         default:
             return [];
     }
