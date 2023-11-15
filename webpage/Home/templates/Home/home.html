@@ -1,32 +1,16 @@
-{% extends "master.html" %}
 
-	<!-- {% block content %} -->
-	{% block title %}{% endblock %} <!-- Title for the page -->
-	{% block topbar %}	
-		<p> Content for TopBar </p>
-	{% endblock %}     
-		<!-- <div class="TopBar">	
-			<div id="text_bg_primary" > <p>TopBar</p></div>
-		</div> -->
+{% extends 'master.html' %}
 
-	{% block navbar %}
-		<!-- <div class="NavBar" id="navbar" >  -->
-		<p>NavBar</p>
-		<!-- <ul>
-				<li><a href="#module1">Module 1</a></li>
-				<li><a href="#module2">Module 2</a></li>
-				<li><a href="#listContent">listContent</a></li>
-			</ul> -->
-		<!-- </div> -->
-	{% endblock %}
+{% block title %}Accueil{% endblock %}
 
-	{% block HeroDiv %}
-	<!-- <div id="HeroDiv" > -->
-		<p>HeroDiv</p>
-			<!-- Content for HeroDiv -->
-			<!-- <div>Initial Content</div> -->
-	<!-- </div> -->
-	{% endblock %}
-	
-	<!-- {% endblock %} -->
+{% block navbar %}
+    <button onclick="showSubMenu('display')">Display</button>
+    <button onclick="showSubMenu('game')">Game</button>
+    <button onclick="showSubMenu('option')">Option</button>
+{% endblock %}
 
+{% block content %}
+    <div class="sidebar" id="sidebar">
+        <!-- Contenu de la barre latérale -->
+    </div>
+{% endblock %}

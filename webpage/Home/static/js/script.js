@@ -38,6 +38,33 @@ document.addEventListener('DOMContentLoaded', function () {
     // history.replaceState({}, document.title, window.location.pathname);
 });
 
+function showSubMenu(selectedOption) {
+    // Réinitialiser le contenu du sidebar
+    document.getElementById('sidebar').innerHTML = '';
+ 
+    // Mapping des sous-options pour chaque option
+    const subOptionsMap = {
+       'display': ['SubOption 1A', 'SubOption 1B', 'SubOption 1C'],
+       'game': ['SubOption 2A', 'SubOption 2B', 'SubOption 2C'],
+       'option': ['SubOption 3A', 'SubOption 3B', 'SubOption 3C'],
+    };
+ 
+    // Ajouter l'option sélectionnée au sidebar
+    const selectedOptionElement = document.createElement('div');
+    selectedOptionElement.innerText = selectedOption;
+    selectedOptionElement.classList.add('selected-option');
+    document.getElementById('sidebar').appendChild(selectedOptionElement);
+ 
+    // Ajouter les sous-options au sidebar
+    const subOptions = subOptionsMap[selectedOption] || [];
+    subOptions.forEach(subOption => {
+       const subOptionElement = document.createElement('div');
+       subOptionElement.innerText = subOption;
+       document.getElementById('sidebar').appendChild(subOptionElement);
+    });
+ }
+ 
+
 function showModule(moduleId) {
     // Hide all modules
     var modules = document.querySelectorAll('.HeroDiv');

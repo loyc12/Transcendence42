@@ -2,28 +2,46 @@
 
 
 /* Style the navigation ba60vhr */
-#NavBar {
+/* #NavBar {
     background-color: #becfc5; /* Change the background color to suit your design */
     /* color: #0c0000; */
     /* padding: 10px; */
     /* display: flex; */
     /* justify-content: space-between; */
-    width: 32%;
-    height: 60vh;
-    float: left;
-    border: 2px solid #de1bd4;
-}
+    /* width: 32%;
+    height: 60vh; */
+    /* float: left;
+    border: 2px solid #de1bd4; */
+/* } */
 /* Style the navigation links */
-#NavBar ul {
-    list-style: none;
+/* #NavBar ul {
+    list-style: none; */
     /* padding: 0; */
-    display: flex;
+    /* display: flex; */
     /* gap: 20px; */
-}
+/* }
 #NavBar ul li {
     margin: 0;
     padding: 0;
+} */ 
+
+.navbar {
+    display: flex;
+    flex-direction: column;
 }
+
+.navbar button {
+    margin-bottom: 5px;
+}
+
+.sidebar {
+    margin-left: 20px; // Espace pour les options sélectionnées
+}
+
+.selected-option {
+    font-weight: bold;
+}
+
 
 /* Style the HeroDiv */
 #HeroDiv {

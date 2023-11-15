@@ -5,10 +5,16 @@
 {% endblock %}
 
 {% block navbar %} 
-    <div id="NavBar"   style="float: right; width: 35%; ">
-        <a href="#module1">Module 1</a>
-        <a href="#module2">Module 2</a>
-    </div>
+<div class="navbar">
+    <button onclick="showSubMenu('display')">Display</button>
+    <button onclick="showSubMenu('game')">Game</button>
+    <button onclick="showSubMenu('option')">Option</button>
+ </div>
+ <div class="sidebar" id="sidebar">
+    <!-- Les éléments sélectionnés et les sous-options apparaîtront ici -->
+ </div>
+ 
+
 {% endblock %}
     <!-- <div class="NavBar"> -->
         <!-- <h1>Select User</h1> -->
