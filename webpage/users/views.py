@@ -2,15 +2,19 @@ from django.shortcuts import render, HttpResponse
 from .models import User
 
 # Create your views here.
+#users_user
+# id | login | display_name | img_link | created_at | updated_at | last_login | password | is_active | socket_id 
 
 def import_data(user_data):
     
     login = user_data.json()['login']
+    if (User.objects.filter(login=login).exists()):
+        return (f"User {login} already exists in database.")
+
     user =  User.objects.create_user(
             login=login,
             display_name=user_data.json()['displayname'],
             img_link=user_data.json()['image']['link'],
-            password="password", 
     )
     return (login)
 
@@ -25,10 +29,6 @@ def user_create(request):
         login="alvachon",
         display_name="Alexandra Vachon",
         img_link="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vlarg="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vmed="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vsmall="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vmicro="https://cdn.intra.42.fr/users/alvachon.jpg",
         password="password",
     )
 
