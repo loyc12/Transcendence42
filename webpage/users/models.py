@@ -3,19 +3,6 @@ from django.db import models
 from django.utils import timezone
 from .manager import UserManager
 
-#public data
-#   "login": "string",
-#   "display_name": "string"
-#   "image": {
-#     "link": "string",
-#     "versions":{
-#       "large": "string",
-#       "medium": "string",
-#       "small": "string",
-#       "micro": "string"
-#     }
-#  },
-
 # GET FROM 42 API TO DB FIELD
 class User(AbstractBaseUser):
 
@@ -33,7 +20,7 @@ class User(AbstractBaseUser):
     updated_at =        models.DateTimeField(auto_now=True)
     
     password =          models.CharField(max_length=120, unique=False)
-    #is_active =     models.BooleanField(default=False)
+    is_active =         models.BooleanField(default=False)
 
     USERNAME_FIELD = "login"
 

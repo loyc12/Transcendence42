@@ -1,7 +1,8 @@
 import requests
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from core.settings import ENV_FILE
 from django.shortcuts import render, redirect
+from users.views import import_data
 
 #http://127.0.0.1:3000/index/
 # Warning : This URL is extra-step,
@@ -18,7 +19,8 @@ def home_view(request):
         headers = {'Authorization': 'Bearer ' + access_token}
         url = get_data()
         user_data = requests.get(url, headers=headers)
-        return (HttpResponse(user_data.text))
+        data = import_data(user_data)
+        return (HttpResponse(data))
     return render(request, 'Home/home.html')
 
 #http://127.0.0.1:3000/login

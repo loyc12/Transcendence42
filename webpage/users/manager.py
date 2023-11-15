@@ -7,7 +7,7 @@ class UserManager(BaseUserManager):
         if not login:
             raise ValueError('The login field must be set')
         if not display_name:
-            raise ValueError('The Email field must be set')
+            raise ValueError('The display_name field must be set')
         user = self.model(login=login, display_name=display_name, **extra_fields)
         user.save()
         return user

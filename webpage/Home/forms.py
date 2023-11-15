@@ -1,6 +1,7 @@
 """This file is used to create the login form."""
 from django import forms
 
+#TODO : Not relevant anymore
 class LoginForm(forms.Form):
     """This class is used to create the login form."""
     email = forms.EmailField()  # This field is used to capture the user's email.

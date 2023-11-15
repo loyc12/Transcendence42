@@ -3,12 +3,17 @@ from .models import User
 
 # Create your views here.
 
-#token - juste 1 fois
-#    "access_token": "PaZDOD5UwzbGOFsQr34LQ7JUYOj3yK",
-#    "expires_in": 36000,
-#    "token_type": "Bearer",
-#    "scope": "read write"
-
+def import_data(user_data):
+    
+    login = user_data.json()['login']
+    display_name = user_data.json()['displayname']
+    img_link = user_data.json()['image']['link']
+    # img_vlarg = user_data.json()['versions']['large']
+    # img_vmed = user_data.json()['image']['medium']
+    # img_vsmall = user_data.json()['image']['small']
+    # img_vmicro = user_data.json()['image']['micro']
+    password = "password"
+    return (login + display_name + img_link + password)
 
 def user_main(request):
     print(request)
