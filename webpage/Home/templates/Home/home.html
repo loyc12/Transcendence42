@@ -1,16 +1,12 @@
-
+<!-- home.html -->
 {% extends 'master.html' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block navbar %}
-    <button onclick="showSubMenu('display')">Display</button>
-    <button onclick="showSubMenu('game')">Game</button>
-    <button onclick="showSubMenu('option')">Option</button>
+    {% include 'Selector/selector.html' %}
 {% endblock %}
 
 {% block content %}
-    <div class="sidebar" id="sidebar">
-        <!-- Contenu de la barre latérale -->
-    </div>
+    <!-- Content of the page -->
 {% endblock %}

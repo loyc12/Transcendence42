@@ -1,36 +1,16 @@
 {% extends "master.html" %}
 
-{% block title %}
-    SELECTOR
-{% endblock %}
-
-{% block navbar %} 
-<div class="navbar">
-    <button onclick="showSubMenu('display')">Display</button>
-    <button onclick="showSubMenu('game')">Game</button>
-    <button onclick="showSubMenu('option')">Option</button>
- </div>
- <div class="sidebar" id="sidebar">
-    <!-- Les éléments sélectionnés et les sous-options apparaîtront ici -->
- </div>
- 
-
-{% endblock %}
-    <!-- <div class="NavBar"> -->
-        <!-- <h1>Select User</h1> -->
-        <!-- <select class="form-select" id="userSelector">
-            <option value="user1">User 1</option>
-            <option value="user2">User 2</option>
-            <option value="user3">User 3</option>
-        </select>
-        <button class="btn btn-primary" onclick="goToHome()">Select</button>
+{% block navbar %}
+    <div class="row" id="navbarRow">
+        
+        <div class="col">
+            <button onclick="showSubMenu('display')" class="btn btn-primary" id="displayBtn">Display</button>
+        </div>
+        <div class="col">
+            <button onclick="showSubMenu('game')" class="btn btn-primary" id="gameBtn">Game</button>
+        </div>
+        <div class="col">
+            <button onclick="showSubMenu('option')" class="btn btn-primary" id="optionBtn">Option</button>
+        </div>
     </div>
-        <script>
-            function goToHome() {
-                const userSelector = document.getElementById('userSelector');
-                const selectedUser = userSelector.options[userSelector.selectedIndex].text;
-                localStorage.setItem('selectedUser', selectedUser);
-                window.location.href = 'home/home.html'; }
-        // </script> -->
-        <!-- <script src="js/bootstrap.bundle.min.js"></script>
-        <script src="js/select.js"></script> -->
+{% endblock %}
