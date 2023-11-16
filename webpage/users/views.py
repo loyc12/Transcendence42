@@ -7,6 +7,9 @@ from django.contrib.sessions.models import Session
 #users_user
 # id | login | display_name | img_link | created_at | updated_at | last_login | password | is_active | socket_id 
 
+# customerID | loginTime | IPadress | userAgent | sessionID (cookie)
+# Logout -> Destroy cookie
+
 def import_data(user_data, request):
     
     login = user_data.json()['login']
