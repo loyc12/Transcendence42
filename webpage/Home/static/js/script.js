@@ -1,3 +1,42 @@
+// vanilla-script.js
+console.log("Script loaded successfully!");
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // var module1Content = '<div>Content for Module 1</div>';
+    // var module2Content = '<div>Content for Module 2</div>';
+    // var listContent = '<div>Content for ListAlt</div>';
+    var HeroDiv = document.querySelector('.HeroDiv');
+    var NavBar = document.querySelector('.NavBar');
+
+    // // Add click event listeners to NavBar links
+    // document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function () {
+    //     HeroDiv.innerHTML = module1Content;
+    // });
+    
+    // document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
+    //     HeroDiv.innerHTML = module2Content;
+    // });
+
+    // document.querySelector('.NavBar a[href="#listContent"]').addEventListener('click', function () {
+    //     NavBar.innerHTML = listContent;
+    // });
+
+
+    showModule('module1'); // Show the initial module
+    
+    // document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function (event) {
+    //     event.preventDefault();
+    //     showModule('module1');
+    // });
+    
+    // document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function (event) {
+    //     event.preventDefault();
+    //     showModule('module2');
+    // });
+    
+    // history.replaceState({}, document.title, window.location.pathname);
+});
 //  Initialize the current state to 'home'
 
 
@@ -27,7 +66,7 @@ function initState() {
     // Add the new set of sub-option buttons to the navbar row
     subOptions.forEach((subOption, index) => {
         const subOptionElement = document.createElement('div');
-        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="btn btn-secondary">${subOption}</button>`;
+        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="btn btn-primary">${subOption}</button>`;
         subOptionElement.classList.add('col');
         navbarRow.appendChild(subOptionElement);
     });
@@ -54,9 +93,9 @@ function showSubMenu(selectedOption) {
         } else {
             
             // Handle sub-options behavior
-            // handleSubOption(selectedOption);
             currentState = selectedOption;
             initialChoice = selectedOption;
+            handleSubOption(selectedOption);
             initState();  // Call initState to update the navbar row
         }
 }
@@ -66,13 +105,13 @@ function handleSubOption(subOption) {
     switch (subOption) {
         case 'Display1':
             // Load content into the heroDiv for Display1
-            loadContent('heroDiv');
-
+            loadContent('Logo/logo2.html');
+            
             break;
-        // Add more cases for other sub-options if needed
-        case 'Display2':
-            // Load content into the heroDiv for Display1
-            loadContent('content');
+            // Add more cases for other sub-options if needed
+            case 'Display2':
+                // Load content into the heroDiv for Display1
+                loadContent('logo');
             break;
         default:
             break;
@@ -114,9 +153,9 @@ function renderInitNavbar() {
     // Add the new set of sub-option buttons to the navbar row
     subOptions.forEach((subOption, index) => {
         const subOptionElement = document.createElement('div');
-        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="btn btn-secondary">${subOption}</button>`;
+        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="btn btn-primary">${subOption}</button>`;
         subOptionElement.classList.add('col');
-        navbarRow.appendChild(subOptionElement);
+        navbarRow.appendChild(OptionElement);
     });
 }
 
