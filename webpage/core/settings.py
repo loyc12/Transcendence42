@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     
-    "Home", 
+    "Home",
     "users"
 ]
 

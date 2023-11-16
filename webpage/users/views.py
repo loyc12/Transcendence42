@@ -1,30 +1,27 @@
-from django.shortcuts import render, HttpResponse
 from .models import User
 from django.contrib.sessions.models import Session
 
-
-# Create your views here.
-#users_user
-# id | login | display_name | img_link | created_at | updated_at | last_login | password | is_active | socket_id 
-
-# customerID | loginTime | IPadress | userAgent | sessionID (cookie)
-# Logout -> Destroy cookie
-
-def import_data(user_data, request):
+# Collect data from API and save it in the database, start session
+def import_data(api_data, request):
     
-    login = user_data.json()['login']
-    if (User.objects.filter(login=login).exists()):
-        User.objects.filter(login=login).update(
-            is_active=1,
+    target_id = api_data.json()['login']
+    # Check if user exists and get it
+    if (User.objects.filter(login=target_id).exists()):
+        User.objects.filter(login=target_id).update(
+            is_active = 1,
         )
-        u = User.objects.get(login=login)
+        u = User.objects.get(login=target_id)
+
+    # If not, create it
     else:
         u = User.objects.create_user(
-        login=login,
-        display_name=user_data.json()['displayname'],
-        img_link=user_data.json()['image']['link'],    
-        is_active=1,    
-    )
+            login           = target_id,
+            display_name    = api_data.json()['displayname'],
+            img_link        = api_data.json()['image']['link'],    
+            is_active       = 1,    
+        )
+    # Update session
+    u.save()
     request.session['user_id'] = u.id
     request.session['user_login'] = u.login
     request.session.save()
@@ -32,8 +29,10 @@ def import_data(user_data, request):
     session = Session.objects.get(session_key=session_key)
     return
 
-def user_delete_jimmy(request):
-    print(request)
-    user = User.objects.get(login="alvachon")
-    user.delete()
-    return (HttpResponse(f"User successfully deleted from database. Good bye {user.login}."))
+# def remove_data(request):
+#     user_id = request.session['user_id']
+#     User.objects.filter(id=user_id).update(
+#         is_active=0,
+#     )
+#     request.session.flush()
+#     return
