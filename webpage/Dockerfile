@@ -14,15 +14,15 @@ WORKDIR /app
 COPY Pipfile .
 COPY Pipfile.lock .
 
+RUN pip install --upgrade pip
 RUN pip3 install pipenv
 
-# AUTH0
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # installs all packages from Pipfile.lock
-RUN pipenv sync
-#RUN pipenv install --deploy --ignore-pipfile
+#RUN pipenv sync
+RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
