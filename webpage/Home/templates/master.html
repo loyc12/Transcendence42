@@ -10,7 +10,7 @@
         <!-- Onglet Tabulation - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <title>Your Single Page Website</title>
         <!-- Stylesheet Dependency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        {% comment %}<!-- Static VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        {% comment %} <!-- Static VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <link rel="stylesheet" type="text/css" href="{% static 'static/css/styles.css' %}"> {% endcomment %}
         <!-- - - - - - -  Bootstrap VER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -18,63 +18,66 @@
         <link rel="preconnect"  href="https://fonts.googleapis.com">
         <link rel="preconnect"  href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet"  href="https://fonts.googleapis.com/css2?family=Nunito&display=swap">
+
         <!-- Folder Dependency CSS // JS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        {% comment %}<!-- Static VER(Home) - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- Static VER(Home) - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
         <!-- - - - - - -  Related Script (static version) - - - - - - - - - - - - - - - - - - - - - - -  - - -->       
-            <script src="{% static 'js/script.js' %}" defer></script>                            {% endcomment %}
+            <script src="{% static 'js/script.js' %}" defer></script>                            
         <!-- - - - - - -  CSS Stylesheet  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -->
         {% comment %}<!-- Static VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->                     {% endcomment %}
         <!-- - - - - - -  Bootstrap VER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"defer></script>
+        <!-- EVENT LOADER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->   
+        <script>        
+            document.addEventListener('DOMContentLoaded', function () {
+                // Your code here
+                var content1 = document.getElementById('content1');
+                var content2 = document.getElementById('content2');
+    
+                // Example: Switch content on button click
+                var buttonLogin = document.getElementById('buttonLogin');
+                buttonLogin.addEventListener('click', function () {
+                    content1.style.display = (content2.style.display === 'block') ? 'block' : 'none';
+                    content2.style.display = (content1.style.display === 'none') ? 'block' : 'none';
+                });
+            });
+        </script>
     </head>
 
     <body>
+        {% comment %} <button id="buttonLogin">Switch Content</button> {% endcomment %}
+
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container">
-            <!-- ROW - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <!-- NAVBAR - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -->
-                {% comment %} EVENTHANDLING HERE !                                              {% endcomment %}
+                <!--used to be topbar here-->
                 <div class="NavBar"> 
-                    {% block templates_Home_home_navbar %}{% endblock %}
+                    <button id="buttonLogin">Login</button>
                 </div>
             </div>
-            <!-- ROW - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->            
+            <!-- ROW - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div class="HeroDiv">
-                    <!-- <p>HeroDiv</p> -->
+                <div id="content1" class="HeroDiv">
                     {% block HeroDiv %}{% endblock %}
-                    {% block login %}{% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                <div id="content2" class="module1">
+                    {% block module1 %}{% endblock %}
                 </div>
             </div>
         </div> 
             
         <!-- </div>     -->
-        <script>        
-            document.addEventListener('DOMContentLoaded', function () {
-                //var module2Content = '<div>Content for Module 2</div>';
-                var HeroDiv = document.querySelector('.HeroDiv');
-            
-                // Add click event listeners to NavBar links
-                document.querySelector('.NavBar href="login"]').addEventListener('click', function () {
-                    HeroDiv.innerHTML = loginContent;
-                });
-            
-                //document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
-                //    HeroDiv.innerHTML = module2Content;
-                //});
-            });
-        </script>
         <!-- <script src="{% static 'js/script.js' %}" defer></script> -->
     </body>
 
-<footer class="border-top">
-    {% comment %} <div class="container">
-            <p class="text-center text-white">Built with &#x2661 by GALIV</p>
+    <footer class="border-top">
+        <div class="container">
+            <p class="text-center"> FOOTER </p>
         </div>
-    </div> {% endcomment %}
-</footer>
+    </footer>
 
 </html>

@@ -1,39 +1,15 @@
 <!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
-{% block content %}
-	<!-- TITLE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-	{% comment %} {% block title %}{% endblock %} 			{% endcomment %}
-	<!-- NAVBAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-	{% block templates_Home_home_navbar %}	
-  	<div class="NavBar" id="NavBar">
-		<!-- ITEMS  - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<ul class="list-inline mb-0">
-			<!-- ELEMENT (1) WELCOME STATUS  - - - - - - - - - - - - - - -->
-  			<li class="list-inline-item mx-2"><p>BIENVENUE </p>			</li>
-			<!-- ELEMENT (2) MODULE 1 - - -  - - - - - - - - - - - - - - -->
-  			<li class="list-inline-item mx-2">
-				<a href="login">LOGIN</a>								</li>
-  				{% comment %} <a href="#module1">Module 1</a>							</li> {% endcomment %}
-			<!-- ELEMENT (3) MODULE 2 - - -  - - - - - - - - - - - - - - -->
-  			<li class="list-inline-item mx-2">
-  				<a href="#module2">Module 2</a>							</li>
-  		</ul>
-  	</div>
-{% endblock %}        <!-- Content for TopBar -->
 
-	<!--navbar was here before-->
+{% block HeroDiv %}
+	<div class="HeroDiv" id="HeroDiv" >
+	<div> Acceuil </div>
+	</div>
+{% endblock %}
 
-		{% block HeroDiv %}
-			<div class="HeroDiv" id="HeroDiv" >
-			</div> 
-		{% endblock %}
-
-		{% block login %}
-		<div class="HeroDiv" id="HeroDiv" >
-			<h1>Welcome Guest</h1>
-			<p><a href="{% url '42login' %}">Login</a></p>
-		</div> 
-	{% endblock %}
-	
+{% block module1 %}
+	<div class="module1" id="module1" >
+	<div> Module 1 </div>
+	</div>
 {% endblock %}
 

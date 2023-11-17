@@ -1,25 +1,27 @@
 /* HOME FOLDER Apply some basic styling to the TopBar */
 
-
 /* Style the navigation ba60vhr */
 #NavBar {
-    background-color: rgb(0, 119, 49); /* Change the background color to suit your design */
-    /* color: #0c0000; */
-    /* padding: 10px; */
-    /* display: flex; */
-    /* justify-content: space-between; */
-    /* width: 32%;
-    height: 60vh; */
-    /* float: left;
-    border: 2px solid #de1bd4; */
+
+    /* navbar background */
+    background-color: rgb(108, 114, 111);
+    /* navbar text color */
+    color: #fbff00;
+    
+    padding: 5px;
+    display: flex;
+    float: center;
+    border: 2px solid #de1bd4;
+
 }
 /* Style the navigation links */
 /* #NavBar ul {
-    list-style: none; */
-    /* padding: 0; */
-    /* display: flex; */
-    /* gap: 20px; */
-/* }
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
 #NavBar ul li {
   margin: 0;
   padding: 0;
@@ -27,31 +29,32 @@
 
 /* Style the HeroDiv */
 /* .HeroDiv {
-    /* background-color: #178ca8; */
-    /* color: #f0ffff;
+    background-color: #717e49;
+    color: #f0ffff;
+    height: 90vh;
+    float: center;
 } */
 
-#HeroDiv {
-    /* background-color: #6a585f; Change the background color to suit your design */
-    background-color: #178ca8;
-    color: #f0ffff;
-    /* position: inherit; */
-    /* padding: 120px; */
-    /* width: 66%;
-    height: 60vh;
-    float: right; */
-    /* border: 2px solid rgb(108, 114, 0); */
-    /* border: 2px solid #de1bd4; */
-
+.content1 {
+    display: block;
 }
 
-.heroDiv {
+.content2 {
     display: none;
 }
 
-.heroDiv.active {
-    display: block;
+
+#HeroDiv {
+    background-color: #c300ff;
+    height: 90vh;
 }
+
+
+#module1 {
+    background-color: #0019fd;
+    height: 90vh;
+}
+
 
 footer {
     background-color: #4cbe;
