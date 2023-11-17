@@ -38,21 +38,20 @@ def game_create_db_instance(request):
     return HttpResponse('Game created and pushed to database')
 
 def game_get_state(request):
-    game = Game.objects.get(id=2)
+    game = Game.objects.get(id=4)
     if game:
         return HttpResponse(str(game))
     else:
         return HttpResponse(f"No game found")
     
 def game_set_user_as_winner(request):
-    game = Game.objects.get(id=2)
+    game = Game.objects.get(id=4)
     if game:
         #request.user.winner_set.add(game)
         user = User.objects.get(id=request.user.id)
-        print(user.__dict__) 
         if not user:
             return HttpResponse(f"No user found")
-        print(game.__dict__) 
+        #print(game.__dict__)
         #user.game_winner_set.add(game)
         game.winner = user
         game.save()
@@ -65,7 +64,7 @@ def game_set_user_as_winner(request):
         return HttpResponse(f"No game found")
 
 def game_delete(request):
-    game = Game.objects.get(id=2)
+    game = Game.objects.get(id=4)
     if game:
         id = game.id
         game.delete()

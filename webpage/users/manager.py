@@ -13,7 +13,10 @@ class UserManager(BaseUserManager):
         #    raise ValueError('The Password field must be set')
         email = self.normalize_email(email)
         #user = self.model(username=username, email=email, **extra_fields)
-        user = self.model(email=email, **extra_fields)
+        print('wow') 
+        user = self.model(
+            email=email,
+            **extra_fields) 
 
         if password:
             validate_password(password, user=user)# *DO NOT CATCH EXECEPTION, LET FAIL.*. If password is invalid, raises ValidationError().
@@ -30,6 +33,7 @@ class UserManager(BaseUserManager):
         Creates and saves a superuser with the given email and password.
         """
         
+        extra_fields.setdefault("username", 'admin')
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)

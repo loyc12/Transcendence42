@@ -21,7 +21,7 @@ def user_create(request):
 
 def user_get_jimmy(request):
     print(request)
-    user = User.objects.get(username="Jimmy")
+    user = User.objects.get(username="Jimmy") 
 
     print("Got this user from database : ", user)
     return (HttpResponse(f"User successfully retrieved from database. user : {user}"))

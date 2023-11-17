@@ -1,6 +1,6 @@
+from datetime import datetime
 from django.db import models, IntegrityError, OperationalError
 from users.models import User
-from datetime import datetime
 
 
 # Create your models here.
@@ -17,17 +17,17 @@ class Game(models.Model):
     max_players =   models.IntegerField(default=2)
     created_at =    models.DateTimeField(auto_now_add=True)
     ended_at =      models.DateTimeField(null=True, blank=True, default=None)
-    host =          models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='game_host')
-    players =       models.ManyToManyField(User, through=Player)# should be ordered according to joined_at parameter of Player model.
+    host =          models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, related_name='game_host')
+    players =       models.ManyToManyField('users.User', through=Player)# should be ordered according to joined_at parameter of Player model.
 
     is_running =    models.BooleanField(default=False)
     is_over =       models.BooleanField(default=False)
     is_tournament = models.BooleanField(default=False)
     is_broken =     models.BooleanField(default=False)
 
-    winner =        models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='game_winner')
+    winner =        models.ForeignKey('users.User', null=True, blank=True, on_delete=models.SET_NULL, related_name='game_winner')
     #finale_scores = models.CharField(max_length=32)# scores in string, separated by ';' : "<player1>;<player2>;...;<playerN>"
-    finale_scores = models.JSONField(null=True, blank=True, max_length=100)
+    finale_scores = models.JSONField(max_length=150, default=dict)
 
 
     def __str__(self):

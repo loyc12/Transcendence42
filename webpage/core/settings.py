@@ -7,13 +7,30 @@ from dotenv import load_dotenv
 # Setting up environment variables from .env
 env = os.environ
 DJG_DEBUG = not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"])
+if DJG_DEBUG:
+    if os.path.exists('../.env'):
+        envpath = '../.env'
+    elif os.path.exists('./.env'):
+        envpath = '.env'
+    else:
+        raise FileExistsError('Missing .env file.')
+    with open(envpath, 'r') as envfile:
+        load_dotenv(stream=envfile)
+
+    #load_dotenv(stream=env_stream)
+    #env_stream = open('../.env', 'r')
+    #env_stream.close()
+
+print("DJG_WITH_DB in env ? ", 'DJG_WITH_DB' in env)
+if 'DJG_WITH_DB' in env:
+    print("env['DJG_WITH_DB']) : ", env["DJG_WITH_DB"])
 if ('DJG_WITH_DB' in env):
     print("DJG_WITH_DB str in env : ", env["DJG_WITH_DB"], "len : ", len(env["DJG_WITH_DB"]))
-if DJG_DEBUG:
-    env_stream = open('../.env', 'r')
-    load_dotenv(stream=env_stream)
-    env_stream.close()
+DJG_DEBUG = not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"])
+
+
 print("Environment acquired !")
+print("DJG_DEBUG : ", DJG_DEBUG)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,6 +152,8 @@ if not DJG_DEBUG:
     }
 else:
     DATABASES = {}
+
+print("DATABASE SETTINGS : ", DATABASES)
 
 
 AUTH_PASSWORD_VALIDATORS = [
