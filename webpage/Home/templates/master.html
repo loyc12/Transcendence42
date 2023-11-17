@@ -15,16 +15,39 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
+
 <body>
 
-    {% block navbar %}
-    
-    {% endblock %}
- 
-    {% block content %}
-    
-    {% endblock %}  
-    
-        <!-- <script src="{% static 'js/script.js' %}" ></script> -->
+{% block navbar %}    {% endblock %}
+
+{% block content %}
+
+   
+        <img src="{% static 'img/logo2.png' %}" alt="image1" id="myImage">
+        <br>
+        <a href="#" id="changeImageLink">Change Image</a>
+
+
+{% endblock %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the elements
+        var changeImageLink = document.getElementById('changeImageLink');
+        var myImage = document.getElementById('myImage');
+
+        // Add click event listener to the link
+        changeImageLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+
+            // Change the image source
+            if (myImage.src.endsWith('logo.png')) {
+                myImage.src = "{% static 'img/logo2.png' %}";
+            } else {
+                myImage.src = "{% static 'img/logo.png' %}";
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

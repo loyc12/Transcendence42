@@ -10,5 +10,7 @@ urlpatterns = [
     #
     path('Logo/', logo_view, name='logo' ),
     #
-    path('UserSelect/', selector_view, name='selector' )
+    # path('UserSelect/', selector_view, name='selector' ),
+
+    path('Shell/', selector_view, name='shell' )
 ]

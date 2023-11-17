@@ -69,16 +69,20 @@
     border: 2px solid #de1bd4;
 }
 
+.heroDiv {
+    display: none;
+}
+
 .heroDiv.active {
     display: block;
 }
 
-/* #HeroDiv img {
+.heroDiv.img {
     width: auto; 
     height: auto;
     display: block;
     margin: 0 auto; 
-} */
+}
 /* width: 66%; */
 
 
