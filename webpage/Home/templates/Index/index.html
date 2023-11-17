@@ -4,12 +4,12 @@
     <title>Auth0 Example</title>
   </head>
   <body>
-    {% if request.session.user_id %}
+    {% comment %} {% if request.session.user_id %}
     <h1>Welcome {{session.userinfo.name}}!</h1>
     <div><pre>{{pretty}}</pre></div>
-    {% else %}
+    {% else %} {% endcomment %}
     <h1>Welcome Guest</h1>
     <p><a href="{% url '42login' %}">Login</a></p>
-    {% endif %}
+    {% comment %} {% endif %} {% endcomment %}
   </body>
 </html>

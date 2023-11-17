@@ -43,30 +43,30 @@
             </div>
             <!-- ROW - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->            
             <div class="row">
-                {% comment %} <div class="HeroDiv">
+                <div class="HeroDiv">
                     <!-- <p>HeroDiv</p> -->
                     {% block HeroDiv %}{% endblock %}
-                </div> {% endcomment %}
+                    {% block login %}{% endblock %}
+                </div>
             </div>
         </div> 
             
         <!-- </div>     -->
-        {% comment %} <script>        
+        <script>        
             document.addEventListener('DOMContentLoaded', function () {
-                var module1Content = '<div>Content for Module 1</div>';
-                var module2Content = '<div>Content for Module 2</div>';
+                //var module2Content = '<div>Content for Module 2</div>';
                 var HeroDiv = document.querySelector('.HeroDiv');
             
                 // Add click event listeners to NavBar links
-                document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function () {
-                    HeroDiv.innerHTML = module1Content;
+                document.querySelector('.NavBar href="login"]').addEventListener('click', function () {
+                    HeroDiv.innerHTML = loginContent;
                 });
             
-                document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
-                    HeroDiv.innerHTML = module2Content;
-                });
+                //document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
+                //    HeroDiv.innerHTML = module2Content;
+                //});
             });
-        </script> {% endcomment %}
+        </script>
         <!-- <script src="{% static 'js/script.js' %}" defer></script> -->
     </body>
 

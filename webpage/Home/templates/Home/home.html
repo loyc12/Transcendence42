@@ -12,23 +12,28 @@
   			<li class="list-inline-item mx-2"><p>BIENVENUE </p>			</li>
 			<!-- ELEMENT (2) MODULE 1 - - -  - - - - - - - - - - - - - - -->
   			<li class="list-inline-item mx-2">
-  				<a href="#module1">Module 1</a>							</li>
+				<a href="login">LOGIN</a>								</li>
+  				{% comment %} <a href="#module1">Module 1</a>							</li> {% endcomment %}
 			<!-- ELEMENT (3) MODULE 2 - - -  - - - - - - - - - - - - - - -->
   			<li class="list-inline-item mx-2">
   				<a href="#module2">Module 2</a>							</li>
   		</ul>
   	</div>
-	{% endblock %}        <!-- Content for TopBar -->
+{% endblock %}        <!-- Content for TopBar -->
 
 	<!--navbar was here before-->
 
 		{% block HeroDiv %}
-			{% comment %} <div class="HeroDiv" id="HeroDiv" >
-				<p>HeroDiv</p>
-				<!-- Content for HeroDiv -->
-				<div>Initial Content</div>
-			</div> {% endcomment %}
+			<div class="HeroDiv" id="HeroDiv" >
+			</div> 
 		{% endblock %}
+
+		{% block login %}
+		<div class="HeroDiv" id="HeroDiv" >
+			<h1>Welcome Guest</h1>
+			<p><a href="{% url '42login' %}">Login</a></p>
+		</div> 
+	{% endblock %}
 	
 {% endblock %}
 
