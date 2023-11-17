@@ -21,8 +21,8 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # installs all packages from Pipfile.lock
-#RUN pipenv sync
-RUN pipenv install --deploy --ignore-pipfile
+RUN pipenv sync
+#RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
