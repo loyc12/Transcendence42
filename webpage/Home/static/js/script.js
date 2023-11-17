@@ -1,10 +1,24 @@
-// vanilla-script.js
-console.log("Script loaded successfully!");
 
-
-
-let currentState = 'home';  // Initialize the current state to 'home'
+// let currentState = 'home';  // Initialize the current state to 'home'
 let initialChoice = null;    // Keep track of the initial choice
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Get the elements
+    var changeImageLink = document.getElementById('changeImageLink');
+    var myImage = document.getElementById('myImage');
+
+    // Add click event listener to the link
+    changeImageLink.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent the default behavior of the link
+
+        // Change the image source
+        if (myImage.src.endsWith('logo.png')) {
+            myImage.src = "{% static 'img/logo2.png' %}";
+        } else {
+            myImage.src = "{% static 'img/logo.png' %}";
+        }
+    });
+});
 
 function initState() {
     // Clear the current content of the navbar row
@@ -34,7 +48,6 @@ function initState() {
         navbarRow.appendChild(subOptionElement);
     });
 }
-
 
 function showSubMenu(selectedOption) {
         // Check if the selected option is to the left of the current state

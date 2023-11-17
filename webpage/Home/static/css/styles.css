@@ -1,29 +1,3 @@
-/* HOME FOLDER Apply some basic styling to the TopBar */
-
-
-/* Style the navigation ba60vhr */
-/* #NavBar {
-    background-color: #becfc5; /* Change the background color to suit your design */
-    /* color: #0c0000; */
-    /* padding: 10px; */
-    /* display: flex; */
-    /* justify-content: space-between; */
-    /* width: 32%;
-    height: 60vh; */
-    /* float: left;
-    border: 2px solid #de1bd4; */
-/* } */
-/* Style the navigation links */
-/* #NavBar ul {
-    list-style: none; */
-    /* padding: 0; */
-    /* display: flex; */
-    /* gap: 20px; */
-/* }
-#NavBar ul li {
-    margin: 0;
-    padding: 0;
-} */ 
 
 .navbar {
     display: flex;
@@ -44,18 +18,7 @@
 
 
 /* Style the HeroDiv */
-#HeroDiv {
-    background-color: #6a585f; /* Change the background color to suit your design */
-    color: #0c0000;
-    position: inherit;
-    /* padding: 120px; */
-    width: 66%;
-    height: 60vh;
-    float: right;
-    /* border: 2px solid rgb(108, 114, 0); */
-    border: 2px solid #76de1b;
 
-}
 
 .heroDiv {
     background-color: #6a585f; /* Change the background color to suit your design */
@@ -78,8 +41,8 @@
 }
 
 .heroDiv.img {
-    width: auto; 
-    height: auto;
+    width: 20%; 
+    height: 20%;
     display: block;
     margin: 0 auto; 
 }
