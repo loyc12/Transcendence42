@@ -8,4 +8,6 @@ done
 echo 'SUCCESSFULLY CONNECTED TO POSTGRES FROM DJANGO !!' >> db_conn.log
 
 curl -X GET -fsSL -m 1 'https://ident.me' > 'public.ip'
+
+pipenv run python3 manage.py migrate
 exec $@

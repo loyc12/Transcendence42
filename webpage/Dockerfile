@@ -16,6 +16,10 @@ COPY Pipfile.lock .
 
 RUN pip3 install pipenv
 
+# AUTH0
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
 # installs all packages from Pipfile.lock
 #RUN pipenv sync
 RUN pipenv install --deploy --ignore-pipfile
@@ -25,13 +29,11 @@ COPY . .
 # run server in virtual environment with
 #RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
-RUN chmod +x /app/get_public_ip.sh
+
+#Migrate the database
+#RUN python manage.py migrate
 
 EXPOSE 3000
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
-#CMD ["pipenv", "run", "python", "hello.py"]
-CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000" ]
-#ENTRYPOINT [ "./tools/entrypoint.sh" ]
-
-#CMD [ "yarn", "run", "start:dev" ]
+CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000"]

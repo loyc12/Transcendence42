@@ -12,6 +12,7 @@ python-dotenv = "*"
 django-extensions = "*"
 werkzeug = "*"
 pyopenssl = "*"
+requests = "*"
 
 [dev-packages]
 
