@@ -3,29 +3,31 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-       {% comment %} <meta charset="UTF-8">
+        <!-- Browser Setup - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+       <meta charset="UTF-8">
        <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>Your Single Page Website</title> {% endcomment %}
-       
-       <!-- root static (root from webpage)     -->
-       <!-- <link rel="stylesheet" type="text/css" href="{% static 'static/css/styles.css' %}"> -->
-       
-       
-       {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> {% endcomment %}
-       <!-- font -->
-       {% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
-       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-       <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet"> {% endcomment %}
-       
-       <!-- folder static css and js (from Home) -->
-       {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> {% endcomment %}
-       
-       <!-- <script src="{% static 'js/script.js' %}" defer></script> -->
-           
-       {% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script> {% endcomment %}
-    
-       <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+        <!-- Onglet Tabulation - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+       <title>Your Single Page Website</title>
+        <!-- Stylesheet Dependency - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        {% comment %}<!-- Static VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <link rel="stylesheet" type="text/css" href="{% static 'static/css/styles.css' %}"> {% endcomment %}
+        <!-- - - - - - -  Bootstrap VER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <!-- - - - - - -  Fonts - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -->
+        <link rel="preconnect"  href="https://fonts.googleapis.com">
+        <link rel="preconnect"  href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet"  href="https://fonts.googleapis.com/css2?family=Nunito&display=swap">
+        <!-- Folder Dependency CSS // JS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        {% comment %}<!-- Static VER(Home) - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+        <!-- - - - - - -  Related Script (static version) - - - - - - - - - - - - - - - - - - - - - - -  - - -->       
+            <script src="{% static 'js/script.js' %}" defer></script>                            {% endcomment %}
+        <!-- - - - - - -  CSS Stylesheet  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - -->
+        {% comment %}<!-- Static VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->                     {% endcomment %}
+        <!-- - - - - - -  Bootstrap VER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"defer></script>
     </head>
 
 <body>
