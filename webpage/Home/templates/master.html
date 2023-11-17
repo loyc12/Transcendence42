@@ -30,45 +30,45 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"defer></script>
     </head>
 
-<body>
-    {% comment %} <!-- <div class="container"> -->
-    <div class="container">
-        <div class="row">
-            <!--used to be topbar here-->
-            <div class="NavBar"> 
-                <!-- <p>TopBar</p> -->
-                {% block navbar %}{% endblock %}
+    <body>
+        <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <div class="container">
+            <!-- ROW - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <!-- NAVBAR - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - -->
+                {% comment %} EVENTHANDLING HERE !                                              {% endcomment %}
+                <div class="NavBar"> 
+                    {% block templates_Home_home_navbar %}{% endblock %}
+                </div>
             </div>
-        </div>
-        
-        <!--navbar was here before-->
-        <div class="row">
-            <div class="HeroDiv">
-                <!-- <p>HeroDiv</p> -->
-                {% block HeroDiv %}{% endblock %}
+            <!-- ROW - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->            
+            <div class="row">
+                {% comment %} <div class="HeroDiv">
+                    <!-- <p>HeroDiv</p> -->
+                    {% block HeroDiv %}{% endblock %}
+                </div> {% endcomment %}
             </div>
-        </div>
-    </div> {% endcomment %}
-        
-    <!-- </div>     -->
-    {% comment %} <script>        
-        document.addEventListener('DOMContentLoaded', function () {
-            var module1Content = '<div>Content for Module 1</div>';
-            var module2Content = '<div>Content for Module 2</div>';
-            var HeroDiv = document.querySelector('.HeroDiv');
-        
-            // Add click event listeners to NavBar links
-            document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function () {
-                HeroDiv.innerHTML = module1Content;
+        </div> 
+            
+        <!-- </div>     -->
+        {% comment %} <script>        
+            document.addEventListener('DOMContentLoaded', function () {
+                var module1Content = '<div>Content for Module 1</div>';
+                var module2Content = '<div>Content for Module 2</div>';
+                var HeroDiv = document.querySelector('.HeroDiv');
+            
+                // Add click event listeners to NavBar links
+                document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function () {
+                    HeroDiv.innerHTML = module1Content;
+                });
+            
+                document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
+                    HeroDiv.innerHTML = module2Content;
+                });
             });
-        
-            document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function () {
-                HeroDiv.innerHTML = module2Content;
-            });
-        });
-    </script> {% endcomment %}
-    <!-- <script src="{% static 'js/script.js' %}" defer></script> -->
-</body>
+        </script> {% endcomment %}
+        <!-- <script src="{% static 'js/script.js' %}" defer></script> -->
+    </body>
 
 <footer class="border-top">
     {% comment %} <div class="container">

@@ -1,22 +1,24 @@
-<!-- home.html -->
+<!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
-
-	{% block content %}
-	{% block title %}{% endblock %} <!-- Title for the page -->
-		{% block navbar %}	
-			{% comment %} <div class="NavBar" id="NavBar">	
-				 
-				 <ul class="list-inline mb-0">
-					<li class="list-inline-item mx-2"><p>BIENVENUE </p></li>
-					<li class="list-inline-item mx-2">
-						<a href="#module1">Module 1</a>
-					</li>
-					<li class="list-inline-item mx-2">
-						<a href="#module2">Module 2</a>
-					</li>
-				 </ul>
-			</div> {% endcomment %}
-		{% endblock %}        <!-- Content for TopBar -->
+{% block content %}
+	<!-- TITLE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	{% comment %} {% block title %}{% endblock %} 			{% endcomment %}
+	<!-- NAVBAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	{% block templates_Home_home_navbar %}	
+  	<div class="NavBar" id="NavBar">
+		<!-- ITEMS  - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<ul class="list-inline mb-0">
+			<!-- ELEMENT (1) WELCOME STATUS  - - - - - - - - - - - - - - -->
+  			<li class="list-inline-item mx-2"><p>BIENVENUE </p>			</li>
+			<!-- ELEMENT (2) MODULE 1 - - -  - - - - - - - - - - - - - - -->
+  			<li class="list-inline-item mx-2">
+  				<a href="#module1">Module 1</a>							</li>
+			<!-- ELEMENT (3) MODULE 2 - - -  - - - - - - - - - - - - - - -->
+  			<li class="list-inline-item mx-2">
+  				<a href="#module2">Module 2</a>							</li>
+  		</ul>
+  	</div>
+	{% endblock %}        <!-- Content for TopBar -->
 
 	<!--navbar was here before-->
 
@@ -28,5 +30,5 @@
 			</div> {% endcomment %}
 		{% endblock %}
 	
-	{% endblock %}
+{% endblock %}
 
