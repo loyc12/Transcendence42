@@ -37,10 +37,6 @@ def logo_view(request):
     return render(request, 'logo.html')
 
 
-def selector_view(request):
-    """ This function is used to render the home page."""
-    return render(request, 'userSelect.html')
-
 def hero_view(request):
     """ This function is used to render the home page."""
     return render(request, 'shell.html')

@@ -53,12 +53,20 @@
     height: 60vh;
     float: right;
     /* border: 2px solid rgb(108, 114, 0); */
-    border: 2px solid #de1bd4;
+    border: 2px solid #76de1b;
 
 }
 
 .heroDiv {
-    display: none;
+    background-color: #6a585f; /* Change the background color to suit your design */
+    color: #0c0000;
+    /* position: inherit; */
+    /* padding: 120px; */
+    width: 66%;
+    height: 60vh;
+    float: left;
+    /* border: 2px solid rgb(108, 114, 0); */
+    border: 2px solid #de1bd4;
 }
 
 .heroDiv.active {
