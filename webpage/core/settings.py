@@ -1,8 +1,6 @@
 from pathlib import Path
 import os
-import subprocess
 
-#from io import StringIO
 from dotenv import load_dotenv
 
 
@@ -11,28 +9,14 @@ env = os.environ
 DJG_DEBUG = not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"])
 if ('DJG_WITH_DB' in env):
     print("DJG_WITH_DB str in env : ", env["DJG_WITH_DB"], "len : ", len(env["DJG_WITH_DB"]))
-if DJG_DEBUG:#not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
+if DJG_DEBUG:
     env_stream = open('../.env', 'r')
     load_dotenv(stream=env_stream)
     env_stream.close()
 print("Environment acquired !")
 
-# Find public IP for OAuth2 redirect_uri
-if not os.path.exists('public.ip'):
-    subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
-
-with open('public.ip', 'r') as file:
-    external_ip = file.read()
-
-print("external IP acquired : ", external_ip)
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env["APP42_OAUTH_REDIRECT"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/receive_code"
-env["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/confirm"
-print("APP42_OAUTH_REDIRECT : ", env["APP42_OAUTH_REDIRECT"])
-print("APP42_OAUTH_CONFIRM : ", env["APP42_OAUTH_CONFIRM"])
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env["DJANGO_SECRET_KEY"]
@@ -62,7 +46,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = "users.User"
 MIDDLEWARE = []
 
-if not DJG_DEBUG:#('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
+if not DJG_DEBUG:
     print("RUNNING IN ACTIVE DATABASE MODE !")
     INSTALLED_APPS += [
         "oauth2_provider"
@@ -138,7 +122,7 @@ ASGI_APPLICATION = "core.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if not DJG_DEBUG:#"DJG_WITH_DB" in env and env["DJG_WITH_DB"]:
+if not DJG_DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -194,20 +178,32 @@ STATICFILES_FINDERS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Channels layers
-CHANNEL_LAYERS = {
+### SESSIONS SETTINGS
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+
+### REDIS CACHE SETTINGS
+redis_cache_url = f"redis://:{env['REDIS_PW']}@{env['REDIS_HOST']}:6379/1"
+CACHES = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": redis_cache_url,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
-#CHANNEL_LAYERS = {
-#    'default': {
-#        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#        'CONFIG': {
-#            "hosts": [('127.0.0.1', 6379), (external_ip, 3000)], # default redis port is 6379
-#        },
-#    },
-#}
+
+### REDIS CHANNEL LAYER SETTINGS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(redis_cache_url, )],
+        },
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

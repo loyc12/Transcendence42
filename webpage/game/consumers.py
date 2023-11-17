@@ -1,12 +1,13 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.exceptions import StopConsumer
 import asyncio
 import json
 import time
 
 class GameConsumer(AsyncWebsocketConsumer):
     
-    public_games = dict()
-    tournament_games = dict()# structured tournament_games[<tournament_name>][<game_id>]
+    #public_games = dict()
+    #tournament_games = dict()# structured tournament_games[<tournament_name>][<game_id>]
 
     #async def validate_user_can_connect_to_game(self, user):
     #    '''
@@ -86,6 +87,8 @@ class GameConsumer(AsyncWebsocketConsumer):
             self.game_group_name,
             self.channel_name
         )
+        raise StopConsumer
+
 
     async def receive(self, text_data):
         event_payload = json.loads(text_data)
@@ -100,5 +103,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         #    self.room_group_name, {"type": "chat.message", "message": message}
         #)
         #if event_type == 'test':
-        await self.send(text_data=json.dumps({'msg': 'async message received. wow.'}))
+
+        ### Currently just a ping response
+        await self.send(text_data=json.dumps({'msg': 'async message received. wow.', 'event_type': event_type, 'details': details}))
         

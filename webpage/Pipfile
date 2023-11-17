@@ -17,6 +17,7 @@ django-cors-headers = "*"
 django-channels = "*"
 channels = "*"
 daphne = "*"
+django-redis = "*"
 
 [dev-packages]
 
