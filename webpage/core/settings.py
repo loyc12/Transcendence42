@@ -23,6 +23,39 @@ SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+
+# Application definition
+
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django_extensions",
+    #"oauth2_provider",
+    #"bootstrap5",
+    "Home",
+    "Display",
+    #"oauth",
+    "users"
+]
+
+#AUTH_USER_MODEL = "users.User"
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+]
+
+ROOT_URLCONF = "core.urls"
+
 # HTTPS config/protection
 SECURE_HSTS_SECONDS = 3600 #31536000  # 1 year HSTS (recommended)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -173,8 +206,13 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
+# static file directory
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# static file directory
+STATICFILES_DIRS = [
+    BASE_DIR, "Home/static",
+    BASE_DIR, "/static",
+    ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 # Static files (CSS, JavaScript, Images)
