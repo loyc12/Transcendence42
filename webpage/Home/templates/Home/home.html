@@ -4,7 +4,7 @@
 	{% block content %}
 	{% block title %}{% endblock %} <!-- Title for the page -->
 		{% block navbar %}	
-			<div class="NavBar" id="NavBar">	
+			{% comment %} <div class="NavBar" id="NavBar">	
 				 
 				 <ul class="list-inline mb-0">
 					<li class="list-inline-item mx-2"><p>BIENVENUE </p></li>
@@ -15,17 +15,18 @@
 						<a href="#module2">Module 2</a>
 					</li>
 				 </ul>
-			</div>
+			</div> {% endcomment %}
 		{% endblock %}        <!-- Content for TopBar -->
 
 	<!--navbar was here before-->
 
 		{% block HeroDiv %}
-			<div class="HeroDiv" id="HeroDiv" >
+			{% comment %} <div class="HeroDiv" id="HeroDiv" >
 				<p>HeroDiv</p>
 				<!-- Content for HeroDiv -->
 				<div>Initial Content</div>
-			</div>
+			</div> {% endcomment %}
 		{% endblock %}
 	
 	{% endblock %}
+

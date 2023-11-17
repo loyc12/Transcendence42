@@ -209,8 +209,7 @@ STATICFILES_FINDERS = [
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # static file directory
 STATICFILES_DIRS = [
-    BASE_DIR, "Home/static",
-    BASE_DIR, "/static",
+    BASE_DIR, "Home/static"
     ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
