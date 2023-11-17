@@ -21,17 +21,12 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 # installs all packages from Pipfile.lock
-#RUN pipenv sync
-RUN pipenv install --deploy --ignore-pipfile
+RUN pipenv sync
+#RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
-# run server in virtual environment with
-#RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
-
-#Migrate the database
-#RUN python manage.py migrate
 
 EXPOSE 3000
 
