@@ -7,7 +7,8 @@ RUN apk add --no-cache --virtual .build-deps \
     ca-certificates gcc \
     postgresql-dev postgresql-client \
     linux-headers musl-dev \
-    libffi-dev jpeg-dev zlib-dev
+    libffi-dev jpeg-dev zlib-dev \
+    g++
 
 WORKDIR /app
 
@@ -17,12 +18,12 @@ COPY Pipfile.lock .
 RUN pip install --upgrade pip
 RUN pip3 install pipenv
 
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
+#COPY requirements.txt .
+#RUN pip3 install -r requirements.txt
 
 # installs all packages from Pipfile.lock
-#RUN pipenv sync
-#RUN pipenv install --deploy --ignore-pipfile
+RUN pipenv sync
+RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
