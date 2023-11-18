@@ -1,25 +1,49 @@
+// document.addEventListener('DOMContentLoaded', function () {
+//     // Get the elements
+//     var changeImageLink = document.getElementById('changeImageLink');
+//     var myImage = document.getElementById('myImage');
+    
+//     // Add click event listener to the link
+//     changeImageLink.addEventListener('click', function (event) {
+//         event.preventDefault(); // Prevent the default behavior of the link
 
-// let currentState = 'home';  // Initialize the current state to 'home'
-let initialChoice = null;    // Keep track of the initial choice
-
+//         // Change the image source
+//         if (myImage.src.endsWith('logo.png')) {
+//             myImage.src = "{% static 'img/logo2.png' %}";
+//         } else {
+//             myImage.src = "{% static 'img/logo.png' %}";
+//         }
+//     });
+// });
 document.addEventListener('DOMContentLoaded', function () {
-    // Get the elements
-    var changeImageLink = document.getElementById('changeImageLink');
-    var myImage = document.getElementById('myImage');
+    var moduleContainer = document.getElementById('moduleContainer');
+    var loadModule1 = document.getElementById('loadModule1');
+    var loadModule2 = document.getElementById('loadModule2');
 
-    // Add click event listener to the link
-    changeImageLink.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent the default behavior of the link
+    // Function to load HTML module
+    function loadModule(modulePath) {
+        fetch(modulePath)
+            .then(response => response.text())
+            .then(data => {
+                moduleContainer.innerHTML = data;
+            })
+            .catch(error => console.error('Error loading module:', error));
+    }
 
-        // Change the image source
-        if (myImage.src.endsWith('logo.png')) {
-            myImage.src = "{% static 'img/logo2.png' %}";
-        } else {
-            myImage.src = "{% static 'img/logo.png' %}";
-        }
+    // Add click event listeners to the links
+    loadModule1.addEventListener('click', function (event) {
+        event.preventDefault();
+        loadModule('templates/Logo/logo.html');
+    });
+
+    loadModule2.addEventListener('click', function (event) {
+        event.preventDefault();
+        loadModule('templates/Logo/logo2.html');
     });
 });
 
+let currentState = 'home';  // Initialize the current state to 'home'
+let initialChoice = null;    // Keep track of the initial choice
 function initState() {
     // Clear the current content of the navbar row
     const navbarRow = document.getElementById('navbarRow');
@@ -134,7 +158,6 @@ function renderInitNavbar() {
         navbarRow.appendChild(OptionElement);
     });
 }
-
 
 function generateSubOptions(selectedOption) {
     // You can customize this function to generate sub-options based on the selected option

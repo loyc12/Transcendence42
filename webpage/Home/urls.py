@@ -9,6 +9,9 @@ urlpatterns = [
     path('Login/', login_view, name='login'),
     #
     path('Logo/', logo_view, name='logo' ),
+
+
+    path('Logo/', logo2_view, name='logo2' ),
     #
     path('UserSelect/', selector_view, name='selector' ),
 
