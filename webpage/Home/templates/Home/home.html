@@ -9,14 +9,7 @@
 
 {% block module2 %}
 	<div class="module2" id="module2" >
-    {% if request.session.user_id %}
-    		<h1>Welcome {{session.userinfo.name}}!</h1>
-    		<div><pre>{{pretty}}</pre></div>
-    	{% else %}
-    		<h1>Welcome Guest</h1>
-    		<p><a href="{% url '42login' %}">Login</a></p>
-    	{% endif %}
-		<h1>Login </h1>
+		<h1>Login pas touche</h1>
 	</div>
 {% endblock %}
 
