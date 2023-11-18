@@ -3,14 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from core.settings import ENV_FILE
 from django.shortcuts import render
 
-#http://127.0.0.1:3000/index/
-# Warning : This URL is extra-step,
-def login_view(request):
-    return render(request, 'Index/index.html')
-
-#http://127.0.0.1:3000/login
-# Warning : Going to this URL will trigger the oauth2 process
-
 #  Create a url will return the access autorisation_code
 def api_view(request):
     api_url =   ENV_FILE['HTTP_PROTOCOL'] + \

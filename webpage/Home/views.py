@@ -5,7 +5,6 @@ from django.shortcuts import render
 from users.views import import_data
 from login.views import get_access_token, get_api_data
 
-
 #http://127.0.0.1:3000/
 def home_view(request):
     authorization_code = request.GET.get('code', None)
@@ -17,5 +16,5 @@ def home_view(request):
         url = get_api_data()
         user_data = requests.get(url, headers=headers)
         import_data(user_data, request)
-        return render(request, 'Index/index.html')
+        return render(request, 'Home/home.html')
     return render(request, 'Home/home.html')
