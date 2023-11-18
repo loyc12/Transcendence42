@@ -22,41 +22,12 @@ let select_hero_content = function (id) {
         contentElem.style.display = 'block';
 }
 
-let buttonLogin = document.getElementById('buttonLogin');
-let buttonLogin2 = document.getElementById('buttonLogin2');
-let buttonLogin3 = document.getElementById('buttonLogin3');
+let buttonModule1 = document.getElementById('buttonModule1');
+let buttonModule2 = document.getElementById('buttonModule2');
+let buttonModule3 = document.getElementById('buttonModule3');
 
-buttonLogin.addEventListener('click', function () {select_hero_content(0);})
-buttonLogin2.addEventListener('click', function () {select_hero_content(1);})
-buttonLogin3.addEventListener('click', function () {select_hero_content(2);})
+buttonModule1.addEventListener('click', function () {select_hero_content(0);})
+buttonModule2.addEventListener('click', function () {select_hero_content(1);})
+buttonModule3.addEventListener('click', function () {select_hero_content(2);})
 
 select_hero_content(0)
-/*
-document.addEventListener('DOMContentLoaded', function () {
-    showModule('module1'); // Show the initial module
-
-    document.querySelector('.NavBar a[href="#module1"]').addEventListener('click', function (event) {
-        event.preventDefault();
-        showModule('module1');
-    });
-
-    document.querySelector('.NavBar a[href="#module2"]').addEventListener('click', function (event) {
-        event.preventDefault();
-        showModule('module2');
-    });
-
-});
-
-function showModule(moduleId) {
-    // Hide all modules
-    var modules = document.querySelectorAll('.HeroDiv');
-    modules.forEach(function (module) {
-        module.classList.remove('active');
-        history.replaceState({}, document.title, window.location.pathname);
-    });
-
-    // Show the selected module
-    document.getElementById(moduleId).classList.add('active');
-}
-
-*/
