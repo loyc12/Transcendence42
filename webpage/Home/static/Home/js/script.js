@@ -30,6 +30,7 @@ buttonLogin.addEventListener('click', function () {select_hero_content(0);})
 buttonLogin2.addEventListener('click', function () {select_hero_content(1);})
 buttonLogin3.addEventListener('click', function () {select_hero_content(2);})
 
+select_hero_content(0)
 /*
 document.addEventListener('DOMContentLoaded', function () {
     showModule('module1'); // Show the initial module
