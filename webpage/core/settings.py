@@ -14,9 +14,9 @@ from dotenv import load_dotenv
 #}
 
 #SESSION_AV
-#from importlib import import_module
-#from django.conf import settings
-#SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
+from importlib import import_module
+from django.conf import settings
+SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 # ENVIRONNEMENT VAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 ENV_FILE        = os.environ
@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     
     "Home",
     "login",
-    "users"
+    "users",
     "channels",
     "game"
 ]
@@ -224,7 +224,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_CACHE_URL, )],
+            "hosts": [],
         },
     },
 }

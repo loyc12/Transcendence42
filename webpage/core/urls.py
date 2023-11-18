@@ -4,7 +4,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from core.settings import DJG_DEBUG
+#from core.settings import DJG_DEBUG
 #from . import views
 
 urlpatterns = [

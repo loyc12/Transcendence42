@@ -1,33 +1,12 @@
 from django.contrib.auth.models import BaseUserManager
 
 #class UserManager(UserManager):#(BaseUserManager):
-'''class UserManager(BaseUserManager):
+class UserManager(BaseUserManager):
 # Class object containing the methods to: create a user,
     def create_user(self, login, display_name, **extra_fields):
         user = self.model(login=login, display_name=display_name, **extra_fields)
-
-    def create_user(self, email, password, **extra_fields):
-        #if not username:
-        #    raise ValueError('The username field must be set')
-        if not email:
-            raise ValueError('The Email field must be set')
-        #if not password:
-        #    raise ValueError('The Password field must be set')
-        email = self.normalize_email(email)
-        #user = self.model(username=username, email=email, **extra_fields)
-        print('wow') 
-        user = self.model(
-            email=email,
-            **extra_fields) 
-
-        if password:
-            validate_password(password, user=user)# *DO NOT CATCH EXECEPTION, LET FAIL.*. If password is invalid, raises ValidationError().
-            user.set_password(password)
-        else:
-            user.set_password('')
-
         user.save()
-        return user'''
+        return user
     
 '''    def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault("username", 'admin')

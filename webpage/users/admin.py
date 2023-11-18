@@ -1,7 +1,8 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .forms import UserCreationForm, UserChangeForm
 from .models import User
+
+from django.contrib.auth.admin import User
+#from .forms import UserCreationForm, UserChangeForm
 
 # Add User item to admin panel
 admin.site.register(User)

@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 django-environ = "*"
-django = {extras = ["argon2"], version = "*"}
+django = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"

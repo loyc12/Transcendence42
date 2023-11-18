@@ -8,7 +8,7 @@ RUN apk add --no-cache --virtual .build-deps \
     postgresql-dev postgresql-client \
     linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev \
-    g++
+    g++\
     redis
 
 WORKDIR /app

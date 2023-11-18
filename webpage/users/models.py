@@ -3,7 +3,7 @@ from django.db import models, OperationalError, IntegrityError
 #from django.utils import timezone
 from .manager import UserManager
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     # Fields of table users_user
     login           = models.CharField    (max_length=32, unique=True)
     display_name    = models.CharField    (max_length=60, unique=False)
@@ -12,7 +12,9 @@ class User(AbstractBaseUser):
     updated_at      = models.DateTimeField(auto_now=True)
     is_active       = models.BooleanField (default=False)
     socket_id       = models.CharField    (max_length=120, unique=False)
-    
+    #running_game =  models.CharField(max_length=32, default='')
+    #running_game =  models.CharField(max_length=32, default='')
+    #current_game =  models.ForeignKey('game.Game', on_delete=models.SET_NULL, null=True, default=None)
     # Variable that contain the name of the field used to identify the user
     USERNAME_FIELD = "login"
     
@@ -48,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return f"User: {self.username}, email: {self.email}, created_at: {self.created_at}, updated_at: {self.updated_at}, hash: {self.password}"
 '''
+
 
 @property
 def current_game(self):
