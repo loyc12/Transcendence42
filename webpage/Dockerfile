@@ -9,6 +9,7 @@ RUN apk add --no-cache --virtual .build-deps \
     linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev \
     g++
+    redis
 
 WORKDIR /app
 
@@ -28,6 +29,7 @@ RUN pipenv install --deploy --ignore-pipfile
 COPY . .
 
 RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/djg_connect_to_postgres.sh
 
 EXPOSE 3000
 

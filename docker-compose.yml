@@ -20,6 +20,9 @@ services:
     networks:
       trans_net:
         ipv4_address: 192.130.0.3
+    volumes:
+      - django_game_vol:/app/game
+      - django_home_vol:/app/Home
 
 
   postgres:
@@ -38,13 +41,27 @@ services:
       trans_net:
         ipv4_address: 192.130.0.2
 
+  redis:
+    container_name: "redis_cache"
+    build:
+      context: ./redis
+      dockerfile: ./Dockerfile
+    restart:  always
+    env_file:
+      - .env
+    #volumes:
+    #  - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      trans_net:
+        ipv4_address: 192.130.0.4
+
 networks:
   trans_net:
     name: trans_net
     driver: bridge
     ipam:
       config:
-        - subnet: 192.130.0.0/16
+        - subnet: 192.130.0.0/24
           gateway: 192.130.0.1
 
 volumes:
@@ -54,3 +71,15 @@ volumes:
       o: bind
       type: none
       device: ./postgres/volume/data
+  django_game_vol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./webpage/game
+  django_home_vol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./webpage/Home

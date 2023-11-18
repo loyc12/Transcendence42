@@ -1,37 +1,68 @@
 from pathlib import Path
 import os
-import subprocess
 from dotenv import load_dotenv
 
+# OpenID OAuth2 config
+#LOGIN_URL='/admin/login/'
+
+#OAUTH2_PROVIDER = {
+#    "OIDC_ENABLED": True,
+#    "OIDC_RSA_PRIVATE_KEY": ENV_FILE["OIDC_RSA_PRIVATE_KEY"],
+#    "SCOPES": {
+#        "openid": "OpenID Connect scope",
+#    },
+#}
+
 #SESSION_AV
-from importlib import import_module
-from django.conf import settings
-SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
+#from importlib import import_module
+#from django.conf import settings
+#SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 # ENVIRONNEMENT VAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-# Setting up environment variables from .env
-ENV_FILE = os.environ
+ENV_FILE        = os.environ
 
-# Load environment variables from .env file
-if not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"]):
-    envStream = open('../.env', 'r')
-    load_dotenv(stream=envStream)
-    envStream.close()
+# DJANGO_DEBUG MODE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+DJANGO_DEBUG    = not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"])
+# WITH NO INSTRUCTIONS IN ENV_FILE - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - |
+if DJANGO_DEBUG:
+    if os.path.exists('../.env'):
+        envpath = '../.env'
+    elif os.path.exists('./.env'):
+        envpath = '.env'
+    else:
+        raise FileExistsError('Missing .env file.')
+    with open(envpath, 'r') as envfile:
+        load_dotenv(stream=envfile)
+#load_dotenv(stream=env_stream)
+#env_stream = open('../.env', 'r')
+#env_stream.close()
+
+# WITH INSTRUCTIONS IN ENV_FILE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+print("DJG_WITH_DB in env ? ", 'DJG_WITH_DB' in ENV_FILE)
+if 'DJG_WITH_DB' in ENV_FILE:
+    print("env['DJG_WITH_DB']) : ", ENV_FILE["DJG_WITH_DB"])
+if ('DJG_WITH_DB' in ENV_FILE):
+    print("DJG_WITH_DB str in env : ", ENV_FILE["DJG_WITH_DB"],\
+    "len : ", len(ENV_FILE["DJG_WITH_DB"]))
+
+# DJANGO_DEBUG = not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"])
 print("Environment acquired !")
+print("DJANGO_DEBUG : ", DJANGO_DEBUG)
 
+# SECURITY WARNING  - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
+#: keep the secret key used in production secret!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-
-# Application definition
-
+# APPS - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "daphne",
     "django.contrib.staticfiles",
     "django_extensions",
     #"bootstrap5",
@@ -39,11 +70,21 @@ INSTALLED_APPS = [
     "Home",
     "login",
     "users"
+    "channels",
+    "game"
 ]
 
-#AUTH_USER_MODEL = "users.User"
+# MIDDLEWARE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+MIDDLEWARE = []
 
-MIDDLEWARE = [
+if not DJANGO_DEBUG:
+    print("RUNNING IN ACTIVE DATABASE MODE !")
+    INSTALLED_APPS += []
+    MIDDLEWARE += [
+        "corsheaders.middleware.CorsMiddleware",
+    ]
+    
+MIDDLEWARE += [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -52,8 +93,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
 ]
-
-ROOT_URLCONF = "core.urls"
 
 # HTTPS config/protection
 SECURE_HSTS_SECONDS = 3600 #31536000  # 1 year HSTS (recommended)
@@ -73,60 +112,16 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 #SECURE_SSL_REDIRECT = True
 
-# AUTH0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+# PATHS BUILDING - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # BAZINGA
-APP42_UID = ENV_FILE["APP42_UID"]
-APP42_SECRET = ENV_FILE["APP42_SECRET"]
-APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"]
+APP42_UID       = ENV_FILE["APP42_UID"]
+APP42_SECRET    = ENV_FILE["APP42_SECRET"]
+APP42_DOMAIN    = ENV_FILE["APP42_DOMAIN"]
 
-AUTH_USER_MODEL = "users.User"
-#https://docs.djangoproject.com/en/4.2/topics/auth/customizing/
-
-#  APPS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django_extensions",
-    
-    #"Display",
-    "Home",
-    "users",
-    "login"
-]
-
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-]
-
-ROOT_URLCONF = "core.urls"
-
-
-# OpenID OAuth2 config
-LOGIN_URL='/admin/login/'
-
-OAUTH2_PROVIDER = {
-    "OIDC_ENABLED": True,
-    "OIDC_RSA_PRIVATE_KEY": ENV_FILE["OIDC_RSA_PRIVATE_KEY"],
-    "SCOPES": {
-        "openid": "OpenID Connect scope",
-    },
-}
-
-# AUTH0_ALEX
+# TEMPLATE BUILDING - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
 TEMPLATE_DIR = os.path.join(BASE_DIR, "Home", "templates")
 
 TEMPLATES = [
@@ -145,15 +140,14 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "core.wsgi.application"
+AUTH_USER_MODEL = "users.User"
+ROOT_URLCONF    = "core.urls"
+#WSGI_APPLICATION   = "core.wsgi.application"
+ASGI_APPLICATION    = "core.asgi.application"
 
-#SESSION_AV
-SESSION_ENGINE = "django.contrib.sessions.backends.db"
+# DATABASE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-if "DJG_WITH_DB" in ENV_FILE and ENV_FILE["DJG_WITH_DB"]:
+if not DJANGO_DEBUG:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
@@ -166,8 +160,9 @@ if "DJG_WITH_DB" in ENV_FILE and ENV_FILE["DJG_WITH_DB"]:
     }
 else:
     DATABASES = {}
+print("DATABASE SETTINGS : ", DATABASES)
 
-
+# AUTH PASSWORD - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -199,18 +194,41 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
+STATIC_ROOT = "static_deploy/"
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# static file directory
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# static file directory
-STATICFILES_DIRS = [
-    BASE_DIR, "Home/static"
-    ]
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+### SESSIONS SETTINGS
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+### REDIS CACHE SETTINGS
+REDIS_CACHE_URL = f"redis://:{ENV_FILE['REDIS_PW']}@{ENV_FILE['REDIS_HOST']}:6379/1"
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_CACHE_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+### REDIS CHANNEL LAYER SETTINGS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(REDIS_CACHE_URL, )],
+        },
+    },
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 # Static files (CSS, JavaScript, Images)

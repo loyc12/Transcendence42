@@ -1,7 +1,6 @@
 import requests
 from core.settings import ENV_FILE
 from django.shortcuts import render
-
 from users.views import import_data
 from login.views import get_access_token, get_api_data
 

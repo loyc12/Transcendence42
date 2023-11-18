@@ -4,14 +4,15 @@
 
 from django.contrib import admin
 from django.urls import path, include
-
+from core.settings import DJG_DEBUG
 #from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('Home.urls'), name="home"),
     path("login/", include('login.urls')),
-    path("users/", include('users.urls'))
+    path("users/", include('users.urls')),
+    path("game/", include('game.urls'))
 ]
 
 """

@@ -81,8 +81,42 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 logs:
 	docker logs $(shell docker ps -aqf "name=^django_backend")
 
+<<<<<<< HEAD
 # DEPENDENCY - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #	certs
+=======
+re: down all
+
+logs:
+	docker logs $(shell docker ps -aqf "name=^django_backend")
+
+db_logs:
+	docker logs $(shell docker ps -aqf "name=^postgres_db")
+
+connect:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh
+
+db_connect:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh /app/djg_connect_to_postgres.sh
+	
+migrations:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py makemigrations
+migrate:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py migrate
+
+superuser:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
+
+
+
+_activate_db_mode:		$(DOTENV)
+	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
+_deactivate_db_mode:	$(DOTENV)
+	@sed -i 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' .env
+
+
+### DEPENDENCY INSTALLS START >>>
+>>>>>>> IM
 install: _install_python_pipenv	$(CERT_CRT)
 
 #	python
