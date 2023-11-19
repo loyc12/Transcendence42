@@ -15,12 +15,11 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+     - ./webpage/Home:/app/Home
     networks:
       trans_net:
         ipv4_address: 192.130.0.3
-
-    volumes:
-      - ./webpage/FrontApp:/app/FrontApp
 
 
   postgres:

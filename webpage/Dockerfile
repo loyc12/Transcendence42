@@ -7,31 +7,29 @@ RUN apk add --no-cache --virtual .build-deps \
     ca-certificates gcc \
     postgresql-dev postgresql-client \
     linux-headers musl-dev \
-    libffi-dev jpeg-dev zlib-dev
+    libffi-dev jpeg-dev zlib-dev \
+    g++
 
 WORKDIR /app
 
 COPY Pipfile .
 COPY Pipfile.lock .
 
+RUN pip install --upgrade pip
 RUN pip3 install pipenv
 
+#COPY requirements.txt .
+#RUN pip3 install -r requirements.txt
+
 # installs all packages from Pipfile.lock
-#RUN pipenv sync
+RUN pipenv sync
 RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .
 
-# run server in virtual environment with
-#RUN pipenv shell
 RUN chmod +x /app/entrypoint.sh
-RUN chmod +x /app/get_public_ip.sh
 
 EXPOSE 3000
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
-#CMD ["pipenv", "run", "python", "hello.py"]
-CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000" ]
-#ENTRYPOINT [ "./tools/entrypoint.sh" ]
-
-#CMD [ "yarn", "run", "start:dev" ]
+CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000"]

@@ -1,14 +1,21 @@
-<!-- home.html -->
+<!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
 
-{% block title %}Home{% endblock %}
+{% block HeroDiv %}
+	<div class="HeroDiv" id="HeroDiv" >
+		<h1>Acceuil </h1>
+	</div>
+{% endblock %}
 
-{% block navbar %}
-    {% include 'Selector/selector.html' %}
+{% block module2 %}
+	<div class="module2" id="module2" >
+		<h1>Login pas touche</h1>
+	</div>
 {% endblock %}
-    
-    
-{% block content %}
-        <!-- Content will be loaded here -->
-        {% include 'Shell/shell.html' %}
+
+{% block module3 %}
+	<div class="module3" id="module3" >
+	<div> Module 3 </div>
+	</div>
 {% endblock %}
+
