@@ -75,7 +75,7 @@ def game_delete(request):
 
 
 ''' REDIS TESTS'''
-'''
+
 from django_redis import get_redis_connection
 import pickle
 cache = get_redis_connection('default')
@@ -94,4 +94,4 @@ def redis_get_test(request):
         return (HttpResponse('Big means nothing to me.'))
     else:
         return (HttpResponse('Value extracted from redis server : ' + big_str))
-'''
+

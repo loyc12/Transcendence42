@@ -10,17 +10,14 @@ DOTCERT			= .certs/transcendence
 # VERSION
 VPYTHON			= python3.10
 VCERT			= "mkcert-v1.4.3-linux-amd64"
-VAUTH0			= auth0-spa-js
 
 # GET
 GETCERT			= "https://github.com/FiloSottile/mkcert/releases/download/\
 					v1.4.3/mkcert-v1.4.3-linux-amd64"\
-
 # BIN CONTENT
 BIN_PATH		= /usr/bin
 BREW_PATH		= /home/linuxbrew/.linuxbrew
 MKCERT_PATH		= $(BIN_PATH)/mkcert
-AUTH0_PATH		= auth0/$(VAUTH0)
 
 # DATABASE CONTENT
 DATA			= /postgres/volume/data
@@ -41,12 +38,6 @@ CERTS_DIR		= $(DJANGO_DIR)/.certs
 CERT_CRT		= $(DJANGO_DIR)/$(LOCAL_CERT_CRT)
 CERT_KEY		= $(DJANGO_DIR)/$(LOCAL_CERT_KEY)
 
-# AUTH0_ALEX
-AUTH0_REQ	=	$(SHELLSCRIPTS)/requirements.txt
-# AUTH0 HANDLING
-AUTH0SDK	= 	auth0spaSDK_install.sh
-AUTH0_INST	=	$(SHELLSCRIPTS)/$(AUTH0SDK)
-
 # BREW
 BREW_EXE		= $(BREW_PATH)/bin/brew
 
@@ -65,8 +56,7 @@ down:
 	docker-compose down
 
 # LOCAL - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-# AUTH0_ALEX
-local:	_deactivate_db_mode $(DOTENV) _auth0_requirements
+local:	_deactivate_db_mode $(DOTENV)
 	cd webpage/ \
 		&& pipenv install \
 		&& pipenv run python3 manage.py runserver $(PORT)
@@ -78,17 +68,18 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 		&& pipenv install \
 		&& pipenv run python3 manage.py runserver_plus \
 			--cert-file=$(LOCAL_CERT_CRT) --key-file=$(LOCAL_CERT_KEY) $(PORT)
-logs:
-	docker logs $(shell docker ps -aqf "name=^django_backend")
 
 re: down all
 
+<<<<<<< HEAD
 _activate_db_mode:		$(DOTENV)
 	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
 _deactivate_db_mode:	$(DOTENV)
 	@sed -i 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' .env
 
 
+=======
+>>>>>>> refs/remotes/origin/AV
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
 
@@ -105,11 +96,6 @@ _update_and_certutils:
 	sudo apt-get install -qq -y	\
 		libpq-dev \
 		libnss3-tools
-
-# AUTH0_ALEX
-_auth0_requirements:
-	sudo apt-get -qq update -y && sudo apt-get -qq upgrade -y \
-	&& pip3 install -r webpage/requirements.txt
 
 $(MKCERT_PATH): _update_and_certutils
 	@echo "MKCERT_PATH dependency"
@@ -137,7 +123,6 @@ $(CERT_CRT) $(CERT_KEY):	$(MKCERT_PATH)
 ### <<<< DEPENDENCY INSTALLS END
 
 # MODE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-#	db
 _activate_db_mode:		$(DOTENV)
 	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
 _deactivate_db_mode:	$(DOTENV)
