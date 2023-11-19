@@ -1,38 +1,25 @@
 from pathlib import Path
 import os
 import subprocess
-
-#from io import StringIO
 from dotenv import load_dotenv
 
+#SESSION_AV
+from importlib import import_module
+from django.conf import settings
+SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
+# ENVIRONNEMENT VAR - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # Setting up environment variables from .env
-env = os.environ
-if not ('DJG_WITH_DB' in env and env["DJG_WITH_DB"]):
-    env_stream = open('../.env', 'r')
-    load_dotenv(stream=env_stream)
-    env_stream.close()
+ENV_FILE = os.environ
+
+# Load environment variables from .env file
+if not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"]):
+    envStream = open('../.env', 'r')
+    load_dotenv(stream=envStream)
+    envStream.close()
 print("Environment acquired !")
 
-# Find public IP for OAuth2 redirect_uri
-if not os.path.exists('public.ip'):
-    subprocess.call(["sh", "./get_public_ip.sh", "./public.ip"])
-
-with open('public.ip', 'r') as file:
-    external_ip = file.read()
-
-print("external IP acquired : ", external_ip)
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-env["APP42_OAUTH_REDIRECT"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/receive_code"
-env["APP42_OAUTH_CONFIRM"] = f"{external_ip}:{env['DJANGO_LISTEN_PORT']}/oauth/confirm"
-print("APP42_OAUTH_REDIRECT : ", env["APP42_OAUTH_REDIRECT"])
-print("APP42_OAUTH_CONFIRM : ", env["APP42_OAUTH_CONFIRM"])
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env["DJANGO_SECRET_KEY"]
+SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
@@ -47,11 +34,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
-    #"oauth2_provider",
     #"bootstrap5",
+    
     "Home",
-    "Display",
-    #"oauth",
+    "login",
     "users"
 ]
 
@@ -87,22 +73,66 @@ SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 #SECURE_SSL_REDIRECT = True
 
+# AUTH0 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# BAZINGA
+APP42_UID = ENV_FILE["APP42_UID"]
+APP42_SECRET = ENV_FILE["APP42_SECRET"]
+APP42_DOMAIN = ENV_FILE["APP42_DOMAIN"]
+
+AUTH_USER_MODEL = "users.User"
+#https://docs.djangoproject.com/en/4.2/topics/auth/customizing/
+
+#  APPS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
+
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django_extensions",
+    
+    #"Display",
+    "Home",
+    "users",
+    "login"
+]
+
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+]
+
+ROOT_URLCONF = "core.urls"
+
 
 # OpenID OAuth2 config
 LOGIN_URL='/admin/login/'
 
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
-    "OIDC_RSA_PRIVATE_KEY": env["OIDC_RSA_PRIVATE_KEY"],
+    "OIDC_RSA_PRIVATE_KEY": ENV_FILE["OIDC_RSA_PRIVATE_KEY"],
     "SCOPES": {
         "openid": "OpenID Connect scope",
     },
 }
 
+# AUTH0_ALEX
+TEMPLATE_DIR = os.path.join(BASE_DIR, "Home", "templates")
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [TEMPLATE_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -117,27 +147,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
+#SESSION_AV
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if "DJG_WITH_DB" in env and env["DJG_WITH_DB"]:
+if "DJG_WITH_DB" in ENV_FILE and ENV_FILE["DJG_WITH_DB"]:
     DATABASES = {
         "default": {
-            #"ENGINE": "django.db.backends.sqlite3",
-            #"NAME": BASE_DIR / "db.sqlite3",
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": env["POSTGRES_DB"],
-            "USER": env["POSTGRES_USER"],
-            "PASSWORD": env["POSTGRES_PASSWORD"],
-            "HOST": env["DB_HOST"],
-            "PORT": env["DB_PORT"]
+            "NAME": ENV_FILE["POSTGRES_DB"],
+            "USER": ENV_FILE["POSTGRES_USER"],
+            "PASSWORD": ENV_FILE["POSTGRES_PASSWORD"],
+            "HOST": ENV_FILE["DB_HOST"],
+            "PORT": ENV_FILE["DB_PORT"]
         }
     }
 else:
     DATABASES = {}
-#print("Database : ")
-#print(DATABASES)
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -181,8 +209,7 @@ STATICFILES_FINDERS = [
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # static file directory
 STATICFILES_DIRS = [
-    BASE_DIR, "Home/static",
-    BASE_DIR, "/static",
+    BASE_DIR, "Home/static"
     ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

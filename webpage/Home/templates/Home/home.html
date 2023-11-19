@@ -1,30 +1,21 @@
-{% extends "master.html" %}
+<!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+{% extends 'master.html' %}
 
-	{% block content %}
-	{% block title %}{% endblock %} <!-- Title for the page -->
-		{% block navbar %}	
-			<div class="NavBar" id="NavBar">	
-				 
-				 <ul class="list-inline mb-0">
-					<li class="list-inline-item mx-2"><p>BIENVENUE </p></li>
-					<li class="list-inline-item mx-2">
-						<a href="#module1">Module 1</a>
-					</li>
-					<li class="list-inline-item mx-2">
-						<a href="#module2">Module 2</a>
-					</li>
-				 </ul>
-			</div>
-		{% endblock %}        <!-- Content for TopBar -->
+{% block HeroDiv %}
+	<div class="HeroDiv" id="HeroDiv" >
+		<h1>Acceuil </h1>
+	</div>
+{% endblock %}
 
-	<!--navbar was here before-->
+{% block module2 %}
+	<div class="module2" id="module2" >
+		<h1>Login pas touche</h1>
+	</div>
+{% endblock %}
 
-		{% block HeroDiv %}
-			<div class="HeroDiv" id="HeroDiv" >
-				<p>HeroDiv</p>
-				<!-- Content for HeroDiv -->
-				<div>Initial Content</div>
-			</div>
-		{% endblock %}
-	
-	{% endblock %}
+{% block module3 %}
+	<div class="module3" id="module3" >
+	<div> Module 3 </div>
+	</div>
+{% endblock %}
+
