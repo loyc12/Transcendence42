@@ -44,6 +44,19 @@
     display: none;
 }
 
+#profile {
+    /* background-color: #6a585f; Change the background color to suit your design */
+    background-color: #178ca8;
+    color: #f0ffff;
+    /* position: inherit; */
+    /* padding: 120px; */
+    /* width: 66%;
+    height: 60vh;
+    float: right; */
+    /* border: 2px solid rgb(108, 114, 0); */
+    /* border: 2px solid #de1bd4; */
+
+}
 
 #HeroDiv {
     background-color: #c300ff;
