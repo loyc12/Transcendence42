@@ -35,6 +35,7 @@
     float: center;
 } */
 
+/* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
 .content1 {
     display: block;
 }
