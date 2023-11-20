@@ -26,6 +26,10 @@ body {
     font-size: 15px;
 }
 
+#button {
+    color: #0e4870
+}
+
 /* --------------------- STUFF à VAL ---------------------- */
 /* -- PROFILE CSS -- */
 #profile {
@@ -146,7 +150,7 @@ body {
 
 
 footer {
-    background-color: #4cbe; /* footer color */
+    background-color: #4cbe96; /* footer color */
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 16px;
