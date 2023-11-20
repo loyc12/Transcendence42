@@ -4,9 +4,31 @@
 {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
 		<h1>Acceuil </h1>
+		
 		{% include 'Logo/logo.html' %}
+		<div class="row align-items-center">
+			<div class="visitors">
+				<table class="table-primary" style="color: #f0ffff; background-color: #178ca8;">
+					<thead>
+						<tr>
+							<th scope="col" class="text-center" style="color: #f0ffff">Username [playerLoginName]</th> <!--if I want to change the text color in table do it for each row-->
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="text-center" style="color: #f0ffff">first in the list</td>
+						</tr>
+						<tr>
+							<td class="text-center" style="color: #f0ffff">second in list...</td>
+						</tr>
+						<tr>
+							<td class="text-center" style="color: #f0ffff">second in list...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-<<<<<<< HEAD
 	</div>
 	{% endblock %}
 	
@@ -22,38 +44,3 @@
 		{% include 'profile.html' %}	
 	</div>
 {% endblock %}
-
-=======
-	<!--navbar was here before-->
-
-		{% block HeroDiv %}
-			<div class="HeroDiv" id="HeroDiv" >
-				<div class="row align-items-center">
-					<div class="visitors">
-						<table class="table-primary" style="color: #f0ffff; background-color: #178ca8;">
-							<thead>
-								<tr>
-									<th scope="col" class="text-center" style="color: #f0ffff">Username [playerLoginName]</th> <!--if I want to change the text color in table do it for each row-->
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="text-center" style="color: #f0ffff">first in the list</td>
-								</tr>
-								<tr>
-									<td class="text-center" style="color: #f0ffff">second in list...</td>
-								</tr>
-								<tr>
-									<td class="text-center" style="color: #f0ffff">second in list...</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		{% endblock %}
-	
-	{% endblock %}
-
-	
->>>>>>> VJ
