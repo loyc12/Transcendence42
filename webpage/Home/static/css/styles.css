@@ -67,7 +67,10 @@ body {
   padding: 0;
 }
 
+<<<<<<< HEAD
 /* Style the HeroDiv */
+=======
+>>>>>>> VJ
 
 #HeroDiv {
     /* background-color: #6a585f; Change the background color to suit your design */
@@ -103,6 +106,7 @@ body {
     display: block;
 }
 
+<<<<<<< HEAD
 .heroDiv img {
     width: 30%; 
     height: 30%;
@@ -110,6 +114,22 @@ body {
     margin: 0 auto; 
 }
 /* width: 66%; */
+=======
+/* to style my list in profilePage */
+/* .info {
+    list-style-type: none; /* Remove default bullet points */
+    /* font-size: 32px; */
+/* } */
+
+/* .info li::before {
+    content: "\2605"; /* Unicode character for a star */
+    /* color: #f0ffff; Change the color to your preference */
+    /* font-size: 32px; Adjust the font size if needed */
+    /* margin-right: 0.5em; Adjust the spacing between the star and text */
+  /* } */ 
+  /* END: to style my list in profilePage */
+
+>>>>>>> VJ
 
 footer {
     background-color: #4cbe;
