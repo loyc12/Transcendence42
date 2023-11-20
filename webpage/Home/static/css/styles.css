@@ -1,5 +1,11 @@
 /* HOME FOLDER Apply some basic styling to the TopBar */
 
+/* font-family to apply to all the body */
+body {
+    font-family: 'Nunito';
+    font-size: 20px;
+}
+
 /* Style the navigation ba60vhr */
 #NavBar {
 
@@ -14,6 +20,54 @@
     border: 2px solid #de1bd4;
 
 }
+
+/* --------------------- STUFF à VAL ---------------------- */
+#profile {
+    /* background-color: #6a585f; Change the background color to suit your design */
+    background-color: #178ca8;
+    color: #f0ffff;
+    /* position: inherit; */
+    /* padding: 120px; */
+    /* width: 66%;
+    height: 60vh;
+    float: right; */
+    /* border: 2px solid rgb(108, 114, 0); */
+    /* border: 2px solid #de1bd4; */
+
+}
+
+/* to be used for new navbar */
+/* #TopBar { */
+    /* background-color: #b0b3b9; */
+    /* background-color: #145faf;
+    color: #f0ffff; */
+    /* padding: 10px; */
+    /* width: 100%;
+    height: 35vh;
+    border: 2px solid #242351; */
+/* } */
+
+
+/* #NavBar {
+    background-color: #145faf;
+    color: #f0ffff;
+}
+
+#NavBar a{
+    color: #f0ffff;
+} */
+
+
+/* .heroDiv {
+    display: none;
+}
+
+.heroDiv.active {
+    display: block;
+} */
+
+/* ------------------------------ END STUFF à VAL ---------------------------- */
+
 /* Style the navigation links */
 /* #NavBar ul {
     list-style: none;
@@ -44,19 +98,6 @@
     display: none;
 }
 
-#profile {
-    /* background-color: #6a585f; Change the background color to suit your design */
-    background-color: #178ca8;
-    color: #f0ffff;
-    /* position: inherit; */
-    /* padding: 120px; */
-    /* width: 66%;
-    height: 60vh;
-    float: right; */
-    /* border: 2px solid rgb(108, 114, 0); */
-    /* border: 2px solid #de1bd4; */
-
-}
 
 #HeroDiv {
     background-color: #c300ff;
