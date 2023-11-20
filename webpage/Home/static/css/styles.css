@@ -6,22 +6,28 @@ body {
     font-size: 20px;
 }
 
-/* Style the navigation ba60vhr */
+/* Style the navigation bar */
 #NavBar {
 
     /* navbar background */
-    background-color: rgb(108, 114, 111);
+    background-color: #145faf;
     /* navbar text color */
-    color: #fbff00;
-    
-    padding: 5px;
-    display: flex;
-    float: center;
-    border: 2px solid #de1bd4;
+    color: #f0ffff;
+    /* button white #f0ffff and text #145faf TODO */
 
 }
 
+.NavBar {
+    /* navbar background */
+    background-color: #145faf; /* navbar will this color */
+    /* navbar text color */
+    color: #f0ffff;
+    font-family: 'Nunito';
+    font-size: 15px;
+}
+
 /* --------------------- STUFF à VAL ---------------------- */
+/* -- PROFILE CSS -- */
 #profile {
     /* background-color: #6a585f; Change the background color to suit your design */
     background-color: #178ca8;
@@ -46,6 +52,8 @@ body {
     font-size: 20px;
     margin-right: 0.5em;
 }
+/* -- END -- PROFILE CSS -- */
+
 
 /* to be used for new navbar */
 /* #TopBar { */
@@ -111,25 +119,34 @@ body {
 
 
 #HeroDiv {
-    background-color: #c300ff;
+    background-color: #178ca8; /*all "herodiv" will be this color */
     height: 90vh;
 }
 
+.logo-img {
+    display: block;
+    margin: auto;
+}
+
+#HeroDiv h1 {
+    color: #f0ffff;
+    text-align: center;
+}
 
 #module2 {
-    background-color: #0019fd;
+    background-color: #178ca8;
     height: 90vh;
 }
 
 
 #module3 {
-    background-color: #fde800;
+    background-color: #178ca8;
     height: 90vh;
 }
 
 
 footer {
-    background-color: #4cbe;
+    background-color: #4cbe; /* footer color */
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 16px;
