@@ -15,6 +15,7 @@
 //         }
 //     });
 // });
+
 document.addEventListener('DOMContentLoaded', function () {
     var moduleContainer = document.getElementById('moduleContainer');
     var loadModule1 = document.getElementById('loadModule1');
