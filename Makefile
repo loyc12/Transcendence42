@@ -71,15 +71,7 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 
 re: down all
 
-<<<<<<< HEAD
-_activate_db_mode:		$(DOTENV)
-	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
-_deactivate_db_mode:	$(DOTENV)
-	@sed -i 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' .env
 
-
-=======
->>>>>>> refs/remotes/origin/AV
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
 
@@ -124,9 +116,14 @@ $(CERT_CRT) $(CERT_KEY):	$(MKCERT_PATH)
 
 # MODE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 _activate_db_mode:		$(DOTENV)
-	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
+	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' $(DOTENV)
 _deactivate_db_mode:	$(DOTENV)
-	@sed -i 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' .env
+	@sed -i 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' $(DOTENV)
+
+# _activate_db_mode:		$(DOTENV)
+# 	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
+# _deactivate_db_mode:	$(DOTENV)
+# 	@sed -i 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' .env
 
 # SECURITY - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 #	.env
