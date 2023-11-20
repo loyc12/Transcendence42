@@ -1,44 +1,38 @@
-from django.shortcuts import render, HttpResponse
 from .models import User
+from django.contrib.sessions.models import Session
 
-# Create your views here.
+# Collect data from API and save it in the database, start session
+def import_data(api_data, request):
+    
+    target_id = api_data.json()['login']
+    # Check if user exists and get it
+    if (User.objects.filter(login=target_id).exists()):
+        User.objects.filter(login=target_id).update(
+            is_active = 1,
+        )
+        u = User.objects.get(login=target_id)
 
-#token - juste 1 fois
-#    "access_token": "PaZDOD5UwzbGOFsQr34LQ7JUYOj3yK",
-#    "expires_in": 36000,
-#    "token_type": "Bearer",
-#    "scope": "read write"
+    # If not, create it
+    else:
+        u = User.objects.create_user(
+            login           = target_id,
+            display_name    = api_data.json()['displayname'],
+            img_link        = api_data.json()['image']['link'],    
+            is_active       = 1,    
+        )
+    # Update session
+    u.save()
+    request.session['user_id'] = u.id
+    request.session['user_login'] = u.login
+    request.session.save()
+    session_key = request.session.session_key
+    session = Session.objects.get(session_key=session_key)
+    return
 
-
-def user_main(request):
-    print(request)
-    return (HttpResponse("Reached User endpoint"))
-
-def user_create(request):
-    print(request)
-    print("Try create user :")
-    user = User.objects.create_user(
-        login="alvachon",
-        display_name="Alexandra Vachon",
-        img_link="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vlarg="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vmed="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vsmall="https://cdn.intra.42.fr/users/alvachon.jpg",
-        img_vmicro="https://cdn.intra.42.fr/users/alvachon.jpg",
-        password="password",
-    )
-
-    return (HttpResponse(f"User {user.login} created Successfully."))
-
-def user_get_jimmy(request):
-    print(request)
-    user = User.objects.get(login="alvachon")
-
-    print("Got this user from database : ", user)
-    return (HttpResponse(f"User successfully retrieved from database. user : {user}"))
-
-def user_delete_jimmy(request):
-    print(request)
-    user = User.objects.get(login="alvachon")
-    user.delete()
-    return (HttpResponse(f"User successfully deleted from database. Good bye {user.login}."))
+# def remove_data(request):
+#     user_id = request.session['user_id']
+#     User.objects.filter(id=user_id).update(
+#         is_active=0,
+#     )
+#     request.session.flush()
+#     return
