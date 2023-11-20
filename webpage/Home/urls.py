@@ -7,6 +7,6 @@ urlpatterns = [
     # URL for the main page (home)
     path("", home_view, name='home' ),
     path('logo/', logo_view, name='logo'),
-    path('Profile/', profile_view, name='profile'),
+    path('profile/', profile_view, name='profile'),
     #path('UserSelect/', selector_view, name='selector' )
 ]

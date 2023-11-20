@@ -1,9 +1,10 @@
 import requests
 from core.settings import ENV_FILE
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from login.views import get_access_token, get_api_data
 from users.views import import_data
-from .models import UserProfile
+from .forms import ProfileForm
+
 
 #http://127.0.0.1:3000/
 def home_view(request):
@@ -27,7 +28,15 @@ def logo_view(request):
 
 def profile_view(request):
     """ This function is used to render the profile page. """
-    # Fetching the first user profile for demonstration purposes
-    user_profile = UserProfile.objects.first()
-    return render(request, 'profile.html', {'user_profile': user_profile})
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            # Process the form data (save to the database or perform other actions)
+            # For now, just print the data
+            print(form.cleaned_data)
+            # return redirect('home')
+    else:
+        form = ProfileForm()
+
+    return render(request, 'profile.html', {'form': form})
 
