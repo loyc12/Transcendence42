@@ -33,12 +33,6 @@
                 <div class="NavBar"> 
                     {% block navbar %}
                     
-                        <button id="buttonModule1">HeroDiv</button>
-                        <button id="buttonModule2">Module 2</button>
-                        <button id="buttonModule3">Module 3</button>
-                        <div class="rgt_flt" >
-                            <button  onclick="toggle()" id="btn" type="btn">LOGIN</button>
-                        </div>
                     {% endblock %}
                 </div>
             </div>
@@ -67,7 +61,6 @@
             const btn = document.getElementById('btn');
 
             btn.addEventListener('click', () => {
-                // 👇️ hide button (still takes up space on page)
             btn.style.visibility = 'hidden';
             });
             

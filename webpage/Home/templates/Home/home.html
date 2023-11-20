@@ -1,7 +1,11 @@
 <!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
 
-
+	{% block navbar %}
+	<div class="row" id="navbarRow">
+		{% include 'Selector/selector.html' %}
+	</div>
+	{% endblock %}
 
 	{% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
