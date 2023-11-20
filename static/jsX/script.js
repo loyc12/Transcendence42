@@ -1,20 +1,4 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//     // Get the elements
-//     var changeImageLink = document.getElementById('changeImageLink');
-//     var myImage = document.getElementById('myImage');
-    
-//     // Add click event listener to the link
-//     changeImageLink.addEventListener('click', function (event) {
-//         event.preventDefault(); // Prevent the default behavior of the link
 
-//         // Change the image source
-//         if (myImage.src.endsWith('logo.png')) {
-//             myImage.src = "{% static 'img/logo2.png' %}";
-//         } else {
-//             myImage.src = "{% static 'img/logo.png' %}";
-//         }
-//     });
-// });
 
 document.addEventListener('DOMContentLoaded', function () {
     var moduleContainer = document.getElementById('moduleContainer');

@@ -75,15 +75,12 @@ footer {
     margin: 0 auto; 
 } */
 
-.r_log {
-
-}
 
 .rgt_flt { 
     float: right;
     /* width: 50%; */
     /* height: 100%; */
-    background: rgb(0, 26, 255);
+    /* background: rgb(0, 26, 255); */
 }
 /* Add more styles as needed for your specific layout
 
