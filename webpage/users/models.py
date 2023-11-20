@@ -1,9 +1,9 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin 
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models, OperationalError, IntegrityError
 #from django.utils import timezone
 from .manager import UserManager
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
     # Fields of table users_user
     login           = models.CharField    (max_length=32, unique=True)
     display_name    = models.CharField    (max_length=60, unique=False)
@@ -11,11 +11,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
     is_active       = models.BooleanField (default=False)
-    socket_id       = models.CharField    (max_length=120, unique=False)
-    #running_game =  models.CharField(max_length=32, default='')
-    #running_game =  models.CharField(max_length=32, default='')
-    #current_game =  models.ForeignKey('game.Game', on_delete=models.SET_NULL, null=True, default=None)
-    # Variable that contain the name of the field used to identify the user
     USERNAME_FIELD = "login"
     
     # Method that return a string with the information of the user
@@ -26,31 +21,6 @@ class User(AbstractBaseUser, PermissionsMixin):
                 display_name: {self.display_name},\
                 created_at: {self.created_at},\
                 updated_at: {self.updated_at}"
-                
-'''
-# Create your models here.
-class User(AbstractBaseUser, PermissionsMixin):
-
-    # DB Fields
-    email =         models.EmailField(unique=True)
-    username =      models.CharField(max_length=32, unique=False)
-    created_at =    models.DateTimeField(auto_now_add=True)
-    updated_at =    models.DateTimeField(auto_now=True)
-    is_staff =      models.BooleanField(default=False)
-    is_superuser =  models.BooleanField(default=False)
-    is_active =     models.BooleanField(default=False)
-    #running_game =  models.CharField(max_length=32, default='')
-    #running_game =  models.CharField(max_length=32, default='')
-    #current_game =  models.ForeignKey('game.Game', on_delete=models.SET_NULL, null=True, default=None)
-
-    USERNAME_FIELD = "email"
-
-    objects = UserManager()
-
-    def __str__(self):
-        return f"User: {self.username}, email: {self.email}, created_at: {self.created_at}, updated_at: {self.updated_at}, hash: {self.password}"
-'''
-
 
 @property
 def current_game(self):
