@@ -36,6 +36,17 @@ body {
 
 }
 
+.info {
+    list-style-type: none;
+}
+
+.info li::before {
+    content: "\2605";
+    color: #f0ffff;
+    font-size: 20px;
+    margin-right: 0.5em;
+}
+
 /* to be used for new navbar */
 /* #TopBar { */
     /* background-color: #b0b3b9; */
