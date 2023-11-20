@@ -129,7 +129,6 @@ function loadContent(contentFile) {
         .catch(error => console.error('Error loading content:', error));
 }
 
-
 function renderInitNavbar() {
     // Customize this function to render another navbar to the init value
     const navbarRow = document.getElementById('navbarRow');
