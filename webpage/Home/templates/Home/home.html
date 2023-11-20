@@ -3,19 +3,44 @@
 
 {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
-		<h1>Acceuil </h1>
-	</div>
-{% endblock %}
+		<h1>Accueil </h1>
+		
+		{% include 'Logo/logo.html' %}
+		<div class="row align-items-center" class="whatever">
+			<div class="visitors">
+				<table class="table-primary" style="color: #f0ffff; background-color: #178ca8;">
+					<thead>
+						<tr>
+							<th scope="col" class="text-center" style="color: #f0ffff">Username [playerLoginName]</th> <!--if I want to change the text color in table do it for each row-->
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="text-center" style="color: #f0ffff">first in the list</td>
+						</tr>
+						<tr>
+							<td class="text-center" style="color: #f0ffff">second in list...</td>
+						</tr>
+						<tr>
+							<td class="text-center" style="color: #f0ffff">second in list...</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 
-{% block module2 %}
+	</div>
+	{% endblock %}
+	
+	{% block module2 %}
 	<div class="module2" id="module2" >
 		<h1>Login pas touche</h1>
+		{% include 'Profile/profile.html' %}	<!--mine. Germ is profile_user-->
 	</div>
-{% endblock %}
-
-{% block module3 %}
+	{% endblock %}
+	
+	{% block module3 %}
 	<div class="module3" id="module3" >
-	<div> Module 3 </div>
+		<div> Module 3 </div>	
 	</div>
 {% endblock %}
-

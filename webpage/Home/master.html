@@ -9,29 +9,23 @@
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Onglet Tabulation  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <title>Your Single Page Website</title>
-        <!-- Stylesheet Dependency  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <!-- {% comment %} Static VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <!-- <link rel="stylesheet" type="text/css" href="{% static 'static/css/styles.css' %}"> {% endcomment %} -->
-        <!-- - - - - - -  Bootstrap VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+       <!-- Stylesheet Dependency  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+       <!-- Folder Dependency CSS // JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+       <!-- - - - - - -  Bootstrap VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <!-- - - - - - -  Fonts - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <link rel="preconnect"  href="https://fonts.googleapis.com">
         <link rel="preconnect"  href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet"  href="https://fonts.googleapis.com/css2?family=Nunito&display=swap">
-        <!-- Folder Dependency CSS // JS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <!-- Static VER(Home) - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"> -->
-        <!-- Events Handler Scripts  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - -->     
-        <script src="{% static 'Home/js/script.js' %}" defer></script>                            
-        <!-- - - - - - -  CSS Stylesheet  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <!-- Static VER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-        <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
-        <!-- - - - - - -  Bootstrap VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
         <!-- <link rel="stylesheet" type="'text/css" > -->
         <link rel="stylesheet" href="{% static 'Home/css/styles.css' %}">
+        <!-- - - - - - -  Bootstrap VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+        <!-- Events Handler Scripts  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - -->     
+        <script src="{% static 'Home/js/script.js' %}" defer></script>                            
     </head>
 
+<<<<<<< HEAD:webpage/Home/master.html
 <<<<<<< HEAD:valShit/Home/templates/master.html
     <!-- root static (root from webpage)     -->
     <!-- <link rel="stylesheet" type="text/css" href="{% static 'static/css/styles.css' %}"> -->
@@ -62,22 +56,32 @@
                     <!-- <p>TopBar</p> -->
                     {% block navbar %}{% endblock %}
 =======
+=======
+>>>>>>> GEVJ:webpage/Home/templates/master.html
     <body>
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container">
             <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div class="NavBar"> 
-                    <button id="buttonModule1">HeroDiv</button>
-                    <button id="buttonModule2">Module 2</button>
-                    <button id="buttonModule3">Module 3</button>
+                    {% block navbar %}
+                    
+                        <button id="buttonModule1">HeroDiv</button>
+                        <button id="buttonModule2">Module 2</button>
+                        <button id="buttonModule3">Module 3</button>
+                    {% endblock %}
                 </div>
+<<<<<<< HEAD:webpage/Home/master.html
 >>>>>>> FRONTEND:webpage/Home/templates/master.html
+=======
+>>>>>>> GEVJ:webpage/Home/templates/master.html
             </div>
             <!-- HeroDiv - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="content1" class="HeroDiv">
-                    {% block HeroDiv %}{% endblock %}
+                    {% block HeroDiv %}
+
+                    {% endblock %}
                 </div>
             </div>
             <!-- Module1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -95,9 +99,9 @@
         </div> 
     </body>
 
-    <footer class="border-top">
-        <div class="container">
-            <p class="text-center"> FOOTER </p>
+    <footer class="border-top" >
+        <div class="container" class="row">
+            <p class="text-center text-white">Built with &#x2661 by GALIV</p>
         </div>
     </footer>
 </html>
