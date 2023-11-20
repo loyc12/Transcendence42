@@ -107,3 +107,6 @@ class GameConsumer(AsyncWebsocketConsumer):
         ### Currently just a ping response
         await self.send(text_data=json.dumps({'msg': 'async message received. wow.', 'event_type': event_type, 'details': details}))
         
+
+    async def game_send_data(self, event):
+        await self.send(text_data=event['game_state'])
