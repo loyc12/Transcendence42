@@ -2,6 +2,7 @@ let all_hero_content = [
     'content1',
     'content2',
     'content3',
+    'content4',
 ]
 
 let hide_all_hero_content = function () {
@@ -25,9 +26,11 @@ let select_hero_content = function (id) {
 let buttonModule1 = document.getElementById('buttonModule1');
 let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
+let buttonModule4 = document.getElementById('buttonModule4');
 
 buttonModule1.addEventListener('click', function () {select_hero_content(0);})
 buttonModule2.addEventListener('click', function () {select_hero_content(1);})
 buttonModule3.addEventListener('click', function () {select_hero_content(2);})
+buttonModule4.addEventListener('click', function () {select_hero_content(3);})
 
 select_hero_content(0)

@@ -32,10 +32,7 @@
             <div class="row">
                 <div class="NavBar"> 
                     {% block navbar %}
-                    
-                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">HeroDiv</button>
-                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Module 2</button>
-                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule3">Module 3</button>
+                        {% include 'navbar.html' %}
                     {% endblock %}
                 </div>
             </div>
@@ -56,6 +53,12 @@
             <div class="row">
                 <div id="content3" class="module3">
                     {% block module3 %}{% endblock %}
+                </div>
+            </div>
+            <!-- Module3 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="content4" class="module4">
+                    {% block module4 %}{% endblock %}
                 </div>
             </div>
         </div> 
