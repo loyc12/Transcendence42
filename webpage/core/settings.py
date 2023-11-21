@@ -55,8 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "bootstrap5",
-    'django_unused_media',
-    'django_cleanup.apps.CleanupConfig',
+
     
     "Home",
     "login",
