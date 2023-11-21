@@ -128,13 +128,14 @@ body {
 }
 
 .logo-img {
-    display: block;
-    margin: auto;
+    display: block; /* ensures the image is a block-level element*/
+    margin: auto; /*centers the block-level element horizontally */
 }
 
 #HeroDiv h1 {
     color: #f0ffff;
     text-align: center;
+    margin-top: 0.5rem;
 }
 
 #module2 {
