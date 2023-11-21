@@ -72,6 +72,26 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 re: down all
 
 
+#	Utility functions 
+logs:
+	docker logs $(shell docker ps -aqf "name=^django_backend")
+db_logs:
+	docker logs $(shell docker ps -aqf "name=^postgres_db")
+
+connect:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh
+db_connect:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh /app/djg_connect_to_postgres.sh
+	
+migrations:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py makemigrations
+migrate:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py migrate
+
+superuser:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
+
+
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
 
@@ -97,11 +117,6 @@ $(MKCERT_PATH): _update_and_certutils
 			&& sudo mv $(VCERT) $(MKCERT_PATH)\
 			&& sudo chmod +x $(MKCERT_PATH)\
 			&& mkcert --version;\
-	fi
-
-$(BREW_EXE): _update_and_certutils
-	@if [ ! test -f $(BREW_EXE) ]; then \
-		.$(MKCERT_INST) $(BREW_PATH) $(BREW_EXE); \
 	fi
 
 $(CERT_CRT) $(CERT_KEY):	$(MKCERT_PATH)

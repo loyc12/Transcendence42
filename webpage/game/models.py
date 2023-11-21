@@ -9,6 +9,8 @@ class Player(models.Model):
     game =          models.ForeignKey('Game', on_delete=models.CASCADE)
     joined_at =     models.DateTimeField(auto_now_add=True)
     score =         models.IntegerField(default=0)
+    #gave_up =       models.BooleanField(default=False)
+    #default_win =   models.BooleanField(default=False)
 
 class Game(models.Model):
 
@@ -17,7 +19,7 @@ class Game(models.Model):
     max_players =   models.IntegerField(default=2)
     created_at =    models.DateTimeField(auto_now_add=True)
     ended_at =      models.DateTimeField(null=True, blank=True, default=None)
-    host =          models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, related_name='game_host')
+    #host =          models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, related_name='game_host')
     players =       models.ManyToManyField('users.User', through=Player)# should be ordered according to joined_at parameter of Player model.
 
     is_running =    models.BooleanField(default=False)
@@ -34,13 +36,13 @@ class Game(models.Model):
         return f"<--------Game id {str(self.id)}--------->" +\
                 "\n<-| game type :     " + self.game_type +\
                 "\n<-| nb players :    " + str(self.max_players) +\
-                "\n<-| host :          " + (self.host.username if self.host else 'None') +\
                 "\n<-| is running :    " + str(self.is_running) +\
                 "\n<-| is over :       " + str(self.is_over) +\
                 "\n<-| is tournament : " + str(self.is_tournament) +\
                 "\n<-| winner :        " + (self.winner.username if self.winner else 'None') +\
                 "\n<-| final score :   " + (self.finale_scores if self.finale_scores else 'None') +\
                 "\n<---------------------------------->"
+                #"\n<-| host :          " + (self.host.username if self.host else 'None') +\
     
     def __repr__(self):
         return (self.__str__())
@@ -49,9 +51,10 @@ class Game(models.Model):
     def ready_to_start(self) -> bool:
         return (
             not self.is_running
-            and not self.is_over
+            and not (self.is_over or self.is_broken)
             and self.players.count() == self.max_players
         )
+
     @property
     def is_full(self):
         return self.players.count() == self.max_players
@@ -69,8 +72,9 @@ class Game(models.Model):
         if self.is_running or self.is_over or self.is_broken:
             raise OperationalError('Trying to join a live game or an already finished game or a broken game.')
 
-        if user.current_game:
-            if user.current_game != self:
+        cur_game = user.current_game
+        if cur_game:
+            if cur_game != self:
                 raise OperationalError('Trying to add player when they are already in a different game.')
             return
 
@@ -87,7 +91,7 @@ class Game(models.Model):
             pass
 
 
-    def declare_broken(self) -> None:
+    def declare_broken(self, save: bool=True) -> None:
         if self.is_over:
             raise OperationalError('Cannot declare a game broken after its already over.')
 
@@ -95,20 +99,23 @@ class Game(models.Model):
         self.is_running = False
         self.is_over = True
         self.is_broken = True
+        if save:
+            self.save()
 
 
-    def __flush_all_players(self):
-        ''' Removes this game from each player's current_game variable back to NULL.
-         Does NOT remove the users from the game's players field since it is used to log
-         the games data long term for users to track their stats through games they played in.
-         This will allow players to join an other game in the future. This should only
-         be done when the it is time to cut ties with between the game and its players 
-         to definitly in at runtime. '''
+    ### Commented by Ian
+    # def __flush_all_players(self):
+    #     ''' Removes this game from each player's current_game variable back to NULL.
+    #      Does NOT remove the users from the game's players field since it is used to log
+    #      the games data long term for users to track their stats through games they played in.
+    #      This will allow players to join an other game in the future. This should only
+    #      be done when the it is time to cut ties with between the game and its players 
+    #      to definitly in at runtime. '''
         
-        plys = self.players.all()
-        for ply in plys:
-            ply.leave_game(save=False)
-        User.objects.bulk_update(plys, ['current_game'])# batch updates to postgres rather then individual saves.
+    #     plys = self.players.all()
+    #     for ply in plys:
+    #         ply.leave_game(save=False)
+    #     User.objects.bulk_update(plys, ['current_game'])# batch updates to postgres rather then individual saves.
 
 
 
@@ -146,5 +153,5 @@ class Game(models.Model):
 
         self.finale_scores = scores
         
-        self.__flush_all_players()
+        #self.__flush_all_players()
         self.save()

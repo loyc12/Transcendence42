@@ -9,18 +9,18 @@ class GameConsumer(AsyncWebsocketConsumer):
     #public_games = dict()
     #tournament_games = dict()# structured tournament_games[<tournament_name>][<game_id>]
 
-    #async def validate_user_can_connect_to_game(self, user):
+    # async def validate_user_can_connect_to_game(self, user):
     #    '''
     #        Validates that : 
     #            - User is not already connected to a game.
     #            - The game isn't already full.
     #    '''
-#
+
     #    if user.running_game:
     #        if user.running_game in self.public_games:
     #            # User trying to reconnect to the game they are already connected to.
     #            return False
-    #        
+           
     #        if self.public_games[user.running_game]:
     #            pass
 
