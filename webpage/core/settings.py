@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     "daphne",
     "django.contrib.staticfiles",
     "django_extensions",
-    #"bootstrap5",
+    "bootstrap5",
     
     "Home",
     "login",

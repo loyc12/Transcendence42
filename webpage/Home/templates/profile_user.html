@@ -1,0 +1,22 @@
+<!-- profile.html -->
+
+{% if messages %}
+  {% for message in messages %}
+    <p style="color: green;">{{ message }}</p>
+  {% endfor %}
+{% endif %}
+<h2>User Profile</h2>
+{% if submitted_data %}
+  <p>First Name: {{ submitted_data.first_name }}</p>
+  <p>Last Name: {{ submitted_data.last_name }}</p>
+  <p>Pseudo: {{ submitted_data.pseudo }}</p>
+{% endif %}
+{% if form.errors %}
+  <p style="color: red;">Please correct the errors below.</p>
+{% endif %}
+<form method="post" action="{% url 'profile' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save Profile</button>
+  <a href="{% url 'home' %}"><button type="button">Go Home</button></a>
+</form>
