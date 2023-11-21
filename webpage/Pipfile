@@ -18,6 +18,7 @@ django-channels = "*"
 channels = "*"
 daphne = "*"
 django-redis = "*"
+django-bootstrap-v5 = "*"
 
 [dev-packages]
 
