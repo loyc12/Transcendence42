@@ -9,6 +9,7 @@ from users.views import import_data
 
 #http://127.0.0.1:3000/
 def home_view(request):
+    """ This function is used to render the home page. """
     authorization_code = request.GET.get('code', None)
     if (authorization_code):
         token = get_access_token(authorization_code)
