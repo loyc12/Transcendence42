@@ -1,4 +1,5 @@
 let all_hero_content = [
+    'content0',
     'content1',
     'content2',
     'content3',
@@ -23,25 +24,28 @@ let select_hero_content = function (id) {
         contentElem.style.display = 'block';
 }
 
+let buttonModule0 = document.getElementById('buttonModule0');
 let buttonModule1 = document.getElementById('buttonModule1');
 let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
 let buttonModule4 = document.getElementById('buttonModule4');
 
 buttonModule1.addEventListener('click', function () {select_hero_content(0);})
-buttonModule2.addEventListener('click', function () {select_hero_content(1);})
-buttonModule3.addEventListener('click', function () {select_hero_content(2);})
-buttonModule4.addEventListener('click', function () {select_hero_content(3);})
+buttonModule1.addEventListener('click', function () {select_hero_content(1);})
+buttonModule2.addEventListener('click', function () {select_hero_content(2);})
+buttonModule3.addEventListener('click', function () {select_hero_content(3);})
+buttonModule4.addEventListener('click', function () {select_hero_content(4);})
 
 select_hero_content(0)
+
 
 let currentState = 'home';  // Initialize the current state to 'home'
 let initialChoice = null;    // Keep track of the initial choice
 
 function showSubMenu(selectedOption) {
     // Check if the selected option is to the left of the current state
-    const selectedOptionIndex = ['home','display', 'game', 'option'].indexOf(selectedOption);
-    const currentStateIndex = ['home','display', 'game', 'option'].indexOf(currentState);
+    const selectedOptionIndex = ['home','info', 'remote', 'local', 'login'].indexOf(selectedOption);
+    const currentStateIndex = ['home','info', 'remote', 'local', 'login'].indexOf(currentState);
 
     if (selectedOption === 'home') {
         // Handle the 'Home' option
@@ -101,13 +105,13 @@ function handleSubOption(subOption) {
     }
 }
 
-// function loadContent(contentFile) {
-//     // Load content into the heroDiv based on the specified content file
-//     const heroDiv = document.getElementById('heroDiv');
-//     fetch(contentFile)
-//         .then(response => response.text())
-//         .then(data => {
-//             heroDiv.innerHTML = data;
-//         })
-//         .catch(error => console.error('Error loading content:', error));
-// }
+function loadContent(contentFile) {
+    // Load content into the heroDiv based on the specified content file
+    const heroDiv = document.getElementById('heroDiv');
+    fetch(contentFile)
+        .then(response => response.text())
+        .then(data => {
+            heroDiv.innerHTML = data;
+        })
+        .catch(error => console.error('Error loading content:', error));
+}

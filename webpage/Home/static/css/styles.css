@@ -138,6 +138,11 @@ body {
     margin-top: 0.5rem;
 }
 
+#module1 {
+    background-color: #178ca8;
+    height: 90vh;
+}
+
 #module2 {
     background-color: #178ca8;
     height: 90vh;
