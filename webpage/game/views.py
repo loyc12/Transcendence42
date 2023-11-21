@@ -28,7 +28,11 @@ def _build_test_game(user: User) -> Game:
 def game_create_db_instance(request):
     id =  request.user.id
     print("id : ", id)
-    user = User.objects.get(id=id)
+    try:
+        user = User.objects.get(id=id)
+    except User.DoesNotExist:
+        return HttpResponse('Users must be logged in to be able to create games.')
+
     print("req user id : ", id, ", user : ", user)
     if not user: 
         return HttpResponse(f"User id {request.user.id} of requestee does not match any db entry.")
@@ -36,6 +40,7 @@ def game_create_db_instance(request):
     game = _build_test_game(user=User.objects.get(id=request.user.id))
     game.save()
     return HttpResponse('Game created and pushed to database')
+
 
 def game_get_state(request):
     game = Game.objects.get(id=4)
