@@ -26,8 +26,11 @@ def logo_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'logo.html')
 
-
 def profile_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'profile.html')
+
+def userProfile_view(request):
     """ This function is used to render the profile page. """
     if request.method == 'POST':
         form = ProfileForm(request.POST)

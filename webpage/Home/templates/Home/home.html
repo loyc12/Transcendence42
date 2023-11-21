@@ -17,7 +17,9 @@
 	{% block module2 %}
 	<div class="display" id="buttonModule2" >
 		<h1> Profile </h1>
-		{% include 'Profile/profile.html' %}	
+		{% block heroDiv %}
+			{% include 'Profile/profile.html' %}
+		{% endblock %}
 	</div>
 	{% endblock %}
 	
