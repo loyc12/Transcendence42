@@ -33,25 +33,32 @@
             <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div class="NavBar"> 
-                    {% block navbar %}{% endblock %}
+                    {% block navbar %}
+                    <button id="buttonModule1">Home</button>
+                    <button id="buttonModule2">Display</button>
+                    <button id="buttonModule3">List</button>
+                    <div class="rgt_flt" >
+                        <button  onclick="toggle()" id="btn" type="btn">LOGIN</button>
+                    </div>
+                    {% endblock %}
                 </div>
             </div>
             <!-- home - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content1" class="home">
+                <div id="content1" class="heroDiv">
                     {% block HeroDiv %}{% endblock %}
                 </div>
             </div>
             <!-- display - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content2" class="display">
-                    {% block display %}{% endblock %}
+                <div id="content2" class="module2">
+                    {% block module2 %}{% endblock %}
                 </div>
             </div>
             <!-- game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content3" class="game">
-                    {% block game %}{% endblock %}
+                <div id="content3" class="module3">
+                    {% block module3 %}{% endblock %}
                 </div>
             </div>
             <!-- list - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

@@ -57,106 +57,106 @@ select_hero_content(0)
 
 // integration of the navbar
 
-let currentState = 'home';  // Initialize the current state to 'home'
-let initialChoice = null;    // Keep track of the initial choice
+// let currentState = 'home';  // Initialize the current state to 'home'
+// let initialChoice = null;    // Keep track of the initial choice
 
-// Function to initialize the navbar based on the current state
-function initState() {
-    const navbarRow = document.getElementById('navbarRow');
-    navbarRow.innerHTML = '';
+// // Function to initialize the navbar based on the current state
+// function initState() {
+//     const navbarRow = document.getElementById('navbarRow');
+//     navbarRow.innerHTML = '';
 
-    // Create a button for the home option
-    const homeButton = document.createElement('div');
-    homeButton.innerHTML = '<button onclick="showSubMenu(\'home\')" class="btn_event">Home</button>';
-    homeButton.classList.add('col');
-    navbarRow.appendChild(homeButton);
+//     // Create a button for the home option
+//     const homeButton = document.createElement('div');
+//     homeButton.innerHTML = '<button onclick="showSubMenu(\'home\')" class="btn_event">Home</button>';
+//     homeButton.classList.add('col');
+//     navbarRow.appendChild(homeButton);
 
-    // Generate and append sub-option buttons
-    const subOptions = generateSubOptions(currentState);
-    subOptions.forEach(subOption => {
-        const subOptionElement = document.createElement('div');
-        subOptionElement.innerHTML = `<button onclick="handleSubOptionButtonClick('${subOption}')" class="btn_event">${subOption}</button>`;
-        subOptionElement.classList.add('col');
-        navbarRow.appendChild(subOptionElement);
-    });
+//     // Generate and append sub-option buttons
+//     const subOptions = generateSubOptions(currentState);
+//     subOptions.forEach(subOption => {
+//         const subOptionElement = document.createElement('div');
+//         subOptionElement.innerHTML = `<button onclick="handleSubOptionButtonClick('${subOption}')" class="btn_event">${subOption}</button>`;
+//         subOptionElement.classList.add('col');
+//         navbarRow.appendChild(subOptionElement);
+//     });
 
 
-    // Add click event listener to the "forEach" button
-    // const forEachButtonElement = document.getElementById('forEach');
-    forEachButtonElement.addEventListener('click', () => handleSubOptionButtonClick(currentState));
-}
+//     // Add click event listener to the "forEach" button
+//     // const forEachButtonElement = document.getElementById('forEach');
+//     forEachButtonElement.addEventListener('click', () => handleSubOptionButtonClick(currentState));
+// }
 
-function showSubMenu(selectedOption) {
-    // Check if the selected option is to the left of the current state
-    const selectedOptionIndex = ['home','display', 'game', 'list'].indexOf(selectedOption);
-    const currentStateIndex = ['home','display', 'game', 'list'].indexOf(currentState);
+// function showSubMenu(selectedOption) {
+//     // Check if the selected option is to the left of the current state
+//     const selectedOptionIndex = ['home','display', 'game', 'list'].indexOf(selectedOption);
+//     const currentStateIndex = ['home','display', 'game', 'list'].indexOf(currentState);
 
-    if (selectedOption === 'home') {
-        // Handle the 'Home' option
-        if (currentState !== 'home') {
-            currentState = 'home';
-            initialChoice = null;
-            initState();  // Call initState to update the navbar row
-        }
-    } else if (selectedOptionIndex < currentStateIndex) {
-        // Reset to the initial state
-        currentState = selectedOption;
-        initialChoice = null;
-        initState();  // Call initState to update the navbar row
-    } else {
+//     if (selectedOption === 'home') {
+//         // Handle the 'Home' option
+//         if (currentState !== 'home') {
+//             currentState = 'home';
+//             initialChoice = null;
+//             initState();  // Call initState to update the navbar row
+//         }
+//     } else if (selectedOptionIndex < currentStateIndex) {
+//         // Reset to the initial state
+//         currentState = selectedOption;
+//         initialChoice = null;
+//         initState();  // Call initState to update the navbar row
+//     } else {
         
-        // Handle sub-options behavior
-        currentState = selectedOption;
-        initialChoice = selectedOption;
-        // handleSubOption(selectedOption);
-        initState();  // Call initState to update the navbar row
-    }
-}
+//         // Handle sub-options behavior
+//         currentState = selectedOption;
+//         initialChoice = selectedOption;
+//         // handleSubOption(selectedOption);
+//         initState();  // Call initState to update the navbar row
+//     }
+// }
 
-function handleSubOptionButtonClick(subOption) {
-    switch (subOption) {
-        case 'Profile':
-            loadProfileContent();
-            break;
-        default:
-            handleSubOption(subOption);
-            break;
-    }
-}
+// function handleSubOptionButtonClick(subOption) {
+//     switch (subOption) {
+//         case 'Profile':
+//             loadProfileContent();
+//             break;
+//         default:
+//             handleSubOption(subOption);
+//             break;
+//     }
+// }
 
-// Function to load content for the "Profile" option
-function loadProfileContent() {
-    // You can customize this function based on the desired behavior for the "Profile" option
-    loadContent('Profile/profile.html');
-}
+// // Function to load content for the "Profile" option
+// function loadProfileContent() {
+//     // You can customize this function based on the desired behavior for the "Profile" option
+//     loadContent('Profile/profile.html');
+// }
 
-// Function to load content into the heroDiv
-function loadContent(contentFile) {
-    const heroDiv = document.getElementById('heroDiv');
-    fetch(contentFile)
-        .then(response => response.text())
-        .then(data => {
-            heroDiv.innerHTML = data;
-        })
-        .catch(error => console.error('Error loading content:', error));
-}
+// // Function to load content into the heroDiv
+// function loadContent(contentFile) {
+//     const heroDiv = document.getElementById('heroDiv');
+//     fetch(contentFile)
+//         .then(response => response.text())
+//         .then(data => {
+//             heroDiv.innerHTML = data;
+//         })
+//         .catch(error => console.error('Error loading content:', error));
+// }
 
-// Generate and append sub-option buttons
-function generateSubOptions(selectedOption) {
-    // You can customize this function to generate sub-options based on the selected option
-    switch (selectedOption) {
-        case 'home':
-            return ['Display', 'Game', 'List'];
-        case 'display':
-            return ['Profile', 'Stats', 'Others'];
-        case 'game':
-            return ['Solo', 'Remote', 'Tournament'];
-        case 'list':
-            return ['Visitor', 'Leader', 'Match'];
-        default:
-            return [];
-    }
-}
+// // Generate and append sub-option buttons
+// function generateSubOptions(selectedOption) {
+//     // You can customize this function to generate sub-options based on the selected option
+//     switch (selectedOption) {
+//         case 'home':
+//             return ['Display', 'Game', 'List'];
+//         case 'display':
+//             return ['Profile', 'Stats', 'Others'];
+//         case 'game':
+//             return ['Solo', 'Remote', 'Tournament'];
+//         case 'list':
+//             return ['Visitor', 'Leader', 'Match'];
+//         default:
+//             return [];
+//     }
+// }
 
 // Function to initialize the navbar based on the current state
 // function initState() {
