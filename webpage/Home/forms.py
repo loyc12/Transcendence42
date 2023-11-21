@@ -1,5 +1,5 @@
 """This file is used to create the login form."""
-# forms.py
+forms.py
 
 from django import forms
 

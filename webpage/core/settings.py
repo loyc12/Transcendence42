@@ -2,17 +2,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# OpenID OAuth2 config
-#LOGIN_URL='/admin/login/'
-
-#OAUTH2_PROVIDER = {
-#    "OIDC_ENABLED": True,
-#    "OIDC_RSA_PRIVATE_KEY": ENV_FILE["OIDC_RSA_PRIVATE_KEY"],
-#    "SCOPES": {
-#        "openid": "OpenID Connect scope",
-#    },
-#}
-
 #SESSION_AV
 from importlib import import_module
 from django.conf import settings
@@ -65,7 +54,7 @@ INSTALLED_APPS = [
     "daphne",
     "django.contrib.staticfiles",
     "django_extensions",
-    "bootstrap5",
+    #"bootstrap5",
     
     "Home",
     "login",
