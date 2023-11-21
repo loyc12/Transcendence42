@@ -1,21 +1,17 @@
 
 {% block navbar %}
-<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">Info</button>
-<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Remote</button>
-<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule3">Local</button>
-<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule4">Login</button>
 <div class="row" id="navbarRow">
-        <div class="col">
-            <button onclick="showSubMenu('home')" class="btn btn-primary" id="displayBtn">Home</button>
-        </div>        
-        <div class="col">
-            <button onclick="showSubMenu('display')" class="btn btn-primary" id="displayBtn">Display</button>
-        </div>
-        <div class="col">
-            <button onclick="showSubMenu('game')" class="btn btn-primary" id="gameBtn">Game</button>
-        </div>
-        <div class="col">
-            <button onclick="showSubMenu('option')" class="btn btn-primary" id="optionBtn">Option</button>
-        </div>
+    <div class="col">
+        <button type="button" onclick="showSubMenu('option')" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">Info</button>
     </div>
+    <div class="col">
+        <button type="button" onclick="showSubMenu('game')" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Remote</button>
+    </div>
+    <div class="col">
+        <button type="button" onclick="showSubMenu('game')" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule3">Local</button>
+    </div>
+    <div class="col">
+        <button type="button" onclick="showSubMenu('display')" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule4">Login</button>
+    </div>
+</div>
 {% endblock %}
