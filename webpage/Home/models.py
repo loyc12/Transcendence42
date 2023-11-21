@@ -1,6 +1,7 @@
 """ This file contains the models for the Home app. """
 from django.db import models
 # models.py
+# AV
 
 class UserProfile(models.Model):
     """ This class is used to create the user profile model. """

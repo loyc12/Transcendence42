@@ -4,12 +4,11 @@ import requests
 from django.shortcuts import render
 from login.views import get_access_token, get_api_data
 from users.views import import_data
-from .forms import ProfileForm
+#from .forms import ProfileForm
 
 
 #http://127.0.0.1:3000/
 def home_view(request):
-    """ This function is used to render the home page. """
     authorization_code = request.GET.get('code', None)
     if (authorization_code):
         token = get_access_token(authorization_code)
@@ -22,6 +21,7 @@ def home_view(request):
         return render(request, 'Home/home.html')
     return render(request, 'Home/home.html')
 
+
 def logo_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'logo.html')
@@ -32,14 +32,14 @@ def profile_view(request):
 
 def userProfile_view(request):
     """ This function is used to render the profile page. """
-    if request.method == 'POST':
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            # Process the form data (save to the database or perform other actions)
-            # For now, just print the data
-            print(form.cleaned_data)
-            # return redirect('home')
-    else:
-        form = ProfileForm()
+    # if request.method == 'POST':
+    #     form = ProfileForm(request.POST)
+    #     if form.is_valid():
+    #         # Process the form data (save to the database or perform other actions)
+    #         # For now, just print the data
+    #         print(form.cleaned_data)
+    #         # return redirect('home')
+    # else:
+    #     form = ProfileForm()
 
     return render(request, 'profile.html', {'form': form})

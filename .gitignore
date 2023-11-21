@@ -1,6 +1,7 @@
 **/.env
 **/*.crt
 **/*.key
+**/__pycache__
 
 # 42
 *.DS_Store

@@ -1,19 +1,96 @@
 /* HOME FOLDER Apply some basic styling to the TopBar */
 
-/* Style the navigation ba60vhr */
+/* font-family to apply to all the body */
+body {
+    font-family: 'Nunito';
+    font-size: 20px;
+}
+
+/* Style the navigation bar */
 #NavBar {
 
     /* navbar background */
-    background-color: rgb(108, 114, 111);
+    background-color: #145faf;
     /* navbar text color */
-    color: #fbff00;
-    
-    padding: 5px;
-    display: flex;
-    float: center;
-    border: 2px solid #de1bd4;
+    color: #f0ffff;
+    /* button white #f0ffff and text #145faf TODO */
 
 }
+
+.NavBar {
+    /* navbar background */
+    background-color: #145faf; /* navbar will this color */
+    /* navbar text color */
+    color: #f0ffff;
+    font-family: 'Nunito';
+    font-size: 15px;
+}
+
+#button {
+    color: #0e4870
+}
+
+/* --------------------- STUFF à VAL ---------------------- */
+/* -- PROFILE CSS -- */
+#profile {
+    /* background-color: #6a585f; Change the background color to suit your design */
+    background-color: #178ca8;
+    color: #f0ffff;
+    /* position: inherit; */
+    /* padding: 120px; */
+    /* width: 66%;
+    height: 60vh;
+    float: right; */
+    /* border: 2px solid rgb(108, 114, 0); */
+    /* border: 2px solid #de1bd4; */
+
+}
+
+.info {
+    list-style-type: none;
+}
+
+.info li::before {
+    content: "\2605";
+    color: #f0ffff;
+    font-size: 20px;
+    margin-right: 0.5em;
+}
+/* -- END -- PROFILE CSS -- */
+
+
+/* to be used for new navbar */
+/* #TopBar { */
+    /* background-color: #b0b3b9; */
+    /* background-color: #145faf;
+    color: #f0ffff; */
+    /* padding: 10px; */
+    /* width: 100%;
+    height: 35vh;
+    border: 2px solid #242351; */
+/* } */
+
+
+/* #NavBar {
+    background-color: #145faf;
+    color: #f0ffff;
+}
+
+#NavBar a{
+    color: #f0ffff;
+} */
+
+
+/* .heroDiv {
+    display: none;
+}
+
+.heroDiv.active {
+    display: block;
+} */
+
+/* ------------------------------ END STUFF à VAL ---------------------------- */
+
 /* Style the navigation links */
 /* #NavBar ul {
     list-style: none;
@@ -35,6 +112,7 @@
     float: center;
 } */
 
+/* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
 .content1 {
     display: block;
 }
@@ -45,25 +123,35 @@
 
 
 #HeroDiv {
-    background-color: #c300ff;
+    background-color: #178ca8; /*all "herodiv" will be this color */
     height: 90vh;
 }
 
+.logo-img {
+    display: block; /* ensures the image is a block-level element*/
+    margin: auto; /*centers the block-level element horizontally */
+}
+
+#HeroDiv h1 {
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 0.5rem;
+}
 
 #module2 {
-    background-color: #0019fd;
+    background-color: #178ca8;
     height: 90vh;
 }
 
 
 #module3 {
-    background-color: #fde800;
+    background-color: #178ca8;
     height: 90vh;
 }
 
 
 footer {
-    background-color: #4cbe;
+    background-color: #4cbe96; /* footer color */
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 16px;
@@ -74,14 +162,9 @@ footer {
     display: block;
     margin: 0 auto; 
 } */
+/* width: 66%; */
 
 
-.rgt_flt { 
-    float: right;
-    /* width: 50%; */
-    /* height: 100%; */
-    /* background: rgb(0, 26, 255); */
-}
 /* Add more styles as needed for your specific layout
 
 
