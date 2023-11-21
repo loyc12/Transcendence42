@@ -64,7 +64,7 @@ function showSubMenu(selectedOption) {
         // Handle sub-options behavior
         currentState = selectedOption;
         initialChoice = selectedOption;
-        handleSubOption(selectedOption);
+        // handleSubOption(selectedOption);
         initState();  // Call initState to update the navbar row
     }
 }
@@ -87,24 +87,24 @@ function initState() {
     }
 }
 
-// function handleSubOption(subOption) {
-//     // Customize this function based on the desired behavior for sub-options
-//     switch (subOption) {
-//         case 'Display1':
-//             // Load content into the heroDiv for Display1
-//             loadContent('heroDiv');
-//             loadContent('content1');
+function handleSubOption(subOption) {
+    // Customize this function based on the desired behavior for sub-options
+    switch (subOption) {
+        case 'Display1':
+            // Load content into the heroDiv for Display1
+            loadContent('heroDiv');
+            loadContent('content1');
 
-//             break;
-//         // Add more cases for other sub-options if needed
-//         case 'Display2':
-//         // Load content into the heroDiv for Display1
-//             loadContent('content');
-//             break;
-//         default:
-//             break;
-//     }
-// }
+            break;
+        // Add more cases for other sub-options if needed
+        case 'Display2':
+        // Load content into the heroDiv for Display1
+            loadContent('content');
+            break;
+        default:
+            break;
+    }
+}
 
 function loadContent(contentFile) {
     // Load content into the heroDiv based on the specified content file
