@@ -2,7 +2,7 @@
 const modules = {
     home: 'home.html',
     display: {
-        Profile: 'profile.html',
+        Profile: 'Profile/profile.html',
         Stats: 'stats.html',
         Others: 'others.html'
     },
@@ -67,7 +67,7 @@ function initState() {
 
     // Create a button for the home option
     const homeButton = document.createElement('div');
-    homeButton.innerHTML = '<button onclick="showSubMenu(\'home\')" class="btn btn-outline-primary">Home</button>';
+    homeButton.innerHTML = '<button onclick="showSubMenu(\'home\')" class="btn_event">Home</button>';
     homeButton.classList.add('col');
     navbarRow.appendChild(homeButton);
 
@@ -75,7 +75,7 @@ function initState() {
     const subOptions = generateSubOptions(currentState);
     subOptions.forEach(subOption => {
         const subOptionElement = document.createElement('div');
-        subOptionElement.innerHTML = `<button onclick="handleSubOptionButtonClick('${subOption}')" class="btn btn-outline-primary">${subOption}</button>`;
+        subOptionElement.innerHTML = `<button onclick="handleSubOptionButtonClick('${subOption}')" class="btn_event">${subOption}</button>`;
         subOptionElement.classList.add('col');
         navbarRow.appendChild(subOptionElement);
     });
@@ -108,21 +108,26 @@ function showSubMenu(selectedOption) {
         // Handle sub-options behavior
         currentState = selectedOption;
         initialChoice = selectedOption;
-        handleSubOption(selectedOption);
+        // handleSubOption(selectedOption);
         initState();  // Call initState to update the navbar row
     }
 }
 
 function handleSubOptionButtonClick(subOption) {
-    handleSubOption(subOption);
+    switch (subOption) {
+        case 'Profile':
+            loadProfileContent();
+            break;
+        default:
+            handleSubOption(subOption);
+            break;
+    }
 }
 
-// Function to handle sub-options behavior
-function handleSubOption(selectedOption) {
-    const contentFile = modules[currentState][selectedOption];
-    if (contentFile) {
-        loadContent(contentFile);
-    }
+// Function to load content for the "Profile" option
+function loadProfileContent() {
+    // You can customize this function based on the desired behavior for the "Profile" option
+    loadContent('Profile/profile.html');
 }
 
 // Function to load content into the heroDiv
