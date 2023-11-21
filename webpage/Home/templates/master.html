@@ -5,7 +5,7 @@
     <head>
         <!-- Browser Setup  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <meta charset="UTF-8">
-       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Onglet Tabulation  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <title>Your Single Page Website</title>
@@ -31,29 +31,31 @@
             <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div class="NavBar"> 
-                    {% block navbar %}
-                    
-                    {% endblock %}
+                    {% block navbar %}{% endblock %}
                 </div>
             </div>
-            <!-- HeroDiv - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- home - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content1" class="HeroDiv">
-                    {% block HeroDiv %}
-
-                    {% endblock %}
+                <div id="content1" class="home">
+                    {% block HeroDiv %}{% endblock %}
                 </div>
             </div>
-            <!-- Module1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- display - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content2" class="module2">
-                    {% block module2 %}{% endblock %}
+                <div id="content2" class="display">
+                    {% block display %}{% endblock %}
                 </div>
             </div>
-            <!-- Module2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content3" class="module3">
-                    {% block module3 %}{% endblock %}
+                <div id="content3" class="game">
+                    {% block game %}{% endblock %}
+                </div>
+            </div>
+            <!-- list - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="content4" class="list">
+                    {% block list %}{% endblock %}
                 </div>
             </div>
         </div> 

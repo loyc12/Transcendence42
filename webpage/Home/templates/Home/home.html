@@ -1,29 +1,35 @@
 <!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
 
-	<!-- {% block navbar %} -->
-	<!-- <div class="row" id="navbarRow">
+	{% block navbar %}
+	<div class="row" id="navbarRow">
 		{% include 'Selector/selector.html' %}
-	</div> -->
-	<!-- {% endblock %} -->
+	</div>
+	{% endblock %}
 
-	{% block HeroDiv %}
-	<div class="HeroDiv" id="HeroDiv" >
+	{% block home %}
+	<div class="home" id="buttonModule1" >
 		<h1>Acceuil </h1>
 		{% include 'Logo/logo.html' %}
 	</div>
 	{% endblock %}
 	
 	{% block module2 %}
-	<div class="module2" id="module2" >
+	<div class="display" id="buttonModule2" >
 		<h1>Login pas touche</h1>
 	</div>
 	{% endblock %}
 	
 	{% block module3 %}
-	<div class="module3" id="module3" >
-		<div> Module 3 </div>	
-		{% include 'profile.html' %}	
+	<div class="game" id="buttonModule3" >
+		<h1> Module 3 </h1>	
+		{% include 'Profile/profile.html' %}	
 	</div>
-{% endblock %}
+	{% endblock %}
+
+	{% block module4 %}
+	<div class="list" id="buttonModule4" >
+		<h1>LIST</h1>
+	</div>
+	{% endblock %}
 
