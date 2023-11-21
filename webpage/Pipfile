@@ -18,6 +18,7 @@ django-channels = "*"
 channels = "*"
 daphne = "*"
 django-redis = "*"
+channels-redis = "*"
 
 [dev-packages]
 

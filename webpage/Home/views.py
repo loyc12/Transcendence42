@@ -4,6 +4,7 @@ import requests
 from django.shortcuts import render
 from login.views import get_access_token, get_api_data
 from users.views import import_data
+from users.models import User
 #from .forms import ProfileForm
 
 
@@ -19,7 +20,9 @@ def home_view(request):
         user_data = requests.get(url, headers=headers, timeout=10)
         import_data(user_data, request)
         return render(request, 'Home/home.html')
-    return render(request, 'Home/home.html')
+    users = User.objects.all()
+    print('users : ', users)
+    return render(request, 'Home/home.html', context={'users': users})
 
 
 def logo_view(request):
@@ -39,3 +42,17 @@ def profile_view(request):
     #     form = ProfileForm()
 
     return render(request, 'profile.html', {'form': form})
+
+# def visitors_view(request):
+#     """ This function is used to render the logo page. """
+#     return render(request, 'visitors.html')
+
+# Lobby view functions dans Home/views.
+def lobby_main(request):
+    users = User.objects.all()
+    return (render(request, 'visitors.html', context={'users': users}))
+
+
+
+
+
