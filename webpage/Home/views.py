@@ -38,4 +38,4 @@ def profile_view(request):
     # else:
     #     form = ProfileForm()
 
-    return render(request, 'profile.html', {'form': form})
+    return render(request, 'profile.html')#, {'form': form}
