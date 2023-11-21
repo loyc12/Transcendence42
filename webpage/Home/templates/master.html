@@ -38,9 +38,7 @@
                         <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">HeroDiv</button>
                         <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Module 2</button>
                         <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule3">Module 3</button>
-                        <div class="col" class="rgt_flt" >
-                            <button  onclick="toggle()" id="btn" type="btn">LOGIN</button>
-                        </div>
+
                     {% endblock %}
                 </div>
             </div>
@@ -60,7 +58,9 @@
             <!-- game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="content3" class="module3">
-                    {% block module3 %}{% endblock %}
+                    {% block module3 %}
+   
+                    {% endblock %}
                 </div>
             </div>
             <!-- list - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -70,14 +70,6 @@
                 </div>
             </div>
         </div> 
-        <script>
-            const btn = document.getElementById('btn');
-
-            btn.addEventListener('click', () => {
-            btn.style.visibility = 'hidden';
-            });
-            
-          </script>
     </body>
 
     <footer class="border-top" >

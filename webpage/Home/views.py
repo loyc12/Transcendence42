@@ -30,16 +30,7 @@ def profile_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'profile.html')
 
-def userProfile_view(request):
-    """ This function is used to render the profile page. """
-    # if request.method == 'POST':
-    #     form = ProfileForm(request.POST)
-    #     if form.is_valid():
-    #         # Process the form data (save to the database or perform other actions)
-    #         # For now, just print the data
-    #         print(form.cleaned_data)
-    #         # return redirect('home')
-    # else:
-    #     form = ProfileForm()
 
-    return render(request, 'profile.html', {'form': form})
+def game_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'game.html')
