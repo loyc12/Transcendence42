@@ -93,6 +93,7 @@ function handleSubOption(subOption) {
         case 'Display1':
             // Load content into the heroDiv for Display1
             loadContent('heroDiv');
+            loadContent('content1');
 
             break;
         // Add more cases for other sub-options if needed
