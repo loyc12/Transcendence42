@@ -1,11 +1,13 @@
+
 {% load static %}
+
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <!-- Browser Setup  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Onglet Tabulation - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <title>Ping Pang Pong</title>
@@ -23,12 +25,12 @@
 
     <body>
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <div class="container">
+        <div class="container-fluid">
             <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div class="NavBar"> 
                     {% block navbar %}
-                        {% include 'navbar.html' %}
+                        {% include 'Selector/navbar.html' %}
                     {% endblock %}
                 </div>
             </div>
