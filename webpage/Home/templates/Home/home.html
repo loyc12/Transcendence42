@@ -10,19 +10,21 @@
 
 {% block module1 %}
 	<div class="module1" id="module1" >
-		<div> Info </div>	
+		<div> Info </div>
+		{% include	'Profile/profile.html' %}
 	</div>
 {% endblock %}
 	
 {% block module2 %}
 	<div class="module2" id="module2" >
-		<div> Remote </div>	
+		<div> Remote Game</div>	
 	</div>
 {% endblock %}
 	
 {% block module3 %}
 <div class="module3" id="module3" >
-	<div> Local </div>	
+	<div> Local Game</div>	
+	{% include	'game/game.html' %}
 </div>
 {% endblock %}
 

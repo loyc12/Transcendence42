@@ -79,6 +79,7 @@ function showSubMenu(selectedOption) {
         // Reset to the initial state
         currentState = selectedOption;
         initialChoice = null;
+        // handleSubOption(selectedOption);
         initState();  // Call initState to update the navbar row
     } else {
         
@@ -90,20 +91,16 @@ function showSubMenu(selectedOption) {
     }
 }
 
-
-
 function handleSubOption(subOption) {
     // Customize this function based on the desired behavior for sub-options
     switch (subOption) {
-        case 'Display1':
+        case 'home':
             // Load content into the heroDiv for Display1
-            loadContent('heroDiv');
-            // loadContent('content1');
-
+            loadContent('heroDiv');            // loadContent('content1');
             break;
-        // Add more cases for other sub-options if needed
-        case 'Display2':
-        // Load content into the heroDiv for Display1
+            
+        case 'info':
+            // Load content into the heroDiv for Display1
             loadContent('content');
             break;
         default:

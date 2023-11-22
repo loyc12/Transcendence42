@@ -27,16 +27,7 @@ def logo_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'logo.html')
 
+
 def profile_view(request):
     """ This function is used to render the profile page. """
-    # if request.method == 'POST':
-    #     form = ProfileForm(request.POST)
-    #     if form.is_valid():
-    #         # Process the form data (save to the database or perform other actions)
-    #         # For now, just print the data
-    #         print(form.cleaned_data)
-    #         # return redirect('home')
-    # else:
-    #     form = ProfileForm()
-
-    return render(request, 'profile.html')#, {'form': form}
+    return render(request, 'profile.html')
