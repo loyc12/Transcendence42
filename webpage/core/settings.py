@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     "login",
     "users",
     "channels",
-    "game"
+    "game",
 ]
 
 # MIDDLEWARE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
