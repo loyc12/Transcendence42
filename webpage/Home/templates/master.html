@@ -1,4 +1,6 @@
+
 {% load static %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,12 +25,12 @@
 
     <body>
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <div class="container">
+        <div class="container-fluid">
             <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div class="NavBar"> 
                     {% block navbar %}
-                        {% include 'navbar.html' %}
+                        {% include 'Selector/navbar.html' %}
                     {% endblock %}
                 </div>
             </div>

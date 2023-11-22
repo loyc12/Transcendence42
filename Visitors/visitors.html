@@ -10,15 +10,12 @@
 			</tr>
 		</thead>
 		<tbody>
+			{% for user in users %}
 			<tr>
-				<td class="text-center" style="color: #f0ffff">first in the list</td>
+				<td class="text-center" style="color: #f0ffff"> username: {{ user.login }}</td> <!--user.login-->
 			</tr>
-			<tr>
-				<td class="text-center" style="color: #f0ffff">second in list...</td>
-			</tr>
-			<tr>
-				<td class="text-center" style="color: #f0ffff">second in list...</td>
-			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
+	<h4>end of list</h4>
 </div>

@@ -30,7 +30,7 @@ let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
 let buttonModule4 = document.getElementById('buttonModule4');
 
-buttonModule1.addEventListener('click', function () {select_hero_content(0);})
+buttonModule0.addEventListener('click', function () {select_hero_content(0);})
 buttonModule1.addEventListener('click', function () {select_hero_content(1);})
 buttonModule2.addEventListener('click', function () {select_hero_content(2);})
 buttonModule3.addEventListener('click', function () {select_hero_content(3);})
@@ -41,34 +41,6 @@ select_hero_content(0)
 
 let currentState = 'home';  // Initialize the current state to 'home'
 let initialChoice = null;    // Keep track of the initial choice
-
-function showSubMenu(selectedOption) {
-    // Check if the selected option is to the left of the current state
-    const selectedOptionIndex = ['home','info', 'remote', 'local', 'login'].indexOf(selectedOption);
-    const currentStateIndex = ['home','info', 'remote', 'local', 'login'].indexOf(currentState);
-
-    if (selectedOption === 'home') {
-        // Handle the 'Home' option
-        if (currentState !== 'home') {
-            currentState = 'home';
-            initialChoice = null;
-            initState();  // Call initState to update the navbar row
-        }
-    } else if (selectedOptionIndex < currentStateIndex) {
-        // Reset to the initial state
-        currentState = selectedOption;
-        initialChoice = null;
-        initState();  // Call initState to update the navbar row
-    } else {
-        
-        // Handle sub-options behavior
-        handleSubOption(selectedOption);
-        currentState = selectedOption;
-        initialChoice = selectedOption;
-        initState();  // Call initState to update the navbar row
-    }
-}
-
 function initState() {
     // Clear the current content of the navbar row
     const navbarRow = document.getElementById('navbarRow');
@@ -81,22 +53,54 @@ function initState() {
 
     if (initialChoice) {
         const initialChoiceElement = document.createElement('div');
-        initialChoiceElement.innerHTML = `<button onclick="showSubMenu('${initialChoice}')" class="btn btn-warning">${initialChoice}</button>`;
+        initialChoiceElement.innerHTML = `<button onclick="showSubMenu('${initialChoice}')"  class="button">${initialChoice}</button>`;
         initialChoiceElement.classList.add('col');
         navbarRow.appendChild(initialChoiceElement);
+    }
+
+    // Create a new set of sub-options
+    const subOptions = generateSubOptions(currentState);
+
+    // Add the new set of sub-option buttons to the navbar row
+    subOptions.forEach((subOption, index) => {
+        const subOptionElement = document.createElement('div');
+        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="button">${subOption}</button>`;
+        subOptionElement.classList.add('col');
+        navbarRow.appendChild(subOptionElement);
+    });
+}
+
+function showSubMenu(selectedOption) {
+    // Check if the selected option is to the left of the current state
+    const selectedOptionIndex = ['home','info', 'remote', 'local', 'login'].indexOf(selectedOption);
+    const currentStateIndex = ['home','info', 'remote', 'local', 'login'].indexOf(currentState);
+
+   if (selectedOptionIndex < currentStateIndex) {
+        // Reset to the initial state
+        currentState = selectedOption;
+        initialChoice = null;
+        // handleSubOption(selectedOption);
+        initState();  // Call initState to update the navbar row
+    } else {
+        
+        // Handle sub-options behavior
+        currentState = selectedOption;
+        initialChoice = selectedOption;
+        handleSubOption(selectedOption);
+        initState();  // Call initState to update the navbar row
     }
 }
 
 function handleSubOption(subOption) {
     // Customize this function based on the desired behavior for sub-options
     switch (subOption) {
-        case 'Display1':
+        case 'home':
             // Load content into the heroDiv for Display1
             loadContent('heroDiv');
 
             break;
-        // Add more cases for other sub-options if needed
-        case 'Display2':
+            
+        case 'info':
             // Load content into the heroDiv for Display1
             loadContent('content');
             break;
