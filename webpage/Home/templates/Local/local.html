@@ -1,5 +1,11 @@
 {% block module3 %}
 <div class="module3" id="module3" >
-	<div> Local </div>	
+	<a href="{% url 'home' %}"><button type="button">Go Home</button></a>
+	<div class="row">
+        <button type="button" style="background-color: #0e4870; color: #f0ffff" id="ai">Me VS Robot</button>
+    </div>
+	<div class="row">
+        <button type="button" style="background-color: #0e4870; color: #f0ffff" id="local">Me VS Friend</button>
+    </div>   
 </div>
 {% endblock %}

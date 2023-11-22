@@ -1,5 +1,6 @@
 {% block module4 %}
 <div class="module4" id="module4" >
+	<a href="{% url 'home' %}"><button type="button">Go Home</button></a>
 	{% if request.session.user_id %}
 		<h1>Welcome {{request.session.user_login}}!</h1>
 		<div><pre>{{pretty}}</pre></div>

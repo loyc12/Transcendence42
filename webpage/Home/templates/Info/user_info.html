@@ -1,3 +1,12 @@
+
+<h2>User Profile</h2>
+<!-- Data Mechanic
+  {% if submitted_data %}
+  <p>First Name: {{ submitted_data.first_name }}</p>
+  <p>Last Name: {{ submitted_data.last_name }}</p>
+  <p>Pseudo: {{ submitted_data.pseudo }}</p>
+{% endif %} -->
+
 <div class="profile" id="profile">
   <div class="row align-items-center">
     <div class="col-4">
@@ -17,7 +26,12 @@
       </ul>
     </div>
   </div>
-  <!-- <p>HeroDiv</p> -->
-  <!-- Content for HeroDiv -->
-  <!-- <div>Initial Content</div> -->
 </div>
+
+{% if messages %}
+  {% for message in messages %}
+    <p style="color: green;">{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+

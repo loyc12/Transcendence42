@@ -1,5 +1,11 @@
 {% block module2 %}
 	<div class="module2" id="module2" >
-		<div> Remote </div>	
+		<a href="{% url 'home' %}"><button type="button">Go Home</button></a>
+		<div class="row">
+			<button type="button" style="background-color: #0e4870; color: #f0ffff" id="multiplayer">Multiplayer</button>
+		</div>
+		<div class="row">
+			<button type="button" style="background-color: #0e4870; color: #f0ffff" id="tournament">Tournament</button>
+		</div>   
 	</div>
 {% endblock %}
