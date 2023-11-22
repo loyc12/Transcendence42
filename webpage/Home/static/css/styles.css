@@ -159,6 +159,26 @@ body {
     height: 90vh;
 }
 
+#canvas {
+    background: darkgreen;
+    display: none;
+  }
+  
+  .btn {
+    margin-bottom: 20px;
+  }
+  
+  #btn-start {
+    display: block;
+  }
+  
+  #btn-toggle-sound {
+    display: none;
+  }
+  
+  body {
+    background: #111;
+  }
 
 footer {
     background-color: #4cbe96; /* footer color */
