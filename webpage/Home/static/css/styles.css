@@ -8,19 +8,13 @@ body {
 
 /* Style the navigation bar */
 #NavBar {
-
-    /* navbar background */
     background-color: #145faf;
-    /* navbar text color */
     color: #f0ffff;
-    /* button white #f0ffff and text #145faf TODO */
 
 }
 
 .NavBar {
-    /* navbar background */
-    background-color: #145faf; /* navbar will this color */
-    /* navbar text color */
+    background-color: #145faf; /* navbar will be this color */
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 15px;
@@ -30,26 +24,18 @@ body {
     color: #0e4870
 }
 
-/* --------------------- STUFF à VAL ---------------------- */
 /* -- PROFILE CSS -- */
 #profile {
-    /* background-color: #6a585f; Change the background color to suit your design */
     background-color: #178ca8;
     color: #f0ffff;
-    /* position: inherit; */
-    /* padding: 120px; */
-    /* width: 66%;
-    height: 60vh;
-    float: right; */
-    /* border: 2px solid rgb(108, 114, 0); */
-    /* border: 2px solid #de1bd4; */
 
 }
 
 .info {
-    list-style-type: none;
+    list-style-type: none; /* remove default bullet to be replaced by my stars*/
 }
 
+/* stars instead of bullet in profile */
 .info li::before {
     content: "\2605";
     color: #f0ffff;
@@ -59,59 +45,7 @@ body {
 /* -- END -- PROFILE CSS -- */
 
 
-/* to be used for new navbar */
-/* #TopBar { */
-    /* background-color: #b0b3b9; */
-    /* background-color: #145faf;
-    color: #f0ffff; */
-    /* padding: 10px; */
-    /* width: 100%;
-    height: 35vh;
-    border: 2px solid #242351; */
-/* } */
-
-
-/* #NavBar {
-    background-color: #145faf;
-    color: #f0ffff;
-}
-
-#NavBar a{
-    color: #f0ffff;
-} */
-
-
-/* .heroDiv {
-    display: none;
-}
-
-.heroDiv.active {
-    display: block;
-} */
-
-/* ------------------------------ END STUFF à VAL ---------------------------- */
-
-/* Style the navigation links */
-/* #NavBar ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-}
-
-#NavBar ul li {
-  margin: 0;
-  padding: 0;
-} */
-
-/* Style the HeroDiv */
-/* .HeroDiv {
-    background-color: #717e49;
-    color: #f0ffff;
-    height: 90vh;
-    float: center;
-} */
-
+/* -- CONTENT CSS -- */
 /* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
 .content1 {
     display: block;
@@ -156,15 +90,3 @@ footer {
     font-family: 'Nunito';
     font-size: 16px;
 }
-/* #HeroDiv img {
-    width: auto; 
-    height: auto;
-    display: block;
-    margin: 0 auto; 
-} */
-/* width: 66%; */
-
-
-/* Add more styles as needed for your specific layout
-
-
