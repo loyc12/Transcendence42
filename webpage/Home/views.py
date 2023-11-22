@@ -18,8 +18,8 @@ def home_view(request):
         url = get_api_data()
         user_data = requests.get(url, headers=headers, timeout=10)
         import_data(user_data, request)
-        return render(request, 'Home/home.html')
-    return render(request, 'Home/home.html')
+        return render(request, 'master.html')
+    return render(request, 'master.html')
 
 
 def logo_view(request):
