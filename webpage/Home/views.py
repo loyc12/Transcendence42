@@ -5,7 +5,6 @@ from django.shortcuts import render
 from login.views import get_access_token, get_api_data
 from users.views import import_data
 from users.models import User
-#from .forms import ProfileForm
 
 
 #http://127.0.0.1:3000/
