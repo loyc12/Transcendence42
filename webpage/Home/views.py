@@ -52,7 +52,8 @@ def lobby_main(request):
     users = User.objects.all()
     return (render(request, 'visitors.html', context={'users': users}))
 
-
+def lobby_view(request):
+    return (render(request, 'lobby.html'))
 
 
 

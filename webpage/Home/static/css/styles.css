@@ -13,6 +13,10 @@ body {
 
 }
 
+#lobby canvas {
+    border: solid 1px #000000;
+}
+
 .NavBar {
     background-color: #145faf; /* navbar will be this color */
     color: #f0ffff;
@@ -29,6 +33,12 @@ body {
     background-color: #178ca8;
     color: #f0ffff;
 
+}
+
+/* -- LOBBY CSS -- */
+#lobby {
+    background-color: #178ca8;
+    color: #f0ffff;
 }
 
 .info {
