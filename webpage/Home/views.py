@@ -1,9 +1,12 @@
 """ This file is used to render the home page. """
 import requests
 # from core.settings import ENV_FILE
+from django.contrib.auth import login
 from django.shortcuts import render
 from login.views import get_access_token, get_api_data
 from users.views import import_data
+from users.models import User
+
 #from .forms import ProfileForm
 
 
@@ -17,9 +20,27 @@ def home_view(request):
         headers = {'Authorization': 'Bearer ' + access_token}
         url = get_api_data()
         user_data = requests.get(url, headers=headers, timeout=10)
-        import_data(user_data, request)
-        return render(request, 'Home/home.html')
-    return render(request, 'Home/home.html')
+        user = import_data(user_data, request)
+
+
+        ## modifs à Ian/Chad
+        print("\n\n Try authenticate user : ", user)
+        if user:
+            login(request, user)
+            print('User authenticate with SUCCESS !')
+        else:
+            print('User FAILED to authenticate')
+
+
+        print('\n\n home_view : request.user while AUTHORIZED : ', request.user)
+        users = User.objects.all()
+        return render(request, 'Home/home.html', context={'users': users})
+    else:
+        print('\n\n home_view : request.user while NOT authorized : ', request.user)
+        
+        users = User.objects.all()
+        return render(request, 'Home/home.html', context={'users': users})
+
 
 
 def logo_view(request):

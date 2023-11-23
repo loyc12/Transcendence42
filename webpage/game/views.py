@@ -1,18 +1,51 @@
-from django.shortcuts import HttpResponse, render
+from django.http import JsonResponse
+from django.shortcuts import HttpResponse, render 
 from game.models import Game, Player, User
+from game.forms import GameCreationForm
+import json
 
 # Create your views here.
 def game_home(request):
     print(request)
-    return HttpResponse("Welcome to the game home page.")
+    return render(request, 'game/game_creation_form.html')
+    #return HttpResponse("Welcome to the game home page.")
 
-def create_game(request, game_id: int):
-    print(request)
-    return render(request, 'game/game.html',
-            context={
-                'game_id': game_id
-        }
-    )
+def game_join(request):
+    '''
+        The game request process in the frontend should result in
+        a json struct sent as body to an endpoint landing on 
+        the game_join() view.
+    '''
+    if request.method != 'POST':
+        return HttpResponse('A request to send a game requires a POST request with a propperly fromated body.', status=400)
+    
+    print('RECEIVED POST BODY : ', request.POST)
+    if not request.POST:
+        return HttpResponse('Trying to create a game, but either no game creation form was sent or is malformed.', status=400)
+
+
+    form = GameCreationForm(request.POST)
+    if not form.is_valid():
+        return HttpResponse('Trying to create a game, but either no game creation form was sent or is missing fields.', status=400)
+
+    print('Created form : ', form.cleaned_data['game_mode'])
+    print('Created form : ', form.cleaned_data['game_type'])
+    payload = {
+        'game_id': -1,
+        'game_mode': form.cleaned_data['game_mode'],
+        'game_type': form.cleaned_data['game_type']
+    }
+    game_id = -1# default
+
+    ### TODO: CALL GameManager to create game according to request.
+
+    return JsonResponse(payload)
+    #return render(request, 'game/game_creation_form_returned.html', {'form': form})
+    #return render(request, 'game/game.html',
+    #        context={
+    #            'game_id': game_id
+    #    }
+    #)
     #return HttpResponse(f"<h1>Trying to create game with id : {game_id}</h1>")
     #return HttpResponse(f"Trying to create game with id : {game_id}")
 
@@ -24,7 +57,7 @@ def _build_test_game(user: User) -> Game:
             #group_id=f'game_{id}',
         )
     )
-
+'''
 def game_create_db_instance(request):
     id =  request.user.id
     print("id : ", id)
@@ -76,7 +109,7 @@ def game_delete(request):
         return HttpResponse(f"Game {id} deleted from db.")
     else:
         return HttpResponse(f"No game found")
-
+'''
 
 
 ''' REDIS TESTS'''
@@ -85,18 +118,20 @@ from django_redis import get_redis_connection
 import pickle
 cache = get_redis_connection('default')
 
-def redis_set_test(request):
-    cache.set('BIG', pickle.dumps('DADDY'))
-    return (HttpResponse('value set'))
+def redis_set_test(request, key: str, value: str):
+    if not key or not value:
+        return (HttpResponse('Missing key or value. Format : /game/redis/set/<key>/<value>'))
+
+    cache.set(key, pickle.dumps(value))
+    return (HttpResponse(f"Key '{key}' now set to value : " + value))
 
 
-def redis_get_test(request):
-    redis_get_big = cache.get('BIG')
-    print('redis_get_big : ', str(redis_get_big))
-    big_str = pickle.loads(redis_get_big)
+def redis_get_test(request, key: str):
+    redis_get = cache.get(key)
+    if not redis_get:
+        return (HttpResponse(key + ' means nothing to me.'))
+    print('redis_get : ', str(redis_get_big))
+    big_str = pickle.loads(redis_get)
     print(big_str)
-    if not big_str:
-        return (HttpResponse('Big means nothing to me.'))
-    else:
-        return (HttpResponse('Value extracted from redis server : ' + big_str))
+    return (HttpResponse('Value extracted from redis server : ' + big_str))
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src={% static 'js/game_creation.js' %}></script>
+    {{ game_id|json_script:"game-id" }}
+</head>
+<body>
+    <div>
+        <form action="/game/creation/" method="post">
+            {% csrf_token %}
+            <label for="game_mode">Game Mode: </label>
+            <input id="game_mode" type="text" name="game_mode">
+            <label for="game_type">Game Type: </label>
+            <input id="game_type" type="text" name="game_type">
+            <input type="submit" value="OK">
+        </form>
+    </div>
+</body>
+</html>

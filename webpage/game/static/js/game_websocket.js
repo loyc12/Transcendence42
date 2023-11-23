@@ -24,11 +24,15 @@ class ClientEvent {
     key_code;
 }
 
+let get_websocket_path = function(game_id) {
+    return 'ws://' + window.location.host + '/game/ws/' + game_id + '/';
+}
+
 let connect_to_game_socket = function () {
     const elem = document.getElementById('game-id');
     console.log(elem)
     const game_id = JSON.parse(elem.textContent);
-    const ws_path = 'ws://' + window.location.host + '/game/ws/' + game_id + '/';
+    const ws_path = get_websocket_path(game_id);//'ws://' + window.location.host + '/game/ws/' + game_id + '/';
     console.log('ws_path : ' + ws_path);
     try {
         sock = new WebSocket(ws_path);

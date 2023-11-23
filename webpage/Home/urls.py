@@ -7,5 +7,5 @@ urlpatterns = [
     # URL for the main page (home)
     path("", home_view, name='home' ),
     path('Logo/', logo_view, name='logo' ),
-    path('Profile/', profile_view, name='profile')
+    path('Profile/', profile_view, name='profile'),
 ]

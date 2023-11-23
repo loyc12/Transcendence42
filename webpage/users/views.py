@@ -27,7 +27,7 @@ def import_data(api_data, request):
     request.session.save()
     # session_key = request.session.session_key
     # session = Session.objects.get(session_key=session_key)
-    return
+    return u
 
 # def remove_data(request):
 #     user_id = request.session['user_id']

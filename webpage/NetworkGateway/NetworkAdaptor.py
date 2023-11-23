@@ -72,6 +72,7 @@ class PlayerConnector(BaseConnector):
     #    await self.consumer.send(text_data=payload)
 
 
+
 class GameConnector(BaseConnector):
 
     __channel_layer = None
@@ -92,7 +93,7 @@ class GameConnector(BaseConnector):
 
     
     @classmethod
-    async def send_game_state_to_all_players(self, game_states: dict[int, any]):
+    async def send_all_game_updates(self, game_states: dict[int, any]):
         '''
             Takes a dict of game states, provided by GameManager,
             with user id as key and a game state in json serializable dict format.
@@ -239,7 +240,8 @@ class WebsocketNetworkAdaptor:
         )
 
     #def connect_user_as_player(self, consumer: GameConsumer, user: User) -> PlayerConnector:
-    def connect_user_to_service(self, consumer: GameConsumer, user: User, service: int, *args, **kwargs) -> PlayerConnector:
+    def connect_user_to_service(self, consumer: AsyncWebsocketConsumer,
+                                user: User, service: int, *args, **kwargs) -> PlayerConnector:
         ''' The service argument is one of the enums define at the class level. '''
 
         uid = user.id
@@ -259,4 +261,6 @@ class WebsocketNetworkAdaptor:
 
 
 
-ws_net = WebsocketNetworkAdaptor()
+
+
+WS_NET = WebsocketNetworkAdaptor()
