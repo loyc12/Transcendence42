@@ -3,8 +3,9 @@ from django.db import models, OperationalError, IntegrityError
 #from django.utils import timezone
 from .manager import UserManager
 
-class Session(models.Model):
-    session = models.CharField(max_length=32, unique=True)
+#class Session(models.Model):
+#    session = models.CharField(primary_key=True, max_length=32, unique=True)
+#    user = models.ForeignKey('login.User', on_delete=models.CASCADE)
 
 class User(AbstractBaseUser):
     # Fields of table users_user
@@ -20,11 +21,11 @@ class User(AbstractBaseUser):
     loses           = models.PositiveIntegerField(default=0)
     
     #session_link
-    session         = models.ForeignKey('sessions.Session', on_delete=models.CASCADE)
+    #session         = models.ForeignKey('sessions.Session', on_delete=models.CASCADE)
     
     #Ze thing
-    class Meta:
-        unique_together = ('login','session')
+    #class Meta:
+    #    unique_together = ('login','session')
 
     USERNAME_FIELD = "login"
     
