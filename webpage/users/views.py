@@ -3,16 +3,16 @@ from django.contrib.sessions.models import Session
 
 # Collect data from API and save it in the database, start session
 def import_data(api_data, request):
-    
+    user_id   = request.session.get('user_id')
     target_id = api_data.json()['login']
     # Check if user exists and get it
-    if (User.objects.filter(login=target_id).exists()):
-        User.objects.filter(login=target_id).update(
-            is_active = 1,
-        )
-        u = User.objects.get(login=target_id)
+    if user_id is not None:
+        if (User.objects.filter(login=target_id).exists()):
+            User.objects.filter(login=target_id).update(
+                is_active = 1,
+            )
+            u = User.objects.get(login=target_id)
 
-    # If not, create it
     else:
         u = User.objects.create_user(
             login           = target_id,
@@ -22,11 +22,10 @@ def import_data(api_data, request):
         )
     # Update session
     u.save()
-    request.session['user_id'] = u.id
     request.session['user_login'] = u.login
     request.session.save()
-    # session_key = request.session.session_key
-    # session = Session.objects.get(session_key=session_key)
+    #session_key = request.session.session_key
+    #session = Session.objects.get(session_key=session_key)
     return
 
 # def remove_data(request):
@@ -36,3 +35,8 @@ def import_data(api_data, request):
 #     )
 #     request.session.flush()
 #     return
+
+#def logout_view(request):
+#    if 'user_id' in request.session:
+#        del request.session['user_id']
+    # Redirect or return a response as needed
