@@ -3,24 +3,35 @@
 	<div class="row align-items-center">
 		<div class="col-3 d-flex justify-content-center">
 			<!-- sidebar: users connecting to get ready to play-->
-			<table class="table-primary" style="color: #f0ffff; background-color: #178ca8;">
+			<table class="table-primary" style="color: #f0ffff; background-color: #178ca8; border: 5px solid #f0ffff; width: 100%; text-align: center;"> <!--maybe change width...-->
 				<thead>
 					<tr>
-						<th scope="col" style="text-align: center; font-size: 40px;">Users</th>
+						<th scope="col" style="text-align: center; font-size: 40px; margin: 30px;">Users</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class="text-center" style="color: #f0ffff; font-size: 40px;">
-							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="margin-right: 10px;">player1</td>
+						<!-- add a column to put the fucking img in it so it will be fucking align-->
+						<td style="color: #f0ffff; font-size: 40px; margin: 10px;">
+							<span class="display: inline-block;">
+								<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="margin-right: 10px; border-radius: 50%; overflow: hidden; display: block;">
+								
+							</span>
+							<span>player1</span>
+						</td>
 					</tr>
 					<tr>
-						<td class="text-center" style="color: #f0ffff; font-size: 40px;">
-							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="margin-right: 10px;">player2</td>
+						<td style="color: #f0ffff; font-size: 40px; margin: 10px;">
+							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="margin-right: 10px; border-radius: 50%; overflow: hidden; display: block;">player2</td>
 					</tr>
 					<tr>
-						<td class="text-center" style="color: #f0ffff; font-size: 40px;">
-							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="margin-right: 10px;">player3</td>
+						<td style="color: #f0ffff; font-size: 40px; margin: 10px;">
+							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="margin-right: 10px; border-radius: 50%; overflow: hidden; display: block;">player3</td>
+					</tr>
+					<tr>
+						<td class="text-center">
+							<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff; font-size: 60px; margin: 30px;" id="startEngine">START!</button> <!-- in JavaScript will have to change style of the button according to status... talk with Germ-->
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -40,6 +51,8 @@
 </div>
 
 <!--
+	list of players will be received from a json not from the database.
+	It will be different than from below. 
 {% for player in players %}
 	<tr>
 		<td>{{player.playerLoginName}}</td>
