@@ -17,19 +17,14 @@
 	
 {% block module2 %}
 	<div class="module2" id="module2" >
-		<div> Remote Game</div>	
+		<div> Game</div>	
+		{% include	'Lobby/lobby.html' %}		
 	</div>
 {% endblock %}
 	
+
 {% block module3 %}
 <div class="module3" id="module3" >
-	<div> Local Game</div>	
-	{% include	'game/game.html' %}
-</div>
-{% endblock %}
-
-{% block module4 %}
-<div class="module4" id="module4" >
 	{% if request.session.user_id %}
 		<h1>Welcome {{request.session.user_login}}!</h1>
 		<div><pre>{{pretty}}</pre></div>

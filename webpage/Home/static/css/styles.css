@@ -24,10 +24,13 @@ body {
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 15px;
+    /* height: 10vh; */
+
 }
 
 #button {
-    color: #0e4870
+    color: #0e4870;
+    background-color: #f0ffff;
 }
 
 /* --------------------- STUFF à VAL ---------------------- */
@@ -39,7 +42,6 @@ body {
     /* position: inherit; */
     /* padding: 120px; */
     /* width: 66%;
-    height: 60vh;
     float: right; */
     /* border: 2px solid rgb(108, 114, 0); */
     /* border: 2px solid #de1bd4; */
@@ -58,36 +60,6 @@ body {
 }
 /* -- END -- PROFILE CSS -- */
 
-
-/* to be used for new navbar */
-/* #TopBar { */
-    /* background-color: #b0b3b9; */
-    /* background-color: #145faf;
-    color: #f0ffff; */
-    /* padding: 10px; */
-    /* width: 100%;
-    height: 35vh;
-    border: 2px solid #242351; */
-/* } */
-
-
-/* #NavBar {
-    background-color: #145faf;
-    color: #f0ffff;
-}
-
-#NavBar a{
-    color: #f0ffff;
-} */
-
-
-/* .heroDiv {
-    display: none;
-}
-
-.heroDiv.active {
-    display: block;
-} */
 
 /* ------------------------------ END STUFF à VAL ---------------------------- */
 
@@ -177,7 +149,10 @@ footer {
 
 /* Add more styles as needed for your specific layout*/
 
-
+canvasGame {
+    background-color: #178ca8;
+    height: 90vh;
+}
 
 /* .rgt_flt { 
     float: right;*/

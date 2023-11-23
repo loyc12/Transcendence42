@@ -1,21 +1,20 @@
 
 {% block navbar %}
-<div class="row" class="button">
+<div class="row" >
     <div class="col">
-        <button type="button" onclick="showSubMenu('home')"   style="background-color: #0e4870; color: #f0ffff" id="buttonModule0">Home</button>
+        <button type="button" onclick="showSubMenu('home')" class="button"  style="background-color: #0e4870; color: #f0ffff" id="buttonModule0">Home</button>
     </div>    
     <div class="col">
-        <button type="button" onclick="showSubMenu('info')"   style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">Info</button>
+        <button type="button" onclick="showSubMenu('info')"  class="button" style="background-color: #0e4870; color: #f0ffff"id="buttonModule1">Info</button>
     </div>
     <div class="col">
-        <button type="button" onclick="showSubMenu('remote')"   style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Remote</button>
+        <button type="button" onclick="showSubMenu('game')"  class="button" style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Game</button>
     </div>
     <div class="col">
-        <button type="button" onclick="showSubMenu('local')"   style="background-color: #0e4870; color: #f0ffff" id="buttonModule3">Local</button>
-    </div>
-    <div class="col">
-        <button type="button" onclick="showSubMenu('login')"   style="background-color: #0e4870; color: #f0ffff" id="buttonModule4">Login</button>
+        <button type="button" onclick="showSubMenu('login')"  class="button"  style="background-color: #0e4870; color: #f0ffff"id="buttonModule3">Login</button>
     </div>
 </div>
-
+<!-- <div class="col" class="rgt_flt" >
+    <button  onclick="toggle()" id="btn" type="btn">LOGIN</button>
+</div> -->
 {% endblock %}

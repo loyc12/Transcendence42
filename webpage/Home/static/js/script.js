@@ -72,14 +72,14 @@ function initState() {
 
 function showSubMenu(selectedOption) {
     // Check if the selected option is to the left of the current state
-    const selectedOptionIndex = ['home','info', 'remote', 'local', 'login'].indexOf(selectedOption);
-    const currentStateIndex = ['home','info', 'remote', 'local', 'login'].indexOf(currentState);
+    const selectedOptionIndex = ['home','info', 'game', 'login'].indexOf(selectedOption);
+    const currentStateIndex = ['home','info', 'game', 'login'].indexOf(currentState);
 
    if (selectedOptionIndex < currentStateIndex) {
         // Reset to the initial state
         currentState = selectedOption;
         initialChoice = null;
-        // handleSubOption(selectedOption);
+        handleSubOption(selectedOption);
         initState();  // Call initState to update the navbar row
     } else {
         
@@ -152,16 +152,26 @@ function generateSubOptions(selectedOption) {
     // You can customize this function to generate sub-options based on the selected option
     switch (selectedOption) {
         case 'home':
-            return ['home','Info', 'Remote', 'Local', 'Login'];
+            return ['home','Info', 'Game',  'Login'];
         case 'Info':
             return ['home','Profile', 'Stats'];
-        case 'Remote':
-            return ['home','Match', 'Tournament'];
-        case 'Local':
-            return ['home','VS', 'AI', 'More'];
+        case 'Game':
+            return ['home','Tournament', 'Freeplay', 'TwoPlaye', 'OnePlayer'];
+        case 'GameType':
+            return ['home','Pingest', 'Pinger', 'Ping', 'Random', 'Pong', 'Ponger', 'Pongest'];
         case 'Login':
             return ['home'];
         default:
             return [];
     }
 }
+
+
+// var cnvs = document.getElementById("Canvas");
+// var ctx = cnvs.getContext("2d");
+
+// // Set the fill color
+// ctx.fillStyle = "#ff0000"; // Red color, you can change this to any valid color value
+
+// // Draw a filled rectangle
+// ctx.fillRect(250, 250, 300, 100); // Parameters: x, y, width, height
