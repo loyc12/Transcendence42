@@ -87,11 +87,24 @@ body {
 
 
 /* -- INIT CSS -- */
-.init {
+/* .init {
 
+} */
+/* -- END -- INIT CSS -- */
+
+/* -- LOGIN CSS -- */
+.login h1, h4{
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
 }
 
-/* -- END -- INIT CSS -- */
+.login i{
+    color: #a81717;
+}
+
+/* -- END -- LOGIN CSS -- */
+
 
 /* -- CONTENT CSS -- */
 /* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
