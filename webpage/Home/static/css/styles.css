@@ -102,8 +102,25 @@ body {
 .login i{
     color: #a81717;
 }
-
 /* -- END -- LOGIN CSS -- */
+
+/* -- GAME MODE CSS -- */
+.mode h1 {
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* -- END -- GAME MODE CSS -- */
+
+/* -- GAME TYPE CSS -- */
+.type h1 {
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* -- END -- GAME TYPE CSS -- */
 
 
 /* -- CONTENT CSS -- */
