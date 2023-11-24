@@ -14,6 +14,7 @@ body {
     /* navbar text color */
     color: #f0ffff;
     /* button white #f0ffff and text #145faf TODO */
+    height: 10vh;
 
 }
 
@@ -24,7 +25,7 @@ body {
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 15px;
-    /* height: 10vh; */
+    height: 10vh;
 
 }
 
@@ -61,28 +62,7 @@ body {
 /* -- END -- PROFILE CSS -- */
 
 
-/* ------------------------------ END STUFF à VAL ---------------------------- */
 
-/* Style the navigation links */
-/* #NavBar ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-}
-
-#NavBar ul li {
-  margin: 0;
-  padding: 0;
-} */
-
-/* Style the HeroDiv */
-/* .HeroDiv {
-    background-color: #717e49;
-    color: #f0ffff;
-    height: 90vh;
-    float: center;
-} */
 
 /* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
 .content1 {
@@ -107,7 +87,7 @@ body {
 #HeroDiv h1 {
     color: #f0ffff;
     text-align: center;
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; */
 }
 
 #module1 {
@@ -154,9 +134,3 @@ canvasGame {
     height: 90vh;
 }
 
-/* .rgt_flt { 
-    float: right;*/
-    /* width: 50%; */
-    /* height: 100%; */
-    /* background: rgb(0, 26, 255); */
-/* }  */

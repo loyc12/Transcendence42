@@ -28,150 +28,141 @@ let buttonModule0 = document.getElementById('buttonModule0');
 let buttonModule1 = document.getElementById('buttonModule1');
 let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
-let buttonModule4 = document.getElementById('buttonModule4');
+// let buttonModule4 = document.getElementById('buttonModule4');
 
 buttonModule0.addEventListener('click', function () {select_hero_content(0);})
 buttonModule1.addEventListener('click', function () {select_hero_content(1);})
 buttonModule2.addEventListener('click', function () {select_hero_content(2);})
 buttonModule3.addEventListener('click', function () {select_hero_content(3);})
-buttonModule4.addEventListener('click', function () {select_hero_content(4);})
+// buttonModule4.addEventListener('click', function () {select_hero_content(4);})
 
 select_hero_content(0)
 
 
-let currentState = 'home';  // Initialize the current state to 'home'
-let initialChoice = null;    // Keep track of the initial choice
-function initState() {
-    // Clear the current content of the navbar row
-    const navbarRow = document.getElementById('navbarRow');
-    navbarRow.innerHTML = '';
+// let currentState = 'home';  // Initialize the current state to 'home'
+// let initialChoice = null;    // Keep track of the initial choice
+// function initState() {
+//     // Clear the current content of the navbar row
+//     const navbarRow = document.getElementById('NavBar');
+//     navbarRow.innerHTML = '';
 
-    // Add the selected option and initial choice to the navbar row
-    const selectedOptionElement = document.createElement('div');
-    selectedOptionElement.classList.add('col');
-    navbarRow.appendChild(selectedOptionElement);
+//     // Add the selected option and initial choice to the navbar row
+//     const selectedOptionElement = document.createElement('div');
+//     selectedOptionElement.classList.add('col');
+//     navbarRow.appendChild(selectedOptionElement);
 
-    if (initialChoice) {
-        const initialChoiceElement = document.createElement('div');
-        initialChoiceElement.innerHTML = `<button onclick="showSubMenu('${initialChoice}')"  class="button">${initialChoice}</button>`;
-        initialChoiceElement.classList.add('col');
-        navbarRow.appendChild(initialChoiceElement);
-    }
+//     if (initialChoice) {
+//         const initialChoiceElement = document.createElement('div');
+//         initialChoiceElement.innerHTML = `<button onclick="showSubMenu('${initialChoice}')"  class="navbarRow" class="button">${initialChoice}</button>`;
+//         initialChoiceElement.classList.add('col');
+//         navbarRow.appendChild(initialChoiceElement);
+//     }
 
-    // Create a new set of sub-options
-    const subOptions = generateSubOptions(currentState);
+//     // Create a new set of sub-options
+//     const subOptions = generateSubOptions(currentState);
 
-    // Add the new set of sub-option buttons to the navbar row
-    subOptions.forEach((subOption, index) => {
-        const subOptionElement = document.createElement('div');
-        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="button">${subOption}</button>`;
-        subOptionElement.classList.add('col');
-        navbarRow.appendChild(subOptionElement);
-    });
-}
+//     // Add the new set of sub-option buttons to the navbar row
+//     subOptions.forEach((subOption, index) => {
+//         const subOptionElement = document.createElement('div');
+//         subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="navbarRow" class="button">${subOption}</button>`;
+//         subOptionElement.classList.add('col');
+//         navbarRow.appendChild(subOptionElement);
+//     });
+// }
 
-function showSubMenu(selectedOption) {
-    // Check if the selected option is to the left of the current state
-    const selectedOptionIndex = ['home','info', 'game', 'login'].indexOf(selectedOption);
-    const currentStateIndex = ['home','info', 'game', 'login'].indexOf(currentState);
+// function showSubMenu(selectedOption) {
+//     // Check if the selected option is to the left of the current state
+//     const selectedOptionIndex = ['home','info', 'game', 'login'].indexOf(selectedOption);
+//     const currentStateIndex = ['home','info', 'game', 'login'].indexOf(currentState);
 
-   if (selectedOptionIndex < currentStateIndex) {
-        // Reset to the initial state
-        currentState = selectedOption;
-        initialChoice = null;
-        handleSubOption(selectedOption);
-        initState();  // Call initState to update the navbar row
-    } else {
+//    if (selectedOptionIndex < currentStateIndex) {
+//         // Reset to the initial state
+//         currentState = selectedOption;
+//         initialChoice = null;
+//         // handleSubOption(selectedOption);
+//         initState();  // Call initState to update the navbar row
+//     } else {
         
-        // Handle sub-options behavior
-        currentState = selectedOption;
-        initialChoice = selectedOption;
-        handleSubOption(selectedOption);
-        initState();  // Call initState to update the navbar row
-    }
-}
+//         // Handle sub-options behavior
+//         currentState = selectedOption;
+//         initialChoice = selectedOption;
+//         initState();  // Call initState to update the navbar row
+//         handleSubOption(selectedOption);
+//     }
+// }
 
-function handleSubOption(subOption) {
-    // Customize this function based on the desired behavior for sub-options
-    switch (subOption) {
-        case 'home':
-            // Load content into the heroDiv for Display1
-            loadContent('heroDiv');            // loadContent('content1');
-            break;
+// function handleSubOption(subOption) {
+//     // Customize this function based on the desired behavior for sub-options
+//     switch (subOption) {
+//         case 'home':
+//             // Load content into the heroDiv for Display1
+//             loadContent('heroDiv');            // loadContent('content1');
+//             break;
             
-        case 'info':
-            // Load content into the heroDiv for Display1
-            loadContent('content');
-            break;
-        default:
-            break;
-    }
-}
+//         case 'info':
+//             // Load content into the heroDiv for Display1
+//             loadContent('content');
+//             break;
+//         default:
+//             break;
+//     }
+// }
 
-function loadContent(contentFile) {
-    // Load content into the heroDiv based on the specified content file
-    const heroDiv = document.getElementById('heroDiv');
-    fetch(contentFile)
-        .then(response => response.text())
-        .then(data => {
-            heroDiv.innerHTML = data;
-        })
-        .catch(error => console.error('Error loading content:', error));
-}
+// function loadContent(contentFile) {
+//     // Load content into the heroDiv based on the specified content file
+//     const heroDiv = document.getElementById('heroDiv');
+//     fetch(contentFile)
+//         .then(response => response.text())
+//         .then(data => {
+//             heroDiv.innerHTML = data;
+//         })
+//         .catch(error => console.error('Error loading content:', error));
+// }
 
-function renderInitNavbar() {
-    // Customize this function to render another navbar to the init value
-    const navbarRow = document.getElementById('navbarRow');
-    navbarRow.innerHTML = '';
+// function renderInitNavbar() {
+//     // Customize this function to render another navbar to the init value
+//     const navbarRow = document.getElementById('navbarRow');
+//     navbarRow.innerHTML = '';
 
-    // Add the selected option and initial choice to the navbar row
-    const selectedOptionElement = document.createElement('div');
-    selectedOptionElement.classList.add('col');
-    navbarRow.appendChild(selectedOptionElement);
+//     // Add the selected option and initial choice to the navbar row
+//     const selectedOptionElement = document.createElement('div');
+//     selectedOptionElement.classList.add('col');
+//     navbarRow.appendChild(selectedOptionElement);
 
-    if (initialChoice) {
-        const initialChoiceElement = document.createElement('div');
-        initialChoiceElement.innerHTML = `<button onclick="showSubMenu('${initialChoice}')" class="button">${initialChoice}</button>`;
-        initialChoiceElement.classList.add('col');
-        navbarRow.appendChild(initialChoiceElement);
-    }
+//     if (initialChoice) {
+//         const initialChoiceElement = document.createElement('div');
+//         initialChoiceElement.innerHTML = `<button onclick="showSubMenu('${initialChoice}')" class="navbarRow" class="button">${initialChoice}</button>`;
+//         initialChoiceElement.classList.add('col');
+//         navbarRow.appendChild(initialChoiceElement);
+//     }
 
-    // Create a new set of sub-options
-    const subOptions = generateSubOptions(currentState);
+//     // Create a new set of sub-options
+//     const subOptions = generateSubOptions(currentState);
 
-    // Add the new set of sub-option buttons to the navbar row
-    subOptions.forEach((subOption, index) => {
-        const subOptionElement = document.createElement('div');
-        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="button">${subOption}</button>`;
-        subOptionElement.classList.add('col');
-        navbarRow.appendChild(OptionElement);
-    });
-}
+//     // Add the new set of sub-option buttons to the navbar row
+//     subOptions.forEach((subOption, index) => {
+//         const subOptionElement = document.createElement('div');
+//         subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="navbarRow" class="button">${subOption}</button>`;
+//         subOptionElement.classList.add('col');
+//         navbarRow.appendChild(OptionElement);
+//     });
+// }
 
-function generateSubOptions(selectedOption) {
-    // You can customize this function to generate sub-options based on the selected option
-    switch (selectedOption) {
-        case 'home':
-            return ['home','Info', 'Game',  'Login'];
-        case 'Info':
-            return ['home','Profile', 'Stats'];
-        case 'Game':
-            return ['home','Tournament', 'Freeplay', 'TwoPlaye', 'OnePlayer'];
-        case 'GameType':
-            return ['home','Pingest', 'Pinger', 'Ping', 'Random', 'Pong', 'Ponger', 'Pongest'];
-        case 'Login':
-            return ['home'];
-        default:
-            return [];
-    }
-}
+// function generateSubOptions(selectedOption) {
+//     // You can customize this function to generate sub-options based on the selected option
+//     switch (selectedOption) {
+//         case 'home':
+//             return ['home','Info', 'Game',  'Login'];
+//         case 'Info':
+//             return ['home','Profile', 'Stats'];
+//         case 'Game':
+//             return ['home','Tournament', 'Freeplay', 'TwoPlaye', 'OnePlayer'];
+//         case 'GameType':
+//             return ['home','Pingest', 'Pinger', 'Ping', 'Random', 'Pong', 'Ponger', 'Pongest'];
+//         case 'Login':
+//             return ['home'];
+//         default:
+//             return [];
+//     }
+// }
 
-
-// var cnvs = document.getElementById("Canvas");
-// var ctx = cnvs.getContext("2d");
-
-// // Set the fill color
-// ctx.fillStyle = "#ff0000"; // Red color, you can change this to any valid color value
-
-// // Draw a filled rectangle
-// ctx.fillRect(250, 250, 300, 100); // Parameters: x, y, width, height
