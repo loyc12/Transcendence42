@@ -6,7 +6,7 @@ body {
     font-size: 20px;
 }
 
-/* Style the navigation bar */
+/* -- NAVBAR CSS -- */
 #NavBar {
     background-color: #145faf;
     color: #f0ffff;
@@ -23,6 +23,8 @@ body {
 #button {
     color: #0e4870
 }
+/* -- END -- NAVBAR CSS -- */
+
 
 /* -- PROFILE CSS -- */
 #profile {
@@ -56,8 +58,6 @@ body {
 .stats li:first-child {
     text-decoration: underline;
 }
-
-
 /* -- END -- PROFILE CSS -- */
 
 /* -- LOBBY CSS -- */
@@ -83,8 +83,15 @@ body {
 #lobby .align-right {
     text-align: right; /* Align text and image to the right */
 }
+/* -- END -- LOBBY CSS -- */
 
 
+/* -- INIT CSS -- */
+.init {
+
+}
+
+/* -- END -- INIT CSS -- */
 
 /* -- CONTENT CSS -- */
 /* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
