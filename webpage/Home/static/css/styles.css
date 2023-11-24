@@ -28,8 +28,37 @@ body {
 #profile {
     background-color: #178ca8;
     color: #f0ffff;
+    font-size: 30px;
     
 }
+
+.info {
+    list-style-type: none; /* remove default bullet to be replaced by my stars*/
+}
+
+.info li:first-child {
+    text-decoration: underline;
+    list-style-type: none;
+}
+
+/* stars instead of bullet in profile */
+.info li:not(:first-child)::before {
+    content: "\2605";
+    color: #f0ffff;
+    font-size: 20px;
+    margin-right: 0.5em;
+}
+
+.stats {
+    list-style-type: none; /* remove default bullet to be replaced by my stars*/
+}
+
+.stats li:first-child {
+    text-decoration: underline;
+}
+
+
+/* -- END -- PROFILE CSS -- */
 
 /* -- LOBBY CSS -- */
 #lobby canvas {
@@ -55,18 +84,6 @@ body {
     text-align: right; /* Align text and image to the right */
 }
 
-.info {
-    list-style-type: none; /* remove default bullet to be replaced by my stars*/
-}
-
-/* stars instead of bullet in profile */
-.info li::before {
-    content: "\2605";
-    color: #f0ffff;
-    font-size: 20px;
-    margin-right: 0.5em;
-}
-/* -- END -- PROFILE CSS -- */
 
 
 /* -- CONTENT CSS -- */
