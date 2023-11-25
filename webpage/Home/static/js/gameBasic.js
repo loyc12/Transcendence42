@@ -4,6 +4,7 @@
 // 2. GAME_SETTINGS
 // 3. PLAYER_INDEX
 // TODO: Need to check with Val if this is better in JS or in CSS 
+// TODO: All CONST NEED TO BE DISPLACED IN AN OTHER JS FILE
 
 const CANVAS = document.getElementById('canvas');
 
