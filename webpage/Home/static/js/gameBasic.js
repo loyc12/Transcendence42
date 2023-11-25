@@ -1,161 +1,69 @@
-let all_hero_content = [
-    'content0',
-    'content1',
-    'content2',
-    'content3',
-    'content4',
-]
 
-let hide_all_hero_content = function () {
-    let contentElem;
-
-    for (c of all_hero_content) {
-        contentElem = document.getElementById(c);
-        if (contentElem)
-            contentElem.style.display = 'none';
-    }
-}
-
-let select_hero_content = function (id) {
-    hide_all_hero_content();
-    let contentElem = document.getElementById(all_hero_content[id]);
-    if (!contentElem) 
-        return;
-        contentElem.style.display = 'block';
-}
-
-let buttonModule0 = document.getElementById('buttonModule0');
-let buttonModule1 = document.getElementById('buttonModule1');
-let buttonModule2 = document.getElementById('buttonModule2');
-let buttonModule3 = document.getElementById('buttonModule3');
-let buttonModule4 = document.getElementById('buttonModule4');
-
-buttonModule0.addEventListener('click', function () {select_hero_content(0);})
-buttonModule1.addEventListener('click', function () {select_hero_content(1);})
-buttonModule2.addEventListener('click', function () {select_hero_content(2);})
-buttonModule3.addEventListener('click', function () {select_hero_content(3);})
-buttonModule4.addEventListener('click', function () {select_hero_content(4);})
-
-select_hero_content(0)
-
-
-let currentState = 'home';  // Initialize the current state to 'home'
-let initialChoice = null;    // Keep track of the initial choice
-function initState() {
-    // Clear the current content of the navbar row
-    const navbarRow = document.getElementById('navbarRow');
-    navbarRow.innerHTML = '';
-
-    // Add the selected option and initial choice to the navbar row
-    const selectedOptionElement = document.createElement('div');
-    selectedOptionElement.classList.add('col');
-    navbarRow.appendChild(selectedOptionElement);
-
-    if (initialChoice) {
-        const initialChoiceElement = document.createElement('div');
-        initialChoiceElement.innerHTML = `<button onclick="showSubMenu('${initialChoice}')"  class="button">${initialChoice}</button>`;
-        initialChoiceElement.classList.add('col');
-        navbarRow.appendChild(initialChoiceElement);
-    }
-
-    // Create a new set of sub-options
-    const subOptions = generateSubOptions(currentState);
-
-    // Add the new set of sub-option buttons to the navbar row
-    subOptions.forEach((subOption, index) => {
-        const subOptionElement = document.createElement('div');
-        subOptionElement.innerHTML = `<button onclick="showSubMenu('${subOption}')" class="button">${subOption}</button>`;
-        subOptionElement.classList.add('col');
-        navbarRow.appendChild(subOptionElement);
-    });
-}
-
-function showSubMenu(selectedOption) {
-    // Check if the selected option is to the left of the current state
-    const selectedOptionIndex = ['home','info', 'remote', 'local', 'login'].indexOf(selectedOption);
-    const currentStateIndex = ['home','info', 'remote', 'local', 'login'].indexOf(currentState);
-
-   if (selectedOptionIndex < currentStateIndex) {
-        // Reset to the initial state
-        currentState = selectedOption;
-        initialChoice = null;
-        // handleSubOption(selectedOption);
-        initState();  // Call initState to update the navbar row
-    } else {
-        
-        // Handle sub-options behavior
-        currentState = selectedOption;
-        initialChoice = selectedOption;
-        handleSubOption(selectedOption);
-        initState();  // Call initState to update the navbar row
-    }
-}
-
-function handleSubOption(subOption) {
-    // Customize this function based on the desired behavior for sub-options
-    switch (subOption) {
-        case 'home':
-            // Load content into the heroDiv for Display1
-            loadContent('heroDiv');
-
-            break;
-            
-        case 'info':
-            // Load content into the heroDiv for Display1
-            loadContent('content');
-            break;
-        default:
-            break;
-    }
-}
-
-function loadContent(contentFile) {
-    // Load content into the heroDiv based on the specified content file
-    const heroDiv = document.getElementById('heroDiv');
-    fetch(contentFile)
-        .then(response => response.text())
-        .then(data => {
-            heroDiv.innerHTML = data;
-        })
-        .catch(error => console.error('Error loading content:', error));
-}
+// IDENTIFICATION ELEMENTS IN MAJ : (resumé)
+// 1. CANVAS
+// 2. GAME_SETTINGS
+// 3. PLAYER_INDEX
+// TODO: Need to check with Val if this is better in JS or in CSS 
 
 const CANVAS = document.getElementById('canvas');
 
 const GAME_SETTINGS = {
-	wallColor: "#202020",
-  buttonColor: "#111",
-  buttonTextColor: "#eee",
-  scoreTextColor: '#eee',
-  playerOneColor: "red",
-  playerTwoColor: "blue",
-  
-  smallFont: "16px Arial",
-  largeFont: "20px Arial",
-  
-  scoreSoundUrl: 'https://opengameart.org/sites/default/files/Win%20sound.wav',
-  hitSoundUrl: 'https://opengameart.org/sites/default/files/pingpongbat.ogg',
-  hitWallSoundUrl: 'https://opengameart.org/sites/default/files/pingpongboard_0.ogg',
-  
-  winScore: 7,
-  paddleWidth: 12,
-  paddleHeight: 48,
-  ballRadius: 8,
-  wallSize: 20,
-  courtMarginX: 12,
-  courtMarginY: 4,
+    // SCREEN - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Game Border
+    screen_border_color: "#202020",
+    screen_border_size: 20,
 
-  targetFps: 60,
+    //Data Display
+    score_color: '#eee',    //  Score print in the border for now,
+    score_size: 7,
+    //TODO: target is to print in the middle of the screen as background
+
+    // Game Font
+    font_body: "16px Arial",
+    font_title: "20px Arial",
+    //TODO: Creating more or less font type/size depending of what is needed
+
+    // Game Button
+    button_color: "#111",
+    button_text_color: "#eee",
+    //TODO: Setting up button style based on the game plan
+
+    // PADDLE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Paddle Size
+    paddleWidth: 12,
+    paddleHeight: 48,
+    //TODO: Setting up paddle style based on the game plan
+
+    // Paddle ID + Color
+    color_paddle_1: "red",
+    color_paddle_2: "blue",
+    //  color_paddle_3: "red",    // Non existent yet
+    //  color_paddle_4: "blue",   // Non existent yet
+    //TODO: Preparing for 4 player game
+
+    // BALL  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    ballRadius: 8,
+
+    // Mechanic   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    courtMarginX: 12,
+    courtMarginY: 4,
+    targetFps: 60,
+    //TODO : Idk what this is for, but it's in the original code, so we need to find the equivalent in Loic's code
   
-  getIntervalLength: function() { return 1.0 / this.targetFps; }
+    getIntervalLength: function() { return 1.0 / this.targetFps; }
 }
 
-let isMuted = false;
 
-const PlayerIndex = {
+const PLAYER_INDEX = {
 	playerOne: 1,
-  playerTwo: 2
+    playerTwo: 2
+    //playerThree: 3,   // Non existent yet
+    //playerFour: 4     // Non existent yet
+    //TODO: Preparing for 4 player game
 }
+
+//  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 class TennisGame {
 	
@@ -205,7 +113,7 @@ class TennisGame {
     
     if(!this._court.isMatchRunning) {
     
-    	ctx.fillStyle = GAME_SETTINGS.buttonColor;
+    	ctx.fillStyle = GAME_SETTINGS.button_color;
     	ctx.fillRect(
       	this._startButtonRect.x, 
         this._startButtonRect.y, 
@@ -213,8 +121,8 @@ class TennisGame {
         this._startButtonRect.height
       );
       
-      ctx.fillStyle = GAME_SETTINGS.buttonTextColor;
-      ctx.font = GAME_SETTINGS.smallFont;
+      ctx.fillStyle = GAME_SETTINGS.button_text_color;
+      ctx.font = GAME_SETTINGS.font_body;
       ctx.fillText(
       	'Start Match', 
       	this._startButtonRect.x + 20, 
@@ -267,7 +175,7 @@ class Court {
       canvas.height / 2 - GAME_SETTINGS.paddleHeight / 2, 
       GAME_SETTINGS.paddleWidth, 
       GAME_SETTINGS.paddleHeight, 
-      PlayerIndex.playerOne, 
+      PLAYER_INDEX.playerOne, 
       this
     );
     
@@ -276,7 +184,7 @@ class Court {
       canvas.height / 2 - GAME_SETTINGS.paddleHeight / 2, 
       GAME_SETTINGS.paddleWidth, 
       GAME_SETTINGS.paddleHeight, 
-      PlayerIndex.playerTwo, 
+      PLAYER_INDEX.playerTwo, 
       this
     );
     
@@ -293,7 +201,6 @@ class Court {
 
     this._isMatchRunning = false;
     
-    this._scoreSound = new Audio(GAME_SETTINGS.scoreSoundUrl);
     
     this._scoreBoard = new ScoreBoard();
     
@@ -306,8 +213,8 @@ class Court {
   
   get bounds() {
   	return {
-    	upper: GAME_SETTINGS.courtMarginY + GAME_SETTINGS.wallSize,
-      lower: this._canvas.height - (GAME_SETTINGS.courtMarginY + GAME_SETTINGS.wallSize),
+    	upper: GAME_SETTINGS.courtMarginY + GAME_SETTINGS.screen_border_size,
+      lower: this._canvas.height - (GAME_SETTINGS.courtMarginY + GAME_SETTINGS.screen_border_size),
       left: 0,
       right: this._canvas.width
     }
@@ -327,10 +234,10 @@ class Court {
   draw(canvas) {
   
   	let ctx = canvas.getContext('2d');
-    ctx.fillStyle = GAME_SETTINGS.wallColor;
+    ctx.fillStyle = GAME_SETTINGS.screen_border_color;
     
-    ctx.fillRect(0, GAME_SETTINGS.courtMarginY, this._canvas.width, GAME_SETTINGS.wallSize);
-    ctx.fillRect(0, this._canvas.height - GAME_SETTINGS.courtMarginY - GAME_SETTINGS.wallSize, this._canvas.width, GAME_SETTINGS.wallSize);
+    ctx.fillRect(0, GAME_SETTINGS.courtMarginY, this._canvas.width, GAME_SETTINGS.screen_border_size);
+    ctx.fillRect(0, this._canvas.height - GAME_SETTINGS.courtMarginY - GAME_SETTINGS.screen_border_size, this._canvas.width, GAME_SETTINGS.screen_border_size);
     
     this._leftPaddle.draw(canvas);
     this._rightPaddle.draw(canvas);
@@ -367,13 +274,9 @@ class Court {
   
   scorePoint(playerIndex) {
   
-  	if(!isMuted) {
-     	this._scoreSound.currentTime = 0;
-  		this._scoreSound.play(); 
-    }
 
   
-  	if(playerIndex == PlayerIndex.playerOne) {
+  	if(playerIndex == PLAYER_INDEX.playerOne) {
     
     	this._scoreBoard.playerOneScore++; 
     
@@ -575,9 +478,9 @@ class Paddle {
   }
   
   get renderColor() {
-  	return this._playerIndex == PlayerIndex.playerOne 
-    	? GAME_SETTINGS.playerOneColor 
-      : GAME_SETTINGS.playerTwoColor;
+  	return this._playerIndex == PLAYER_INDEX.playerOne 
+    	? GAME_SETTINGS.color_paddle_1 
+      : GAME_SETTINGS.color_paddle_2;
   }
   
   moveUp(deltaTime) {
@@ -612,8 +515,6 @@ class Ball {
   	this.radius = radius;
     this._velocity = { x: 0, y: 0};
     this._court = court;
-    this._hitSound = new Audio(GAME_SETTINGS.hitSoundUrl);
-    this._hitWallSound = new Audio(GAME_SETTINGS.hitWallSoundUrl);
     this._speed = Ball.minSpeed;
   }
   
@@ -652,23 +553,6 @@ class Ball {
   get velocity() { return this._velocity; }
   set velocity(velo) { this._velocity = velo; }
   
-  _playHitSound() {
-  
-      if(!isMuted) {
-      	this._hitSound.currentTime = 0;
-        this._hitSound.play();
-      }
-      
-  }
-  
-  _playHitWallSound() {
-  
-  	if(!isMuted) {
-    	this._hitWallSound.currentTime = 0;
-      this._hitWallSound.play();
-    }
-  
-  }
   
   update(deltaTime) {
   
@@ -678,13 +562,11 @@ class Ball {
     	this.posY = this._court.bounds.upper + this.radius;
       this.velocity.y *= -1;
       
-      this._playHitWallSound();
     }
     else if(this.posY + this.radius > this._court.bounds.lower) {
     	this.posY = this._court.bounds.lower - this.radius;
       this.velocity.y *= -1;
       
-      this._playHitWallSound();
     }
     
     if(this.collisionBox.overlaps(this._court.leftPaddle.collisionBox)) {
@@ -692,7 +574,6 @@ class Ball {
     	this.velocity.x *= -1;   
       this.posX = this._court.leftPaddle.collisionBox.right + this.radius;
       
-			this._playHitSound();
        
     }
     
@@ -700,17 +581,15 @@ class Ball {
        
     	this.velocity.x *= -1;   
       this.posX = this._court.rightPaddle.collisionBox.left - this.radius;
-       
-      this._playHitSound();
-       
+          
     }
     
     this.posX += Math.sign(this.velocity.x) * this.speed * deltaTime;
     
     if(this.posX < this._court.bounds.left)
-    	this._court.scorePoint(PlayerIndex.playerTwo);
+    	this._court.scorePoint(PLAYER_INDEX.playerTwo);
     else if(this.posX > this._court.bounds.right)
-    	this._court.scorePoint(PlayerIndex.playerOne);
+    	this._court.scorePoint(PLAYER_INDEX.playerOne);
       
     this.speed += Ball.acceleration * deltaTime;
   
@@ -737,14 +616,14 @@ class ScoreBoard {
   
   get winner() {
   
-  	if(this.playerOneScore >= GAME_SETTINGS.winScore) {
+  	if(this.playerOneScore >= GAME_SETTINGS.score_size) {
     
-    	return PlayerIndex.playerOne;
+    	return PLAYER_INDEX.playerOne;
     
     }
-    else if(this.playerTwoScore >= GAME_SETTINGS.winScore) {
+    else if(this.playerTwoScore >= GAME_SETTINGS.score_size) {
     
-    	return PlayerIndex.playerTwo;
+    	return PLAYER_INDEX.playerTwo;
     
     }
     
@@ -755,8 +634,8 @@ class ScoreBoard {
   draw(canvas) {
   
     var ctx = canvas.getContext('2d');
-    ctx.font = GAME_SETTINGS.smallFont;
-    ctx.fillStyle = GAME_SETTINGS.scoreTextColor;
+    ctx.font = GAME_SETTINGS.font_body;
+    ctx.fillStyle = GAME_SETTINGS.score_color;
     
     ctx.fillText("Red Player | " + this.playerOneScore, 8, 20);
 		ctx.fillText(this.playerTwoScore + " | Blue Player", canvas.width - 115, 20);
@@ -765,9 +644,9 @@ class ScoreBoard {
         
     if(this.winner) {
     
-    	let winnerName = this.winner == PlayerIndex.playerOne ? "Red Player" : "Blue Player";
+    	let winnerName = this.winner == PLAYER_INDEX.playerOne ? "Red Player" : "Blue Player";
       
-      ctx.font = GAME_SETTINGS.largeFont;
+      ctx.font = GAME_SETTINGS.font_title;
       ctx.fillStyle = "#eee";
       ctx.fillText(winnerName + " wins!", canvas.width / 2 - 75, 60);      
     
@@ -819,13 +698,5 @@ let game = new TennisGame(CANVAS);
 
 function startGame() {
 	document.getElementById('btn-start').style.display = "none";
-  document.getElementById('btn-toggle-sound').style.display = "inline-block";
 	game.run();
-}
-
-function toggleSound() {
-	isMuted = !isMuted;
-	document.getElementById('btn-toggle-sound').innerHTML = isMuted 
-  	? "Sound On" 
-    : "Sound Off";
 }
