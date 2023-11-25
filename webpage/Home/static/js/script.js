@@ -39,6 +39,17 @@ buttonModule3.addEventListener('click', function () {select_hero_content(3);})
 select_hero_content(0)
 
 
+
+
+
+
+
+
+
+
+
+
+
 // let currentState = 'home';  // Initialize the current state to 'home'
 // let initialChoice = null;    // Keep track of the initial choice
 // function initState() {

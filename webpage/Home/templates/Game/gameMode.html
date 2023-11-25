@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Loader</title>
+</head>
+<body>
+
+<div id="moduleContainer">
+    <!-- Initial buttons to load modules -->
+    <button onclick="loadModule('module1')">Load Module 1</button>
+    <button onclick="loadModule('module2')">Load Module 2</button>
+</div>
+
+<script>
+// Variable to store selected options
+let selectedOptions = {};
+
+// Function to load a module
+function loadModule(moduleName) {
+    const moduleContainer = document.getElementById('moduleContainer');
+    moduleContainer.innerHTML = ''; // Clear the container
+
+    // Load buttons for the selected module
+    switch (moduleName) {
+        case 'module1':
+            moduleContainer.innerHTML = `
+                <button onclick="loadSubModule('subModule1')">Load Sub-Module 1</button>
+                <button onclick="loadSubModule('subModule2')">Load Sub-Module 2</button>
+            `;
+            break;
+        case 'module2':
+            moduleContainer.innerHTML = `
+                <button onclick="loadSubModule('subModule3')">Load Sub-Module 3</button>
+                <button onclick="loadSubModule('subModule4')">Load Sub-Module 4</button>
+            `;
+            break;
+        default:
+            break;
+    }
+}
+
+// Function to load a sub-module
+function loadSubModule(subModuleName) {
+    // Assuming you want to store the selected sub-module in the variable
+    selectedOptions.subModule = subModuleName;
+
+    // Display the result or take further actions
+    console.log('Selected Options:', selectedOptions);
+}
+
+</script>
+
+</body>
+</html>
