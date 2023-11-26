@@ -165,13 +165,13 @@ class MatchMaker:
             been created. '''
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
-            return False
+            return None
         gameType, lgame, lply = finder_result
         lply.is_connected = True
         
         # TODO : Return lgame.players list of names and connected status to user
         # through websocket.
-        if self.is_game_full(gameType, lgame):
+        if self.is_game_ready(gameType, lgame):
             asyncio.run(self.__push_game_to_gamemanager(gameType, lgame))
         return lgame
 
