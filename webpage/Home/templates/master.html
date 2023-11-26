@@ -1,11 +1,13 @@
+
 {% load static %}
+
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <!-- Browser Setup  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <meta charset="UTF-8">
-       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Onglet Tabulation  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <title>Ping Pang Pong</title>
@@ -32,30 +34,39 @@
             <div class="row">
                 <div class="NavBar"> 
                     {% block navbar %}
-                    
-                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">HeroDiv</button>
-                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Module 2</button>
-                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule3">Module 3</button>
+                        {% include 'Selector/navbar.html' %}
                     {% endblock %}
                 </div>
             </div>
-            <!-- HeroDiv - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- home - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content1" class="HeroDiv">
+                <div id="content0" class="HeroDiv"> <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
                     {% block HeroDiv %}
                     {% endblock %}
                 </div>
             </div>
             <!-- Module1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content2" class="module2">
-                    {% block module2 %}{% endblock %}
+                <div id="content1" class="module1">
+                    {% block module1 %}{% endblock %}
                 </div>
             </div>
             <!-- Module2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
+                <div id="content2" class="module2">
+                    {% block module2 %}{% endblock %}
+                </div>
+            </div>
+            <!-- game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
                 <div id="content3" class="module3">
                     {% block module3 %}{% endblock %}
+                </div>
+            </div>
+            <!-- Module3 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="content4" class="module4">
+                    {% block module4 %}{% endblock %}
                 </div>
             </div>
         </div> 

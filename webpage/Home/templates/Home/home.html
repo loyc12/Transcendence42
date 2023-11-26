@@ -5,25 +5,37 @@
 	<div class="HeroDiv" id="HeroDiv" >
 		<h1>Accueil</h1>
 			{% include 'Logo/logo.html' %}
+	</div>
+{% endblock %}
 
+{% block module1 %}
+	<div class="module1" id="module1" >
+		<div> Info </div>
+		{% include	'Profile/profile.html' %}
 	</div>
-	{% endblock %}
+{% endblock %}
 	
-	{% block module2 %}
+{% block module2 %}
 	<div class="module2" id="module2" >
-    {% if request.session.user_id %}
-    		<h1>Welcome {{request.session.user_login}}!</h1>
-    		<div><pre>{{pretty}}</pre></div>
-    	{% else %}
-    		<h1>Welcome Guest</h1>
-    		<p><a href="{% url '42login' %}">Login</a></p>
-    	{% endif %}
+		<div> Remote Game</div>	
 	</div>
-	{% endblock %}
+{% endblock %}
 	
-	{% block module3 %}
-	<div class="module3" id="module3" >
-		<div> Module 3 </div>	
-		{% include 'Visitors/visitors.html' %}
-	</div>
+{% block module3 %}
+<div class="module3" id="module3" >
+	<div> Local Game</div>	
+	{% include	'game/game.html' %}
+</div>
+{% endblock %}
+
+{% block module4 %}
+<div class="module4" id="module4" >
+	{% if request.session.user_id %}
+		<h1>Welcome {{request.session.user_login}}!</h1>
+		<div><pre>{{pretty}}</pre></div>
+	{% else %}
+		<h1>Welcome Guest</h1>
+		<p><a href="{% url '42login' %}">Login</a></p>
+	{% endif %}
+</div>
 {% endblock %}

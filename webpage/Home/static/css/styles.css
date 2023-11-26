@@ -72,6 +72,11 @@ body {
     text-align: center;
 }
 
+#module1 {
+    background-color: #178ca8;
+    height: 90vh;
+}
+
 #module2 {
     background-color: #178ca8;
     height: 90vh;
@@ -83,6 +88,11 @@ body {
     height: 90vh;
 }
 
+#module4 {
+    background-color: #178ca8;
+    height: 90vh;
+}
+
 
 footer {
     background-color: #4cbe96; /* footer color */
@@ -90,3 +100,22 @@ footer {
     font-family: 'Nunito';
     font-size: 16px;
 }
+/* #HeroDiv img {
+    width: auto; 
+    height: auto;
+    display: block;
+    margin: 0 auto; 
+} */
+/* width: 66%; */
+
+
+/* Add more styles as needed for your specific layout*/
+
+
+
+/* .rgt_flt { 
+    float: right;*/
+    /* width: 50%; */
+    /* height: 100%; */
+    /* background: rgb(0, 26, 255); */
+/* }  */

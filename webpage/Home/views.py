@@ -10,6 +10,7 @@ from users.models import User
 
 #http://127.0.0.1:3000/
 def home_view(request):
+    """ This function is used to render the home page. """
     authorization_code = request.GET.get('code', None)
     if (authorization_code):
         token = get_access_token(authorization_code)
@@ -29,30 +30,7 @@ def logo_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'logo.html')
 
+
 def profile_view(request):
     """ This function is used to render the profile page. """
-    # if request.method == 'POST':
-    #     form = ProfileForm(request.POST)
-    #     if form.is_valid():
-    #         # Process the form data (save to the database or perform other actions)
-    #         # For now, just print the data
-    #         print(form.cleaned_data)
-    #         # return redirect('home')
-    # else:
-    #     form = ProfileForm()
-
-    return render(request, 'profile.html', {'form': form})
-
-# def visitors_view(request):
-#     """ This function is used to render the logo page. """
-#     return render(request, 'visitors.html')
-
-# Lobby view functions dans Home/views.
-def lobby_main(request):
-    users = User.objects.all()
-    return (render(request, 'visitors.html', context={'users': users}))
-
-
-
-
-
+    return render(request, 'profile.html')
