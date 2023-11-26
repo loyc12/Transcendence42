@@ -9,8 +9,8 @@
 
 <div id="moduleContainer">
     <!-- Initial buttons to load modules -->
-    <button onclick="loadModule('module1')">Load Module 1</button>
-    <button onclick="loadModule('module2')">Load Module 2</button>
+    <button onclick="loadModule('module1')">Game LOCAL</button>
+    <button onclick="loadModule('module2')">Game ONLINE</button>
 </div>
 
 <script>
@@ -26,14 +26,14 @@ function loadModule(moduleName) {
     switch (moduleName) {
         case 'module1':
             moduleContainer.innerHTML = `
-                <button onclick="loadSubModule('subModule1')">Load Sub-Module 1</button>
-                <button onclick="loadSubModule('subModule2')">Load Sub-Module 2</button>
+                <button onclick="loadSubModule('subModule1')">Game Local: SOLO [AI]</button>
+                <button onclick="loadSubModule('subModule2')">Game Local: 1 Vs 1 </button>
             `;
             break;
         case 'module2':
             moduleContainer.innerHTML = `
-                <button onclick="loadSubModule('subModule3')">Load Sub-Module 3</button>
-                <button onclick="loadSubModule('subModule4')">Load Sub-Module 4</button>
+                <button onclick="loadSubModule('subModule3')">Game Online: Tournament </button>
+                <button onclick="loadSubModule('subModule4')">Game Online: MultiPlayer </button>
             `;
             break;
         default:
@@ -54,3 +54,4 @@ function loadSubModule(subModuleName) {
 
 </body>
 </html>
+`
