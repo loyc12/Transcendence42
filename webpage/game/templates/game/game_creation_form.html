@@ -10,12 +10,10 @@
     <div>
         <form action="/game/creation/" method="post">
             {% csrf_token %}
-            <label for="gameMode">Game Mode: </label>
-            <input id="gameMode" type="text" name="gameMode"><br>
-            <label for="gameType">Game Type: </label>
-            <input id="gameType" type="text" name="gameType"><br>
-            <label for="withAI">Allow AI: </label>
-            <input id="withAI" type="checkbox" name="withAI"><br>
+            <label for="game_mode">Game Mode: </label>
+            <input id="game_mode" type="text" name="game_mode">
+            <label for="game_type">Game Type: </label>
+            <input id="game_type" type="text" name="game_type">
             <input type="submit" value="OK">
         </form>
     </div>

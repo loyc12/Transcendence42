@@ -6,16 +6,19 @@
 	<table class="table-primary" style="color: #f0ffff; background-color: #178ca8;">
 		<thead>
 			<tr>
-				<th class="text-center" style="color: #f0ffff">Start of user list</th>
-				<!-- <th scope="col" class="text-center" style="color: #f0ffff">Username [playerLoginName]</th> if I want to change the text color in table do it for each row -->
+				<th scope="col" class="text-center" style="color: #f0ffff">Username [playerLoginName]</th> <!--if I want to change the text color in table do it for each row-->
 			</tr>
 		</thead>
 		<tbody>
-			{% for user in users %}
-				<tr>
-					<td class="text-center" style="color: #f0ffff"> Username: {{ user.login }}</td>
-				</tr>
-			{% endfor %}
+			<tr>
+				<td class="text-center" style="color: #f0ffff">first in the list</td>
+			</tr>
+			<tr>
+				<td class="text-center" style="color: #f0ffff">second in list...</td>
+			</tr>
+			<tr>
+				<td class="text-center" style="color: #f0ffff">second in list...</td>
+			</tr>
 		</tbody>
 	</table>
 </div>

@@ -1,7 +1,7 @@
 """ This file is used to render the home page. """
 import requests
 # from core.settings import ENV_FILE
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.shortcuts import render
 from login.views import get_access_token, get_api_data
 from users.views import import_data
@@ -42,8 +42,6 @@ def home_view(request):
         return render(request, 'Home/home.html', context={'users': users})
 
 
-def logout_view(request):
-    logout(request)
 
 def logo_view(request):
     """ This function is used to render the logo page. """

@@ -63,8 +63,8 @@ INSTALLED_APPS = [
     "login",
     "users",
     "channels",
-    "NetworkGateway",
     "game",
+    "NetworkGateway",
 ]
 
 
@@ -104,7 +104,6 @@ SESSION_COOKIE_SECURE = True # Should be True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 30 * 60 # 30 minute session timout
 #SECURE_SSL_REDIRECT = True
 
 # PATHS BUILDING - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
