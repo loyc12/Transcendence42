@@ -10,7 +10,15 @@ RUN apk add --no-cache --virtual .build-deps \
     libffi-dev jpeg-dev zlib-dev \
     g++\
     redis
+#    sdl2-dev freetype-dev libpq-dev
 
+# RUN apk add --no-cache --virtual .build-deps \
+#     sdl2-dev freetype-dev
+
+# RUN apk add --no-cache --virtual .build-deps \
+#     libpq-dev
+
+#RUN apk add libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev libjpeg-dev python3-setuptools python3-dev python3-numpy
 WORKDIR /app
 
 COPY Pipfile .

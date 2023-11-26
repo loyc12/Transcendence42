@@ -2,8 +2,9 @@ from django import forms
 
 class GameCreationForm(forms.Form):
 #    your_name = forms.CharField(label="Your name", max_length=100)
-    game_mode = forms.CharField(label='game_mode', max_length=10, required=True)
-    game_type = forms.CharField(label='game_type', max_length=10, required=True)
+    gameMode = forms.CharField(label='gameMode', max_length=16, required=True)
+    gameType = forms.CharField(label='gameType', max_length=16, required=True)
+    withAI = forms.BooleanField(label='withAI', initial=False, required=False)
 
     # If game is tournament, this is the id of the specific tournament to join, else it is id of specific game to join.
-    event_id = forms.CharField(label='event_id', max_length=10)
+    eventID = forms.CharField(label='eventID', max_length=10, required=False)
