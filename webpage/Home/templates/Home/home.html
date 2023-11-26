@@ -4,7 +4,7 @@
 {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
 		<h2>Accueil</h2>
-			{% include 'Logo/logo.html' %}
+			{% include 'Login/init.html' %}
 	</div>
 {% endblock %}
 
@@ -25,6 +25,7 @@
 
 {% block module3 %}
 <div class="module3" id="module3" >
+	{% include	'Login/login.html' %}		
 	{% if request.session.user_id %}
 		<h1>Welcome {{request.session.user_login}}!</h1>
 		<div><pre>{{pretty}}</pre></div>
