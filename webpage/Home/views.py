@@ -33,4 +33,29 @@ def logo_view(request):
 
 def profile_view(request):
     """ This function is used to render the profile page. """
-    return render(request, 'profile.html')
+    # if request.method == 'POST':
+    #     form = ProfileForm(request.POST)
+    #     if form.is_valid():
+    #         # Process the form data (save to the database or perform other actions)
+    #         # For now, just print the data
+    #         print(form.cleaned_data)
+    #         # return redirect('home')
+    # else:
+    #     form = ProfileForm()
+
+    return render(request, 'profile.html', {'form': form})
+
+# def visitors_view(request):
+#     """ This function is used to render the logo page. """
+#     return render(request, 'visitors.html')
+
+# Lobby view functions dans Home/views.
+def lobby_main(request):
+    users = User.objects.all()
+    return (render(request, 'visitors.html', context={'users': users}))
+
+def lobby_view(request):
+    return (render(request, 'lobby.html'))
+
+
+

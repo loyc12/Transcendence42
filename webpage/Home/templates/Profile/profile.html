@@ -1,28 +1,25 @@
-
-{% load static %}
-
-{% block module1 %}
-    <div class="profile" id="profile">
-        <div class="row align-items-center">
-        <div class="col-4">
-            <!-- REPLACE img by [profilePic]-->
-            <img
-            src="../../static/img/profile_picTEST.png"
-            alt="profile pic"
-            class="w-100"
-            />
-        </div>
-        <div class="offset-1 col-7">
-            <ul class="info">
-            <li>prénom: [firstName]</li>
-            <li>nom: [lastName]</li>
-            <li>username: [playerLoginName]</li>
-            <li>status: [playerStatus]</li>
-            </ul>
-        </div>
-        </div>
-        <!-- <p>HeroDiv</p> -->
-        <!-- Content for HeroDiv -->
-        <!-- <div>Initial Content</div> -->
+<div class="profile" id="profile">
+  <div class="row align-items-center">
+    <div class="col-4 d-flex justify-content-center mt-5">
+      <!-- REPLACE img path by [variable_img_link] from database-->
+      <img src="../../static/img/profile_picTEST.png" alt="profile pic" class="w-50 rounded-circle">
     </div>
-{% endblock %}
+    <div class="offset-1 col-7 mt-5">
+      <ul class="info">
+        <li>Information</li>
+        <li>Prénom et nom: [variable_displayName]</li>
+        <li>Identifiant: [variable_login]</li>
+        <li>Statut: [variable_isActive]</li>
+      </ul>
+      <ul class="stats mt-3">
+        <li>Statistiques</li>
+        <li>Nombre de parties jouées: [variable_nbGamesPlayed]</li>
+        <li>Victoire(s): [variable_Wins]</li>
+        <li>Défaite(s): [variable_Loses]</li>
+      </ul>
+    </div>
+  </div>
+  <!-- <p>HeroDiv</p> -->
+  <!-- Content for HeroDiv -->
+  <!-- <div>Initial Content</div> -->
+</div>

@@ -3,8 +3,27 @@
 
 {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
-		<h1>Accueil</h1>
-			{% include 'Logo/logo.html' %}
+			{% include 'Login/init.html' %}
+
+	</div>
+	{% endblock %}
+	
+	{% block module2 %}
+	<div class="module2" id="module2" >
+    {% if request.session.user_id %}
+    		<h1>Welcome {{request.session.user_login}}!</h1>
+    		<div><pre>{{pretty}}</pre></div>
+    	{% else %}
+    		<h1>Welcome Guest</h1>
+    		<p><a href="{% url '42login' %}">Login</a></p>
+    	{% endif %}
+	</div>
+	{% endblock %}
+	
+	{% block module3 %}
+	<div class="module3" id="module3" >
+		<!--<div> Module 3 </div>-->	
+		{% include 'Game/gameType.html' %}
 	</div>
 {% endblock %}
 

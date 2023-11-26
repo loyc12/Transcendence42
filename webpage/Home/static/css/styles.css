@@ -6,7 +6,7 @@ body {
     font-size: 20px;
 }
 
-/* Style the navigation bar */
+/* -- NAVBAR CSS -- */
 #NavBar {
     background-color: #145faf;
     color: #f0ffff;
@@ -23,26 +23,104 @@ body {
 #button {
     color: #0e4870
 }
+/* -- END -- NAVBAR CSS -- */
+
 
 /* -- PROFILE CSS -- */
 #profile {
     background-color: #178ca8;
     color: #f0ffff;
-
+    font-size: 30px;
+    
 }
 
 .info {
     list-style-type: none; /* remove default bullet to be replaced by my stars*/
 }
 
+.info li:first-child {
+    text-decoration: underline;
+    list-style-type: none;
+}
+
 /* stars instead of bullet in profile */
-.info li::before {
+.info li:not(:first-child)::before {
     content: "\2605";
     color: #f0ffff;
     font-size: 20px;
     margin-right: 0.5em;
 }
+
+.stats {
+    list-style-type: none; /* remove default bullet to be replaced by my stars*/
+}
+
+.stats li:first-child {
+    text-decoration: underline;
+}
 /* -- END -- PROFILE CSS -- */
+
+/* -- LOBBY CSS -- */
+#lobby canvas {
+    border: solid 1px #000000;
+}
+
+#lobby {
+    background-color: #178ca8;
+    color: #f0ffff;
+}
+
+#lobby table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#lobby td, #lobby th {
+    padding: 10px;
+    text-align: right;
+}
+
+#lobby .align-right {
+    text-align: right; /* Align text and image to the right */
+}
+/* -- END -- LOBBY CSS -- */
+
+
+/* -- INIT CSS -- */
+/* .init {
+
+} */
+/* -- END -- INIT CSS -- */
+
+/* -- LOGIN CSS -- */
+.login h1, h4{
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.login i{
+    color: #a81717;
+}
+/* -- END -- LOGIN CSS -- */
+
+/* -- GAME MODE CSS -- */
+.mode h1 {
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* -- END -- GAME MODE CSS -- */
+
+/* -- GAME TYPE CSS -- */
+.type h1 {
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* -- END -- GAME TYPE CSS -- */
 
 
 /* -- CONTENT CSS -- */

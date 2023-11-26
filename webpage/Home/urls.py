@@ -1,6 +1,7 @@
 """ This file contains the URL patterns for the Home app. """
 from django.urls import path
-from .views import home_view, logo_view, profile_view, lobby_main , game_view
+from .views import home_view, logo_view, profile_view, lobby_main, lobby_view
+#from login.views import login_view
 
 urlpatterns = [
     # URL for the main page (home)
@@ -8,5 +9,5 @@ urlpatterns = [
     path('Logo/', logo_view, name='logo' ),
     path('Profile/', profile_view, name='profile'),
 	path('Visitors/', lobby_main),
-    path('game/', game_view, name='game')
+	path('Lobby/', lobby_view, name='lobby')
 ]
