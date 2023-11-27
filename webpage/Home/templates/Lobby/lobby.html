@@ -1,9 +1,53 @@
+<head>
+	<canvas id="main-canvas" width="2450" height="1100" style="border: 1px solid black;"></canvas>
+	<canvas id="game-canvas" width="2350" height="1100" style="position: absolute; left: 510px;"></canvas>
+</head>
 
+<body>
+	<div class="lobby" id="lobby">
+		<div class="row align-items-center">
+			<div class="col justify-content-center">
+				<script>
+					const mainCanvas = document.getElementById('main-canvas');
+					const mainContext = mainCanvas.getContext('2d');
+	
+					const gameCanvas = document.getElementById('game-canvas');
+					const gameContext = gameCanvas.getContext('2d');
+	
+					mainContext.fillStyle = '#178ca9';
+					mainContext.fillRect(0, 0, 800, 1100);
+					mainContext.fillStyle = '#F0FFFF';
+					mainContext.font = '48px Nunito';
+					mainContext.fillText('Players', 20, 50);
+					const playersList = [ {% for player in players %} '{{player.playerLoginName}}', {% endfor %} ];
+	
+	
+					gameContext.fillStyle = '#000000';
+					gameContext.fillRect(0, 0, 1950, 1100);
+					gameContext.fillStyle = '#FF10F0';
+					gameContext.font = '48px Nunito';
+					gameContext.fillText('Game init...', 50, 50);
+				</script>
+			</div>
+		</div>
+
+</body>
+</div>
+
+
+
+
+
+
+
+<!--
+canvas dans head
+script fin du body
 <div class="lobby">
 	<div class="row align-items-center">
 		<div class="col-3 d-flex justify-content-center">
-			<!-- sidebar: users connecting to get ready to play-->
-			<table class="table-primary" style="color: #f0ffff; background-color: #178ca8; border: 5px solid #f0ffff; width: 80%; text-align: center; margin-top: 50px;"> <!--maybe change width...-->
+			sidebar: users connecting to get ready to play
+			<table class="table-primary" style="color: #f0ffff; background-color: #178ca8; border: 5px solid #f0ffff; width: 80%; text-align: center; margin-top: 50px;">
 				<thead>
 					<tr>
 						<th scope="col"></th>
@@ -14,7 +58,7 @@
 						<td colspan="2" class="table-active" style="font-size: 40px; margin: 30px; text-align: center;">Players</td>
 					</tr>
 					<tr>
-						<!-- add a column to put the fucking img in it so it will be fucking align-->
+						add a column to put the fucking img in it so it will be fucking align
 						<td class="align-right">
 							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;">
 						</th>
@@ -22,7 +66,7 @@
 							
 					</tr>
 					<tr>
-						<!-- add a column to put the fucking img in it so it will be fucking align-->
+						add a column to put the fucking img in it so it will be fucking align
 						<td class="align-right">
 							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;">
 						</th>
@@ -30,7 +74,7 @@
 							
 					</tr>
 					<tr>
-						<!-- add a column to put the fucking img in it so it will be fucking align-->
+						add a column to put the fucking img in it so it will be fucking align
 						<td class="align-right">
 							<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;">
 						</th>
@@ -39,7 +83,7 @@
 					</tr>
 					<tr>
 						<td colspan="2" class="table-active">
-							<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff; font-size: 60px; margin: 30px;" id="startEngine">START!</button> <!-- in JavaScript will have to change style of the button according to status... talk with Germ-->
+							<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff; font-size: 60px; margin: 30px;" id="startEngine">START!</button>
 						</td>
 					</tr>
 				</tbody>
@@ -58,8 +102,7 @@
 		</div>
 	</div>
 </div>
-
-<!--
+-----------------
 	list of players will be received from a json not from the database.
 	It will be different than from below. 
 {% for player in players %}
