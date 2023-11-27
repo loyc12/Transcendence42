@@ -55,5 +55,7 @@ def lobby_main(request):
 def lobby_view(request):
     return (render(request, 'lobby.html'))
 
+def hall_view(request):
+    return (render(request, 'hall.html'))
 
 

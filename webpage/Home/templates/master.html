@@ -34,20 +34,26 @@
                 <div class="NavBar"> 
                     {% block navbar %}
                     
-                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">HeroDiv</button>
+                        <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule1">Home</button>
                         <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule2">Module 2</button>
                         <button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff" id="buttonModule3">Module 3</button>
                     {% endblock %}
                 </div>
             </div>
             <!-- HeroDiv - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <div class="row">
+            <!-- <div class="row">
                 <div id="content1" class="HeroDiv">
                     {% block HeroDiv %}
                     {% endblock %}
                 </div>
+            </div> -->
+             <!-- Module1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+             <div class="row">
+                <div id="content1" class="module1">
+                    {% block module1 %}{% endblock %}
+                </div>
             </div>
-            <!-- Module1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Module2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="content2" class="module2">
                     {% block module2 %}{% endblock %}

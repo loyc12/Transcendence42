@@ -122,6 +122,16 @@ body {
 
 /* -- END -- GAME TYPE CSS -- */
 
+/* -- HALL CSS -- */
+
+.hall h1, h4{
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* -- END -- HALL CSS -- */
+
 
 /* -- CONTENT CSS -- */
 /* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
