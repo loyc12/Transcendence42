@@ -2,17 +2,6 @@
 
 <!-- {% include	'Lobby/lobby.html' %}		 -->
 
-{% block module3 %}
-<div class="module3" id="module3" >
-	{% if request.session.user_id %}
-		<h1>Welcome {{request.session.user_login}}!</h1>
-		<div><pre>{{pretty}}</pre></div>
-	{% else %}
-		<h1>Welcome Guest</h1>
-		<p><a href="{% url '42login' %}">Login</a></p>
-	{% endif %}
-</div>
-{% endblock %}
 
 {% block module4 %}
 	<div class="module4" id="module4" >

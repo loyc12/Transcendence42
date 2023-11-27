@@ -1,10 +1,10 @@
 
 {% block HeroDiv %}
 <div class="HeroDiv" id="HeroDiv" >
-{% if request.session.user_id %}
+	{% if request.session.user_id %}
 		{% include 'Hall/hall.html' %}
-{% else %}
+	{% else %}
 		{% include 'Home/logo.html' %}
-{% endif %}
+	{% endif %}
 </div>
 {% endblock %}

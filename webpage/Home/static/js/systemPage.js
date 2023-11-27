@@ -37,3 +37,4 @@ buttonModule3.addEventListener('click', function () {select_hero_content(3);})
 buttonModule4.addEventListener('click', function () {select_hero_content(4);})
 
 select_hero_content(0)
+
