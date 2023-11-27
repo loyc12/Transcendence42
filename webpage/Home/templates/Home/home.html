@@ -1,0 +1,48 @@
+<!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% comment %} {% block HeroDiv %}
+	<div class="HeroDiv" id="HeroDiv" >
+	{% if request.session.user_id %}
+			{% include 'Hall/hall.html' %}
+		{% else %}
+			{% include 'Login/init.html' %}
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block module1 %}
+	<div class="module1" id="module1" >
+		<div> Info </div>
+		{% include	'Profile/profile.html' %}
+	</div>
+{% endblock %}
+	
+{% block module2 %}
+	<div class="module2" id="module2" >
+		<div> Game</div>	
+		{% include	'Game/gameMode.html' %}		
+	</div>
+{% endblock %}
+<!-- {% include	'Lobby/lobby.html' %}		 -->
+
+{% block module3 %}
+<div class="module3" id="module3" >
+	{% if request.session.user_id %}
+		<h1>Welcome {{request.session.user_login}}!</h1>
+		<div><pre>{{pretty}}</pre></div>
+	{% else %}
+		<h1>Welcome Guest</h1>
+		<p><a href="{% url '42login' %}">Login</a></p>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block module4 %}
+	<div class="module4" id="module4" >
+		<div> HALL </div>
+		{% include	'Hall/hall.html' %}
+	</div>
+{% endblock %} {% endcomment %}

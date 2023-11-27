@@ -1,0 +1,44 @@
+<head>
+    <style>
+        canvas {
+            border: 1px solid #000; /* Adding a border for better visibility */
+        }
+    </style>
+</head>
+<body>
+    <div class="col" class="canvasGame">
+        <canvas id="myCanvas" width="800" height="500"></canvas>
+    </div>
+    <script>
+        // Get the canvas element
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        // Set the fill color
+        ctx.fillStyle = "#000000"; 
+
+        // Draw a filled rectangle
+        ctx.fillRect(180, 0, 800, 500); // Parameters: x, y, width, height
+
+
+        // Set the fill color
+        ctx.fillStyle = "#ffffff"; 
+        ctx.fillRect(200, 220, 10, 60); // Parameters: x, y, width, height
+        ctx.fillRect(770, 220, 10, 60); // Parameters: x, y, width, height
+        ctx.fillRect(490, 230, 10, 10); // Parameters: x, y, width, height
+        // ctx.fillStyle = "red";
+        // transform(1,1,1,1,100,-100)
+        // ctx.fillRect(490, 230, 10, 10); // Parameters: x, y, width, height
+        // ctx.fillStyle = "yellow";
+        // transform(1,1,1,1,100,-150)
+        // ctx.fillRect(490, 230, 10, 10); // Parameters: x, y, width, height
+
+        ctx.font = "16px Arial";
+        ctx.fillText("Player_A",10,50);
+        ctx.fillText("Player_B",10,100);
+        ctx.fillText("Player_C",10,150);
+        ctx.fillText("Player_D",10,200);
+
+    </script>
+
+</body>

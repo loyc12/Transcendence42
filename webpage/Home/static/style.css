@@ -6,68 +6,124 @@ body {
     font-size: 20px;
 }
 
-/* Style the navigation bar */
+/* -- NAVBAR CSS -- */
 #NavBar {
-
-    /* navbar background */
     background-color: #145faf;
-    /* navbar text color */
     color: #f0ffff;
-    /* button white #f0ffff and text #145faf TODO */
-    height: 10vh;
 
 }
 
 .NavBar {
-    /* navbar background */
-    background-color: #145faf; /* navbar will this color */
-    /* navbar text color */
+    background-color: #145faf; /* navbar will be this color */
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 15px;
-    height: 10vh;
-
 }
 
 #button {
-    color: #0e4870;
-    background-color: #f0ffff;
+    color: #0e4870
 }
+/* -- END -- NAVBAR CSS -- */
 
-/* #button .hidden-button {
-    display: none;
-} */
 
-/* --------------------- STUFF à VAL ---------------------- */
 /* -- PROFILE CSS -- */
 #profile {
-    /* background-color: #6a585f; Change the background color to suit your design */
     background-color: #178ca8;
     color: #f0ffff;
-    /* position: inherit; */
-    /* padding: 120px; */
-    /* width: 66%;
-    float: right; */
-    /* border: 2px solid rgb(108, 114, 0); */
-    /* border: 2px solid #de1bd4; */
-
+    font-size: 30px;
+    
 }
 
 .info {
+    list-style-type: none; /* remove default bullet to be replaced by my stars*/
+}
+
+.info li:first-child {
+    text-decoration: underline;
     list-style-type: none;
 }
 
-.info li::before {
+/* stars instead of bullet in profile */
+.info li:not(:first-child)::before {
     content: "\2605";
     color: #f0ffff;
     font-size: 20px;
     margin-right: 0.5em;
 }
+
+.stats {
+    list-style-type: none; /* remove default bullet to be replaced by my stars*/
+}
+
+.stats li:first-child {
+    text-decoration: underline;
+}
 /* -- END -- PROFILE CSS -- */
 
+/* -- LOBBY CSS -- */
+#lobby canvas {
+    border: solid 1px #000000;
+}
+
+#lobby {
+    background-color: #178ca8;
+    color: #f0ffff;
+}
+
+#lobby table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#lobby td, #lobby th {
+    padding: 10px;
+    text-align: right;
+}
+
+#lobby .align-right {
+    text-align: right; /* Align text and image to the right */
+}
+/* -- END -- LOBBY CSS -- */
 
 
+/* -- INIT CSS -- */
+/* .init {
 
+} */
+/* -- END -- INIT CSS -- */
+
+/* -- LOGIN CSS -- */
+.login h1, h4{
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.login i{
+    color: #a81717;
+}
+/* -- END -- LOGIN CSS -- */
+
+/* -- GAME MODE CSS -- */
+.mode h1 {
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* -- END -- GAME MODE CSS -- */
+
+/* -- GAME TYPE CSS -- */
+.type h1 {
+    color: #f0ffff;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* -- END -- GAME TYPE CSS -- */
+
+
+/* -- CONTENT CSS -- */
 /* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
 .content1 {
     display: block;
@@ -92,7 +148,6 @@ body {
 #HeroDiv h1 {
     color: #f0ffff;
     text-align: center;
-    /* margin-top: 0.5rem; */
 }
 
 #module1 {
@@ -116,27 +171,6 @@ body {
     height: 90vh;
 }
 
-#canvas {
-    background: darkgreen;
-    display: none;
-  }
-  
-  .btn {
-    margin-bottom: 20px;
-  }
-  
-  #btn-start {
-    display: block;
-  }
-  
-  #btn-toggle-sound {
-    display: none;
-  }
-  
-  body {
-    background: #111;
-  }
-
 
 footer {
     background-color: #4cbe96; /* footer color */
@@ -155,8 +189,11 @@ footer {
 
 /* Add more styles as needed for your specific layout*/
 
-canvasGame {
-    background-color: #178ca8;
-    height: 90vh;
-}
 
+
+/* .rgt_flt { 
+    float: right;*/
+    /* width: 50%; */
+    /* height: 100%; */
+    /* background: rgb(0, 26, 255); */
+/* }  */

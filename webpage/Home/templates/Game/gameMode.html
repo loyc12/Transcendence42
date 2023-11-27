@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Loader</title>
+</head>
+<body>
+
+<div id="moduleContainer">
+    <!-- Initial buttons to load modules -->
+    <button type="button" onclick="loadModule('module1')">Game LOCAL</button>
+    <button type="button" onclick="loadModule('module2')">Game ONLINE</button>
+</div>
+
+<script>
+// Variable to store selected options
+let selectedOptions = {};
+
+// Function to load a module
+function loadModule(moduleName) {
+    const moduleContainer = document.getElementById('moduleContainer');
+    moduleContainer.innerHTML = ''; // Clear the container
+
+    // Load buttons for the selected module
+    switch (moduleName) {
+        case 'module1':
+            moduleContainer.innerHTML = `
+                <button onclick="loadSubModule('subModule1')">Game Local: SOLO [AI]</button>
+                <button onclick="loadSubModule('subModule2')">Game Local: 1 Vs 1 </button>
+            `;
+            break;
+        case 'module2':
+            moduleContainer.innerHTML = `
+                <button onclick="loadSubModule('subModule3')">Game Online: Tournament </button>
+                <button onclick="loadSubModule('subModule4')">Game Online: MultiPlayer </button>
+            `;
+            break;
+        default:
+            break;
+    }
+}
+
+// Function to load a sub-module
+function loadSubModule(subModuleName) {
+    // Assuming you want to store the selected sub-module in the variable
+    selectedOptions.subModule = subModuleName;
+
+    // Display the result or take further actions
+    console.log('Selected Options:', selectedOptions);
+}
+
+</script>
+
+</body>
+</html>

@@ -33,9 +33,13 @@
             <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div class="NavBar"> 
-                    {% block navbar %}
+                {% block navbar %}
+                    {% if request.session.user_id %}
                         {% include 'Selector/navbar.html' %}
-                    {% endblock %}
+		            {% else %}
+                        {% include 'Selector/selector.html' %}
+		            {% endif %}
+                {% endblock %}
                 </div>
             </div>
             <!-- HeroDiv ("Home")- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -59,27 +63,26 @@
             <div class="row">
                 <div id="content2" class="module2">
                     {% block module2 %}
-                        {% include 'Remote/remote.html' %}	
+                        {% include 'Remote/remote.html' %}
                     {% endblock %}
                 </div>
             </div>
             <!-- Local - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="content3" class="module3">
-                    {% block module3 %}
-                        {% include 'Local/local.html' %}            
-                    {% endblock %}
+                    {% block module3 %}{% endblock %}
                 </div>
             </div>
             <!-- Login - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="content4" class="module4">
                     {% block module4 %}
-                        {% include 'Login/login.html' %}            
+                        {% include 'Login/login.html' %}
                     {% endblock %}
                 </div>
             </div>
         </div> 
+        
     </body>
 
     <footer class="border-top" >

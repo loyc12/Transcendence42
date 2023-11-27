@@ -1,0 +1,14 @@
+{% load static %}
+
+{% block navbar %}
+	{% include 'Selector/selector.html' %}
+{% endblock %}
+{% block HeroDiv %}
+	<div class="init">
+		<div class="row align-items-center">
+			<div class="col d-flex justify-content-center mt-5">
+				<img src="{% static 'img/logoPingPangPong.png' %}" alt="logo" class="logo-img img-fluid" width="600px" height="600px"/> <!--added class="img-fluid" to make it responsive when screen size changes-->
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -28,6 +28,14 @@ def home_view(request):
     return render(request, 'master.html')
 
 
+def login_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'login.html')
+
+def hall_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'hall.html')
+
 def logo_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'logo.html')
@@ -36,3 +44,15 @@ def logo_view(request):
 def profile_view(request):
     """ This function is used to render the profile page. """
     return render(request, 'profile.html')
+
+def game_mode_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'gameMode.html')
+
+def local_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'gameTypeLocal.html')
+
+def online_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'gameTypeOnline.html')
