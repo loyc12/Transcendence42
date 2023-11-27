@@ -19,7 +19,7 @@
 					mainContext.fillStyle = '#F0FFFF';
 					mainContext.font = '48px Nunito';
 					mainContext.fillText('Players', 20, 50);
-					const playersList = [ {% for player in players %} '{{player.playerLoginName}}', {% endfor %} ];
+					const playersList = [ {% for users in players %} '{{player.playerLoginName}}', {% endfor %} ];
 	
 	
 					gameContext.fillStyle = '#000000';
