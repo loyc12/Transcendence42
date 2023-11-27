@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import HttpResponse, render 
 from game.models import Game, Player, User
 from game.forms import GameCreationForm
+from game.apps import GameConfig as app
 import json
 
 # Create your views here.
@@ -10,6 +12,7 @@ def game_home(request):
     return render(request, 'game/game_creation_form.html')
     #return HttpResponse("Welcome to the game home page.")
 
+@login_required
 def game_join(request):
     '''
         The game request process in the frontend should result in
@@ -17,7 +20,7 @@ def game_join(request):
         the game_join() view.
     '''
     if request.method != 'POST':
-        return HttpResponse('A request to send a game requires a POST request with a propperly fromated body.', status=400)
+        return HttpResponse('A request to send a game requires a POST request with a properly fromated body.', status=400)
     
     print('RECEIVED POST BODY : ', request.POST)
     if not request.POST:
@@ -25,20 +28,30 @@ def game_join(request):
 
 
     form = GameCreationForm(request.POST)
+    print('Form : \n', form)
+    print('Form Errors : \n', form.errors)
     if not form.is_valid():
         return HttpResponse('Trying to create a game, but either no game creation form was sent or is missing fields.', status=400)
 
-    print('Created form : ', form.cleaned_data['game_mode'])
-    print('Created form : ', form.cleaned_data['game_type'])
-    payload = {
-        'game_id': -1,
-        'game_mode': form.cleaned_data['game_mode'],
-        'game_type': form.cleaned_data['game_type']
-    }
-    game_id = -1# default
+    print('Created form : ', form.cleaned_data['gameMode'])
+    print('Created form : ', form.cleaned_data['gameType'])
+    #game_id = -1# default
 
     ### TODO: CALL GameManager to create game according to request.
+    mm = app.match_maker
+    print(mm)
 
+    lobby_game = mm.join_lobby(request.user, form.cleaned_data)
+    if not lobby_game:
+        return HttpResponse('Joining game lobby failed.', status=400)
+
+
+    payload = {
+        'sockID': lobby_game.sockID,
+        'gameMode': form.cleaned_data['gameMode'],
+        'gameType': form.cleaned_data['gameType'],
+        'withAI': form.cleaned_data['withAI'] if 'withAI' in form.cleaned_data else False
+    }
     return JsonResponse(payload)
     #return render(request, 'game/game_creation_form_returned.html', {'form': form})
     #return render(request, 'game/game.html',

@@ -1,9 +1,23 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.exceptions import StopConsumer
-import asyncio
+#import asyncio
 import json
 import time
 
+
+class GameConsumer(AsyncWebsocketConsumer):
+
+    async def connect(self):
+        pass
+
+    async def disconnect(self, event):
+        pass
+
+    async def receive(self, text_data):
+        event = json.loads(test_data)
+
+
+"""
 class GameConsumer(AsyncWebsocketConsumer):
     
     #public_games = dict()
@@ -110,3 +124,4 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def game_send_data(self, event):
         await self.send(text_data=event['game_state'])
+"""
