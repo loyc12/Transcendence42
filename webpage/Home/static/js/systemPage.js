@@ -5,6 +5,9 @@
 //     'content3',//<div id="content3" class="module3">
 // ]
 
+let content_flush = ['NavBar0', 'NavBar1', 'NavBar2', 'NavBar3',
+                        'content0', 'content1', 'content2', 'content3']
+
 let all_hero_content2 = [
     {
         'navBar': 'NavBar0',
@@ -19,23 +22,17 @@ let all_hero_content2 = [
         'heroDiv': 'content2'
     },
     {
-        'navBar': 'NavBar0',
+        'navBar': 'NavBar3',
         'heroDiv': 'content3'
     },
 ]
 
 let hide_all_hero_content = function () {
     
-    let navContentElem;
-    let heroContentElem;
-
-    for (c of all_hero_content2) {
-        navContentElem = document.getElementById(c['navBar']);
-        heroContentElem = document.getElementById(c['heroDiv']);
-        if (navContentElem)
-            navContentElem.style.display = 'none';
-        if (heroContentElem)
-            heroContentElem.style.display = 'none';
+    for (c of content_flush) {
+        elem = document.getElementById(c);
+        if (elem)
+            elem.style.display = 'none';
     }
 }
 
@@ -83,8 +80,8 @@ let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
 
 buttonModule0.addEventListener('click', function () {select_hero_content(0);})
-buttonModule1.addEventListener('click', function () {select_hero_content(1);})
-buttonModule2.addEventListener('click', function () {select_hero_content(2);})
+//buttonModule1.addEventListener('click', function () {select_hero_content(1);})
+//buttonModule2.addEventListener('click', function () {select_hero_content(2);})
 buttonModule3.addEventListener('click', function () {select_hero_content(3);})
 
 console.log('WOWOWOWOWOWOW')

@@ -31,14 +31,30 @@
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container-fluid">
             <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <div class="row">
-                <div class="NavBar"> 
+            {% comment %} <div class="row">
+                <div id="NavBar0" class="NavBar"> 
                 {% block navbar %}
                         {% include 'Selector/navbar.html' %}
                 {% endblock %}
                 </div>
+            </div> {% endcomment %}
+            
+            <div class="row">
+                <div id="NavBar0" div class="NavBar"> 
+                {% block anon_navbar %}
+                        {% include 'Selector/anon_navbar.html' %}
+                {% endblock %}
+                </div>
             </div>
-            <!-- HeroDiv ("Home")- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+            <div class="row">
+                <div id="NavBar3" div class="NavBar"> 
+                {% block navbar_login %}
+                        {% include 'Selector/login_navbar.html' %}
+                {% endblock %}
+                </div>
+            </div>
+
             <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
             <div class="row">
                 <div id="content0" class="col-12 HeroDiv">
