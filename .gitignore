@@ -3,6 +3,9 @@
 **/*.key
 **/__pycache__
 
+**/*.lock
+*.lock
+
 # 42
 *.DS_Store
 *.vscode

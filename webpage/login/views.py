@@ -26,7 +26,8 @@ def get_access_token(autorization_code):
                     '&client_id=' + client_id + \
                     '&client_secret=' + client_secret + \
                     '&code=' + autorization_code + \
-                    '&redirect_uri=' + ENV_FILE['APP42_OAUTH_REDIRECT']          
+                    '&redirect_uri=' + ENV_FILE['APP42_OAUTH_REDIRECT']
+            
     return (url + data)
     
 #  Create a url will return the public data of the user from the api
