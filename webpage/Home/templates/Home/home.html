@@ -1,10 +1,16 @@
 <!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
 
+{% load static %}
+
+{% block navbar %}
+
+	{% include 'Selector/navbar.html' %}
+{% endblock %}
 {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
 		<h2>Accueil</h2>
-			{% include 'Login/init.html' %}
+			{% include 'Login/login.html' %}
 	</div>
 {% endblock %}
 
