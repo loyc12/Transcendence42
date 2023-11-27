@@ -1,23 +1,16 @@
 {% block module3 %}
 	<div class="login" id="login">
-
 		<div class="row align-items-center">
 			<div class="col d-flex flex-column align-items-center justify-content-center mt-10">
 				<h1><i class="bi bi-exclamation-triangle"></i> ATTENTION! <i class="bi bi-exclamation-triangle"></i></h1>
 				<h4>Vous êtes sur le point d'être redirigé vers l'authentification de 42. Consentez-vous à ce que nous récupérons vos données?</h4>
-				<button type="button" class="btn" style="background-color: #a81717; color: #f0ffff; font-size: 60px; margin: 10px;" id="consent">Oui, je le veux!</button></a></p> <!--TODO add redirection-->
+				<button type="button" class="btn" style="background-color: #a81717; color: #f0ffff; font-size: 60px; margin: 10px;" id="consent">
+					<a href="{% url '42login' %}" style="color: #f0ffff; text-decoration: none;">Oui, je le veux!</a>
+				</button>
 			</div>
-
 		</div>
 	</div>
 {% endblock %}
 
-{% comment %} <div class="row">
-	<div id="content3" class="module3">
-		{% block module3 %}
-			{% include 'Login/login.html' %}
-		{% endblock %}
-	</div>
-</div> {% endcomment %}
 
 

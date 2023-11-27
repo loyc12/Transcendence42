@@ -39,6 +39,15 @@
                 </div>
             </div> {% endcomment %}
             
+            {% if request.session.user_id %}
+            <div class="row">
+                <div id="NavBar0" div class="NavBar"> 
+                {% block navbar_all %}
+                        {% include 'Selector/alldress_navbar.html' %}
+                {% endblock %}
+                </div>
+            </div>
+            {% else %}
             <div class="row">
                 <div id="NavBar0" div class="NavBar"> 
                 {% block anon_navbar %}
@@ -46,6 +55,8 @@
                 {% endblock %}
                 </div>
             </div>
+            
+            {% endif %}
 
             <div class="row">
                 <div id="NavBar3" div class="NavBar"> 

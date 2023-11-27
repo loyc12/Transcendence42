@@ -18,7 +18,7 @@ let all_hero_content2 = [
         'heroDiv': 'content1'
     },
     {
-        'navBar': 'NavBar0',
+        'navBar': 'NavBar1',
         'heroDiv': 'content2'
     },
     {
@@ -80,8 +80,8 @@ let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
 
 buttonModule0.addEventListener('click', function () {select_hero_content(0);})
-//buttonModule1.addEventListener('click', function () {select_hero_content(1);})
-//buttonModule2.addEventListener('click', function () {select_hero_content(2);})
+buttonModule1.addEventListener('click', function () {select_hero_content(1);})
+buttonModule2.addEventListener('click', function () {select_hero_content(2);})
 buttonModule3.addEventListener('click', function () {select_hero_content(3);})
 
 console.log('WOWOWOWOWOWOW')
