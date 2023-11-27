@@ -21,7 +21,7 @@ let select_hero_content = function (id) {
     let contentElem = document.getElementById(all_hero_content[id]);
     if (!contentElem) 
         return;
-        contentElem.style.display = 'block';
+    contentElem.style.display = 'block';
 }
 
 let buttonModule0 = document.getElementById('buttonModule0');

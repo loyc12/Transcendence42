@@ -34,6 +34,10 @@ body {
     background-color: #f0ffff;
 }
 
+#button.hidden-button {
+    display: none;
+}
+
 /* --------------------- STUFF à VAL ---------------------- */
 /* -- PROFILE CSS -- */
 #profile {
@@ -110,6 +114,7 @@ body {
     background-color: #178ca8;
     height: 90vh;
 }
+
 
 
 footer {
