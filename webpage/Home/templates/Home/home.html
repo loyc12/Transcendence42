@@ -1,16 +1,15 @@
 <!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
 
-<!-- <div class="NavBar">  -->
-	{% block navbar %}
-		{% include 'Selector/navbar.html' %}
-	{% endblock %}
-<!-- </div> -->
+{% load static %}
 
 {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
-		<h2>Accueil</h2>
-			{% include 'Logo/logo.html' %}
+		{% if request.session.user_id %}
+			{% include 'Hall/hall.html' %}
+		{% else %}
+			{% include 'Login/init.html' %}
+		{% endif %}
 	</div>
 {% endblock %}
 
@@ -39,4 +38,11 @@
 		<p><a href="{% url '42login' %}">Login</a></p>
 	{% endif %}
 </div>
+{% endblock %}
+
+{% block module4 %}
+	<div class="module4" id="module4" >
+		<div> HALL </div>
+		{% include	'Hall/hall.html' %}
+	</div>
 {% endblock %}

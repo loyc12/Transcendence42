@@ -27,6 +27,10 @@ def login_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'login.html')
 
+def hall_view(request):
+    """ This function is used to render the logo page. """
+    return render(request, 'hall.html')
+
 def logo_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'logo.html')

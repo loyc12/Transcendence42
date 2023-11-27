@@ -28,13 +28,13 @@ let buttonModule0 = document.getElementById('buttonModule0');
 let buttonModule1 = document.getElementById('buttonModule1');
 let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
-// let buttonModule4 = document.getElementById('buttonModule4');
+let buttonModule4 = document.getElementById('buttonModule4');
 
 buttonModule0.addEventListener('click', function () {select_hero_content(0);})
 buttonModule1.addEventListener('click', function () {select_hero_content(1);})
 buttonModule2.addEventListener('click', function () {select_hero_content(2);})
 buttonModule3.addEventListener('click', function () {select_hero_content(3);})
-// buttonModule4.addEventListener('click', function () {select_hero_content(4);})
+buttonModule4.addEventListener('click', function () {select_hero_content(4);})
 
 select_hero_content(0)
 
