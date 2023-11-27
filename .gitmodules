@@ -1,4 +1,4 @@
 [submodule "webpage/game/PingPongFork"]
-	path = webpage/game/PingPongFork
+	path = webpage/game/PingPongRebound
 	url = git@github.com:iAntopy/PingPongFork.git
 	branch = PG_less
