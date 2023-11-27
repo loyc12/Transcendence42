@@ -1,7 +1,6 @@
 <!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% extends 'master.html' %}
 
-
 {% block navbar %}
 	{% include 'Selector/navbar.html' %}
 {% endblock %}
@@ -9,7 +8,7 @@
 {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
 		<h2>Accueil</h2>
-			{% include 'Login/init.html' %}
+			{% include 'Logo/logo.html' %}
 	</div>
 {% endblock %}
 
@@ -30,7 +29,6 @@
 
 {% block module3 %}
 <div class="module3" id="module3" >
-	{% include	'Login/login.html' %}		
 	{% if request.session.user_id %}
 		<h1>Welcome {{request.session.user_login}}!</h1>
 		<div><pre>{{pretty}}</pre></div>

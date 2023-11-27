@@ -34,7 +34,7 @@ body {
     background-color: #f0ffff;
 }
 
-#button.hidden-button {
+#button .hidden-button {
     display: none;
 }
 
