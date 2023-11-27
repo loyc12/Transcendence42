@@ -79,10 +79,14 @@ let buttonModule1 = document.getElementById('buttonModule1');
 let buttonModule2 = document.getElementById('buttonModule2');
 let buttonModule3 = document.getElementById('buttonModule3');
 
-buttonModule0.addEventListener('click', function () {select_hero_content(0);})
-buttonModule1.addEventListener('click', function () {select_hero_content(1);})
-buttonModule2.addEventListener('click', function () {select_hero_content(2);})
-buttonModule3.addEventListener('click', function () {select_hero_content(3);})
+if (buttonModule0)
+    buttonModule0.addEventListener('click', function () {select_hero_content(0);})
+if (buttonModule1)
+    buttonModule1.addEventListener('click', function () {select_hero_content(1);})
+if (buttonModule2)
+    buttonModule2.addEventListener('click', function () {select_hero_content(2);})
+if (buttonModule3)
+    buttonModule3.addEventListener('click', function () {select_hero_content(3);})
 
 console.log('WOWOWOWOWOWOW')
 select_hero_content(0)
