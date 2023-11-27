@@ -3,7 +3,7 @@ let all_hero_content = [
     'content1',
     'content2',
     'content3',
-    'content4',
+    // 'content4',
 ]
 
 let hide_all_hero_content = function () {

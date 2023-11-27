@@ -23,7 +23,7 @@ def home_view(request):
     return render(request, 'Home/home.html')
 
 
-def init_view(request):
+def login_view(request):
     """ This function is used to render the logo page. """
     return render(request, 'login.html')
 
