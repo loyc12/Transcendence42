@@ -1,10 +1,10 @@
 """ This file is used to render the home page. """
 import requests
 # from core.settings import ENV_FILE
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from login.views import get_access_token, get_api_data
 from users.views import import_data
-#from .forms import ProfileForm
+from users.models import User
 
 
 #http://127.0.0.1:3000/
@@ -19,8 +19,13 @@ def home_view(request):
         url = get_api_data()
         user_data = requests.get(url, headers=headers, timeout=10)
         import_data(user_data, request)
-        return render(request, 'Home/home.html')
-    return render(request, 'Home/home.html')
+        current_url = request.build_absolute_uri()
+        path, _, _ = current_url.partition('?')
+        if 'code=' in request.META.get('QUERY_STRING', ''):
+            updated_url = path
+            return redirect(updated_url)
+        return render(request, 'master.html')
+    return render(request, 'master.html')
 
 
 def login_view(request):

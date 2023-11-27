@@ -3,9 +3,9 @@
 
 {% load static %}
 
-{% block HeroDiv %}
+{% comment %} {% block HeroDiv %}
 	<div class="HeroDiv" id="HeroDiv" >
-		{% if request.session.user_id %}
+	{% if request.session.user_id %}
 			{% include 'Hall/hall.html' %}
 		{% else %}
 			{% include 'Login/init.html' %}
@@ -45,4 +45,4 @@
 		<div> HALL </div>
 		{% include	'Hall/hall.html' %}
 	</div>
-{% endblock %}
+{% endblock %} {% endcomment %}

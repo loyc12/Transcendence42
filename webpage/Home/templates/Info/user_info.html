@@ -1,0 +1,37 @@
+
+<h2>User Profile</h2>
+<!-- Data Mechanic
+  {% if submitted_data %}
+  <p>First Name: {{ submitted_data.first_name }}</p>
+  <p>Last Name: {{ submitted_data.last_name }}</p>
+  <p>Pseudo: {{ submitted_data.pseudo }}</p>
+{% endif %} -->
+
+<div class="profile" id="profile">
+  <div class="row align-items-center">
+    <div class="col-4">
+      <!-- REPLACE img by [profilePic]-->
+      <img
+        src="../../static/img/profile_picTEST.png"
+        alt="profile pic"
+        class="w-100"
+      />
+    </div>
+    <div class="offset-1 col-7">
+      <ul class="info">
+        <li>prénom: [firstName]</li>
+        <li>nom: [lastName]</li>
+        <li>username: [playerLoginName]</li>
+        <li>status: [playerStatus]</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% if messages %}
+  {% for message in messages %}
+    <p style="color: green;">{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+

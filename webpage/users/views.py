@@ -22,11 +22,11 @@ def import_data(api_data, request):
         )
     # Update session
     u.save()
-    request.session['user_id'] = u.id
+    request.session['user_id'] = u.login
     request.session['user_login'] = u.login
     request.session.save()
-    # session_key = request.session.session_key
-    # session = Session.objects.get(session_key=session_key)
+    #session_key = request.session.session_key
+    #session = Session.objects.get(session_key=session_key)
     return
 
 # def remove_data(request):
