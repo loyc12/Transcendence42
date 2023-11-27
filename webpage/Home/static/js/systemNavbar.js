@@ -1,5 +1,6 @@
 let currentState = 'home';  // Initialize the current state to 'home'
 let initialChoice = null;    // Keep track of the initial choice
+
 function initState() {
     // Clear the current content of the navbar row
     const navbarRow = document.getElementById('NavBar');
@@ -34,6 +35,7 @@ function showSubMenu(selectedOption) {
     const selectedOptionIndex = ['home','info', 'game', 'login'].indexOf(selectedOption);
     const currentStateIndex = ['home','info', 'game', 'login'].indexOf(currentState);
 
+    //
    if (selectedOptionIndex < currentStateIndex) {
         // Reset to the initial state
         currentState = selectedOption;
@@ -56,7 +58,6 @@ function handleSubOption(subOption) {
         case 'home':
             // Load content into the heroDiv for Display1
             loadContent('heroDiv'); // loadContent('content0');
-
             break;
             
         case 'info':
@@ -68,7 +69,6 @@ function handleSubOption(subOption) {
     }
 }
 
-
 function loadContent(contentFile) {
     // Load content into the heroDiv based on the specified content file
     const heroDiv = document.getElementById('heroDiv');
@@ -79,8 +79,6 @@ function loadContent(contentFile) {
         })
         .catch(error => console.error('Error loading content:', error));
 }
-
-
 
 function renderInitNavbar() {
     // Customize this function to render another navbar to the init value
