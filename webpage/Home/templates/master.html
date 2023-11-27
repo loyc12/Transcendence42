@@ -34,11 +34,7 @@
             <div class="row">
                 <div class="NavBar"> 
                 {% block navbar %}
-                    {% if request.session.user_id %}
                         {% include 'Selector/navbar.html' %}
-		            {% else %}
-                        {% include 'Selector/selector.html' %}
-		            {% endif %}
                 {% endblock %}
                 </div>
             </div>
@@ -63,21 +59,22 @@
             <div class="row">
                 <div id="content2" class="module2">
                     {% block module2 %}
-                        {% include 'Remote/remote.html' %}
+                    {% include	'Game/gameMode.html' %}
                     {% endblock %}
-                </div>
-            </div>
-            <!-- Local - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <div class="row">
-                <div id="content3" class="module3">
-                    {% block module3 %}{% endblock %}
                 </div>
             </div>
             <!-- Login - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
+                <div id="content3" class="module3">
+                    {% block module3 %}
+                        {% include 'Login/login.html' %}
+                    {% endblock %}
+                </div>
+            </div>
+            <!-- Other - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
                 <div id="content4" class="module4">
                     {% block module4 %}
-                        {% include 'Login/login.html' %}
                     {% endblock %}
                 </div>
             </div>

@@ -1,31 +1,5 @@
 <!-- REF MASTER.HTML - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-{% extends 'master.html' %}
 
-{% load static %}
-
-{% comment %} {% block HeroDiv %}
-	<div class="HeroDiv" id="HeroDiv" >
-	{% if request.session.user_id %}
-			{% include 'Hall/hall.html' %}
-		{% else %}
-			{% include 'Login/init.html' %}
-		{% endif %}
-	</div>
-{% endblock %}
-
-{% block module1 %}
-	<div class="module1" id="module1" >
-		<div> Info </div>
-		{% include	'Profile/profile.html' %}
-	</div>
-{% endblock %}
-	
-{% block module2 %}
-	<div class="module2" id="module2" >
-		<div> Game</div>	
-		{% include	'Game/gameMode.html' %}		
-	</div>
-{% endblock %}
 <!-- {% include	'Lobby/lobby.html' %}		 -->
 
 {% block module3 %}
@@ -45,4 +19,4 @@
 		<div> HALL </div>
 		{% include	'Hall/hall.html' %}
 	</div>
-{% endblock %} {% endcomment %}
+{% endblock %}
