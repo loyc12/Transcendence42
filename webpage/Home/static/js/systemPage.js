@@ -6,7 +6,8 @@
 // ]
 
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin',
-                        'contentHome', 'contentInfo', 'contentGame', 'contentLogin']
+                        'contentHome', 'contentInfo', 'contentGame', 'contentLogin',
+                        'gameTypeLocal', 'gameTypeOnline']
 
 let all_hero_content2 = {
     'init': {
@@ -49,20 +50,32 @@ let select_hero_content = function (key) {
     hide_all_hero_content();
     console.log('select_hero_content after hide')
     let contentElems = all_hero_content2[key];
-    console.log('all_hero_content2 : ' + all_hero_content2)
-    console.log('key : ' + key)
-    console.log('all_hero_content2[key] : ' + all_hero_content2[key])
-    console.log('contentElems : ' + contentElems)
+    //console.log('all_hero_content2 : ' + all_hero_content2)
+    //console.log('key : ' + key)
+    //console.log('all_hero_content2[key] : ' + all_hero_content2[key])
+    //console.log('contentElems : ' + contentElems)
     if (!contentElems) 
         return;
     let navContentElem = document.getElementById(contentElems['navBar']);
     let heroContentElem = document.getElementById(contentElems['heroDiv']);
-    console.log('navContentElem: ' + navContentElem)
-    console.log('heroContentElem: ' + heroContentElem)
+    // console.log('navContentElem: ' + navContentElem)
+    // console.log('heroContentElem: ' + heroContentElem)
     if (navContentElem)
         navContentElem.style.display = 'block';
+    else
+        console.log('navContentElem NOT FOUND')
+
     if (heroContentElem)
+    {
+        if (contentElems['heroDiv'] === 'contentGame') {
+            console.log('Special case contentGame loadModule(gameMode)')
+            loadModule('gameMode')
+        }
+        console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
         heroContentElem.style.display = 'block';
+    }
+    else
+        console.log('heroContentElem NOT FOUND ...')
 }
 
 // let select_hero_content = function (id) {
