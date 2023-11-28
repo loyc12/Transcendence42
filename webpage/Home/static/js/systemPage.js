@@ -14,12 +14,16 @@ let all_hero_content2 = [
         'heroDiv': 'content0'
     },
     {
-        'navBar': 'NavBar0',
+        'navBar': 'NavBar1',
         'heroDiv': 'content1'
     },
     {
-        'navBar': 'NavBar0',
+        'navBar': 'NavBar1',
         'heroDiv': 'content2'
+    },
+    {
+        'navBar': 'NavBar1',
+        'heroDiv': 'content3'
     },
     {
         'navBar': 'NavBar3',

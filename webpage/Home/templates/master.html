@@ -30,34 +30,41 @@
     <body>
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container-fluid">
-            <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            {% comment %} <div class="row">
-                <div id="NavBar0" class="NavBar"> 
-                {% block navbar %}
-                        {% include 'Selector/navbar.html' %}
-                {% endblock %}
-                </div>
-            </div> {% endcomment %}
-            
+            <!-- Navbar HOME STATE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             {% if request.session.user_id %}
-            <div class="row">
-                <div id="NavBar0" div class="NavBar"> 
-                {% block navbar_all %}
-                        {% include 'Selector/alldress_navbar.html' %}
-                {% endblock %}
+                <div class="row">
+                    <div id="NavBar0" div class="NavBar"> 
+                    {% block navbar_home %}
+                            {% include 'Selector/home_navbar.html' %}
+                    {% endblock %}
+                    </div>
                 </div>
-            </div>
             {% else %}
+                <div class="row">
+                    <div id="NavBar0" div class="NavBar"> 
+                    {% block anon_navbar %}
+                            {% include 'Selector/anon_navbar.html' %}
+                    {% endblock %}
+                    </div>
+                </div> 
+            {% endif %}
+            <!-- Navbar INFO - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBar0" div class="NavBar"> 
-                {% block anon_navbar %}
-                        {% include 'Selector/anon_navbar.html' %}
+                <div id="NavBar1" div class="NavBar"> 
+                {% block navbar_info %}
+                        {% include 'Selector/info_navbar.html' %}
                 {% endblock %}
                 </div>
             </div>
-            
-            {% endif %}
-
+            <!-- Navbar GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="NavBar2" div class="NavBar"> 
+                {% block navbar_game %}
+                        {% include 'Selector/game_navbar.html' %}
+                {% endblock %}
+                </div>
+            </div>
+            <!-- Navbar LOGIN - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="NavBar3" div class="NavBar"> 
                 {% block navbar_login %}
@@ -65,7 +72,7 @@
                 {% endblock %}
                 </div>
             </div>
-
+        <!-- MODULE CONTENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
             <div class="row">
                 <div id="content0" class="col-12 HeroDiv">
