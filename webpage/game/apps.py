@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+import asyncio
 
 class GameConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -8,13 +9,16 @@ class GameConfig(AppConfig):
 
     def ready(self):
         from game.MatchMaker import MatchMaker
-        from game.PingPongRebound import GameManager
+        from game.PingPongRebound.GameManager import GameManager#, testAllGames
 
         fake_messenger = 1
         game_manager = GameManager(fake_messenger)
-        #importlib.import_module('game.MatchMaker')
-        #importlib.import_module('game.PingPongRebound')
+        asyncio.run(game_manager.addGame('Pong', 1))
+        asyncio.run(game_manager.startGame(1))
+        asyncio.run(asyncio.sleep(2))
+        asyncio.run(game_manager.removeGame(1))
+        #testAllGames()
 
-        GameConfig.match_maker = MatchMaker(game_manager)
+        #GameConfig.match_maker = MatchMaker(game_manager)
     #    print("GameConfig was just initialized !")
         pass
