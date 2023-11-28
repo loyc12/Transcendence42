@@ -4,7 +4,7 @@
 	{% if request.session.user_id %}
 		{% include 'Hall/hall.html' %}
 	{% else %}
-		{% include 'Home/logo.html' %}
+		{% include 'Login/init.html' %}
 	{% endif %}
 </div>
 {% endblock %}
