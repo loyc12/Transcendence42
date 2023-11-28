@@ -30,10 +30,11 @@
     <body>
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container-fluid">
+            
             <!-- Navbar HOME STATE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             {% if request.session.user_id %}
                 <div class="row">
-                    <div id="NavBar0" div class="NavBar"> 
+                    <div id="NavBarInit" div class="NavBar"> 
                     {% block navbar_home %}
                             {% include 'Selector/home_navbar.html' %}
                     {% endblock %}
@@ -41,16 +42,18 @@
                 </div>
             {% else %}
                 <div class="row">
-                    <div id="NavBar0" div class="NavBar"> 
+                    <div id="NavBarInit" div class="NavBar"> 
                     {% block anon_navbar %}
                             {% include 'Selector/anon_navbar.html' %}
                     {% endblock %}
                     </div>
                 </div> 
             {% endif %}
+
+
             <!-- Navbar INFO - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBar1" div class="NavBar"> 
+                <div id="NavBarInfo" div class="NavBar"> 
                 {% block navbar_info %}
                         {% include 'Selector/info_navbar.html' %}
                 {% endblock %}
@@ -58,7 +61,7 @@
             </div>
             <!-- Navbar GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBar2" div class="NavBar"> 
+                <div id="NavBarGame" div class="NavBar"> 
                 {% block navbar_game %}
                         {% include 'Selector/game_navbar.html' %}
                 {% endblock %}
@@ -66,7 +69,7 @@
             </div>
             <!-- Navbar LOGIN - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBar3" div class="NavBar"> 
+                <div id="NavBarLogin" div class="NavBar"> 
                 {% block navbar_login %}
                         {% include 'Selector/login_navbar.html' %}
                 {% endblock %}
@@ -75,7 +78,7 @@
         <!-- MODULE CONTENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
             <div class="row">
-                <div id="content0" class="col-12 HeroDiv">
+                <div id="contentHome" class="col-12 HeroDiv">
                     {% block HeroDiv %}
                         {% include 'Home/herodiv.html' %}
                     {% endblock %}
@@ -83,7 +86,7 @@
             </div>
             <!-- Info - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content1" class="module1">
+                <div id="contentInfo" class="module1">
                     {% block module1 %}
                         {% include 'Info/info.html' %}
                     {% endblock %}
@@ -91,15 +94,15 @@
             </div>
             <!-- Remote - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content2" class="module2">
+                <div id="contentGame" class="module2">
                     {% block module2 %}
-                    {% include	'Game/gameMode.html' %}
+                        {% include	'Game/gameMode.html' %}
                     {% endblock %}
                 </div>
             </div>
             <!-- Login - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content3" class="module3">
+                <div id="contentLogin" class="module3">
                     {% block module3 %}
                         {% include 'Login/login.html' %}
                     {% endblock %}

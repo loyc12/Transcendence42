@@ -5,27 +5,27 @@
 //     'content3',//<div id="content3" class="module3">
 // ]
 
-let content_flush = ['NavBar0', 'NavBar1', 'NavBar2', 'NavBar3',
-                        'content0', 'content1', 'content2', 'content3']
+let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin',
+                        'contentHome', 'contentInfo', 'contentGame', 'contentLogin']
 
-let all_hero_content2 = [
-    {
-        'navBar': 'NavBar0',
-        'heroDiv': 'content0'
+let all_hero_content2 = {
+    'init': {
+        'navBar': 'NavBarInit',
+        'heroDiv': 'contentHome'
     },
-    {
-        'navBar': 'NavBar1',
-        'heroDiv': 'content1'
+    'info': {
+        'navBar': 'NavBarInfo',
+        'heroDiv': 'contentInfo'
     },
-    {
-        'navBar': 'NavBar2',
-        'heroDiv': 'content2'
+    'game': {
+        'navBar': 'NavBarGame',
+        'heroDiv': 'contentGame'
     },
-    {
-        'navBar': 'NavBar1',
-        'heroDiv': 'content3'
+    'login': {
+        'navBar': 'NavBarLogin',
+        'heroDiv': 'contentLogin'
     },
-]
+}
 
 let hide_all_hero_content = function () {
     
@@ -35,7 +35,6 @@ let hide_all_hero_content = function () {
             elem.style.display = 'none';
     }
 }
-
 // let hide_all_hero_content = function () {
 //     let contentElem;
 
@@ -46,13 +45,13 @@ let hide_all_hero_content = function () {
 //     }
 // }
 
-let select_hero_content = function (id) {
+let select_hero_content = function (key) {
     hide_all_hero_content();
     console.log('select_hero_content after hide')
-    let contentElems = all_hero_content2[id];
+    let contentElems = all_hero_content2[key];
     console.log('all_hero_content2 : ' + all_hero_content2)
-    console.log('id : ' + id)
-    console.log('all_hero_content2[id] : ' + all_hero_content2[id])
+    console.log('key : ' + key)
+    console.log('all_hero_content2[key] : ' + all_hero_content2[key])
     console.log('contentElems : ' + contentElems)
     if (!contentElems) 
         return;
@@ -74,20 +73,20 @@ let select_hero_content = function (id) {
 //     contentElem.style.display = 'block';
 // }
 
-let buttonModule0 = document.getElementById('buttonModule0');
-let buttonModule1 = document.getElementById('buttonModule1');
-let buttonModule2 = document.getElementById('buttonModule2');
-let buttonModule3 = document.getElementById('buttonModule3');
+let buttonModule0 = document.getElementById('buttonModuleHome');
+let buttonModule1 = document.getElementById('buttonModuleInfo');
+let buttonModule2 = document.getElementById('buttonModuleGame');
+let buttonModule3 = document.getElementById('buttonModuleLogin');
 
 if (buttonModule0)
-    buttonModule0.addEventListener('click', function () {select_hero_content(0);})
+    buttonModule0.addEventListener('click', function () {select_hero_content('init');})
 if (buttonModule1)
-    buttonModule1.addEventListener('click', function () {select_hero_content(1);})
+    buttonModule1.addEventListener('click', function () {select_hero_content('info');})
 if (buttonModule2)
-    buttonModule2.addEventListener('click', function () {select_hero_content(2);})
+    buttonModule2.addEventListener('click', function () {select_hero_content('game');})
 if (buttonModule3)
-    buttonModule3.addEventListener('click', function () {select_hero_content(3);})
+    buttonModule3.addEventListener('click', function () {select_hero_content('login');})
 
 console.log('WOWOWOWOWOWOW')
-select_hero_content(0)
+select_hero_content('init')
 
