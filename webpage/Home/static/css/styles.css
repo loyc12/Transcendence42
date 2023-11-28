@@ -165,35 +165,6 @@ body {
     height: 90vh;
 }
 
-#module4 {
-    background-color: #178ca8;
-    height: 90vh;
-}
-
-
-/* Jeu  pong test*/
-#canvas {
-    background: darkgreen;
-    display: none;
-  }
-  
-  .btn {
-    margin-bottom: 20px;
-  }
-  
-  #btn-start {
-    display: block;
-  }
-  
-  #btn-toggle-sound {
-    display: none;
-  }
-  
-  body {
-    background: #111;
-  }
-
-
 footer {
     background-color: #4cbe96; /* footer color */
     color: #f0ffff;
@@ -205,13 +176,5 @@ canvasGame {
     background-color: #178ca8;
     height: 90vh;
 }
-
-/*TODO: GE -> Utile ?*/
-/* .rgt_flt { 
-    float: right;*/
-    /* width: 50%; */
-    /* height: 100%; */
-    /* background: rgb(0, 26, 255); */
-/* } 
 
 
