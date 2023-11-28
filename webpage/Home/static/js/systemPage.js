@@ -25,10 +25,6 @@ let all_hero_content2 = [
         'navBar': 'NavBar1',
         'heroDiv': 'content3'
     },
-    {
-        'navBar': 'NavBar3',
-        'heroDiv': 'content3'
-    },
 ]
 
 let hide_all_hero_content = function () {
