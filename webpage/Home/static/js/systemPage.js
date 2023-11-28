@@ -18,7 +18,7 @@ let all_hero_content2 = [
         'heroDiv': 'content1'
     },
     {
-        'navBar': 'NavBar1',
+        'navBar': 'NavBar2',
         'heroDiv': 'content2'
     },
     {
