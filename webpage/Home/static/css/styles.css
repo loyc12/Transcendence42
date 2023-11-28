@@ -88,6 +88,12 @@ body {
 /* -- END -- LOBBY CSS -- */
 
 /* -- LOGIN CSS -- */
+#login {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .login h1, h4{
     color: #f0ffff;
     text-align: center;
@@ -100,6 +106,12 @@ body {
 /* -- END -- LOGIN CSS -- */
 
 /* -- GAME MODE CSS -- */
+#mode {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .mode h1 {
     color: #f0ffff;
     text-align: center;
@@ -109,6 +121,12 @@ body {
 /* -- END -- GAME MODE CSS -- */
 
 /* -- GAME TYPE CSS -- */
+#type {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .type h1 {
     color: #f0ffff;
     text-align: center;
