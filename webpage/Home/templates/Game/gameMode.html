@@ -1,19 +1,27 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module Loader</title>
 </head>
-<body>
+<body> {% endcomment %}
 
-<div id="moduleContainer">
-    <!-- Initial buttons to load modules -->
-    <button type="button" onclick="loadModule('module1')">Game LOCAL</button>
-    <button type="button" onclick="loadModule('module2')">Game ONLINE</button>
+{% block gameType %}
+<div class="mode" id="mode">
+    <div class="row align-items-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <h1>Choisis une des deux options suivantes</h1>
+            <div class="btn-group">
+                <button type="button" class="btn" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">LOCAL</button> <!--TODO redirection-->
+                <button type="button" class="btn" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">ONLINE</button> <!--TODO redirection-->
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
 
-<script>
+{% comment %} <script>
 // Variable to store selected options
 let selectedOptions = {};
 
@@ -53,4 +61,4 @@ function loadSubModule(subModuleName) {
 </script>
 
 </body>
-</html>
+</html> {% endcomment %}
