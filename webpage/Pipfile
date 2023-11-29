@@ -20,6 +20,7 @@ django-redis = "*"
 django-redis-sessions = "*"
 django-bootstrap-v5 = "*"
 channels-redis = "*"
+django-compressor = "*"
 
 [dev-packages]
 
