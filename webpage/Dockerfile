@@ -14,7 +14,6 @@ RUN apk add --no-cache --virtual .build-deps \
 WORKDIR /app
 
 COPY Pipfile .
-COPY Pipfile.lock .
 
 RUN pip install --upgrade pip
 RUN pip3 install pipenv
@@ -23,7 +22,7 @@ RUN pip3 install pipenv
 #RUN pip3 install -r requirements.txt
 
 # installs all packages from Pipfile.lock
-RUN pipenv sync
+RUN pipenv update
 RUN pipenv install --deploy --ignore-pipfile
 
 COPY . .

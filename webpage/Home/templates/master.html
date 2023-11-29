@@ -7,7 +7,7 @@
     <head>
         <!-- Browser Setup  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <meta charset="UTF-8">
-       <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Onglet Tabulation  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <title>Ping Pang Pong</title>
@@ -24,53 +24,104 @@
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <!-- - - - - - -  Bootstrap VER - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-        <!-- Events Handler Scripts  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - -->     
-        <script src="{% static 'js/script.js' %}" defer></script>                            
+        <!-- Events Handler Scripts  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - -->
+        <!-- <script src="{% static 'js/gameBasic.js' %}" defer></script> -->
+        <script src="{% static 'js/systemNavbar.js' %}" defer></script>
+        <script src="{% static 'js/systemPage.js' %}" defer></script>
+        <script src="{% static 'js/game.js' %}" defer></script>
+        <script src="{% static 'js/gameMode.js' %}" defer></script>
+        <!-- <script src="{% static 'js/update_player_info.js' %}" defer></script> -->
+        <!-- <script src="{% static 'js/websocketClient.js' %}" defer></script>
+        <script src="{% static 'js/websocketEvent.js' %}" defer></script> -->
     </head>
 
     <body>
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <div class="container-fluid"> <!-- container-fluid to have background-color for the entire width -->
-            <!-- Navbar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <div class="row">
-                <div class="NavBar"> 
-                    {% block navbar %}
-                        {% include 'Selector/navbar.html' %}
+        <div class="container-fluid">
+         <!-- NAVBAR  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->   
+            <!-- Navbar HOME STATE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            {% if request.session.user_id %}
+                <div class="row">
+                    <div id="NavBarInit" div class="NavBar"> 
+                    {% block navbar_home %}
+                            {% include 'Selector/home_navbar.html' %}
                     {% endblock %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div id="NavBarInit" div class="NavBar"> 
+                    {% block anon_navbar %}
+                            {% include 'Selector/anon_navbar.html' %}
+                    {% endblock %}
+                    </div>
+                </div> 
+            {% endif %}
+
+            <!-- Navbar INFO - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="NavBarInfo" div class="NavBar"> 
+                {% block navbar_info %}
+                        {% include 'Selector/info_navbar.html' %}
+                {% endblock %}
                 </div>
             </div>
-            <!-- home - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Navbar GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content0" class="HeroDiv"> <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
+                <div id="NavBarGame" div class="NavBar"> 
+                {% block navbar_game %}
+                        {% include 'Selector/game_navbar.html' %}
+                {% endblock %}
+                </div>
+            </div>
+            <!-- Navbar LOGIN - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="NavBarLogin" div class="NavBar"> 
+                {% block navbar_login %}
+                        {% include 'Selector/login_navbar.html' %}
+                {% endblock %}
+                </div>
+            </div>
+            <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
+            <div class="row">
+                <div id="contentHome" class="col-12 HeroDiv">
                     {% block HeroDiv %}
+                        {% include 'Home/herodiv.html' %}
                     {% endblock %}
                 </div>
             </div>
-            <!-- Module1 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Info - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content1" class="module1">
-                    {% block module1 %}{% endblock %}
+                <div id="contentInfo" class="module1">
+                    {% block module1 %}
+                        {% include 'Profile/profile.html' %}
+                    {% endblock %}
                 </div>
             </div>
-            <!-- Module2 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Remote - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content2" class="module2">
-                    {% block module2 %}{% endblock %}
+                <div id="contentGame" class="module2">
+                    {% block module2 %}
+                        {% include	'Game/gameMode.html' %}
+                    {% endblock %}
                 </div>
             </div>
-            <!-- game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Login - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content3" class="module3">
-                    {% block module3 %}{% endblock %}
+                <div id="contentLogin" class="module3">
+                    {% block module3 %}
+                        {% include 'Login/login.html' %}
+                    {% endblock %}
                 </div>
             </div>
-            <!-- Module3 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="content4" class="module4">
-                    {% block module4 %}{% endblock %}
+                <div id="lobby" class="lobb">
+                    {% block lobby %}
+                        {% include 'Lobby/lobby.html' %}
+                    {% endblock %}
                 </div>
             </div>
-        </div> 
+        </div>  
     </body>
 
     <footer class="border-top" >

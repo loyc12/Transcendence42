@@ -10,32 +10,26 @@ body {
 #NavBar {
     background-color: #145faf;
     color: #f0ffff;
-
 }
 
 .NavBar {
-    background-color: #145faf; /* navbar will be this color */
+    /* navbar background */
+    background-color: #145faf;
     color: #f0ffff;
     font-family: 'Nunito';
     font-size: 15px;
 }
-
-#button {
-    color: #0e4870
-}
-/* -- END -- NAVBAR CSS -- */
-
 
 /* -- PROFILE CSS -- */
 #profile {
     background-color: #178ca8;
     color: #f0ffff;
     font-size: 30px;
-    
+    height: 90vh;
 }
 
 .info {
-    list-style-type: none; /* remove default bullet to be replaced by my stars*/
+    list-style-type: none;/* remove default bullet to be replaced by my stars*/
 }
 
 .info li:first-child {
@@ -61,13 +55,20 @@ body {
 /* -- END -- PROFILE CSS -- */
 
 /* -- LOBBY CSS -- */
-#lobby canvas {
-    border: solid 1px #000000;
-}
 
 #lobby {
-    background-color: #178ca8;
-    color: #f0ffff;
+    background-color: #178CA8;
+    color: #F0FFFF;
+}
+
+.main-canvas, .game-canvas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#lobby canvas {
+    border: solid 1px #000000;
 }
 
 #lobby table {
@@ -85,14 +86,13 @@ body {
 }
 /* -- END -- LOBBY CSS -- */
 
-
-/* -- INIT CSS -- */
-/* .init {
-
-} */
-/* -- END -- INIT CSS -- */
-
 /* -- LOGIN CSS -- */
+#login {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .login h1, h4{
     color: #f0ffff;
     text-align: center;
@@ -105,15 +105,33 @@ body {
 /* -- END -- LOGIN CSS -- */
 
 /* -- GAME MODE CSS -- */
+#mode {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .mode h1 {
     color: #f0ffff;
     text-align: center;
     margin-top: 80px;
 }
 
+#gameMode, #gameTypeLocal, #gameTypeOnline {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 /* -- END -- GAME MODE CSS -- */
 
 /* -- GAME TYPE CSS -- */
+#type {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .type h1 {
     color: #f0ffff;
     text-align: center;
@@ -122,12 +140,16 @@ body {
 
 /* -- END -- GAME TYPE CSS -- */
 
+.hall h1, h4{
+    color: #F0FFFF;
+    text-align: center;
+    margin-top: 80px;
+}
 
-/* -- CONTENT CSS -- */
 /* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
 .content1 {
     display: block;
-    background-color: #178ca8;
+    /*background-color: #178ca8;*/
 }
 
 .content2 {
@@ -148,14 +170,15 @@ body {
 #HeroDiv h1 {
     color: #f0ffff;
     text-align: center;
+    /* margin-top: 0.5rem; */
 }
 
-#module1 {
+/* #module1 {
     background-color: #178ca8;
     height: 90vh;
-}
+} */
 
-#module2 {
+/* #module2 {
     background-color: #178ca8;
     height: 90vh;
 }
@@ -164,13 +187,7 @@ body {
 #module3 {
     background-color: #178ca8;
     height: 90vh;
-}
-
-#module4 {
-    background-color: #178ca8;
-    height: 90vh;
-}
-
+} */
 
 footer {
     background-color: #4cbe96; /* footer color */
@@ -178,22 +195,10 @@ footer {
     font-family: 'Nunito';
     font-size: 16px;
 }
-/* #HeroDiv img {
-    width: auto; 
-    height: auto;
-    display: block;
-    margin: 0 auto; 
-} */
-/* width: 66%; */
+
+canvasGame {
+    background-color: #178ca8;
+    height: 90vh;
+}
 
 
-/* Add more styles as needed for your specific layout*/
-
-
-
-/* .rgt_flt { 
-    float: right;*/
-    /* width: 50%; */
-    /* height: 100%; */
-    /* background: rgb(0, 26, 255); */
-/* }  */

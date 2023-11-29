@@ -3,10 +3,13 @@ from django.db import models, OperationalError, IntegrityError
 #from django.utils import timezone
 from .manager import UserManager
 
+# class Session(models.Model):
+#     session = models.CharField(primary_key=True, max_length=32, unique=True)
+#     user = models.ForeignKey('login.User', on_delete=models.CASCADE)
 
 class User(AbstractBaseUser):
     # Fields of table users_user
-    login           = models.CharField    (max_length=32, unique=True) #username
+    login           = models.CharField    (primary_key=True, max_length=32, unique=True) #username
     display_name    = models.CharField    (max_length=60, unique=False) #full name
     img_link        = models.CharField    (max_length=120, unique=False) #profilePicture
     created_at      = models.DateTimeField(auto_now_add=True)
@@ -15,9 +18,14 @@ class User(AbstractBaseUser):
 
     nb_games_played = models.PositiveIntegerField(default=0)
     wins            = models.PositiveIntegerField(default=0)
-    #default_wins    = models.PositiveIntegerField(default=0)
     loses           = models.PositiveIntegerField(default=0)
-    #forfeits        = models.PositiveIntegerField(default=0)
+    
+    #session_link
+    # session         = models.ForeignKey('sessions.Session', on_delete=models.CASCADE)
+    
+    #Ze thing
+    # class Meta:
+    #     unique_together = ('login','session')
 
     USERNAME_FIELD = "login"
     

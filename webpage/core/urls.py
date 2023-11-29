@@ -12,7 +12,7 @@ urlpatterns = [
     path("", include('Home.urls'), name="home"),
     path("login/", include('login.urls')),
     path("users/", include('users.urls')),
-    path("game/", include('game.urls'))
+    path("game/", include('game.urls')),
 ]
 
 """
