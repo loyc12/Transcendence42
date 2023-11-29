@@ -41,12 +41,15 @@ CERT_KEY		= $(DJANGO_DIR)/$(LOCAL_CERT_KEY)
 # BREW
 BREW_EXE		= $(BREW_PATH)/bin/brew
 
+GAME_SUBPATH	= $(DJANGO_DIR)/game/PingPongRebound
+GAMEMANAGER		= $(GAME_SUBPATH)/GameManager.py
+
 # COLOR
 RED			= '\033[1;91m'
 DEFCOL		= '\033[0m'
 
 # DOCKER COMPOSE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-all:	_activate_db_mode $(DOTENV)
+all:	_activate_db_mode $(DOTENV) $(GAME_SUBPATH)
 	@if [ ! -d .$(DATA) ]; then\
 		mkdir -p .$(DATA);\
 	fi
@@ -96,6 +99,11 @@ superuser:
 
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
+
+$(GAMEMANAGER):
+	git submodule update --init --recursive
+
+$(GAME_SUBPATH):	$(GAMEMANAGER)
 
 #	python
 _install_python_pipenv:
