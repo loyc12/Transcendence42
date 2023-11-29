@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "bootstrap5",
+    
     "compressor",
 
     "Home",
