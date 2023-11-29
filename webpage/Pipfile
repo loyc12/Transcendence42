@@ -21,6 +21,7 @@ django-redis-sessions = "*"
 django-bootstrap-v5 = "*"
 channels-redis = "*"
 django-compressor = "*"
+whitenoise = "*"
 
 [dev-packages]
 

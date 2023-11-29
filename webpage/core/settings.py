@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "daphne",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django_extensions",
     "bootstrap5",
@@ -81,6 +82,7 @@ if not DJANGO_DEBUG:
     
 MIDDLEWARE += [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -187,10 +189,9 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-
+# STATIC FILES SETTINGS
 STATIC_URL = "static/"
-STATIC_ROOT = "static_deploy/"
-
+STATIC_ROOT = os.path.join(BASE_DIR, "static_deploy")
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -235,8 +236,8 @@ CHANNEL_LAYERS = {
     },
 }
 
-COMPRESS_ENABLED = True
-
+# COMPRESSOR SETTINGS NOT WORKING FOR NOW
+COMPRESS_ENABLED = False
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.rCSSMinFilter',
