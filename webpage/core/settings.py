@@ -12,6 +12,8 @@ ENV_FILE        = os.environ
 
 # DJANGO_DEBUG MODE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 DJANGO_DEBUG    = not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"])
+
+
 # WITH NO INSTRUCTIONS IN ENV_FILE - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - |
 if DJANGO_DEBUG:
     if os.path.exists('../.env'):
@@ -22,9 +24,7 @@ if DJANGO_DEBUG:
         raise FileExistsError('Missing .env file.')
     with open(envpath, 'r') as envfile:
         load_dotenv(stream=envfile)
-#load_dotenv(stream=env_stream)
-#env_stream = open('../.env', 'r')
-#env_stream.close()
+
 
 # WITH INSTRUCTIONS IN ENV_FILE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 print("DJG_WITH_DB in env ? ", 'DJG_WITH_DB' in ENV_FILE)
@@ -34,15 +34,18 @@ if ('DJG_WITH_DB' in ENV_FILE):
     print("DJG_WITH_DB str in env : ", ENV_FILE["DJG_WITH_DB"],\
     "len : ", len(ENV_FILE["DJG_WITH_DB"]))
 
+
 # DJANGO_DEBUG = not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"])
 print("Environment acquired !")
 print("DJANGO_DEBUG : ", DJANGO_DEBUG)
+
 
 # SECURITY WARNING  - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 #: keep the secret key used in production secret!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 
 # APPS - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 INSTALLED_APPS = [
@@ -54,14 +57,17 @@ INSTALLED_APPS = [
     "daphne",
     "django.contrib.staticfiles",
     "django_extensions",
-    #"bootstrap5",
+    "bootstrap5",
+
     
     "Home",
     "login",
     "users",
     "channels",
     "game",
+    "NetworkGateway",
 ]
+
 
 # MIDDLEWARE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 MIDDLEWARE = []
@@ -95,7 +101,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True #Againts MIME sniffing
 X_FRAME_OPTIONS = 'DENY' 
 # Secure session management
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True # Should be True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -193,8 +199,18 @@ STATICFILES_FINDERS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ### SESSIONS SETTINGS
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = 'redis_sessions.session'
+#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+SESSION_REDIS = {
+    'host': ENV_FILE['REDIS_HOST'],
+    'port': 6379,
+    'db': 1,
+    'password': ENV_FILE['REDIS_PW'],
+    'prefix': 'session',
+    'socket_timeout': 1,
+    'retry_on_timeout': False
+    }
 
 ### REDIS CACHE SETTINGS
 REDIS_CACHE_URL = f"redis://:{ENV_FILE['REDIS_PW']}@{ENV_FILE['REDIS_HOST']}:6379/1"

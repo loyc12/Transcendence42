@@ -1,11 +1,53 @@
-<div class="mode" id="mode">
-	<div class="row align-items-center">
-		<div class="col d-flex flex-column align-items-center justify-content-center">
-			<h1>Choisis une des deux options suivantes</h1>
-			<div class="btn-group">
-				<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff; font-size: 60px; margin: 10px;" id="local">LOCAL</button> <!--TODO redirection-->
-				<button type="button" class="btn" style="background-color: #0e4870; color: #f0ffff; font-size: 60px; margin: 10px;" id="online">ONLINE</button> <!--TODO redirection-->
-			</div>
-		</div>
-	</div>
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Loader</title>
+</head>
+<body> {% endcomment %}
+
+{% block gameMode %}
+<div class="mode" id="gameMode">
+    <div class="row align-items-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <h1>Choisis une des deux options suivantes</h1>
+            <div class="btn-group">
+                <button type="button" onclick="loadModule('local')" class="btn" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">LOCAL</button>
+                <button type="button" onclick="loadModule('online')" class="btn" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">ONLINE</button>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+
+{% block gameTypeLocal %}
+<div class="mode" id="gameTypeLocal">
+    <div class="row align-items-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <h1>Choisis une des deux options suivantes</h1>
+            <div class="btn-group">
+                <button type="button" class="btn" onclick="request_join_game('Local_1p')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">SOLO [AI]</button>
+                <button type="button" class="btn" onclick="request_join_game('Local_2p')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">1 Vs 1</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block gameTypeOnline %}
+<div class="mode" id="gameTypeOnline">
+    <div class="row align-items-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <h1>Choisis une des deux options suivantes</h1>
+            <div class="btn-group">
+                <button type="button" class="btn" onclick="request_join_game('Tournament')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">Tournament</button>
+                <button type="button" class="btn" onclick="request_join_game('Multiplayer')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">Multiplayer 2</button>
+                <button type="button" class="btn" onclick="request_join_game('Online_4p')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">Multiplayer 4</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

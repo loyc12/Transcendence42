@@ -18,6 +18,7 @@ class Game(models.Model):
     game_type =     models.CharField(max_length=16, default='Pong')
     max_players =   models.IntegerField(default=2)
     created_at =    models.DateTimeField(auto_now_add=True)
+    started_at =    models.DateTimeField(null=True, blank=True, default=None)
     ended_at =      models.DateTimeField(null=True, blank=True, default=None)
     #host =          models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, related_name='game_host')
     players =       models.ManyToManyField('users.User', through=Player)# should be ordered according to joined_at parameter of Player model.
@@ -95,10 +96,19 @@ class Game(models.Model):
         if self.is_over:
             raise OperationalError('Cannot declare a game broken after its already over.')
 
-        self.ended_at = datetime.now()
+        self.timestamp_end()
         self.is_running = False
         self.is_over = True
         self.is_broken = True
+        if save:
+            self.save()
+
+    def declare_started(self, save: bool=True) -> None:
+        if self.is_over or self.is_broken:
+            raise OperationalError('Cannot start a game that is already over or broken.')
+
+        self.timestamp_start()
+        self.is_running = True
         if save:
             self.save()
 
@@ -117,6 +127,10 @@ class Game(models.Model):
     #         ply.leave_game(save=False)
     #     User.objects.bulk_update(plys, ['current_game'])# batch updates to postgres rather then individual saves.
 
+    def timestamp_start(self):
+        self.started_at = datetime.now()
+    def timestamp_end(self):
+        self.ended_at = datetime.now()
 
 
     def stop_and_register_results(self, scores: dict[int, int]):
@@ -149,7 +163,8 @@ class Game(models.Model):
         # Set end of game state
         self.is_running = False
         self.is_over = True
-        self.ended_at = datetime.now()
+
+        self.timestamp_end()
 
         self.finale_scores = scores
         
