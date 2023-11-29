@@ -59,6 +59,7 @@ body {
 #lobby {
     background-color: #178CA8;
     color: #F0FFFF;
+    height: 90vh;
 }
 
 .main-canvas, .game-canvas {
@@ -70,6 +71,7 @@ body {
 #lobby canvas {
     border: solid 1px #000000;
 }
+
 
 #lobby table {
     width: 100%;
@@ -173,22 +175,6 @@ body {
     /* margin-top: 0.5rem; */
 }
 
-/* #module1 {
-    background-color: #178ca8;
-    height: 90vh;
-} */
-
-/* #module2 {
-    background-color: #178ca8;
-    height: 90vh;
-}
-
-
-#module3 {
-    background-color: #178ca8;
-    height: 90vh;
-} */
-
 footer {
     background-color: #4cbe96; /* footer color */
     color: #f0ffff;
@@ -196,9 +182,9 @@ footer {
     font-size: 16px;
 }
 
-canvasGame {
+/* canvasGame {
     background-color: #178ca8;
     height: 90vh;
-}
+} */
 
 
