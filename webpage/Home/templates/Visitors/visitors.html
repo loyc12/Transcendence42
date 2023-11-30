@@ -1,0 +1,21 @@
+
+<!-- page just to debug to see if we have them on database -->
+
+
+<div class="visitors">
+	<table class="table-primary" style="color: #f0ffff; background-color: #178ca8;">
+		<thead>
+			<tr>
+				<th scope="col" class="text-center" style="color: #f0ffff">Username [playerLoginName]</th> <!--if I want to change the text color in table do it for each row-->
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+			<tr>
+				<td class="text-center" style="color: #f0ffff"> username: {{ user.login }}</td> <!--user.login-->
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<h4>end of list</h4>
+</div>

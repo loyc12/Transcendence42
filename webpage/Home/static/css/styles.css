@@ -6,7 +6,7 @@ body {
     font-size: 20px;
 }
 
-/* Style the navigation bar */
+/* -- NAVBAR CSS -- */
 #NavBar {
     background-color: #145faf;
     color: #f0ffff;
@@ -22,7 +22,6 @@ body {
 
 /* -- PROFILE CSS -- */
 #profile {
-    /* background-color: #6a585f; Change the background color to suit your design */
     background-color: #178ca8;
     color: #f0ffff;
     font-size: 30px;
