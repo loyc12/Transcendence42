@@ -74,6 +74,8 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 
 re: down all
 
+hard_re: down db_volume_reset all
+
 
 #	Utility functions 
 logs:
@@ -94,7 +96,9 @@ migrate:
 superuser:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
 
-
+db_volume_reset:
+	sudo rm -rf $(DATA)
+	mkdir $(DATA)
 
 
 ### DEPENDENCY INSTALLS START >>>

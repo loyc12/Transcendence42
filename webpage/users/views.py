@@ -1,5 +1,8 @@
 from .models import User
+from django.shortcuts import render
 from django.contrib.sessions.models import Session
+from django.http import JsonResponse
+import json
 
 # Collect data from API and save it in the database, start session
 def import_data(api_data, request):
@@ -36,3 +39,25 @@ def import_data(api_data, request):
 #     )
 #     request.session.flush()
 #     return
+
+def get_profile(request):
+
+    user = request.user
+
+    # payload = {
+    #     'display_name': user.display_name,
+    #     'login': user.login,
+    #     'img': user.img_link,
+    #     'is_active': user.is_active,
+    #     'is_ingame': user.is_ingame,
+    #     'nb_games_played': user.nb_games_played
+    # }
+    nb_games_played = user.nb_games_played
+    is_ingame = user.is_ingame
+
+    return render(request, 'users/profile.html', context={
+        'user': request.user,
+        'nb_games_played': nb_games_played,
+        'is_ingame': is_ingame
+        })
+    #return JsonResponse(json.loads(payload))
