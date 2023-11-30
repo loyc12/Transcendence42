@@ -58,9 +58,9 @@
 				<canvas id="canvas" width="800" height="600"></canvas>
 				<script>
 					const ctx = document.getElementById('canvas').getContext('2d');
-					// ctx.font = '48px Nunito';
-					// ctx.fillStyle = '#000000';
-					// ctx.fillRect(0, 0, 800, 600);
+					ctx.font = '48px Nunito';
+					ctx.fillStyle = '#000000';
+					ctx.fillRect(0, 0, 800, 600);
 					// ctx.fillStyle = '#FF10F0';
 					// ctx.fillText('Game init...', 20, 50);
 					
@@ -110,8 +110,8 @@
 						y: canvas.height / 2,
 						radius: 5,
 						color: "#0000ff", // Blue color
-						speedX: 2,
-						speedY: 2
+						speedX: 4,
+						speedY: 4
 					};
 
 			// Listen to keyboard input
@@ -184,6 +184,8 @@
 			function update() {
 				// Clear the canvas
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.fillStyle = '#000000';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
 				
 				// Update the ball position
 				ball.x += ball.speedX;
