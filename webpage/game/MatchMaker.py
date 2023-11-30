@@ -21,6 +21,7 @@ class MatchMakerException(Exception):
 class LobbyPlayer:
     user: User
     is_connected: bool
+    is_ready: bool
 
 
 # @dataclass
@@ -47,6 +48,10 @@ class LobbyGame:
     @property
     def sockID(self):
         return "sock{:.06d}".format(self.__id)
+    
+    @property
+    def players(self):
+        return [lply.user.display_name for lply in self.players]
 
 
 class MatchMaker:
@@ -79,6 +84,12 @@ class MatchMaker:
             #     #'Ponger': self.gm.getMaxPlayerCount('Ponger'),
             #     #'Pongest': self.gm.getMaxPlayerCount('Pongest'),
             # }
+
+
+    def has_game(self, gameID):
+        pass
+    def has_player(self, user: User):
+        pass
 
 
     def is_game_full(self, gameType: str, lgame: LobbyGame):
@@ -124,8 +135,8 @@ class MatchMaker:
             raise MatchMakerException('Error occured while trying to create new game in game_manager.')
 
         for lply in lgame.players:
-            game.add_player(user)
-            await self.gm.addPlayerToGame(user.id, user.login, game.id)
+            game.add_player(lply.user)
+            await self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id)
         
         self.__remove_lobby_game(lgame)
         game.declare_started()
@@ -153,7 +164,7 @@ class MatchMaker:
             lply = LobbyPlayer(user=user, is_connected=False)
             lgame.players.append(lply)
         else:
-            lply = LobbyPlayer(user=user, is_connected=False)
+            lply = LobbyPlayer(user=user, is_connected=False, is_ready=False)
             lgame = LobbyGame(form=form, players=[lply])
             self._gameLobby[gameMode].append(lgame)
             print("Match Maker Game Lobby : ", self._gameLobby)
