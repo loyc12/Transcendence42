@@ -1,7 +1,7 @@
 {% block lobby %}
 	<div class="lobby"  id="lobby">
 		<div class="row align-items-center">
-			<div class="col-3 d-flex justify-content-center">
+			<div class="col-lg-3 d-flex justify-content-center">
 				<!-- sidebar: users connecting to get ready to play -->
 				<table class="table-primary" style="color: #F0FFFF; background-color: #178CA8; border: 5px solid #F0FFFF; width: 80%; text-align: center; margin-top: 50px;">
 					<thead>
@@ -55,20 +55,38 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="col-9 d-flex justify-content-center">
+			<div class="col-lg-9 d-flex flex-column justify-content-center">
 				<div id="game-info-container"></div>
-				<canvas id="canvas" width="800" height="600" style="margin-top: 50px;"></canvas>
+				<canvas id="canvas" class="flex-grow-1" style="background-color: #000000; margin-top: 50px; width: 100%; height: 100%; box-sizing: border-box;"></canvas>
 				<script>
-					const ctx = document.getElementById('canvas').getContext('2d');
-					ctx.fillStyle = '#000000';
-					ctx.fillRect(0, 0, 800, 600);
+					const canvas = document.getElementById('canvas');
+					const ctx = canvas.getContext('2d');
+
+					// Store the initial dimensions
+					const initialWidth = canvas.width;
+					const initialHeight = canvas.height;
+					
+					function setCanvasSize() {
+						const parent = canvas.parentElement
+
+						//Use initial dimensions if the parent is smaller
+						canvas.width = Math.min(initialWidth, parent.clientWidth);
+						canvas.height = Math.min(initialHeight, parent.clientHeight);
+						
+						ctx.fillStyle = '#000000';
+						ctx.fillRect(0, 0, canvas.width, canvas.height);
+					}
+					setCanvasSize();
+
+					window.addEventListener('resize', setCanvasSize);
+					
 				</script>
 			</div>
 		</div>
 	</div>
 {% endblock %}
 
-				// 	<!-- <script>
+				 	<!-- <script>
 				// 		const ctx = document.getElementById('canvas').getContext('2d');
 				// 		// ctx.font = '48px Nunito';
 				// 		// ctx.fillStyle = '#000000';
