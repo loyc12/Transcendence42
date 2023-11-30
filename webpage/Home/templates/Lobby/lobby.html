@@ -57,7 +57,12 @@
 			</div>
 			<div class="col-9 d-flex justify-content-center">
 				<div id="game-info-container"></div>
-				<canvas id="canvas" width="800" height="600"></canvas>
+				<canvas id="canvas" width="800" height="600" style="margin-top: 50px;"></canvas>
+				<script>
+					const ctx = document.getElementById('canvas').getContext('2d');
+					ctx.fillStyle = '#000000';
+					ctx.fillRect(0, 0, 800, 600);
+				</script>
 			</div>
 		</div>
 	</div>

@@ -80,11 +80,11 @@ body {
 
 #lobby td, #lobby th {
     padding: 10px;
-    text-align: right;
+    text-align: left;
 }
 
 #lobby .align-right {
-    text-align: right; /* Align text and image to the right */
+    text-align: left; /* Align text and image to the left */
 }
 /* -- END -- LOBBY CSS -- */
 
