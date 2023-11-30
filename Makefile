@@ -98,7 +98,7 @@ superuser:
 
 db_volume_reset:
 	sudo rm -rf $(DATA)
-	mkdir $(DATA)
+	mkdir $(DATA) -p
 
 
 ### DEPENDENCY INSTALLS START >>>
