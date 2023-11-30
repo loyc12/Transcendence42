@@ -71,6 +71,10 @@ let select_hero_content = function (key) {
             console.log('Special case contentGame loadModule(gameMode)')
             loadModule('gameMode')
         }
+        if (contentElems['heroDiv'] === 'contentInfo') {
+            console.log('Special case contentInfo : fetch profile template.')
+            fetch_user_profile()
+        }
         console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
         heroContentElem.style.display = 'block';
     }
