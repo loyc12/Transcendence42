@@ -58,7 +58,7 @@
 				<canvas id="canvas" width="800" height="600"></canvas>
 				<script>
 					const ctx = document.getElementById('canvas').getContext('2d');
-					// ctx.font = '48px Nunito';
+					ctx.font = '48px Nunito';
 					// ctx.fillStyle = '#000000';
 					// ctx.fillRect(0, 0, 800, 600);
 					// ctx.fillStyle = '#FF10F0';
@@ -71,7 +71,7 @@
 						width: 50,
 						height: 10,
 						color: "#ff10f0", // player1 color
-						speed: 5
+						speed: 10
 					};
 					
 					// Create a paddle object
@@ -81,7 +81,7 @@
 						width: 10,
 						height: 50,
 						color: "#23e301", // Player2 color
-						speed: 5
+						speed: 10
 					};
 					
 					// Create a paddle object
@@ -91,7 +91,7 @@
 						width: 50,
 						height: 10,
 						color: "#04d9ff", // Player3 color
-						speed: 5
+						speed: 10
 					};
 					
 					var paddle4 = {
@@ -100,7 +100,7 @@
 						width: 10,
 						height: 50,
 						color: "#ff6700", // player1 color
-						speed: 5
+						speed: 10
 					};
 
 					
@@ -110,8 +110,8 @@
 						y: canvas.height / 2,
 						radius: 5,
 						color: "#0000ff", // Blue color
-						speedX: 2,
-						speedY: 2
+						speedX: 4,
+						speedY: 4
 					};
 
 			// Listen to keyboard input
@@ -184,6 +184,8 @@
 			function update() {
 				// Clear the canvas
 				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.fillStyle = '#000000';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
 				
 				// Update the ball position
 				ball.x += ball.speedX;

@@ -7,7 +7,7 @@
 
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin',
                         'contentHome', 'contentInfo', 'contentGame', 'contentLogin',
-                        'gameTypeLocal', 'gameTypeOnline']
+                        'gameTypeLocal', 'gameTypeOnline', 'lobby']
 
 let all_hero_content2 = {
     'init': {
