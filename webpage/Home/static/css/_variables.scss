@@ -26,3 +26,43 @@ $player3: #04d9ff;
 $player4: #FF6700;
 $player5: #B026FF;
 $player6: #ffff00;
+
+
+// CODE FOR LOADING SPINNER
+// <button class="btn btn" style="background-color: #FF10F0;" type="button" disabled>
+//   <span class="spinner-border spinner-border-sm" style="color: #F0FFFF;" aria-hidden="true"></span>
+//   <span role="status" style="color: #F0FFFF;">Loading...</span>
+// </button>
+
+// <!DOCTYPE html>
+// <html lang="en">
+// <head>
+//   <meta charset="UTF-8">
+//   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+// 	<link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+//    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+//   <title>Spinner with Changing Background Color</title>
+//   <style>
+//     .custom-spinner {
+//       animation: changeColor 2s linear infinite;
+//     }
+
+//     @keyframes changeColor {
+//       0%, 100% {
+//         background-color: #FF10F0;
+//       }
+//       50% {
+//         background-color: #23e301;
+//       }
+//     }
+//   </style>
+// </head>
+// <body>
+
+// <button class="btn btn custom-spinner" type="button" disabled>
+//   <span class="spinner-border spinner-border-sm" style="color: #F0FFFF;" aria-hidden="true"></span>
+//   <span role="status" style="color: #F0FFFF;">Loading...</span>
+// </button>
+
+// </body>
+// </html>

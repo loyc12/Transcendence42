@@ -35,6 +35,22 @@
         <!-- <script src="{% static 'js/update_player_info.js' %}" defer></script> -->
         <!-- <script src="{% static 'js/websocketClient.js' %}" defer></script>
         <script src="{% static 'js/websocketEvent.js' %}" defer></script> -->
+        <style>
+            .custom-spinner {
+                animation: changeColor 2s linear infinite;
+            }
+            
+            
+            @keyframes changeColor {
+                0%, 100% {
+                    background-color: #FF10F0;
+                }
+                50% {
+                    background-color: #23e301;
+                }
+            }
+        </style>
+   
     </head>
 
     <body>
@@ -116,6 +132,7 @@
                     {% endblock %}
                 </div>
             </div>
+            <!-- Lobby - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="lobby" class="lobby">
                     {% block lobby %}

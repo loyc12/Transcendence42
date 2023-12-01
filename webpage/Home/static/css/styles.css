@@ -59,6 +59,7 @@ body {
 #lobby {
     background-color: #178CA8;
     color: #F0FFFF;
+    height: 90vh;
 }
 
 .main-canvas, .game-canvas {
@@ -71,6 +72,7 @@ body {
     border: solid 1px #000000;
 }
 
+
 #lobby table {
     width: 100%;
     border-collapse: collapse;
@@ -78,11 +80,11 @@ body {
 
 #lobby td, #lobby th {
     padding: 10px;
-    text-align: right;
+    text-align: left;
 }
 
 #lobby .align-right {
-    text-align: right; /* Align text and image to the right */
+    text-align: left; /* Align text and image to the left */
 }
 /* -- END -- LOBBY CSS -- */
 
@@ -173,22 +175,6 @@ body {
     /* margin-top: 0.5rem; */
 }
 
-/* #module1 {
-    background-color: #178ca8;
-    height: 90vh;
-} */
-
-/* #module2 {
-    background-color: #178ca8;
-    height: 90vh;
-}
-
-
-#module3 {
-    background-color: #178ca8;
-    height: 90vh;
-} */
-
 footer {
     background-color: #4cbe96; /* footer color */
     color: #f0ffff;
@@ -196,9 +182,9 @@ footer {
     font-size: 16px;
 }
 
-canvasGame {
-    background-color: #000000;
+/* canvasGame {
+    background-color: #178ca8;
     height: 90vh;
-}
+} */
 
 
