@@ -59,7 +59,15 @@ class GameConsumer(AsyncWebsocketConsumer):
         }
         await self.send(text_data=json.dumps())
 
+    
+    async def game_send_state(self, event):
+        ''' specifically for sending game state updates '''
+        await self.send(text_data=event['game_state'])
 
+    async def game_send_event(self, event):
+        ''' For sending all other game events to player. payload should 
+        be network ready.'''
+        await self.send(text_data=event['payload'])
         
 
 
