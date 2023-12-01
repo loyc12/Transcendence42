@@ -1,6 +1,6 @@
  
 
-    const ctx = document.getElementById('canvasGame').getContext('2d');
+    const ctx = document.getElementById('game-canvas').getContext('2d');
 
         ctx.font = '48px Nunito';
         // ctx.fillStyle = '#000000';
