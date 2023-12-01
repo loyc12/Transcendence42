@@ -28,15 +28,8 @@ def import_data(api_data, request):
     request.session['user_id'] = u.login
     request.session['user_login'] = u.login
     request.session.save()
+    
     return u
-
-# def remove_data(request):
-#     user_id = request.session['user_id']
-#     User.objects.filter(id=user_id).update(
-#         is_active=0,
-#     )
-#     request.session.flush()
-#     return
 
 def get_profile(request):
 
