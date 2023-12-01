@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, OperationalError, IntegrityError
 #from django.utils import timezone
 from .manager import UserManager
@@ -9,7 +10,8 @@ from .manager import UserManager
 
 class User(AbstractBaseUser):
     # Fields of table users_user
-    login           = models.CharField    (primary_key=True, max_length=32, unique=True) #username
+    #login           = models.CharField    (primary_key=True, max_length=32, unique=True) #username
+    login           = models.CharField    (max_length=32, unique=True) #username
     display_name    = models.CharField    (max_length=60, unique=False) #full name
     img_link        = models.CharField    (max_length=120, unique=False) #profilePicture
     created_at      = models.DateTimeField(auto_now_add=True)
@@ -40,10 +42,11 @@ class User(AbstractBaseUser):
 
     @property
     def current_game(self):
-        cur_games = self.game_set.get(is_running=True)
-        if not cur_games:
+        try:
+            cur_games = self.game_set.get(is_running=True)
+        except ObjectDoesNotExist:
             return None
-        elif cur_games.count() > 1:
+        if cur_games.count() > 1:
             raise IntegrityError('User should not be referenced in multiple running games.')
         else:
             return cur_games.first()
@@ -54,7 +57,11 @@ class User(AbstractBaseUser):
     
     @property
     def nb_games_played(self):
-        games_played = self.player_set.get(user=self.id)
+        try:
+            games_played = self.player_set.get(user=self.id)
+        except ObjectDoesNotExist:
+            return (0)
+        print("games played : ", games_played.count())
         return games_played.count()
 
     def update_stats(self, save: bool=True):
