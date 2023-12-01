@@ -1,56 +1,55 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module Loader</title>
 </head>
-<body>
+<body> {% endcomment %}
 
-<div id="moduleContainer">
-    <!-- Initial buttons to load modules -->
-    <button type="button" onclick="loadModule('module1')">Game LOCAL</button>
-    <button type="button" onclick="loadModule('module2')">Game ONLINE</button>
+{% block gameMode %}
+<div class="mode" id="gameMode">
+    <div class="row align-items-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <h1>Choisis une des deux options suivantes</h1>
+            <div class="btn-group">
+                <button type="button" onclick="loadModule('local')" class="btn" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">LOCAL</button>
+                <button type="button" onclick="loadModule('online')" class="btn" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">ONLINE</button>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
 
-<script>
-// Variable to store selected options
-let selectedOptions = {};
 
-// Function to load a module
-function loadModule(moduleName) {
-    const moduleContainer = document.getElementById('moduleContainer');
-    moduleContainer.innerHTML = ''; // Clear the container
+{% block gameTypeLocal %}
+<div class="mode" id="gameTypeLocal">
+    <div class="row align-items-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <h1>Choisis une des deux options suivantes</h1>
+            <div class="btn-group">
+                <!-- <button type="button" class="btn" onclick="request_join_game('Local_1p')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">SOLO [AI]</button> -->
+                <!-- <button type="button" class="btn" onclick="loadModule('lobby')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">SOLO [AI]</button> -->
+                <button type="button" class="btn" onclick="loadMegaModule('Local_1p')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">SOLO [AI]</button>
+                <button type="button" class="btn" onclick="request_join_game('Local_2p')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="local">1 Vs 1</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-    // Load buttons for the selected module
-    switch (moduleName) {
-        case 'module1':
-            moduleContainer.innerHTML = `
-                <button onclick="loadSubModule('subModule1')">Game Local: SOLO [AI]</button>
-                <button onclick="loadSubModule('subModule2')">Game Local: 1 Vs 1 </button>
-            `;
-            break;
-        case 'module2':
-            moduleContainer.innerHTML = `
-                <button onclick="loadSubModule('subModule3')">Game Online: Tournament </button>
-                <button onclick="loadSubModule('subModule4')">Game Online: MultiPlayer </button>
-            `;
-            break;
-        default:
-            break;
-    }
-}
 
-// Function to load a sub-module
-function loadSubModule(subModuleName) {
-    // Assuming you want to store the selected sub-module in the variable
-    selectedOptions.subModule = subModuleName;
-
-    // Display the result or take further actions
-    console.log('Selected Options:', selectedOptions);
-}
-
-</script>
-
-</body>
-</html>
+{% block gameTypeOnline %}
+<div class="mode" id="gameTypeOnline">
+    <div class="row align-items-center">
+        <div class="col d-flex flex-column align-items-center justify-content-center">
+            <h1>Choisis une des deux options suivantes</h1>
+            <div class="btn-group">
+                <button type="button" class="btn" onclick="request_join_game('Tournament')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">Tournament</button>
+                <button type="button" class="btn" onclick="request_join_game('Multiplayer')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">Multiplayer 2</button>
+                <button type="button" class="btn" onclick="request_join_game('Online_4p')" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 10px;" id="online">Multiplayer 4</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

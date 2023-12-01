@@ -41,12 +41,15 @@ CERT_KEY		= $(DJANGO_DIR)/$(LOCAL_CERT_KEY)
 # BREW
 BREW_EXE		= $(BREW_PATH)/bin/brew
 
+GAME_SUBPATH	= $(DJANGO_DIR)/game/PingPongRebound
+GAMEMANAGER		= $(GAME_SUBPATH)/GameManager.py
+
 # COLOR
 RED			= '\033[1;91m'
 DEFCOL		= '\033[0m'
 
 # DOCKER COMPOSE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-all:	_activate_db_mode $(DOTENV)
+all:	_activate_db_mode $(DOTENV) $(GAME_SUBPATH)
 	@if [ ! -d .$(DATA) ]; then\
 		mkdir -p .$(DATA);\
 	fi
@@ -82,7 +85,7 @@ connect:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh
 db_connect:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh /app/djg_connect_to_postgres.sh
-	
+
 migrations:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py makemigrations
 migrate:
@@ -92,8 +95,15 @@ superuser:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
 
 
+
+
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
+
+$(GAMEMANAGER):
+	git submodule update --init --recursive
+
+$(GAME_SUBPATH):	$(GAMEMANAGER)
 
 #	python
 _install_python_pipenv:
