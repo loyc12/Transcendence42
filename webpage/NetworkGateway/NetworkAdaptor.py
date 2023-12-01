@@ -36,12 +36,12 @@ import json
 
 from channels.layers import get_channel_layer
 
-from consumers import GameConsumer
-from user.models import User
+from users.models import User
 from queue import Queue
 import asyncio
 import time
 from functools import wraps
+from NetworkGateway.consumers import GameConsumer
 
 
 
@@ -99,7 +99,7 @@ class GameGateway(BaseGateway):
 
     def __init__(self):
         self.__channel_layer = get_channel_layer()
-        self.__connected_games[GameConnector] = dict()
+        self.__connected_games: dict[str, GameConnector] = dict()
         self.__game_lock = asyncio.Lock()
 
         self.__player_events = asyncio.Queue()
@@ -112,7 +112,7 @@ class GameGateway(BaseGateway):
     @async_to_sync_locked
     def remove_game(self, game_id):
         if game_id in self.__connected_games:
-            del self.__connected_game.pop(game_id)
+            self.__connected_game.pop(game_id)
     
 
     async def async_send_all_updates(self, game_states: dict[int, any], ev_wrap=False):
@@ -349,7 +349,7 @@ class GameGateway(BaseGateway):
         
 
    
-
+"""
 class NotificationConnector(BaseGateway):
     ''' Theoretical notification connector '''
     pass
@@ -439,4 +439,5 @@ class WebsocketNetworkAdaptor:
 
 
 
-WS_NET = WebsocketNetworkAdaptor()
+#WS_NET = WebsocketNetworkAdaptor()
+"""

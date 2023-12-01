@@ -50,7 +50,7 @@ def game_join(request):
     #game_id = -1# default
 
     ### TODO: CALL GameManager to create game according to request.
-    mm = app.match_maker
+    mm = app.get_match_maker()
     print(mm)
 
     lobby_game = mm.join_lobby(request.user, form.cleaned_data)

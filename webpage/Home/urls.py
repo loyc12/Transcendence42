@@ -12,4 +12,4 @@ urlpatterns = [
 #     path('Game/', game_mode_view, name='gameMode'),
 #     path('Game/', local_view, name='typeLocal'),
 #     path('Game/', online_view, name='typeOnline'),
- ]
+]

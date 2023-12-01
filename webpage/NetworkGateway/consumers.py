@@ -12,7 +12,8 @@ class GameConsumerError(Exception):
 class GameConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
-        self.gameID = self.scope['url_route']['kwargs']['game_id']
+        self.sockID = self.scope['url_route']['kwargs']['sock_id']
+        print('CONNECTING TO WEBSOCKET with id : ', self.sockID)
 
         if 'user' in self.scope:
             print('scope DOES contain user. ')
@@ -23,16 +24,16 @@ class GameConsumer(AsyncWebsocketConsumer):
             raise GameConsumerError('A user tried to connect to a websocket without being logged in.')
 
         await self.channel_layer.group_add(
-            self.gameID,
+            self.sockID,
             self.channel_name
         )
         self.match_maker = app.match_maker
-        self.netGateway = app.network_gateway
+        self.netGateway = app.game_gateway
         self.lobby_game = self.match_maker.connect_player(self.user)
         await self.accept()
 
         await self.channel_layer.group_send(
-            self.gameID,
+            self.sockID,
             {
                 'type': 'game_new_connection_message',
                 'ev': "connection"
@@ -53,11 +54,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         payload = {
             'ev': 'connection',
-            'details': {
-                'player_list': self.lobby_game.players#[lply.user.display_name for lply in self.lobby_game.players]
-            }
+            'player_list': self.lobby_game.players#[lply.user.display_name for lply in self.lobby_game.players]
         }
-        await self.send(text_data=json.dumps())
+        await self.send(text_data=json.dumps(payload))
 
     
     async def game_send_state(self, event):

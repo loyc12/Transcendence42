@@ -28,16 +28,15 @@ let _build_join_request_payload = function (gameMode, gameType, withAI=false, ev
   }
 }
 
-let _http_join_request = function (payload) {
+let _http_join_request = async function (payload) {
 
-  let sockID = null;
   console.log('request join game path : ' + 'https://' + window.location.host + '/game/join/')
   //const csrftoken = getCookie('csrftoken')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   console.log('csrftoken : ' + csrftoken)
   console.log('csrf from query selector : ' + document.querySelector('[name=csrfmiddlewaretoken]').value);
   
-  fetch('http://' + window.location.host + '/game/join/', {
+  return fetch('http://' + window.location.host + '/game/join/', {
       method: "POST",
       body: JSON.stringify(payload),
       credentials: 'same-origin',
@@ -49,6 +48,9 @@ let _http_join_request = function (payload) {
     return response.json()
   })
   .then (function(data) {
+    if (data.status === 'failure')
+      throw new WebTransportError('Join game request failed because : ' + data.reason)
+    if (data.sockID) {
       console.log('Returned data from game join request : ' + data);
       console.log('response status : ', data.status);
       console.log('response reason : ', data.reason);
@@ -58,14 +60,13 @@ let _http_join_request = function (payload) {
       console.log('response withAI : ', data.withAI);
       console.log('response eventID : ', data.eventID);
       //if (data.has('sockID'))
-      //    sockID = data['sockID']
+      return data.sockID;
+    }
   })
   .catch(err => console.log(err));
-
-  return sockID;
 }
 
-let request_join_game = function (gameType) {
+let request_join_game = async function (gameType) {
   
   //console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
@@ -83,9 +84,9 @@ let request_join_game = function (gameType) {
     throw TypeError('Trying to request join game with unimplemented gameType: ' + gameType)
   }
 
-  const sockID = _http_join_request(payload)
+  const sockID = await _http_join_request(payload)
 
-  console.log('sockID at request_join_game() end : ' + sockID)
+  //console.log('sockID at request_join_game() end : ' + sockID)
   return sockID;
 }
 
