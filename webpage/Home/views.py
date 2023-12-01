@@ -29,7 +29,3 @@ def home_view(request):
             return redirect(updated_url)
         return render(request, 'master.html')
     return render(request, 'master.html')
-
-def logout_request(request):
-    if user:
-        logout(request)
