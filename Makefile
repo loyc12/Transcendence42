@@ -20,7 +20,7 @@ BREW_PATH		= /home/linuxbrew/.linuxbrew
 MKCERT_PATH		= $(BIN_PATH)/mkcert
 
 # DATABASE CONTENT
-DATA			= /postgres/volume/data
+DATA			= ./postgres/volume/data
 
 # NETWORK
 PORT			= '0.0.0.0:3000'
@@ -50,8 +50,8 @@ DEFCOL		= '\033[0m'
 
 # DOCKER COMPOSE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 all:	_activate_db_mode $(DOTENV) $(GAME_SUBPATH)
-	@if [ ! -d .$(DATA) ]; then\
-		mkdir -p .$(DATA);\
+	@if [ ! -d $(DATA) ]; then\
+		mkdir -p $(DATA);\
 	fi
 	docker-compose up --build -d
 
@@ -98,7 +98,10 @@ superuser:
 
 db_volume_reset:
 	sudo rm -rf $(DATA)
-	mkdir $(DATA) -p
+	mkdir $(DATA)
+	docker volume prune -f
+	docker volume rm transcendence42_postgres_volume
+#	mkdir -p $(DATA)
 
 
 ### DEPENDENCY INSTALLS START >>>
