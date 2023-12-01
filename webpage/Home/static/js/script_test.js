@@ -1,4 +1,4 @@
-// script.js
+// script_test.js
 
 // Get the canvas element
 const canvas = document.getElementById("myCanvas");
