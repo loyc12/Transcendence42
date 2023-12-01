@@ -1,6 +1,7 @@
-// 
+ 
 
-    const ctx = document.getElementById('canvas').getContext('2d');
+    const ctx = document.getElementById('canvasGame').getContext('2d');
+
         ctx.font = '48px Nunito';
         // ctx.fillStyle = '#000000';
         // ctx.fillRect(0, 0, 800, 600);
@@ -124,7 +125,7 @@
     });
     
     // Update loop
-    function update() {
+    function updateColor() {
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#000000';
@@ -209,4 +210,4 @@
     }
     
     // Start the update loop
-    update();
+    updateColor();
