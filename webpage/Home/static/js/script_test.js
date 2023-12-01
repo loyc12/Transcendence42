@@ -1,7 +1,6 @@
 // script_test.js
-
 // Get the canvas element
-const canvas = document.getElementById("myCanvas");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 // Get the game info container
