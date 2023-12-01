@@ -1,4 +1,5 @@
 // 
+
     const ctx = document.getElementById('canvas').getContext('2d');
         ctx.font = '48px Nunito';
         // ctx.fillStyle = '#000000';
@@ -130,8 +131,8 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // Update the ball position
-        ball.x += ball.speedX;
-        ball.y += ball.speedY;
+        // ball.x += ball.speedX;
+        // ball.y += ball.speedY;
         
         
         // Bounce the ball off the walls
