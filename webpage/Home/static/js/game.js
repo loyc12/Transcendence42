@@ -30,13 +30,14 @@ let _build_join_request_payload = function (gameMode, gameType, withAI=false, ev
 
 let _http_join_request = function (payload) {
 
-  let gameID = null;
+  let sockID = null;
   console.log('request join game path : ' + 'https://' + window.location.host + '/game/join/')
-  console.log('csrftoken : ' + csrftoken)
-  const csrftoken = getCookie('csrftoken')
+  //const csrftoken = getCookie('csrftoken')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   console.log('csrftoken : ' + csrftoken)
   console.log('csrf from query selector : ' + document.querySelector('[name=csrfmiddlewaretoken]').value);
-  fetch('https://' + window.location.host + '/game/join/', {
+  
+  fetch('http://' + window.location.host + '/game/join/', {
       method: "POST",
       body: JSON.stringify(payload),
       credentials: 'same-origin',
@@ -44,14 +45,24 @@ let _http_join_request = function (payload) {
           "X-CSRFToken": csrftoken
       }
   })
+  .then (function(response) {
+    return response.json()
+  })
   .then (function(data) {
-      console.log('Returned data from game join request : ' + data)
-      if (data.has('gameID'))
-          gameID = data['gameID']
+      console.log('Returned data from game join request : ' + data);
+      console.log('response status : ', data.status);
+      console.log('response reason : ', data.reason);
+      console.log('response sockID : ', data.sockID);
+      console.log('response gameType : ', data.gameType);
+      console.log('response gameMode : ', data.gameMode);
+      console.log('response withAI : ', data.withAI);
+      console.log('response eventID : ', data.eventID);
+      //if (data.has('sockID'))
+      //    sockID = data['sockID']
   })
   .catch(err => console.log(err));
 
-  return gameID;
+  return sockID;
 }
 
 let request_join_game = function (gameType) {
@@ -72,10 +83,10 @@ let request_join_game = function (gameType) {
     throw TypeError('Trying to request join game with unimplemented gameType: ' + gameType)
   }
 
-  const gameID = _http_join_request(payload)
+  const sockID = _http_join_request(payload)
 
-  console.log('gameID at request_join_game() end : ' + gameID)
-  return gameID;
+  console.log('sockID at request_join_game() end : ' + sockID)
+  return sockID;
 }
 
 let send_ready_signal = function () {

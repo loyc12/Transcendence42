@@ -20,9 +20,7 @@ let _on_game_event = function(event) {
         console.log(data)
         //...
     }
-    //else {
-    //   document.querySelector('#ws_init_msg').innerHTML = data.msg;
-    //}
+    //...
 }
 
 let _on_server_side_disconnect = function(e) {
@@ -42,7 +40,7 @@ let _connect_to_game_socket = function (webSockPath) {
 
 let _prepare_websocket = function (webSock) {
     webSock.onmessage = _on_game_event;
-    webSock.onmessage = _on_server_side_disconnect;
+    webSock.onclose = _on_server_side_disconnect;
     //... Might be more initialisation latter ...
 }
 

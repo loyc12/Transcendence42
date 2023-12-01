@@ -149,7 +149,7 @@ class GameGateway(BaseGateway):
         
         event = {
             'ev': 'countdown',
-            'details': 3
+            'counter': 3
         }
 
         for i in range(3):
@@ -161,7 +161,7 @@ class GameGateway(BaseGateway):
                     'payload': payload
                 }
             )
-            payload['details'] -= 1
+            payload['counter'] -= 1
             dt = time.monotonic() - t_start
             await asyncio.sleep(1.0 - dt)
 

@@ -5,7 +5,15 @@ class GameConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'game'
 
-    match_maker = None#: MatchMaker # instanciated in ready()
+    __match_maker = None#: MatchMaker # instanciated in ready()
+
+    @classmethod
+    def __set_match_maker(cls, match_maker):
+        cls.match_maker = match_maker
+
+    @property
+    def match_maker(self):
+        return self.__match_maker
 
     def ready(self):
         from game.MatchMaker import MatchMaker
@@ -21,7 +29,7 @@ class GameConfig(AppConfig):
         #asyncio.run(asyncio.sleep(2))
         #asyncio.run(game_manager.removeGame(1))
         #testAllGames()
-
+        GameConfig.__set_match_maker(MatchMaker(game_manager))
         #GameConfig.match_maker = MatchMaker(game_manager)
     #    print("GameConfig was just initialized !")
         pass

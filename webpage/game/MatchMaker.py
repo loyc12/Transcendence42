@@ -39,19 +39,25 @@ class LobbyGame:
 
     def __init__(self, form: GameCreationForm, players: list[LobbyPlayer]):
         self.__id: int = self.__get_lobby_id()
-        self.form: GameCreationForm = form
-        self.players: list[LobbyPlayer] = list()
+        self.__form: GameCreationForm = form
+        self.__players: list[LobbyPlayer] = players
+
+    def __repr__(self):
+        return f"LobbyGame<id: {self.lobbyID}, form: {self.form}, players: {self.players}>"
 
     @property
     def lobbyID(self):
         return self.__id
     @property
     def sockID(self):
-        return "sock{:.06d}".format(self.__id)
+        return "sock{:06d}".format(self.__id)
     
     @property
+    def form(self):
+        return self.__form
+    @property
     def players(self):
-        return [lply.user.display_name for lply in self.players]
+        return [lply.user.display_name for lply in self.__players]
 
 
 class MatchMaker:
