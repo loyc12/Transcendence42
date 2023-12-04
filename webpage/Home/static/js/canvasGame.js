@@ -1,52 +1,53 @@
  
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    // const ctx = document.getElementById('game-canvas').getContext('2d');
 
-    const ctx = document.getElementById('game-canvas').getContext('2d');
-
-        ctx.font = '48px Nunito';
+        // ctx.font = '48px Nunito';
         // ctx.fillStyle = '#000000';
         // ctx.fillRect(0, 0, 800, 600);
         // ctx.fillStyle = '#FF10F0';
         // ctx.fillText('Game init...', 20, 50);
         
-        // Create a paddle object
-        var paddle1 = {
-            x: canvas.width / 2 - 25,
-            y:  50, // Center the paddle vertically
-            width: 50,
-            height: 10,
-            color: "#ff10f0", // player1 color
-            speed: 10
-        };
         
         // Create a paddle object
-        var paddle2 = {
+        var paddle1 = {
             x: 50,
             y: canvas.height / 2 - 25, // Center the paddle vertically
             width: 10,
             height: 50,
-            color: "#23e301", // Player2 color
+            color: "#ff10f0", // Player2 color
             speed: 10
         };
         
-        // Create a paddle object
-        var paddle3 = {
-            x: canvas.width / 2 - 25,
-            y: canvas.height - 50, // Center the paddle vertically
-            width: 50,
-            height: 10,
-            color: "#04d9ff", // Player3 color
-            speed: 10
-        };
-        
-        var paddle4 = {
+        var paddle2 = {
             x: canvas.width - 50,
-            y:  canvas.height / 2 - 25,
+            y: canvas.height / 2 - 25,
             width: 10,
             height: 50,
             color: "#ff6700", // player1 color
             speed: 10
         };
 
+        // Create a paddle object
+            // var paddle3 = {
+            //     x: game-canvas.width / 2 - 25,
+            //     y:  50, // Center the paddle vertically
+            //     width: 50,
+            //     height: 10,
+            //     color: "#ff10f0", // player1 color
+            //     speed: 10
+            // };
+            
+            // Create a paddle object
+            // var paddle4 = {
+            //     x: game-canvas.width / 2 - 25,
+            //     y: game-canvas.height - 50, // Center the paddle vertically
+            //     width: 50,
+            //     height: 10,
+            //     color: "#04d9ff", // Player3 color
+            //     speed: 10
+            // };
         
         // Create a ball object
         var ball = {
@@ -103,29 +104,29 @@
         }
         
         /// paddle3
-        // Move paddle up (keyCode 38 or W key)
-        if (( event.key === 'p') && paddle4.y > 0) {
-            paddle4.y -= paddle4.speed;
-        }
-        
-        // Move paddle down (keyCode 40 or S key)
-        if (( event.key === ';') && paddle4.y < canvas.height - paddle4.height) {
-            paddle4.y += paddle4.speed;
-        }
-        
-        // Move paddle left (keyCode 37 or A key)
-        if (( event.key === ',') && paddle3.x > 0) {
-            paddle3.x -= paddle3.speed;
-        }
-        
-        // Move paddle right (keyCode 39 or D key)
-        if (( event.key === '.') && paddle3.x < canvas.width - paddle3.width) {
-            paddle3.x += paddle3.speed;
-        }
+            // // Move paddle up (keyCode 38 or W key)
+            // if (( event.key === 'p') && paddle4.y > 0) {
+            //     paddle4.y -= paddle4.speed;
+            // }
+            
+            // // Move paddle down (keyCode 40 or S key)
+            // if (( event.key === ';') && paddle4.y < canvas.height - paddle4.height) {
+            //     paddle4.y += paddle4.speed;
+            // }
+            
+            // // Move paddle left (keyCode 37 or A key)
+            // if (( event.key === ',') && paddle3.x > 0) {
+            //     paddle3.x -= paddle3.speed;
+            // }
+            
+            // // Move paddle right (keyCode 39 or D key)
+            // if (( event.key === '.') && paddle3.x < canvas.width - paddle3.width) {
+            //     paddle3.x += paddle3.speed;
+            // }
     });
     
     // Update loop
-    function updateColor() {
+    function update() {
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#000000';
@@ -152,9 +153,9 @@
             ball.y + ball.radius > paddle1.y &&
             ball.y - ball.radius < paddle1.y + paddle1.height
             ) {
-            ball.color = "#ff10f0"; // Change to green color
-        } 
-            
+                ball.color = "#ff10f0"; // Change to green color
+            } 
+        
         // Check for collisions with the paddle2
         if (
             ball.x + ball.radius > paddle2.x &&
@@ -162,28 +163,28 @@
             ball.y + ball.radius > paddle2.y &&
             ball.y - ball.radius < paddle2.y + paddle2.height
             ) {
-            ball.color = "#23e301"; // Change to green color
-        }
-                
-        // Check for collisions with the paddle3
-        if (
-            ball.x + ball.radius > paddle3.x &&
-            ball.x - ball.radius < paddle3.x + paddle3.width &&
-            ball.y + ball.radius > paddle3.y &&
-            ball.y - ball.radius < paddle3.y + paddle3.height
-            ) {
-                ball.color = "#04d9ff"; // Change to green color
+                ball.color = "#23e301"; // Change to green color
             }
-                    
-        // Check for collisions with the paddle4
-        if (
-            ball.x + ball.radius > paddle4.x &&
-            ball.x - ball.radius < paddle4.x + paddle4.width &&
-            ball.y + ball.radius > paddle4.y &&
-            ball.y - ball.radius < paddle4.y + paddle4.height
-            ) {
-            ball.color = "#ff6700"; // Change to green color
-        } 
+                
+            // // Check for collisions with the paddle3
+            // if (
+            //     ball.x + ball.radius > paddle3.x &&
+            //     ball.x - ball.radius < paddle3.x + paddle3.width &&
+            //     ball.y + ball.radius > paddle3.y &&
+            //     ball.y - ball.radius < paddle3.y + paddle3.height
+            //     ) {
+            //         ball.color = "#04d9ff"; // Change to green color
+            //     }
+                        
+            // // Check for collisions with the paddle4
+            // if (
+            //     ball.x + ball.radius > paddle4.x &&
+            //     ball.x - ball.radius < paddle4.x + paddle4.width &&
+            //     ball.y + ball.radius > paddle4.y &&
+            //     ball.y - ball.radius < paddle4.y + paddle4.height
+            //     ) {
+            //     ball.color = "#ff6700"; // Change to green color
+            // } 
                         
         // Draw the paddle
         ctx.fillStyle = paddle1.color;
@@ -192,11 +193,11 @@
         ctx.fillStyle = paddle2.color;
         ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
         
-        ctx.fillStyle = paddle3.color;
-        ctx.fillRect(paddle3.x, paddle3.y, paddle3.width, paddle3.height);
+        // ctx.fillStyle = paddle3.color;
+        // ctx.fillRect(paddle3.x, paddle3.y, paddle3.width, paddle3.height);
         
-        ctx.fillStyle = paddle4.color;
-        ctx.fillRect(paddle4.x, paddle4.y, paddle4.width, paddle4.height);
+        // ctx.fillStyle = paddle4.color;
+        // ctx.fillRect(paddle4.x, paddle4.y, paddle4.width, paddle4.height);
         
         
         // Draw the ball
@@ -206,8 +207,8 @@
         ctx.fill();
 
         // Request the next animation frame
-        requestAnimationFrame(update);
+        // requestAnimationFrame(update);
     }
     
     // Start the update loop
-    updateColor();
+    update();
