@@ -5,6 +5,8 @@
 //     'content3',//<div id="content3" class="module3">
 // ]
 
+let current_content = null;
+
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin',
                         'contentHome', 'contentInfo', 'contentGame', 'contentLogin',
                         'gameTypeLocal', 'gameTypeOnline', 'lobby']
@@ -47,7 +49,7 @@ let hide_all_hero_content = function () {
 // }
 
 let select_hero_content = function (key) {
-    hide_all_hero_content();
+    //hide_all_hero_content();
     console.log('select_hero_content after hide')
     let contentElems = all_hero_content2[key];
     //console.log('all_hero_content2 : ' + all_hero_content2)
@@ -71,12 +73,27 @@ let select_hero_content = function (key) {
             console.log('Special case contentGame loadModule(gameMode)')
             loadModule('gameMode')
         }
+        console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
+        if (current_content == key)
+            return ;
+        else
+            hide_all_hero_content();
+        
+        if (navContentElem)
+            navContentElem.style.display = 'block';
+        else
+            console.log('navContentElem NOT FOUND')
+
         if (contentElems['heroDiv'] === 'contentInfo') {
             console.log('Special case contentInfo : fetch profile template.')
             fetch_user_profile()
         }
         console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
         heroContentElem.style.display = 'block';
+        current_content = key;
+        console.log('current content page : ' + current_content)
+        
+        disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
     }
     else
         console.log('heroContentElem NOT FOUND ...')

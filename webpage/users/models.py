@@ -39,13 +39,15 @@ class User(AbstractBaseUser):
                 display_name: {self.display_name},\
                 created_at: {self.created_at},\
                 updated_at: {self.updated_at}"
+    
 
     @property
     def current_game(self):
         try:
-            cur_games = self.game_set.get(is_running=True)
+            cur_games = self.game_set.filter(is_running=True)
         except ObjectDoesNotExist:
             return None
+        print('User Model :: cur_games.count() : ', cur_games.count())
         if cur_games.count() > 1:
             raise IntegrityError('User should not be referenced in multiple running games.')
         else:

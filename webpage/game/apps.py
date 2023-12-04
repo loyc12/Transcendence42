@@ -22,28 +22,38 @@ class GameConfig(AppConfig):
     def get_game_gateway(cls):
         return cls.__game_gateway
     
-    @property
-    def match_maker(self):
-        return self.get_match_maker()
-    @property
-    def game_gateway(self):
-        return self.get_game_gateway()
+    #@property
+    #def match_maker(self):
+    #    return self.get_match_maker()
+    #@property
+    #def game_gateway(self):
+    #    return self.get_game_gateway()
 
     def ready(self):
         from game.MatchMaker import MatchMaker
         from NetworkGateway.NetworkAdaptor import GameGateway
         from game.PingPongRebound.GameManager import GameManager#, testAllGames
+        from game.models import Game
+        
+        # Make sure no running games are left in database since last shutdown
+        # The games being forced shutdown should be labeled unfinished.
+        Game.force_stop_all_games()
 
         # messenger should be an instance of GameGateway, responsible
         # for providing message from the websocket to the GameManager 
         # and vice versa.
-        GameConfig.__set_game_gateway(GameGateway())
+        game_gateway = GameGateway()
+        GameConfig.__set_game_gateway(game_gateway)
         game_manager = GameManager(self.get_game_gateway())
+        match_maker = MatchMaker(game_manager)
+        GameConfig.__set_match_maker(match_maker)
+        game_gateway.set_game_manager(game_manager)
+        game_gateway.set_match_maker(match_maker)
+
         #asyncio.run(game_manager.addGame('Pong', 1))
         #asyncio.run(game_manager.startGame(1))
         #asyncio.run(asyncio.sleep(2))
         #asyncio.run(game_manager.removeGame(1))
         #testAllGames()
-        GameConfig.__set_match_maker(MatchMaker(game_manager))
         #GameConfig.match_maker = MatchMaker(game_manager)
     #    print("GameConfig was just initialized !")

@@ -4,6 +4,7 @@ from django.shortcuts import HttpResponse, render
 from game.models import Game, Player, User
 from game.forms import GameCreationForm
 from game.apps import GameConfig as app
+from game.MatchMaker import MatchMakerWarning
 import json
 
 # Create your views here.
@@ -45,15 +46,20 @@ def game_join(request):
         return JsonResponse(_build_error_payload('Trying to create a game, but either no game creation form was sent or is missing fields.'), status=400)
         #return HttpResponse('Trying to create a game, but either no game creation form was sent or is missing fields.', status=400)
 
-    print('Created form : ', form.cleaned_data['gameMode'])
-    print('Created form : ', form.cleaned_data['gameType'])
+    print('Created form gameMode: ', form.cleaned_data['gameMode'])
+    print('Created form gameType: ', form.cleaned_data['gameType'])
     #game_id = -1# default
 
     ### TODO: CALL GameManager to create game according to request.
     mm = app.get_match_maker()
     print(mm)
 
-    lobby_game = mm.join_lobby(request.user, form.cleaned_data)
+    try:
+        lobby_game = mm.join_lobby(request.user, form.cleaned_data)
+    except MatchMakerWarning as w:
+        return JsonResponse(_build_error_payload(str(w)), status=400)
+
+
     if not lobby_game:
         return JsonResponse(_build_error_payload('Joining game lobby failed.'), status=400)
         #return HttpResponse('Joining game lobby failed.', status=400)

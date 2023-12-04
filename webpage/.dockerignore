@@ -1,7 +1,4 @@
 ./webpage/Home
-<<<<<<< HEAD
 ./webpage/game
-=======
-./webpage/game
+./webpage/NetworkGateway
 Pipfile.lock
->>>>>>> d929afb1351eebc19c33b5e9760c62bf1a15c30f

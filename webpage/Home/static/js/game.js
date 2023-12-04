@@ -49,7 +49,8 @@ let _http_join_request = async function (payload) {
   })
   .then (function(data) {
     if (data.status === 'failure')
-      throw new WebTransportError('Join game request failed because : ' + data.reason)
+      alert('Join game request failed because : \n\t - ' + data.reason)
+      //throw new reportError('Join game request failed because : ' + data.reason)
     if (data.sockID) {
       console.log('Returned data from game join request : ' + data);
       console.log('response status : ', data.status);
@@ -63,7 +64,7 @@ let _http_join_request = async function (payload) {
       return data.sockID;
     }
   })
-  .catch(err => console.log(err));
+  //.catch(err => console.log(err));
 }
 
 let request_join_game = async function (gameType) {

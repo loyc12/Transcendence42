@@ -90,6 +90,9 @@ migrations:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py makemigrations
 migrate:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py migrate
+flush:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py flush 
+
 
 superuser:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
