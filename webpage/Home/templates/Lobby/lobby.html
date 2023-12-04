@@ -84,7 +84,7 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
+
 
 				 	<!-- <script>
 				// 		const ctx = document.getElementById('canvas').getContext('2d');
@@ -133,18 +133,18 @@
 				// 			speed: 5
 				// 		};
 
-						
-				// 		// Create a ball object
-				// 		var ball = {
-				// 			x: canvas.width / 2,
-				// 			y: canvas.height / 2,
-				// 			radius: 5,
-				// 			color: "#0000ff", // Blue color
-				// 			speedX: 2,
-				// 			speedY: 2
-				// 		};
+					
+					// Create a ball object
+					var ball = {
+						x: canvas.width / 2,
+						y: canvas.height / 2,
+						radius: 5,
+						color: "#0000ff", // Blue color
+						speedX: 4,
+						speedY: 4
+					};
 
-				// // Listen to keyboard input
+				// Listen to keyboard input
 				// document.addEventListener("keydown", function (event) {
 				// 	//paddle1
 				// 	// Move paddle up (keyCode 38 or W key)
@@ -212,12 +212,14 @@
 				
 				// // Update loop
 				// function update() {
-				// 	// Clear the canvas
+					// Clear the canvas
 				// 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+				// 	ctx.fillStyle = '#000000';
+				// 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 					
 				// 	// Update the ball position
-				// 	ball.x += ball.speedX;
-				// 	ball.y += ball.speedY;
+				// 	// ball.x += ball.speedX;
+				// 	// ball.y += ball.speedY;
 					
 					
 				// 	// Bounce the ball off the walls
@@ -292,7 +294,11 @@
 				// 		requestAnimationFrame(update);
 				// }
 				
-				// // Start the update loop
+				// Start the update loop
 				// update();
-			
-				// </script> -->
+
+			</script> -->
+		<!-- </div> -->
+	<!-- </div> -->
+<!-- </div> -->
+{% endblock %}

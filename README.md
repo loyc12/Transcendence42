@@ -98,3 +98,17 @@ TRANSCENDENCE42/
 ## License
 
 ### order command
+
+
+<!-- reminder for mega fonction ... 
+    ... after menu clicked 
+    ... request GameID  
+    http  POST: request gameType Form
+    ... set Game_State [0] AND set iconLoader -->
+<!--
+    ... build webSocket to path: 
+    Websocket path : 'ws://' + window.location.host + '/game/ws/' + game_id + '/';
+    ... when recieved web socket   
+    ... remove loader AND enable start click 
+    ... event websocket
+    ... countdown from async to sync and GO -->
