@@ -13,7 +13,6 @@ body {
 }
 
 .NavBar {
-    /* navbar background */
     background-color: #145faf;
     color: #f0ffff;
     font-family: 'Nunito';
@@ -142,6 +141,123 @@ body {
 
 /* -- END -- GAME TYPE CSS -- */
 
+/* -- TOURNAMENT CSS -- */
+.player, .score {
+    font-size: 40px;
+}
+
+.score {
+    background-color: #178ca8;
+}
+
+.round {
+    float: left;
+}
+
+.round.finals {
+    margin-top: 25px;
+}
+
+.bracket-game {
+    max-width: 270px; /*to put everything on the same line*/
+    margin: 20px 0;
+}
+
+.round.winner {
+    margin-top: 49px;
+    margin-left: 0px;
+}
+
+.player {
+    min-width: 225px; /*boxes for the same size*/
+    border: 1px solid #AAA;
+    padding-left: 15px;
+    background: #4cbe96;
+}
+
+.player.top {
+    border-radius: 3px 3px 0 0;
+}
+
+.player.bottom {
+    border-radius: 0 0 3px 3px;
+}
+
+.player, .score {
+    display: inline;
+    float: right;
+    border-left: 1px solid #AAA;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: 'Nunito';
+    color: #f0ffff;
+}
+
+.connectors {
+    float: left;
+    min-width: 100px; /*move the finals and winner box*/ 
+}
+
+.connectors.finals .top-line {
+    position: relative;
+    top: 76px;
+    width: 70px;
+    border: 1px solid #AAA;
+
+}
+
+.connectors.finals .bottom-line {
+    position: relative;
+    top: 187px;
+    width: 70px;
+    border: 1px solid #AAA;
+}
+
+.connectors.finals .vertical-line {
+    position: relative;
+    top: 72px;
+    left: -30px;
+    height: 115px;
+    border-right: 2px solid #AAA;
+
+}
+
+.connectors.finals .next-line {
+    position: relative;
+    top: -13px;
+    left: 70px;
+    width: 100px;
+    border: 1px solid #AAA;
+}
+
+.clear {
+    clear: both;
+}
+
+.connectors.winner .next-line {
+    position: relative;
+	top: 106px;
+	left: 0px;
+	width: 100px;
+	border: 1px solid #AAA;
+}
+
+.connectors.losers .next-line-loser {
+    position: relative;
+	top: 81px;
+	left: 0px;
+	width: 100px;
+	border: 1px solid #AAA;
+}
+
+.clearfix {
+    content: "";
+    display: table;
+    clear: both;
+}
+/* -- END -- TOURNAMENT CSS -- */
+
+
 .hall h1, h4{
     color: #F0FFFF;
     text-align: center;
@@ -181,10 +297,3 @@ footer {
     font-family: 'Nunito';
     font-size: 16px;
 }
-
-/* canvasGame {
-    background-color: #178ca8;
-    height: 90vh;
-} */
-
-
