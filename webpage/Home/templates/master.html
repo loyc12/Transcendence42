@@ -52,7 +52,7 @@
    
     </head>
 
-    <body>
+    <body style="background-color: #178ca8;">
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container-fluid">
          <!-- NAVBAR  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->   
@@ -101,7 +101,7 @@
             </div>
             <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
             <div class="row">
-                <div id="contentHome" class="col-12 HeroDiv">
+                <div id="contentHome" class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mb-3 HeroDiv">
                     {% block HeroDiv %}
                         {% include 'Home/herodiv.html' %}
                     {% endblock %}
@@ -142,9 +142,13 @@
         </div>  
     </body>
 
-    <footer class="border-top" >
-        <div class="container" class="row">
-            <p class="text-center text-white">Built with &#x2661 by GALIV</p>
+    <footer class="border-top" style="background-color: #4cbe96;" >
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>Built with &#x2661 by GALIV</p>
+                </div>
+            </div>
         </div>
     </footer>
 </html>
