@@ -267,6 +267,31 @@ body {
 
 /* -- END -- TOURNAMENT CSS -- */
 
+/* -- AFTER GAME CSS -- */
+
+#aftergame {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
+.custom-card{
+    border: 2px solid #f0ffff;
+    padding: 20px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.custom-card i {
+    margin: 0 10px;
+}
+
+.custom-card h1 {
+    font-size: 80px;
+}
+
+/* -- END -- AFTER GAME CSS -- */
+
 
 .hall h1, h4{
     color: #F0FFFF;
