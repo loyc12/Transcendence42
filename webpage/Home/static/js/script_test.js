@@ -35,7 +35,7 @@ function update() {
         console.error('Error fetching data:', error);
     } finally {
         // Request the next animation frame
-        requestAnimationFrame(update);
+        // requestAnimationFrame(update);
     }
 }
 
@@ -88,12 +88,12 @@ function updateHTML() {
     });
 
     // Request the next animation frame
-    requestAnimationFrame(update);
+    // requestAnimationFrame(update);
 }
 
 
 // Start the update loop
-// update();
+update();
 
 
 
