@@ -250,11 +250,21 @@ body {
 	border: 1px solid #AAA;
 }
 
+.col.winner {
+    font-family: 'Nunito';
+    font-size: 40px;
+    color: #f0ffff;
+    margin-top: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .clearfix {
     content: "";
     display: table;
     clear: both;
 }
+
 /* -- END -- TOURNAMENT CSS -- */
 
 
