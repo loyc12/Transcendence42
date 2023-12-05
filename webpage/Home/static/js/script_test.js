@@ -13,15 +13,6 @@ const gameState = {
     score: []
 };
 
-// // Fake function to simulate an update or initial state
-// function getFakeData() {
-    //     return {
-    //         gameID: 1,
-    //         racketPos: ["canvas.width / 2 - 25", "50", "50", "canvas.height / 2 - 25", "canvas.width / 2 - 25", "canvas.height - 50", "canevas.width - 50", "canvas.height / 2 - 25"],
-    //         ballPos: ["canvas.width / 2", "canvas.height / 2"],
-    //         score: ["s1", "s2", "s3", "s4"]
-//     };
-// }
 
 // Function to simulate fetching batch data from an external JSON file
 async function fakeFetchBatchData() {
@@ -39,27 +30,6 @@ async function fakeFetchBatchData() {
         return [];
     }
 }
-
-// // Update loop
-// async function update() {
-//     try {
-//         // Fetch updated game state from the server (replace with your server URL)
-//         // For testing purposes, use the fake function instead of fetch
-//         const updatedGameState = getFakeData();
-
-//         // Update game state
-//         updateGameState(updatedGameState);
-
-//         // Update HTML based on the game state
-//         updateHTML();
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//         // Handle the error as needed (e.g., display an error message, retry, etc.)
-//     } finally {
-//         // Request the next animation frame
-//         requestAnimationFrame(update);
-//     }
-// }
 
 // Update loop
 async function update() {
