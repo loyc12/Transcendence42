@@ -22,6 +22,7 @@ let player_id = 0;
 class ClientEvent {
     key_name;
     key_code;
+    user_id;
 }
 
 let get_websocket_path = function(game_id) {
