@@ -69,22 +69,22 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ./postgres/volume
+      device: "${PWD}/postgres/volume"
   django_game_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ./webpage/game
+      device: "${PWD}/webpage/game"
   django_home_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ./webpage/Home
+      device: "${PWD}/webpage/Home"
   django_gateway_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ./webpage/NetworkGateway
+      device: "${PWD}/webpage/NetworkGateway"
