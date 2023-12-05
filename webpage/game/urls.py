@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [
     # URL for the main page (home)
     path("", views.game_home),
-    path('creation/', views.game_join, name='game_id'),
+    path('join/', views.game_join, name='game_id'),
 ]
