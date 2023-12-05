@@ -40,7 +40,10 @@ class GameConfig(AppConfig):
         
         # Make sure no running games are left in database since last shutdown
         # The games being forced shutdown should be labeled unfinished.
-        #Game.force_stop_all_games()
+        try:
+            Game.force_stop_all_games()
+        except:
+            print("Game.force_stop_all_games() bypassed because database hasn't yet been built.")
 
         # messenger should be an instance of GameGateway, responsible
         # for providing message from the websocket to the GameManager 
