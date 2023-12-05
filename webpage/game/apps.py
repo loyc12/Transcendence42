@@ -1,6 +1,9 @@
 from django.apps import AppConfig
 import asyncio
 
+#Init gamemanager for backend, with matchmaker
+# Matchmaker a ajouter ici (Matchmker pas a jour)
+#COLLE
 class GameConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'game'

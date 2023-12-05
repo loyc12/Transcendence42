@@ -48,6 +48,7 @@ class Game(models.Model):
     def __repr__(self):
         return (self.__str__())
 
+# PROBLEM (51 - 71)
     @property
     def ready_to_start(self) -> bool:
         return (

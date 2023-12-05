@@ -30,6 +30,7 @@
         
 '''
 
+#COLLE
 
 from abc import ABC
 import json
@@ -40,10 +41,6 @@ from consumers import GameConsumer
 from user.models import User
 from queue import Queue
 import asyncio
-
-
-
-
 
 ### Connector Clases
 class BaseConnector(ABC):
