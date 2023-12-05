@@ -14,13 +14,7 @@ let get_text_from_readable_stream = async function(stream) {
 let fetch_user_profile = function () {
 
     console.log('Inside fetch_user_profile()')
-    fetch('http://' + window.location.host + '/users/profile/get')//, {
-    //  method: "GET",
-    //  credentials: 'same-origin',
-    //  //headers: {
-    //  //    "X-CSRFToken": getCookie("csrftoken")
-  //
-    //})
+    fetch('http://' + window.location.host + '/users/profile/get')
     .then (data => {
       elem = document.getElementById('profile');
       

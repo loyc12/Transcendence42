@@ -18,9 +18,6 @@ COPY Pipfile .
 RUN pip install --upgrade pip
 RUN pip3 install pipenv
 
-#COPY requirements.txt .
-#RUN pip3 install -r requirements.txt
-
 # installs all packages from Pipfile.lock
 RUN pipenv update
 RUN pipenv install --deploy --ignore-pipfile

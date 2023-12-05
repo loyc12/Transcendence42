@@ -58,7 +58,6 @@ class MatchMaker:
 
     _maxRacketCounts = dict()
     
-    
     def __init__(self, game_manager = None):
 
         self.gm = game_manager
@@ -141,7 +140,8 @@ class MatchMaker:
         self.__remove_lobby_game(lgame)
         game.declare_started()
 
-
+    #COLLE
+    # recois le form ici
     def join_lobby(self, user: User, form: GameCreationForm|dict):
         ''' Can accept either GameCreationForm.cleaned_data objects or 
         popperly formated dict with valid entries for "gameMode" and "gameType". 

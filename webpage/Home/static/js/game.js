@@ -1,8 +1,7 @@
+//COLLE
 function myFunction() {
     alert("Hello from a static file!");
 }
-
-
 
 let _build_join_request_payload = function (gameMode, gameType, withAI=false, eventID=0) {
   return {

@@ -1,3 +1,4 @@
+//COLLE
 // Get the game info container
 const gameInfoContainer = document.getElementById('game-info-container');
 
