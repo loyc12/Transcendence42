@@ -1,6 +1,6 @@
-// Get the canvas element
-const canvas = document.getElementById("canvasGame");
-const ctx = canvas.getContext("2d");
+// // Get the canvas element
+// const canvas = document.getElementById("canvas");
+// const ctx = canvas.getContext("2d");
 
 // Get the game info container
 const gameInfoContainer = document.getElementById('game-info-container');
@@ -73,12 +73,14 @@ function updateHTML() {
     const gameInfoElement = document.createElement('div');
     gameInfoElement.textContent = `Game ID: ${gameState.gameID}`;
     gameInfoContainer.appendChild(gameInfoElement);
+    console.log(gameState.gameID);
 
     // Display racket positions
     for (let i = 0; i < gameState.racketPos.length; i += 2) {
         const racketElement = document.createElement('div');
         racketElement.textContent = `Racket ${i / 2 + 1}: (${gameState.racketPos[i]}, ${gameState.racketPos[i + 1]})`;
         gameInfoContainer.appendChild(racketElement);
+        console.log(gameState.racketPos[i]);
     }
 
     // Display ball position

@@ -114,7 +114,7 @@
 					document.addEventListener("keydown", function (event) {
 						//paddle1
 						// Move paddle up (keyCode 38 or W key)
-						if ((event.keyCode === 38) && paddle1.y > 0) {
+						if ((event === ArrowUp) && paddle1.y > 0) {
 							paddle1.y -= paddle1.speed;
 						}
 						
