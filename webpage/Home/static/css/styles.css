@@ -142,6 +142,12 @@ body {
 /* -- END -- GAME TYPE CSS -- */
 
 /* -- TOURNAMENT CSS -- */
+#tournament {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .player, .score {
     font-size: 40px;
 }
