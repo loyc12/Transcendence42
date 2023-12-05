@@ -1,7 +1,3 @@
-// Get the canvas element
-const canvas = document.getElementById("canvasGame");
-const ctx = canvas.getContext("2d");
-
 // Get the game info container
 const gameInfoContainer = document.getElementById('game-info-container');
 
@@ -13,35 +9,120 @@ const gameState = {
     score: []
 };
 
-// // Fake function to simulate an update or initial state
-// function getFakeData() {
-    //     return {
-    //         gameID: 1,
-    //         racketPos: ["canvas.width / 2 - 25", "50", "50", "canvas.height / 2 - 25", "canvas.width / 2 - 25", "canvas.height - 50", "canevas.width - 50", "canvas.height / 2 - 25"],
-    //         ballPos: ["canvas.width / 2", "canvas.height / 2"],
-    //         score: ["s1", "s2", "s3", "s4"]
-//     };
-// }
+// Function to simulate an update or initial state
+function getFakeData() {
+    return {
+        gameID: 1,
+        racketPos: ["50", "canvas.height / 2 - 25", "canevas.width - 50", "canvas.height / 2 - 25"],
+        ballPos: ["canvas.width / 2", "canvas.height / 2"],
+        score: ["s1", "s2"]
+    };
+}
 
-// Function to simulate fetching batch data from an external JSON file
-async function fakeFetchBatchData() {
+// Update loop
+function update() {
     try {
-        const response = await fetch('data.json'); // Adjust the path accordingly
+        // Fetch updated game state from the server (replace with your server URL)
+        // For testing purposes, use the fake function instead of fetch
+        const updatedGameState = getFakeData();
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        // Update game state
+        updateGameState(updatedGameState);
 
-        return await response.json();
+        // Update HTML based on the game state
+        updateHTML();
     } catch (error) {
-        console.error('Error fetching batch data:', error);
-        // Handle the error as needed (e.g., display an error message, retry, etc.)
-        return [];
+        console.error('Error fetching data:', error);
+    } finally {
+        // Request the next animation frame
+        requestAnimationFrame(update);
     }
 }
 
+function updateGameState(updatedGameState) {
+    // Update game state based on the received data
+    gameState.gameID = updatedGameState.gameID;
+    
+    gameState.racketPos = updatedGameState.racketPos;
+    
+    gameState.ballPos = updatedGameState.ballPos;
+    
+    gameState.score = updatedGameState.score;
+    
+}
+
+function updateHTML() {
+    // Clear previous content
+    gameInfoContainer.innerHTML = '';
+
+    // Display game information for each frame
+    gameState.forEach((frame, index) => {
+        const gameInfoElement = document.createElement('div');
+        gameInfoElement.textContent = `Frame ${index + 1} - Game ID: ${frame.gameID}`;
+        gameInfoContainer.appendChild(gameInfoElement);
+
+        // Display racket positions
+        for (let i = 0; i < frame.racketPos.length; i += 2) {
+            const racketElement = document.createElement('div');
+            racketElement.textContent = `Racket ${i / 2 + 1}: (${frame.racketPos[i]}, ${frame.racketPos[i + 1]})`;
+            gameInfoContainer.appendChild(racketElement);
+        }
+
+        // Display ball position
+        const ballElement = document.createElement('div');
+        ballElement.textContent = `Ball Position: (${frame.ballPos[0]}, ${frame.ballPos[1]})`;
+        gameInfoContainer.appendChild(ballElement);
+
+        // Display scores
+        for (let i = 0; i < frame.score.length; i++) {
+            const scoreElement = document.createElement('div');
+            scoreElement.textContent = `Player ${i + 1} Score: ${frame.score[i]}`;
+            gameInfoContainer.appendChild(scoreElement);
+        }
+
+        // Draw the ball for each frame
+        ctx.fillStyle = ball.color;
+        ctx.beginPath();
+        ctx.arc(frame.ballPos[0], frame.ballPos[1], ball.radius, 0, 2 * Math.PI);
+        ctx.fill();
+    });
+
+    // Request the next animation frame
+    requestAnimationFrame(update);
+}
+
+
+// Start the update loop
+// update();
+
+
+
+// // Get the canvas element
+
+// // Get the game info container
+// const gameInfoContainer = document.getElementById('game-info-container');
+
+// // Game state object
+// const gameState = {
+//     gameID: 0,
+//     racketPos: [],
+//     ballPos: [],
+//     score: []
+// };
+
+// // // Fake function to simulate an update or initial state
+// function getFakeData() {
+//     return {
+//         gameID: 1,
+//         racketPos: ["50", "canvas.height / 2 - 25", "canevas.width - 50", "canvas.height / 2 - 25"], // racketPos: [x1, y1, x2, y2],
+//         ballPos: ["canvas.width / 2", "canvas.height / 2"],
+//         score: ["s1", "s2"]
+//     };
+//         // racketPos: ["canvas.width / 2 - 25", "50", "50", "canvas.height / 2 - 25", "canvas.width / 2 - 25", "canvas.height - 50", "canevas.width - 50", "canvas.height / 2 - 25"],
+// }
+
 // // Update loop
-// async function update() {
+// function update() {
 //     try {
 //         // Fetch updated game state from the server (replace with your server URL)
 //         // For testing purposes, use the fake function instead of fetch
@@ -54,80 +135,48 @@ async function fakeFetchBatchData() {
 //         updateHTML();
 //     } catch (error) {
 //         console.error('Error fetching data:', error);
-//         // Handle the error as needed (e.g., display an error message, retry, etc.)
 //     } finally {
 //         // Request the next animation frame
 //         requestAnimationFrame(update);
 //     }
 // }
 
-// Update loop
-async function update() {
-    try {
-        // Fetch updated game state from the server (replace with your server URL)
-        // For testing purposes, use the fake function instead of fetch
-        const batchData = await fakeFetchBatchData();
+// function updateGameState(updatedGameState) {
+//     // Update game state based on the received data
+//     gameState.gameID = updatedGameState.gameID;
+//     gameState.racketPos = updatedGameState.racketPos;
+//     gameState.ballPos = updatedGameState.ballPos;
+//     gameState.score = updatedGameState.score;
+// }
 
-        // Process batch data
-        for (const updatedGameState of batchData) {
-            updateGameState(updatedGameState);
+// function updateHTML() {
+//     // Clear previous content
+//     gameInfoContainer.innerHTML = '';
 
-            // Update HTML based on the game state
-            updateHTML();
+//     // Display game information
+//     const gameInfoElement = document.createElement('div');
+//     gameInfoElement.textContent = `Game ID: ${gameState.gameID}`;
+//     gameInfoContainer.appendChild(gameInfoElement);
 
-            // Delay for a short period to simulate time between updates
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-    } catch (error) {
-        console.error('Error fetching batch data:', error);
-        // Handle the error as needed (e.g., display an error message, retry, etc.)
-    } finally {
-        // Request the next animation frame
-        requestAnimationFrame(update);
-    }
-}
+//     // Display racket positions
+//     for (let i = 0; i < gameState.racketPos.length; i += 2) {
+//         const racketElement = document.createElement('div');
+//         racketElement.textContent = `Racket ${i / 2 + 1}: (${gameState.racketPos[i]}, ${gameState.racketPos[i + 1]})`;
+//         gameInfoContainer.appendChild(racketElement);
+//     }
 
-function updateGameState(updatedGameState) {
-    // Update game state based on the received data
-    gameState.gameID = updatedGameState.gameID;
-    gameState.racketPos = updatedGameState.racketPos;
-    gameState.ballPos = updatedGameState.ballPos;
-    gameState.score = updatedGameState.score;
-}
+//     // Display ball position
+//     const ballElement = document.createElement('div');
+//     ballElement.textContent = `Ball Position: (${gameState.ballPos[0]}, ${gameState.ballPos[1]})`;
+//     gameInfoContainer.appendChild(ballElement);
 
-function updateHTML() {
-    // Clear previous content
-    gameInfoContainer.innerHTML = '';
+//     // Display scores
+//     for (let i = 0; i < gameState.score.length; i++) {
+//         const scoreElement = document.createElement('div');
+//         scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
+//         gameInfoContainer.appendChild(scoreElement);
+//     }
+// }
 
-    // Display game information
-    const gameInfoElement = document.createElement('div');
-    gameInfoElement.textContent = `Game ID: ${gameState.gameID}`;
-    gameInfoContainer.appendChild(gameInfoElement);
-
-    // Display racket positions
-    for (let i = 0; i < gameState.racketPos.length; i += 2) {
-        const racketElement = document.createElement('div');
-        racketElement.textContent = `Racket ${i / 2 + 1}: (${gameState.racketPos[i]}, ${gameState.racketPos[i + 1]})`;
-        gameInfoContainer.appendChild(racketElement);
-    }
-
-    // Display ball position
-    const ballElement = document.createElement('div');
-    ballElement.textContent = `Ball Position: (${gameState.ballPos[0]}, ${gameState.ballPos[1]})`;
-    gameInfoContainer.appendChild(ballElement);
-
-    // Display scores
-    for (let i = 0; i < gameState.score.length; i++) {
-        const scoreElement = document.createElement('div');
-        scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
-        gameInfoContainer.appendChild(scoreElement);
-    }
-    // Draw the ball
-    ctx.fillStyle = ball.color;
-    ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-    ctx.fill();
-}
-
-// Start the update loop
-update();
+// // Start the update loop
+// update();
