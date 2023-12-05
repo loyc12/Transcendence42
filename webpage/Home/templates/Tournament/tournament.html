@@ -1,0 +1,111 @@
+{% block tournament %}
+
+<div class="clearfix">
+
+	<div class="row">
+		<div class="col">
+			<div class="round semifinals">
+				<div class="bracket-game">
+					<div class="player top">
+						<!-- To be change according to data from db -->
+						<span>PlayerX</span>
+						<div class="score">0</div>
+					</div>
+					<div class="player bottom">
+						<!-- To be change according to data from db -->
+						<span>PlayerY</span>
+						<div class="score">1</div>
+					</div>
+				</div>
+				<div class="bracket-game cont">
+					<div class="player top">
+						<!-- To be change according to data from db -->
+						<span>PlayerZ</span>
+						<div class="score">1</div>
+					</div>
+					<div class="player bottom">
+						<!-- To be change according to data from db -->
+						<span>PlayerW</span>
+						<div class="score">0</div>
+					</div>
+				</div>
+			</div>
+			<div class="connectors finals">
+				<div class="top-line"></div>
+				<div class="clear"></div>
+				<div class="bottom-line"></div>
+				<div class="clear"></div>
+				<div class="vertical-line"></div>
+				<div class="clear"></div>
+				<div class="next-line"></div>
+				<div class="clear"></div>
+			</div>
+			<div class="round finals">
+				<div class="bracket-game">
+					<div class="player top">
+						<!-- To be change according to data from db -->
+						<span>PlayerZ</span>
+						<div class="score">1</div>
+					</div>
+					<div class="player bottom">
+						<!-- To be change according to data from db -->
+						<span>PlayerY</span>
+						<div class="score">0</div>
+					</div>
+				</div>
+			</div>
+			<div class="connectors winner">
+				<div class="next-line"></div>
+			</div>
+			<div class="round winner">
+				<div class="bracket-game">
+					<div class="player">
+						<!-- To be change according to data from db -->
+						<span>PlayerZ</span>
+						<div class="score">1</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="round losers">
+				<div class="bracket-game">
+					<div class="player top">
+						<!-- To be change according to data from db -->
+						<span>PlayerX</span>
+						<div class="score">1</div>
+					</div>
+					<div class="player bottom">
+						<!-- To be change according to data from db -->
+						<span>PlayerW</span>
+						<div class="score">0</div>
+					</div>
+				</div>
+			</div>
+			<div class="connectors losers">
+				<div class="next-line-loser"></div>
+			</div>
+			<div class="round winner">
+				<div class="bracket-game">
+					<div class="player">
+						<!-- To be change according to data from db -->
+						<span>PlayerX</span>
+						<div class="score">1</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row text-center">
+		<div class="col winner text-center" style="background-color: #0e4870;">
+			Gagnant: [variable_playerWithAlltheWins]
+		</div>
+	</div>
+</div>
+	
+	
+	
+	
+{% endblock %}
