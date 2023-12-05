@@ -68,7 +68,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /tmp/postgres/volume/
+      device: /Users/gehebert/postgres/volume
   # django_game_vol:
   #   driver: local
   #   driver_opts:
