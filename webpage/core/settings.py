@@ -42,8 +42,8 @@ print("DJANGO_DEBUG : ", DJANGO_DEBUG)
 
 # SECURITY WARNING  - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 #: keep the secret key used in production secret!
-SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
@@ -55,11 +55,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "daphne",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django_extensions",
     "bootstrap5",
-
     
+    "compressor",
+
     "Home",
     "login",
     "users",
@@ -81,6 +83,7 @@ if not DJANGO_DEBUG:
     
 MIDDLEWARE += [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -187,13 +190,13 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-
+# STATIC FILES SETTINGS
 STATIC_URL = "static/"
-STATIC_ROOT = "static_deploy/"
-
+STATIC_ROOT = os.path.join(BASE_DIR, "static_deploy")
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 ]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
@@ -233,6 +236,16 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# COMPRESSOR SETTINGS NOT WORKING FOR NOW
+COMPRESS_ENABLED = False
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.rCSSMinFilter',
+]
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.JSMinFilter',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

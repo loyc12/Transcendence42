@@ -1,5 +1,4 @@
 import requests
-#from django.http import HttpResponse, HttpResponseRedirect
 from core.settings import ENV_FILE
 from django.shortcuts import redirect
 

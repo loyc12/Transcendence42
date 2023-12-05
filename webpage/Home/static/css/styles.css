@@ -274,16 +274,13 @@ body {
     margin-top: 80px;
 }
 
-/* .content1 and .content2 -> pas touche. display joue sur la façon de travailler en module */
 .content1 {
     display: block;
-    /*background-color: #178ca8;*/
 }
 
 .content2 {
     display: none;
 }
-
 
 #HeroDiv {
     background-color: #178ca8; /*all "herodiv" will be this color */

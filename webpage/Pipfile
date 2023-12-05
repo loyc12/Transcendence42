@@ -10,7 +10,6 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
 django-extensions = "*"
-werkzeug = "*"
 pyopenssl = "*"
 django-cors-headers = "*"
 django-channels = "*"
@@ -20,6 +19,8 @@ django-redis = "*"
 django-redis-sessions = "*"
 django-bootstrap-v5 = "*"
 channels-redis = "*"
+django-compressor = "*"
+whitenoise = "*"
 
 [dev-packages]
 
