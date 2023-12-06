@@ -9,18 +9,6 @@ const ctx = canvas.getContext('2d');
 const initialWidth = canvas.width;
 const initialHeight = canvas.height;
 
-function setCanvasSize() {
-    const parent = canvas.parentElement
-
-    //Use initial dimensions if the parent is smaller
-    canvas.width = Math.min(initialWidth, parent.clientWidth);
-    canvas.height = Math.min(initialHeight, parent.clientHeight);
-    
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-setCanvasSize();
-
 // Supposons que cela se passe dans un fichier (initParser.js)
 const initParam = {
     'gameType': 'Ping',
@@ -30,6 +18,7 @@ const initParam = {
     'ballInitPos': [1024, 682],
     'teamCount': 2
 };
+
 
 // Afficher les valeurs dans la console
 console.log('Game Type:', initParam.gameType);
@@ -56,6 +45,17 @@ console.log('Ball:', initParam.ballInitPos);
 console.log('Ball Size:', initParam.sizeInfo.sBall);
 console.log('Team:', initParam.teamCount);
 
+function setCanvasSize() {
+    const parent = canvas.parentElement
+
+    //Use initial dimensions if the parent is smaller
+    canvas.width = Math.min(initialWidth, parent.clientWidth);
+    canvas.height = Math.min(initialHeight, parent.clientHeight);
+    
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+setCanvasSize();
 
 
 

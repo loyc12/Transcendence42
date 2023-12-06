@@ -7,33 +7,13 @@ class RenderModule {
         // Utilisez les données du initData pour effectuer le rendu
         console.log('Rendering with Width:', this.initData.sizeInfo.width);
         console.log('Rendering with Height:', this.initData.sizeInfo.height);
-        // ... Ajoutez d'autres actions de rendu au besoin
-        // this.ctx.fillStyle = 'black';
-        // this.ctx.fillRect(0, 0, this.initState.width/10, this.initState.height/10);
     }
 }
 
-console.log(initParam);
-const renderModule = new RenderModule(initParam);
-
 // Utilisation du module de rendu
-// const renderModule = new RenderModule(initParam);
+// console.log(initParam);
+const renderModule = new RenderModule(initParam);
 renderModule.render();
-
-// Assume you have the gameState available
-// let ballPosition = this.initData.ballInitPos;
-
-// function renderCanvas(initData) {
-//     clearCanvas(); // Assuming you have a function to clear the canvas before each render
-//     this.ctx.fillStyle = '#ffffff';
-//     this.ctx.fillRect(0, 0, initData.sizeInfo.width, initData.sizeInfo.height);
-
-//     // Render the ball
-//     renderBall(initData.ballPosition[0], initData.ballPosition[1]);
-
-//     // Render the rackets
-//     renderRackets(initData.racketInitPos);
-// }
 
 function renderCanvas(initData) {
     const { width, height } = initData.sizeInfo;
