@@ -9,7 +9,7 @@ const ctx = canvas.getContext('2d');
 const initialWidth = canvas.width;
 const initialHeight = canvas.height;
 
-// Supposons que cela se passe dans un fichier (initParser.js)
+// both bottom
 const initParam = {
     'gameType': 'Ping',
     'sizeInfo': {'width': 2048, 'height': 1024, 'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 'sRacket': 160, 'sBall': 20},
@@ -18,6 +18,18 @@ const initParam = {
     'ballInitPos': [1024, 682],
     'teamCount': 2
 };
+
+// in front of each other
+// const initParam = {
+//      'gameType': 'Pong', 
+//      'sizeInfo': {'width': 2048, 'height': 1024, 
+//         'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
+//         'sRacket': 160, 'sBall': 20}, 
+//     'racketCount': 2, 
+//     'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
+//     'ballInitPos': [512, 512], 
+//     'teamCount': 2
+// };
 
 
 // Afficher les valeurs dans la console

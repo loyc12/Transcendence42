@@ -1,3 +1,29 @@
+const playerColors = ['#ff6700', '#23e301', '#04d9ff', '#ff6700'];
+
+const players = [
+    { name: 'Player 1', rank: 1 },
+    { name: 'Player 2', rank: 2 },
+    { name: 'Player 3', rank: 3 },
+    { name: 'Player 4', rank: 4 },
+];
+
+// Function to get the player's color based on their rank
+function getPlayerColor(rank) {
+    // Use modulo operator to cycle through colors if there are more ranks than colors
+    const index = (rank - 1) % playerColors.length;
+    return playerColors[index];
+}
+
+// Example usage:
+players.forEach(player => {
+    const playerName = player.name;
+    const playerRank = player.rank;
+    const playerColor = getPlayerColor(playerRank);
+
+    console.log(`${playerName} (Rank ${playerRank}): Color - ${playerColor}`);
+    // Now you can use playerColor to set the color in your rendering logic
+});
+
 class RenderModule {
     constructor(initData) {
         this.initData = initData;
@@ -17,6 +43,7 @@ renderModule.render();
 
 function renderCanvas(initData) {
     const { width, height } = initData.sizeInfo;
+    const { bx, by } = initData.ballInitPos;
 
     // Set canvas dimensions
     canvas.width = width;
@@ -28,26 +55,43 @@ function renderCanvas(initData) {
 
     // You can add additional rendering logic here
     // For now, let's just log the canvas dimensions
+    
+    // Render game elements based on initial game data
+    renderBall();
+    renderRackets();
     console.log(`Canvas Dimensions: ${width} x ${height}`);
 }
 
-function renderBall(x, y) {
+function renderBall(ballInitPos) {
+
     ctx.fillStyle = 'red'; // Ball color (customize as needed)
     ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, 2 * Math.PI); // Assuming ballRadius is defined
+    ctx.arc(initParam.ballInitPos[0], initParam.ballInitPos[1], initParam.sizeInfo.sBall, 0, 2 * Math.PI); // Assuming ballRadius is defined
     ctx.fill();
 }
 
 function renderRackets(racketPositions) {
-    for (let i = 0; i < racketPositions.length; i += 3) {
-        let racketX = racketPositions[i];
-        let racketY = racketPositions[i + 1];
-
+    let tot = 0;
+    for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
+        tot += 1;
+        let racketX = initParam.racketInitPos[i];
+        let racketY = initParam.racketInitPos[i + 1];
+        console.log(racketX);
+        console.log(racketY);
+        console.log("player :", tot);
+        // Set the color of the racket based on the player's rank
+        ctx.fillStyle = getPlayerColor(tot);
         // Check if the position of the racket is 'x'
-        if (racketX !== 'x') {
+        if (initParam.racketInitPos[i + 2] === 'x') {
+            ctx.fillRect(racketX, racketY, initParam.sizeInfo.sRacket, initParam.sizeInfo.sBall); // Assuming racketWidth and racketHeight are defined
+        }
+        else if (initParam.racketInitPos[i + 2] === 'y'){
+            ctx.fillRect(racketX, racketY,  initParam.sizeInfo.sBall, initParam.sizeInfo.sRacket); // Assuming racketWidth and racketHeight are defined
+        }
+        else {
             // Render the racket at the specified position
-            ctx.fillStyle = 'blue'; // Racket color (customize as needed)
-            ctx.fillRect(racketX, racketY, racketWidth, racketHeight); // Assuming racketWidth and racketHeight are defined
+            ctx.fillStyle = 'yellow'; // Racket color (customize as needed)
+            ctx.fillRect(racketX, racketY, initParam.sizeInfo.sBall, initParam.sizeInfo.sBall); // Assuming racketWidth and racketHeight are defined
         }
     }
 }
