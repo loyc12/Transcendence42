@@ -57,8 +57,8 @@
 			</div>
 			<div class="col-lg-9 d-flex flex-column justify-content-center">
 				<div id="game-info-container">
-					<!-- <canvas id="canvas" class="flex-grow-1" style="background-color: #000000; margin-top: 50px; width: 100%; height: 100%; box-sizing: border-box;"></canvas> -->
-					<canvas id="canvas" width="800" height="600" style="background-color: #000000;"></canvas>
+					<canvas id="canvas" class="flex-grow-1" style="background-color: #000000; margin-top: 50px; width: 100%; height: 100%; box-sizing: border-box;"></canvas>
+					<!-- <canvas id="canvas" width="800" height="600" style="background-color: #000000;"></canvas> -->
 					<script>
 
 					const canvas = document.getElementById('canvas');
@@ -78,7 +78,7 @@
 						ctx.fillStyle = '#000000';
 						ctx.fillRect(0, 0, canvas.width, canvas.height);
 					}
-					setCanvasSize();
+					
 					
 					window.addEventListener('resize', setCanvasSize);
 					var s1 = 0;
@@ -201,11 +201,11 @@
 						ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
 						ctx.fill();
 
-
+						
 						// Request the next animation frame
-						// requestAnimationFrame(update);
+						requestAnimationFrame(update);
 					}
-			
+					setCanvasSize();
 					// Start the update loop
 					update();
 					</script>
