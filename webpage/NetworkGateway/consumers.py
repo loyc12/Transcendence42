@@ -68,6 +68,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, event):
         ### REWORK NEEDED
+        print('Websocket disconnecting !')
         if self.game_connector.lobby_game:
             self.game_connector.disconnect_player(self.user)
             #if self.game_connector.game:
@@ -79,9 +80,11 @@ class GameConsumer(AsyncWebsocketConsumer):
         #self.netGateway.remove_player(self.user)
         #self.lobby_game = None
         #...
+        raise StopConsumer
 
     async def receive(self, text_data):
         event = json.loads(text_data)
+        
         await self.game_connector.push_event(event)
 
 
@@ -96,6 +99,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     
     async def game_send_state(self, event):
         ''' specifically for sending game state updates '''
+        print('game_send_state was here !')
         await self.send(text_data=event['game_state'])
 
     async def game_send_event(self, event):

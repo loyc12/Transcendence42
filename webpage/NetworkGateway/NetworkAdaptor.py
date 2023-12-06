@@ -41,32 +41,34 @@ from users.models import User
 from queue import Queue
 import asyncio
 import time
-from functools import wraps
+# from functools import wraps
 from NetworkGateway.consumers import GameConsumer
 from game.models import Game
+from NetworkGateway.models import GameEvent
 from asgiref.sync import sync_to_async
 
 
 
 
-def async_to_sync_locked_class(func):
-    @wraps(func)
-    def __async_to_sync_game_locked(cls, *args, **kwargs):
-        async def __game_locked_exec(args, kwargs):
-            async with cls.__gateway_lock:
-                func(cls, *args, **kwargs)
-        asyncio.run(__game_locked_exec(args, kwargs))
-    return __async_to_sync_game_locked
+
+# def async_to_sync_locked_class(func):
+#     @wraps(func)
+#     def __async_to_sync_game_locked(cls, *args, **kwargs):
+#         async def __game_locked_exec(args, kwargs):
+#             async with cls.__gateway_lock:
+#                 func(cls, *args, **kwargs)
+#         asyncio.run(__game_locked_exec(args, kwargs))
+#     return __async_to_sync_game_locked
 
 
-def async_to_sync_locked(func):
-    @wraps(func)
-    def __async_to_sync_game_locked(self, *args, **kwargs):
-        async def __game_locked_exec(args, kwargs):
-            async with self.__gateway_lock:
-                func(self, *args, **kwargs)
-        asyncio.run(__game_locked_exec(args, kwargs))
-    return __async_to_sync_game_locked
+# def async_to_sync_locked(func):
+#     @wraps(func)
+#     def __async_to_sync_game_locked(self, *args, **kwargs):
+#         async def __game_locked_exec(args, kwargs):
+#             async with self.__gateway_lock:
+#                 func(self, *args, **kwargs)
+#         asyncio.run(__game_locked_exec(args, kwargs))
+#     return __async_to_sync_game_locked
 
 ### Connector Clases
 class BaseGateway(ABC):
@@ -136,9 +138,10 @@ class GameConnector:
         async with self.__events_lock:
             if not self.__events.empty():
                 ev = self.__events.get()
-        return ev    
+        return ev
 
-    async def push_event(self, event):
+    async def push_event(self, playerID, evType, key=None):
+        event = GameEvent(playerID, evType, key)
         async with self.__events_lock:
             self.__events.put(event)
 
@@ -177,14 +180,12 @@ class GameConnector:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
         
-        #if self.game:
-            ### TODO: Disconnect player while in live game. 
-           # self.push_event({
-           #     'ev': 'disconnect',
-           #     'gameID': self.__sockID,
-           #     'playerID': user.id
-           # })
-        if self.nb_connected > 0:
+
+        if self.game:
+            ## TODO: Disconnect player while in live game. 
+            await self.push_event(user.id, 'end_game') # send disconnect event to Game instance in game manager. Same place as keypress events.
+        elif self.nb_connected > 0:
+            ## 
             await self._send_players_list()
         #else:
         #    lgame, lply = self.match_maker.remove_player(user)
@@ -192,6 +193,20 @@ class GameConnector:
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
             #asyncio.async_to_sync(self.__channel_layer.group_discard)(self.__sockID, pcons.channel_name)
 
+    async def send_end_state(self, state):
+        if not state:
+            raise TypeError('No state was provided.')
+        payload = json.dumps({
+            'ev': 'end',
+            'end_state': state
+        })
+        await self.__channel_layer.group_send(self.__sockID,
+                {
+                    'type': 'game_send_state',
+                    'game_state': payload
+                }
+            )
+        
 
     async def start_countdown(self):
         if not self.is_running:
@@ -205,7 +220,7 @@ class GameConnector:
         for i in range(3):
             t_start = time.monotonic()
             payload = json.dumps(event)
-            await self.__channel_layer.group_send(self.__game_id,
+            await self.__channel_layer.group_send(self.__sockID,
                 {
                     'type': 'game.send.state',
                     'payload': payload
@@ -215,9 +230,7 @@ class GameConnector:
             dt = time.monotonic() - t_start
             await asyncio.sleep(1.0 - dt)
 
-        self.push_event({
-            'ev': 'start'
-        })
+        self.push_event(self.__sockID, 'start_game')
 
 
 
@@ -351,7 +364,7 @@ class GameGateway(BaseGateway):
         game_connector = lgame.game_connector
         gm = self.__game_manager
         print('game after sync_to_async db game creation : ', game)
-        gm_status = await gm.addGame(gameType, lgame.sockID)
+        gm_status = await gm.addGame(gameType, lgame.sockID, game_connector)
         if not gm_status:
             raise GameGatwayException('Error occured while trying to create new game in game_manager.')
 
@@ -399,25 +412,51 @@ class GameGateway(BaseGateway):
             self.__connected_game.pop(game_id)
     '''
 
-    async def async_send_all_updates(self, game_states: dict[str, any], ev_wrap=False):
-        async for game_id, state in game_states:
-            if not state:
-                raise ValueError('Trying to send empty state to client.')
-            #if not await self.contains_game(game_id):
-            #    raise ValueError('Trying to send update to non-existant game_id.')
-            if ev_wrap:
-                state = {
-                    'ev': 'up',
-                    'state': state
-                }
+    async def __send_single_async_update(self, game_id, state, ev_wrap):
+        if not state:
+            raise ValueError('Trying to send empty state to client.')
+        # print('sending game state to socket : ', game_id)
+        if ev_wrap:
+            state = {
+                'ev': 'up',
+                'state': state
+            }
 
-            payload = json.dumps(state)
-            await self.__channel_layer.group_send(game_id,
-                {
-                    'type': 'game.send.state',
-                    'game_state': payload
-                }
-            )
+        payload = json.dumps(state)
+        # await self.__channel_layer.group_send(game_id,
+        await self.__channel_layer.group_send(game_id,
+            {
+                'type': 'game_send_state',
+                'game_state': payload
+            }
+        )
+
+
+    async def async_send_all_updates(self, game_states: dict[str, any], ev_wrap=False):
+        # tasks = []
+        for game_id, state in game_states.items():
+            # tasks.append(self.__send_single_async_update(game_id, state, ev_wrap))
+            await self.__send_single_async_update(game_id, state, ev_wrap)
+            # if not state:
+            #     raise ValueError('Trying to send empty state to client.')
+            # #if not await self.contains_game(game_id):
+            # #    raise ValueError('Trying to send update to non-existant game_id.')
+            # if ev_wrap:
+            #     state = {
+            #         'ev': 'up',
+            #         'state': state
+            #     }
+
+            # payload = json.dumps(state)
+            # tasks.append(
+            #     self.__channel_layer.group_send(game_id,
+            #         {
+            #             'type': 'game.send.state',
+            #             'game_state': payload
+            #         }
+            #     )
+            # )
+        # await asyncio.gather(*tasks)
         
     
     #def send_all_updates(self, game_states: dict[int, any], ev_wrap=False):
