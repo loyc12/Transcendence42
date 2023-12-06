@@ -40,7 +40,7 @@ class Game(models.Model):
                 "\n<-| is running :    " + str(self.is_running) +\
                 "\n<-| is over :       " + str(self.is_over) +\
                 "\n<-| is tournament : " + str(self.is_tournament) +\
-                "\n<-| winner :        " + (self.winner.username if self.winner else 'None') +\
+                "\n<-| winner :        " + (self.winner.login if self.winner else 'None') +\
                 "\n<-| final score :   " + (self.finale_scores if self.finale_scores else 'None') +\
                 "\n<---------------------------------->"
                 #"\n<-| host :          " + (self.host.username if self.host else 'None') +\
@@ -48,7 +48,13 @@ class Game(models.Model):
     def __repr__(self):
         return (self.__str__())
 
-# PROBLEM (51 - 71)
+    @classmethod
+    def force_stop_all_games(cls):
+        running_games = Game.objects.filter(is_running=True)
+        for game in running_games:
+            game.declare_broken()
+
+
     @property
     def ready_to_start(self) -> bool:
         return (
@@ -69,7 +75,7 @@ class Game(models.Model):
             )
         )
 
-    def add_player(self, user: User):
+    def add_player(self, user: User, save: bool=True):
 
         if self.is_running or self.is_over or self.is_broken:
             raise OperationalError('Trying to join a live game or an already finished game or a broken game.')
@@ -85,12 +91,11 @@ class Game(models.Model):
 
         #if nb_players == 0;
         #    self.host = user
-        user.join_game(self)
+        #user.join_game(self)
         self.players.add(user)
-        self.save()
 
-        if self.ready_to_start:
-            pass
+        if save:
+            self.save()
 
 
     def declare_broken(self, save: bool=True) -> None:
