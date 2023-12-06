@@ -148,9 +148,9 @@ $(CERT_CRT) $(CERT_KEY):	$(MKCERT_PATH)
 
 # MODE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 _activate_db_mode:		$(DOTENV)
-	@sed -i "" 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' $(DOTENV)
+#	# @sed -i "" 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' $(DOTENV)
 _deactivate_db_mode:	$(DOTENV)
-	@sed -i "" 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' $(DOTENV)
+#	@sed -i "" 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' $(DOTENV)
 
 # _activate_db_mode:		$(DOTENV)
 # 	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
