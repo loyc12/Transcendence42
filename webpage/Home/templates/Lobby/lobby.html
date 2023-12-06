@@ -61,154 +61,154 @@
 					<canvas id="canvas" width="800" height="600" style="background-color: #000000;"></canvas>
 					<script>
 
-					const canvas = document.getElementById('canvas');
-					const ctx = canvas.getContext('2d');
+					// const canvas = document.getElementById('canvas');
+					// const ctx = canvas.getContext('2d');
 
-					// Store the initial dimensions
-					const initialWidth = canvas.width;
-					const initialHeight = canvas.height;
+					// // Store the initial dimensions
+					// const initialWidth = canvas.width;
+					// const initialHeight = canvas.height;
 					
-					function setCanvasSize() {
-						const parent = canvas.parentElement
+					// function setCanvasSize() {
+					// 	const parent = canvas.parentElement
 
-						//Use initial dimensions if the parent is smaller
-						canvas.width = Math.min(initialWidth, parent.clientWidth);
-						canvas.height = Math.min(initialHeight, parent.clientHeight);
+					// 	//Use initial dimensions if the parent is smaller
+					// 	canvas.width = Math.min(initialWidth, parent.clientWidth);
+					// 	canvas.height = Math.min(initialHeight, parent.clientHeight);
 						
-						ctx.fillStyle = '#000000';
-						ctx.fillRect(0, 0, canvas.width, canvas.height);
-					}
-					setCanvasSize();
+					// 	ctx.fillStyle = '#000000';
+					// 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+					// }
+					// setCanvasSize();
 					
 
-					var s1 = 0;
-					var s2 = 0;
+					// var s1 = 0;
+					// var s2 = 0;
 
-					var paddle1 = {
-						x: canvas.width - 50,
-						y: canvas.height / 2 - 25,
-						width: 10,
-						height: 50,
-						color: "#ff6700", // player1 color
-						speed: 10
-					};
+					// var paddle1 = {
+					// 	x: canvas.width - 50,
+					// 	y: canvas.height / 2 - 25,
+					// 	width: 10,
+					// 	height: 50,
+					// 	color: "#ff6700", // player1 color
+					// 	speed: 10
+					// };
 					
-					var paddle2 = {
-						x: 50,
-						y: canvas.height / 2 - 25, // Center the paddle vertically
-						width: 10,
-						height: 50,
-						color: "#23e301", // Player2 color
-						speed: 10
-					};
+					// var paddle2 = {
+					// 	x: 50,
+					// 	y: canvas.height / 2 - 25, // Center the paddle vertically
+					// 	width: 10,
+					// 	height: 50,
+					// 	color: "#23e301", // Player2 color
+					// 	speed: 10
+					// };
 					
-					var ball = {
-						x: canvas.width / 2,
-						y: canvas.height / 2,
-						radius: 5,
-						color: "#0000ff", // Blue color
-						speedX: 4,
-						speedY: 4
-					};
+					// var ball = {
+					// 	x: canvas.width / 2,
+					// 	y: canvas.height / 2,
+					// 	radius: 5,
+					// 	color: "#0000ff", // Blue color
+					// 	speedX: 4,
+					// 	speedY: 4
+					// };
 
-					document.addEventListener("keydown", function (event) {
-						//paddle1
-						// Move paddle up (keyCode 38 or W key)
-						if ((event.keyCode === 38) && paddle1.y > 0) {
-							paddle1.y -= paddle1.speed;
-						}
+					// document.addEventListener("keydown", function (event) {
+					// 	//paddle1
+					// 	// Move paddle up (keyCode 38 or W key)
+					// 	if ((event.keyCode === 38) && paddle1.y > 0) {
+					// 		paddle1.y -= paddle1.speed;
+					// 	}
 						
-						// Move paddle down (keyCode 40 or S key)
-						if ((event.keyCode === 40 ) && paddle1.y < canvas.height - paddle1.height) {
-							paddle1.y += paddle1.speed;
-						}
+					// 	// Move paddle down (keyCode 40 or S key)
+					// 	if ((event.keyCode === 40 ) && paddle1.y < canvas.height - paddle1.height) {
+					// 		paddle1.y += paddle1.speed;
+					// 	}
 
-						// Move paddle left (keyCode 37 or A key)
-						if ((event.keyCode === 37 ) && paddle1.x > 0) {
-							paddle1.x -= paddle1.speed;
-						}
+					// 	// Move paddle left (keyCode 37 or A key)
+					// 	if ((event.keyCode === 37 ) && paddle1.x > 0) {
+					// 		paddle1.x -= paddle1.speed;
+					// 	}
 						
-						// Move paddle right (keyCode 39 or D key)
-						if ((event.keyCode === 39 ) && paddle1.x < canvas.width - paddle1.width) {
-							paddle1.x += paddle1.speed;
-						}
+					// 	// Move paddle right (keyCode 39 or D key)
+					// 	if ((event.keyCode === 39 ) && paddle1.x < canvas.width - paddle1.width) {
+					// 		paddle1.x += paddle1.speed;
+					// 	}
 						
-						// paddle2
-						// Move paddle up (keyCode 38 or W key)
-						if (( event.key === 'w') && paddle2.y > 0) {
-							paddle2.y -= paddle2.speed;
-						}
+					// 	// paddle2
+					// 	// Move paddle up (keyCode 38 or W key)
+					// 	if (( event.key === 'w') && paddle2.y > 0) {
+					// 		paddle2.y -= paddle2.speed;
+					// 	}
 						
-						// Move paddle down (keyCode 40 or S key)
-						if (( event.key === 's') && paddle2.y < canvas.height - paddle2.height) {
-							paddle2.y += paddle2.speed;
-						}
+					// 	// Move paddle down (keyCode 40 or S key)
+					// 	if (( event.key === 's') && paddle2.y < canvas.height - paddle2.height) {
+					// 		paddle2.y += paddle2.speed;
+					// 	}
 						
-						// Move paddle left (keyCode 37 or A key)
-						if (( event.key === 'a') && paddle2.x > 0) {
-							paddle2.x -= paddle2.speed;
-						}
+					// 	// Move paddle left (keyCode 37 or A key)
+					// 	if (( event.key === 'a') && paddle2.x > 0) {
+					// 		paddle2.x -= paddle2.speed;
+					// 	}
 						
-						// Move paddle right (keyCode 39 or D key)
-						if (( event.key === 'd') && paddle2.x < canvas.width - paddle2.width) {
-							paddle2.x += paddle2.speed;
-						}
-					});
+					// 	// Move paddle right (keyCode 39 or D key)
+					// 	if (( event.key === 'd') && paddle2.x < canvas.width - paddle2.width) {
+					// 		paddle2.x += paddle2.speed;
+					// 	}
+					// });
 
-					function update() {
-						// Clear the canvas
-						ctx.clearRect(0, 0, canvas.width, canvas.height);
-						ctx.fillStyle = '#000000';
-						ctx.fillRect(0, 0, canvas.width, canvas.height);
+					// function update() {
+					// 	// Clear the canvas
+					// 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+					// 	ctx.fillStyle = '#000000';
+					// 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 						
-						// Check for collisions with the paddle
-						if (
-							ball.x + ball.radius > paddle1.x &&
-							ball.x - ball.radius < paddle1.x + paddle1.width &&
-							ball.y + ball.radius > paddle1.y &&
-							ball.y - ball.radius < paddle1.y + paddle1.height
-							) {
-								ball.color = "#ff6700"; // Change to green color
-						} 
+					// 	// Check for collisions with the paddle
+					// 	if (
+					// 		ball.x + ball.radius > paddle1.x &&
+					// 		ball.x - ball.radius < paddle1.x + paddle1.width &&
+					// 		ball.y + ball.radius > paddle1.y &&
+					// 		ball.y - ball.radius < paddle1.y + paddle1.height
+					// 		) {
+					// 			ball.color = "#ff6700"; // Change to green color
+					// 	} 
 							
-							// Check for collisions with the paddle
-						if (
-							ball.x + ball.radius > paddle2.x &&
-							ball.x - ball.radius < paddle2.x + paddle2.width &&
-							ball.y + ball.radius > paddle2.y &&
-							ball.y - ball.radius < paddle2.y + paddle2.height
-							) {
-								ball.color = "#23e301"; // Change to green color
-						}
+					// 		// Check for collisions with the paddle
+					// 	if (
+					// 		ball.x + ball.radius > paddle2.x &&
+					// 		ball.x - ball.radius < paddle2.x + paddle2.width &&
+					// 		ball.y + ball.radius > paddle2.y &&
+					// 		ball.y - ball.radius < paddle2.y + paddle2.height
+					// 		) {
+					// 			ball.color = "#23e301"; // Change to green color
+					// 	}
 									
-						// Draw the paddle
-						ctx.fillStyle = paddle1.color;
-						ctx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
+					// 	// Draw the paddle
+					// 	ctx.fillStyle = paddle1.color;
+					// 	ctx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
 						
-						ctx.fillStyle = paddle2.color;
-						ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
+					// 	ctx.fillStyle = paddle2.color;
+					// 	ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
 						
-						ctx.font = "42px Arial";
-						ctx.fillStyle = "#ffffff";
-						ctx.fillText(s1, 100, 50);
-						ctx.fillText(s2, 700, 50);
+					// 	ctx.font = "42px Arial";
+					// 	ctx.fillStyle = "#ffffff";
+					// 	ctx.fillText(s1, 100, 50);
+					// 	ctx.fillText(s2, 700, 50);
 
 						
 						
-						// Draw the ball
-						ctx.fillStyle = ball.color;
-						ctx.beginPath();
-						ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-						ctx.fill();
+					// 	// Draw the ball
+					// 	ctx.fillStyle = ball.color;
+					// 	ctx.beginPath();
+					// 	ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+					// 	ctx.fill();
 
 
-						// Request the next animation frame
-						requestAnimationFrame(update);
-					}
-					window.addEventListener('resize', setCanvasSize);
+					// 	// Request the next animation frame
+					// 	requestAnimationFrame(update);
+					// }
+					// window.addEventListener('resize', setCanvasSize);
 			
-					// Start the update loop
-					update();
+					// // Start the update loop
+					// update();
 					</script>
 				</div>
 			</div>

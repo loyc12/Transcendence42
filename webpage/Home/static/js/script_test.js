@@ -14,48 +14,33 @@ const gameState = {
 };
 
 
-// Function to simulate fetching batch data from an external JSON file
-// async function fakeFetchBatchData() {
-//     try {
-//         const response = await fetch('data.json'); // Adjust the path accordingly
-
-//         // if (!response.ok) {
-//         //     throw new Error(`HTTP error! Status: ${response.status}`);
-//         // }
-
-//         return await response.json();
-//     } catch (error) {
-//         console.error('Error fetching batch data:', error);
-//         // Handle the error as needed (e.g., display an error message, retry, etc.)
-//         return [];
-//     }
-// }
+// 
 
 // Update loop
-async function update() {
-    try {
-        // Fetch updated game state from the server (replace with your server URL)
-        // For testing purposes, use the fake function instead of fetch
-        const batchData = await fakeFetchBatchData();
+// async function update() {
+//     try {
+//         // Fetch updated game state from the server (replace with your server URL)
+//         // For testing purposes, use the fake function instead of fetch
+//         // const batchData = await fakeFetchBatchData();
 
-        // Process batch data
-        for (const updatedGameState of batchData) {
-            updateGameState(updatedGameState);
+//         // Process batch data
+//         // for (const updatedGameState of batchData) {
+//         //     updateGameState(updatedGameState);
 
-            // Update HTML based on the game state
-            updateHTML();
+//         //     // Update HTML based on the game state
+//         //     updateHTML();
 
-            // Delay for a short period to simulate time between updates
-            await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-    } catch (error) {
-        console.error('Error fetching batch data:', error);
-        // Handle the error as needed (e.g., display an error message, retry, etc.)
-    } finally {
-        // Request the next animation frame
-        requestAnimationFrame(update);
-    }
-}
+//         //     // Delay for a short period to simulate time between updates
+//         //     await new Promise(resolve => setTimeout(resolve, 1000));
+//         // }
+//     // } catch (error) {
+//     //     console.error('Error fetching batch data:', error);
+//         // Handle the error as needed (e.g., display an error message, retry, etc.)
+//     } finally {
+//         // Request the next animation frame
+//         requestAnimationFrame(update);
+//     }
+// }
 
 function updateGameState(updatedGameState) {
     // Update game state based on the received data
@@ -102,4 +87,4 @@ function updateHTML() {
 }
 
 // Start the update loop
-update();
+// update();
