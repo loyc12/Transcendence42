@@ -62,7 +62,7 @@ class User(AbstractBaseUser):
         get_nb_played = games_played.count()
         nb_wins = self.game_set.get(winner=self.id).count()
         nb_loses = get_nb_played - nb_wins#
-        print("get_nb_played : ", get_nb_played)
+        print("get_nb_played : ", get_nb_played)#
 
         self.nb_games_played =  get_nb_played
         self.nb_wins =          nb_wins
