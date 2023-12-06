@@ -1,6 +1,7 @@
 from .models import User
 from django.shortcuts import render
 from django.contrib.sessions.models import Session
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
 
@@ -21,16 +22,14 @@ def import_data(api_data, request):
             login           = target_id,
             display_name    = api_data.json()['displayname'],
             img_link        = api_data.json()['image']['link'],    
-            is_active       = 1,    
+            is_active       = 1,
+            nb_games_played = 0,
         )
     # Update session
     u.save()
-    request.session['user_id'] = u.login
-    request.session['user_login'] = u.login
-    request.session.save()
-    
     return u
 
+@login_required
 def get_profile(request):
 
     user = request.user
@@ -43,12 +42,18 @@ def get_profile(request):
     #     'is_ingame': user.is_ingame,
     #     'nb_games_played': user.nb_games_played
     # }
-    nb_games_played = user.nb_games_played
-    is_ingame = user.is_ingame
+    if user.is_authenticated:
+        nb_games_played = user.nb_games_played
+        #is_ingame = user.is_ingame
+    else:
+        nb_games_played = None  # or any default value you prefer
+        #is_ingame = None
+    # nb_games_played = user.nb_games_played
+    # is_ingame = user.is_ingame
 
     return render(request, 'users/profile.html', context={
         'user': request.user,
-        'nb_games_played': nb_games_played,
-        'is_ingame': is_ingame
+         'nb_games_played': nb_games_played,
+        #'is_ingame': is_ingame
         })
     #return JsonResponse(json.loads(payload))

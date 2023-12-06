@@ -6,12 +6,28 @@ import time
 
 from game.apps import GameConfig as app
 
+
+# class IDConsumer(AsyncWebsocketConsumer):
+#     async def connect(self):
+#         await self.accept()
+        
+#     async def disconnect(self, close_code):
+#         pass
+    
+#     async def receive(self, text_data):
+#         text_data_json = json.loads(text_data)
+#         message = text_data_json['message']
+        
+#         await self.send(text_data=json.dumps({
+#             'message': message
+#         }))
+        
+# # - - - - - - -  -
+
 class GameConsumerError(Exception):
     pass
 
 class GameConsumer(AsyncWebsocketConsumer):
-
-
 
     async def connect(self):
         self.sockID = self.scope['url_route']['kwargs']['sock_id']
