@@ -147,6 +147,8 @@ window.addEventListener('resize', setCanvasSize);
 
 // Start the update loop
 update();
+
+
     // const ctx = document.getElementById('canvasGame').getContext('2d');
 
     //     ctx.font = '48px Nunito';
