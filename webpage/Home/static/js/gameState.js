@@ -10,27 +10,39 @@ const initialWidth = canvas.width;
 const initialHeight = canvas.height;
 
 // both bottom
-const initParam = {
-    'gameType': 'Ping',
-    'sizeInfo': {'width': 2048, 'height': 1024, 'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 'sRacket': 160, 'sBall': 20},
-    'racketCount': 2,
-    'racketInitPos': [682, 1004, 'x', 1365, 1004, 'x'],
-    'ballInitPos': [1024, 682],
-    'teamCount': 2
-};
-
-// in front of each other
 // const initParam = {
-//      'gameType': 'Pong', 
-//      'sizeInfo': {'width': 2048, 'height': 1024, 
-//         'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-//         'sRacket': 160, 'sBall': 20}, 
-//     'racketCount': 2, 
-//     'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
-//     'ballInitPos': [512, 512], 
+//     'gameType': 'Ping',
+//     'sizeInfo': {'width': 2048, 'height': 1024, 'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 'sRacket': 160, 'sBall': 20},
+//     'racketCount': 2,
+//     'racketInitPos': [682, 1004, 'x', 1365, 1004, 'x'],
+//     'ballInitPos': [1024, 682],
 //     'teamCount': 2
 // };
 
+// in front of each other
+const initParam = {
+     'gameType': 'Pong', 
+     'sizeInfo': {'width': 2048, 'height': 1024, 
+        'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
+        'sRacket': 160, 'sBall': 20}, 
+    'racketCount': 2, 
+    'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
+    'ballInitPos': [512, 512], 
+    'teamCount': 2
+};
+
+// 4 players
+// const initParam = {
+//     'gameType': 'Pingest', 
+//     'sizeInfo': {
+//         'width': 1536, 'height': 1024, 
+//         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
+//         'sRacket': 160, 'sBall': 20}, 
+//     'racketCount': 4, 
+//     'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
+//     'ballInitPos': [1152, 768],
+//     'teamCount': 4
+// }
 
 // Afficher les valeurs dans la console
 console.log('Game Type:', initParam.gameType);
@@ -71,62 +83,57 @@ setCanvasSize();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// document.addEventListener("keydown", function (event) {
-//     //paddle1
-//     // Move paddle up (keyCode 38 or W key)
-//     if ((event.keyCode === 38) && paddle1.y > 0) {
-//         paddle1.y -= paddle1.speed;
-//     }
+document.addEventListener("keydown", function (event) {
+    //paddle1
+    // Move paddle up (keyCode 38 or W key)
+    if ((event.key === "ArrowUp") && paddle1.y > 0) {
+        console.log('ArrowUp');
+        paddle1.y -= paddle1.speed;
+    }
     
-//     // Move paddle down (keyCode 40 or S key)
-//     if ((event.keyCode === 40 ) && paddle1.y < canvas.height - paddle1.height) {
-//         paddle1.y += paddle1.speed;
-//     }
+    // Move paddle down (keyCode 40 or S key)
+    if ((event.key === "ArrowDown") && paddle1.y < canvas.height - paddle1.height) {
+        console.log('ArrowDown');
+        paddle1.y += paddle1.speed;
+    }
 
-//     // Move paddle left (keyCode 37 or A key)
-//     if ((event.keyCode === 37 ) && paddle1.x > 0) {
-//         paddle1.x -= paddle1.speed;
-//     }
+    // Move paddle left (keyCode 37 or A key)
+    if ((event.key === "ArrowLeft") && paddle1.x > 0) {
+        console.log('ArrowLeft');
+        paddle1.x -= paddle1.speed;
+    }
     
-//     // Move paddle right (keyCode 39 or D key)
-//     if ((event.keyCode === 39 ) && paddle1.x < canvas.width - paddle1.width) {
-//         paddle1.x += paddle1.speed;
-//     }
+    // Move paddle right (keyCode 39 or D key)
+    if ((event.key === "ArrowRight") && paddle1.x < canvas.width - paddle1.width) {
+        console.log('ArrowRight');
+        paddle1.x += paddle1.speed;
+    }
     
-//     // paddle2
-//     // Move paddle up (keyCode 38 or W key)
-//     if (( event.key === 'w') && paddle2.y > 0) {
-//         paddle2.y -= paddle2.speed;
-//     }
+    // paddle2
+    // Move paddle up (keyCode 38 or W key)
+    if (( event.key === 'w') && paddle2.y > 0) {
+        console.log('W');
+        paddle2.y -= paddle2.speed;
+    }
     
-//     // Move paddle down (keyCode 40 or S key)
-//     if (( event.key === 's') && paddle2.y < canvas.height - paddle2.height) {
-//         paddle2.y += paddle2.speed;
-//     }
+    // Move paddle down (keyCode 40 or S key)
+    if (( event.key === 's') && paddle2.y < canvas.height - paddle2.height) {
+        console.log('S');
+        paddle2.y += paddle2.speed;
+    }
     
-//     // Move paddle left (keyCode 37 or A key)
-//     if (( event.key === 'a') && paddle2.x > 0) {
-//         paddle2.x -= paddle2.speed;
-//     }
+    // Move paddle left (keyCode 37 or A key)
+    if (( event.key === 'a') && paddle2.x > 0) {
+        console.log('A');
+        paddle2.x -= paddle2.speed;
+    }
     
-//     // Move paddle right (keyCode 39 or D key)
-//     if (( event.key === 'd') && paddle2.x < canvas.width - paddle2.width) {
-//         paddle2.x += paddle2.speed;
-//     }
-// });
+    // Move paddle right (keyCode 39 or D key)
+    if (( event.key === 'd') && paddle2.x < canvas.width - paddle2.width) {
+        console.log('D');
+        paddle2.x += paddle2.speed;
+    }
+});
 
 // function update() {
 //     // Clear the canvas

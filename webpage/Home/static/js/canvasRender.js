@@ -1,4 +1,4 @@
-const playerColors = ['#ff6700', '#23e301', '#04d9ff', '#ff6700'];
+const playerColors = ['#ff10f0', '#23e301', '#04d9ff', '#ff6700'];
 
 const players = [
     { name: 'Player 1', rank: 1 },
