@@ -1,29 +1,29 @@
  
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+// const canvas = document.getElementById('canvas');
+// const ctx = canvas.getContext('2d');
 
-// Store the initial dimensions
-const initialWidth = canvas.width;
-const initialHeight = canvas.height;
+// // Store the initial dimensions
+// const initialWidth = canvas.width;
+// const initialHeight = canvas.height;
 
-function setCanvasSize() {
-    const parent = canvas.parentElement
+// function setCanvasSize() {
+//     const parent = canvas.parentElement
 
-    //Use initial dimensions if the parent is smaller
-    canvas.width = Math.min(initialWidth, parent.clientWidth);
-    canvas.height = Math.min(initialHeight, parent.clientHeight);
+//     //Use initial dimensions if the parent is smaller
+//     canvas.width = Math.min(initialWidth, parent.clientWidth);
+//     canvas.height = Math.min(initialHeight, parent.clientHeight);
     
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-setCanvasSize();
+//     ctx.fillStyle = '#000000';
+//     ctx.fillRect(0, 0, canvas.width, canvas.height);
+// }
+// setCanvasSize();
 
 
 // var s1 = 0;
 // var s2 = 0;
 
 var paddle1 = {
-    x: canvas.width - 50,
+    x: 50,
     y: canvas.height / 2 - 25,
     width: 10,
     height: 50,
@@ -32,7 +32,7 @@ var paddle1 = {
 };
 
 var paddle2 = {
-    x: 50,
+    x: canvas.width - 50,
     y: canvas.height / 2 - 25, // Center the paddle vertically
     width: 10,
     height: 50,
