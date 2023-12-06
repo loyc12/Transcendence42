@@ -103,8 +103,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True #Againts MIME sniffing
 # X-Frame-Options (Against Clickjacking)
 X_FRAME_OPTIONS = 'DENY' 
 # Secure session management
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True # Should be True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True # Should be True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
