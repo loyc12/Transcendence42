@@ -26,9 +26,9 @@ def home_view(request):
         path, _, _ = current_url.partition('?')
         if 'code=' in request.META.get('QUERY_STRING', ''):
             updated_url = path
-            # return redirect(updated_url)
-        request.session['user_id'] = user.id
-        request.session['user_login'] = user.login
-        request.session.save()
+            request.session['user_id'] = user.id
+            request.session['user_login'] = user.login
+            request.session.save()
+            return redirect(updated_url)
         return render(request, 'master.html')
     return render(request, 'master.html')
