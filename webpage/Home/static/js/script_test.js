@@ -3,15 +3,15 @@
 // const ctx = canvas.getContext("2d");
 
 // Get the game info container
-const gameInfoContainer = document.getElementById('game-info-container');
+// const gameInfoContainer = document.getElementById('game-info-container');
 
-// Game state object
-const gameState = {
-    gameID: 0,
-    racketPos: [],
-    ballPos: [],
-    score: []
-};
+// // Game state object
+// const gameState = {
+//     gameID: 0,
+//     racketPos: [],
+//     ballPos: [],
+//     score: []
+// };
 
 
 // 
@@ -42,49 +42,53 @@ const gameState = {
 //     }
 // }
 
-function updateGameState(updatedGameState) {
-    // Update game state based on the received data
-    gameState.gameID = updatedGameState.gameID;
-    gameState.racketPos = updatedGameState.racketPos;
-    gameState.ballPos = updatedGameState.ballPos;
-    gameState.score = updatedGameState.score;
-}
+// function updateGameState(updatedGameState) {
+//     // Update game state based on the received data
+//     gameState.gameID = updatedGameState.gameID;
+//     gameState.racketPos = updatedGameState.racketPos;
+//     gameState.ballPos = updatedGameState.ballPos;
+//     gameState.score = updatedGameState.score;
+// }
 
-function updateHTML() {
-    // Clear previous content
-    gameInfoContainer.innerHTML = '';
+//     // Display scores
+//     for (let i = 0; i < gameState.score.length; i++) {
+//         const scoreElement = document.createElement('div');
+//         scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
+//         gameInfoContainer.appendChild(scoreElement);
+//     }
+// }
 
     // Display game information
-    const gameInfoElement = document.createElement('div');
-    gameInfoElement.textContent = `Game ID: ${gameState.gameID}`;
-    gameInfoContainer.appendChild(gameInfoElement);
-    console.log(gameState.gameID);
+//     const gameInfoElement = document.createElement('div');
+//     gameInfoElement.textContent = `Game ID: ${gameState.gameID}`;
+//     gameInfoContainer.appendChild(gameInfoElement);
+//     console.log(gameState.gameID);
 
-    // Display racket positions
-    for (let i = 0; i < gameState.racketPos.length; i += 2) {
-        const racketElement = document.createElement('div');
-        racketElement.textContent = `Racket ${i / 2 + 1}: (${gameState.racketPos[i]}, ${gameState.racketPos[i + 1]})`;
-        gameInfoContainer.appendChild(racketElement);
-        console.log(gameState.racketPos[i]);
-    }
+//     // Display racket positions
+//     for (let i = 0; i < gameState.racketPos.length; i += 2) {
+//         const racketElement = document.createElement('div');
+//         racketElement.textContent = `Racket ${i / 2 + 1}: (${gameState.racketPos[i]}, ${gameState.racketPos[i + 1]})`;
+//         gameInfoContainer.appendChild(racketElement);
+//         console.log(gameState.racketPos[i]);
+//     }
 
-    // Display ball position
-    const ballElement = document.createElement('div');
-    ballElement.textContent = `Ball Position: (${gameState.ballPos[0]}, ${gameState.ballPos[1]})`;
-    gameInfoContainer.appendChild(ballElement);
+//     // Display ball position
+//     const ballElement = document.createElement('div');
+//     ballElement.textContent = `Ball Position: (${gameState.ballPos[0]}, ${gameState.ballPos[1]})`;
+//     gameInfoContainer.appendChild(ballElement);
 
-    // Display scores
-    for (let i = 0; i < gameState.score.length; i++) {
-        const scoreElement = document.createElement('div');
-        scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
-        gameInfoContainer.appendChild(scoreElement);
-    }
-    // Draw the ball
-    ctx.fillStyle = ball.color;
-    ctx.beginPath();
-    ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-    ctx.fill();
-}
+//     // Display scores
+//     for (let i = 0; i < gameState.score.length; i++) {
+//         const scoreElement = document.createElement('div');
+//         scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
+//         gameInfoContainer.appendChild(scoreElement);
+//     }
+//     // Draw the ball
+//     ctx.fillStyle = ball.color;
+//     ctx.beginPath();
+//     ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+//     ctx.fill();
+// }
 
 // Start the update loop
 // update();

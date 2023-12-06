@@ -1,8 +1,24 @@
+//COLLE
 function myFunction() {
     alert("Hello from a static file!");
 }
 
-
+function getCookie(name) {
+  console.log('document.cookie : ' + document.cookie)
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
 
 let _build_join_request_payload = function (gameMode, gameType, withAI=false, eventID=0) {
   return {
@@ -13,31 +29,48 @@ let _build_join_request_payload = function (gameMode, gameType, withAI=false, ev
   }
 }
 
-let _http_join_request = function (payload) {
+let _http_join_request = async function (payload) {
 
-  let gameID = null;
-
-  fetch('https://' + window.location.host + '/game/join/', {
+  console.log('request join game path : ' + 'https://' + window.location.host + '/game/join/')
+  //const csrftoken = getCookie('csrftoken')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  console.log('csrftoken : ' + csrftoken)
+  console.log('csrf from query selector : ' + document.querySelector('[name=csrfmiddlewaretoken]').value);
+  
+  return fetch('http://' + window.location.host + '/game/join/', {
       method: "POST",
       body: JSON.stringify(payload),
       credentials: 'same-origin',
       headers: {
-          "X-CSRFToken": getCookie("csrftoken")
+          "X-CSRFToken": csrftoken
       }
   })
-  .then (function(data) {
-      console.log('Returned data from game join request : ' + data)
-      if (data.has('gameID'))
-          gameID = data['gameID']
+  .then (function(response) {
+    return response.json()
   })
-  .catch(err => console.log(err));
-
-  return gameID;
+  .then (function(data) {
+    if (data.status === 'failure')
+      alert('Join game request failed because : \n\t - ' + data.reason)
+      //throw new reportError('Join game request failed because : ' + data.reason)
+    if (data.sockID) {
+      console.log('Returned data from game join request : ' + data);
+      console.log('response status : ', data.status);
+      console.log('response reason : ', data.reason);
+      console.log('response sockID : ', data.sockID);
+      console.log('response gameType : ', data.gameType);
+      console.log('response gameMode : ', data.gameMode);
+      console.log('response withAI : ', data.withAI);
+      console.log('response eventID : ', data.eventID);
+      //if (data.has('sockID'))
+      return data.sockID;
+    }
+  })
+  //.catch(err => console.log(err));
 }
 
-let request_join_game = function (gameType) {
+let request_join_game = async function (gameType) {
   
-  console.log('request_join_game temporarly deactivated. Come back again later.')
+  //console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
   if (gameType === 'Local_1p') {
     payload = _build_join_request_payload('Local_1p', 'Ping', true);
@@ -53,10 +86,10 @@ let request_join_game = function (gameType) {
     throw TypeError('Trying to request join game with unimplemented gameType: ' + gameType)
   }
 
-  const gameID = _http_join_request(payload)
+  const sockID = await _http_join_request(payload)
 
-  console.log('gameID at request_join_game() end : ' + gameID)
-  return gameID;
+  //console.log('sockID at request_join_game() end : ' + sockID)
+  return sockID;
 }
 
 let send_ready_signal = function () {

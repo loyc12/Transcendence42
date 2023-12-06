@@ -1,3 +1,4 @@
-# ./webpage/Home
-# ./webpage/game
+./webpage/Home
+./webpage/game
+./webpage/NetworkGateway
 Pipfile.lock

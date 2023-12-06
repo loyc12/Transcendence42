@@ -49,7 +49,8 @@ RED			= '\033[1;91m'
 DEFCOL		= '\033[0m'
 
 # DOCKER COMPOSE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-all:	_activate_db_mode $(DOTENV) $(GAME_SUBPATH)
+# all:	_activate_db_mode $(DOTENV) $(GAME_SUBPATH)
+all:	$(DOTENV) $(GAME_SUBPATH)
 	@if [ ! -d $(DATA) ]; then\
 		mkdir -p $(DATA);\
 	fi
@@ -92,6 +93,9 @@ migrations:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py makemigrations
 migrate:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py migrate
+flush:
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py flush 
+
 
 superuser:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
