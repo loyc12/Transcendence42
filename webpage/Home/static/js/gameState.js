@@ -149,19 +149,17 @@ console.log('Team:', initParam.teamCount);
 //     ctx.fillStyle = paddle2.color;
 //     ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
     
-//     ctx.font = "42px Arial";
-//     ctx.fillStyle = "#ffffff";
-//     ctx.fillText(s1, 100, 50);
-//     ctx.fillText(s2, 700, 50);
 
-    
-    
 //     // Draw the ball
 //     ctx.fillStyle = ball.color;
 //     ctx.beginPath();
 //     ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
 //     ctx.fill();
 
+//     ctx.font = "42px Arial";
+//     ctx.fillStyle = "#ffffff";
+//     ctx.fillText(s1, 100, 50);
+//     ctx.fillText(s2, 700, 50);
 
 //     // Request the next animation frame
 //     requestAnimationFrame(update);

@@ -8,12 +8,78 @@ class RenderModule {
         console.log('Rendering with Width:', this.initData.sizeInfo.width);
         console.log('Rendering with Height:', this.initData.sizeInfo.height);
         // ... Ajoutez d'autres actions de rendu au besoin
+        // this.ctx.fillStyle = 'black';
+        // this.ctx.fillRect(0, 0, this.initState.width/10, this.initState.height/10);
     }
 }
 
-// Utilisation du module de rendu
+console.log(initParam);
 const renderModule = new RenderModule(initParam);
+
+// Utilisation du module de rendu
+// const renderModule = new RenderModule(initParam);
 renderModule.render();
+
+// Assume you have the gameState available
+// let ballPosition = this.initData.ballInitPos;
+
+// function renderCanvas(initData) {
+//     clearCanvas(); // Assuming you have a function to clear the canvas before each render
+//     this.ctx.fillStyle = '#ffffff';
+//     this.ctx.fillRect(0, 0, initData.sizeInfo.width, initData.sizeInfo.height);
+
+//     // Render the ball
+//     renderBall(initData.ballPosition[0], initData.ballPosition[1]);
+
+//     // Render the rackets
+//     renderRackets(initData.racketInitPos);
+// }
+
+function renderCanvas(initData) {
+    const { width, height } = initData.sizeInfo;
+
+    // Set canvas dimensions
+    canvas.width = width;
+    canvas.height = height;
+
+    // Render black background
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, width, height);
+
+    // You can add additional rendering logic here
+    // For now, let's just log the canvas dimensions
+    console.log(`Canvas Dimensions: ${width} x ${height}`);
+}
+
+function renderBall(x, y) {
+    ctx.fillStyle = 'red'; // Ball color (customize as needed)
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, 2 * Math.PI); // Assuming ballRadius is defined
+    ctx.fill();
+}
+
+function renderRackets(racketPositions) {
+    for (let i = 0; i < racketPositions.length; i += 3) {
+        let racketX = racketPositions[i];
+        let racketY = racketPositions[i + 1];
+
+        // Check if the position of the racket is 'x'
+        if (racketX !== 'x') {
+            // Render the racket at the specified position
+            ctx.fillStyle = 'blue'; // Racket color (customize as needed)
+            ctx.fillRect(racketX, racketY, racketWidth, racketHeight); // Assuming racketWidth and racketHeight are defined
+        }
+    }
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
+}
+
+// Call renderCanvas whenever you need to update the canvas
+renderCanvas(initParam);
+
+
 
 
 
