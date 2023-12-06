@@ -15,21 +15,21 @@ const gameState = {
 
 
 // Function to simulate fetching batch data from an external JSON file
-async function fakeFetchBatchData() {
-    try {
-        const response = await fetch('data.json'); // Adjust the path accordingly
+// async function fakeFetchBatchData() {
+//     try {
+//         const response = await fetch('data.json'); // Adjust the path accordingly
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+//         // if (!response.ok) {
+//         //     throw new Error(`HTTP error! Status: ${response.status}`);
+//         // }
 
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching batch data:', error);
-        // Handle the error as needed (e.g., display an error message, retry, etc.)
-        return [];
-    }
-}
+//         return await response.json();
+//     } catch (error) {
+//         console.error('Error fetching batch data:', error);
+//         // Handle the error as needed (e.g., display an error message, retry, etc.)
+//         return [];
+//     }
+// }
 
 // Update loop
 async function update() {

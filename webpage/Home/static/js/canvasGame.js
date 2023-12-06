@@ -62,22 +62,22 @@
     document.addEventListener("keydown", function (event) {
         //paddle1
         // Move paddle up (keyCode 38 or W key)
-        if ((event === "ArrowDown") && paddle1.y > 0) {
+        if ((event === ArrowDown) && paddle1.y > 0) {
             paddle1.y -= paddle1.speed;
         }
         
         // Move paddle down (keyCode 40 or S key)
-        if ((event === "ArrowUp" ) && paddle1.y < canvas.height - paddle1.height) {
+        if ((event === ArrowUp ) && paddle1.y < canvas.height - paddle1.height) {
             paddle1.y += paddle1.speed;
         }
 
         // Move paddle left (keyCode 37 or A key)
-        if ((event === "ArrowLeft" ) && paddle1.x > 0) {
+        if ((event === ArrowLeft ) && paddle1.x > 0) {
             paddle1.x -= paddle1.speed;
         }
         
         // Move paddle right (keyCode 39 or D key)
-        if ((event === "ArrowRight" ) && paddle1.x < canvas.width - paddle1.width) {
+        if ((event === ArrowRight ) && paddle1.x < canvas.width - paddle1.width) {
             paddle1.x += paddle1.speed;
         }
         
