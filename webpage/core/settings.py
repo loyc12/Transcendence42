@@ -44,13 +44,7 @@ print("DJANGO_DEBUG : ", DJANGO_DEBUG)
 #: keep the secret key used in production secret!
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
-ALLOWED_HOSTS = ['localhost',
-                 '127.0.0.1',
-                 '10.12.2.10',
-                 '10.12.2.9',
-                 '10.12.2.8',
-                 '10.12.2.7',
-                 '10.12.2.6']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','10.12.2.10','10.12.2.9','10.12.2.8','10.12.2.7','10.12.2.6']
 
 
 # APPS - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
