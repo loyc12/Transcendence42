@@ -14,7 +14,7 @@ let _on_game_event = function(event) {
     if (data.ev === 'up') {
         console.log('UPDATE event received from websocket.');
         console.log(data)
-        //...
+        // TODO: Render updated game state
     }
     else if (data.ev === 'connection') {
         /// Triggered when either the current user gets connected to a game socket

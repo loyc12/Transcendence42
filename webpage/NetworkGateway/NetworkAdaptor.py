@@ -133,7 +133,7 @@ class GameConnector:
                 yield self.__events.get()
         #yield None
         
-    async def get_event(self):
+    async def getEvent(self):
         ev = None
         async with self.__events_lock:
             if not self.__events.empty():
@@ -181,6 +181,7 @@ class GameConnector:
             consumer = self.__player_consumers.pop(user.id)
         
 
+        await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
         if self.game:
             ## TODO: Disconnect player while in live game. 
             await self.push_event(user.id, 'end_game') # send disconnect event to Game instance in game manager. Same place as keypress events.
@@ -190,15 +191,12 @@ class GameConnector:
         #else:
         #    lgame, lply = self.match_maker.remove_player(user)
             #lply = self.lobby_game.remove_user(user)
-        await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
             #asyncio.async_to_sync(self.__channel_layer.group_discard)(self.__sockID, pcons.channel_name)
 
-    async def send_end_state(self, state):
-        if not state:
-            raise TypeError('No state was provided.')
+    async def __send_state_change(self, ev_type, ev_key, ev_value):
         payload = json.dumps({
-            'ev': 'end',
-            'end_state': state
+            'ev': ev_type,
+            ev_key: ev_value
         })
         await self.__channel_layer.group_send(self.__sockID,
                 {
@@ -206,6 +204,21 @@ class GameConnector:
                     'game_state': payload
                 }
             )
+
+    async def send_init_state(self, state):
+        if not state:
+            raise TypeError('No state was provided.')
+        self.__send_state_change('init_game', 'init_state', state)
+
+    async def send_end_state(self, state):
+        if not state:
+            raise TypeError('No state was provided.')
+        self.__send_state_change('end_game', 'end_state', state)
+        
+    async def send_score(self, scores):
+        if not scores:
+            raise TypeError('No scores was provided.')
+        self.__send_state_change('scores', 'scores', scores)
         
 
     async def start_countdown(self):

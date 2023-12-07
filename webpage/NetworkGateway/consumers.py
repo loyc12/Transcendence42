@@ -26,6 +26,8 @@ from game.apps import GameConfig as app
 
 class GameConsumerError(Exception):
     pass
+class GameConsumerWarning(Warning):
+    pass
 
 class GameConsumer(AsyncWebsocketConsumer):
 
@@ -37,6 +39,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         if 'user' in self.scope:
             print('scope DOES contain user. ')
             self.user = self.scope['user']
+            self.userID = self.user.id
             print(self.user)
             print('user id : ', self.user.id)
         else:
@@ -82,10 +85,21 @@ class GameConsumer(AsyncWebsocketConsumer):
         #...
         raise StopConsumer
 
+
+    @staticmethod
+    def __validate_receive_msg(event: dict):
+        return 'ev' in event
     async def receive(self, text_data):
         event = json.loads(text_data)
+        if not self.__validate_receive_msg(event):
+            raise GameConsumerWarning('Reveived message is malformed.')
         
-        await self.game_connector.push_event(event)
+        # Clean up input struct.
+        event_type = event['ev']
+        key = event['key'] if 'key' in event else None
+        
+        # await self.game_connector.push_event(event)
+        await self.game_connector.push_event(self.userID, event_type, key)
 
 
     async def game_new_connection_message(self, event):
