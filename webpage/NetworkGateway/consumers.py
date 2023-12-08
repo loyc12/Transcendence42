@@ -89,6 +89,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     @staticmethod
     def __validate_receive_msg(event: dict):
         return 'ev' in event
+
     async def receive(self, text_data):
         event = json.loads(text_data)
         if not self.__validate_receive_msg(event):

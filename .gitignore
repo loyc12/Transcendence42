@@ -2,6 +2,7 @@
 **/*.crt
 **/*.key
 **/__pycache__
+postgres/volume/data
 
 **/*.lock
 *.lock
