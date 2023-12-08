@@ -101,7 +101,9 @@ superuser:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
 
 db_volume_reset:
-	sudo rm -rf $(DATA)
+	@if [ ! $(rm -rf $(DATA)) ]; then\
+		sudo rm -rf $(DATA);\
+	fi
 	mkdir $(DATA)
 	docker volume prune -f
 	docker volume rm transcendence42_postgres_volume

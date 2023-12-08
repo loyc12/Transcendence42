@@ -45,7 +45,7 @@ import time
 from NetworkGateway.consumers import GameConsumer
 from game.models import Game
 from NetworkGateway.models import GameEvent
-from asgiref.sync import sync_to_async
+from asgiref.sync import sync_to_async, async_to_sync
 
 
 
@@ -139,6 +139,20 @@ class GameConnector:
             if not self.__events.empty():
                 ev = self.__events.get()
         return ev
+
+    async def getEvent(self):
+        ev = None
+        async with self.__events_lock:
+            if not self.__events.empty():
+                ev = self.__events.get()
+        return ev
+
+    # def getEvents(self):
+    #     ev = None
+    #     async with self.__events_lock:
+    #         if not self.__events.empty():
+    #             ev = self.__events.get()
+    #     return ev
 
     async def push_event(self, playerID, evType, key=None):
         event = GameEvent(playerID, evType, key)
