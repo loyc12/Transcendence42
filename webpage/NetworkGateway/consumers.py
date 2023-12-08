@@ -6,12 +6,30 @@ import time
 
 from game.apps import GameConfig as app
 
+
+# class IDConsumer(AsyncWebsocketConsumer):
+#     async def connect(self):
+#         await self.accept()
+        
+#     async def disconnect(self, close_code):
+#         pass
+    
+#     async def receive(self, text_data):
+#         text_data_json = json.loads(text_data)
+#         message = text_data_json['message']
+        
+#         await self.send(text_data=json.dumps({
+#             'message': message
+#         }))
+        
+# # - - - - - - -  -
+
 class GameConsumerError(Exception):
+    pass
+class GameConsumerWarning(Warning):
     pass
 
 class GameConsumer(AsyncWebsocketConsumer):
-
-
 
     async def connect(self):
         self.sockID = self.scope['url_route']['kwargs']['sock_id']
@@ -21,6 +39,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         if 'user' in self.scope:
             print('scope DOES contain user. ')
             self.user = self.scope['user']
+            self.userID = self.user.id
             print(self.user)
             print('user id : ', self.user.id)
         else:
@@ -52,6 +71,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, event):
         ### REWORK NEEDED
+        print('Websocket disconnecting !')
         if self.game_connector.lobby_game:
             self.game_connector.disconnect_player(self.user)
             #if self.game_connector.game:
@@ -63,10 +83,23 @@ class GameConsumer(AsyncWebsocketConsumer):
         #self.netGateway.remove_player(self.user)
         #self.lobby_game = None
         #...
+        raise StopConsumer
 
+
+    @staticmethod
+    def __validate_receive_msg(event: dict):
+        return 'ev' in event
     async def receive(self, text_data):
         event = json.loads(text_data)
-        await self.game_connector.push_event(event)
+        if not self.__validate_receive_msg(event):
+            raise GameConsumerWarning('Reveived message is malformed.')
+        
+        # Clean up input struct.
+        event_type = event['ev']
+        key = event['key'] if 'key' in event else None
+        
+        # await self.game_connector.push_event(event)
+        await self.game_connector.push_event(self.userID, event_type, key)
 
 
     async def game_new_connection_message(self, event):
@@ -80,6 +113,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     
     async def game_send_state(self, event):
         ''' specifically for sending game state updates '''
+        print('game_send_state was here !')
         await self.send(text_data=event['game_state'])
 
     async def game_send_event(self, event):

@@ -14,7 +14,7 @@ let _on_game_event = function(event) {
     if (data.ev === 'up') {
         console.log('UPDATE event received from websocket.');
         console.log(data)
-        //...
+        // TODO: Render updated game state
     }
     else if (data.ev === 'connection') {
         /// Triggered when either the current user gets connected to a game socket
@@ -22,7 +22,7 @@ let _on_game_event = function(event) {
         /// data.players
         console.log('PLAYERS event received from websocket.');
         console.log(data)
-        players = data.player_list;
+        let players = data.player_list;
         let i = 0
         for (p of players) {
             ++i;
@@ -44,6 +44,7 @@ let _on_server_side_disconnect = function(e) {
 let _connect_to_game_socket = function (gameWebSockPath) {
     let sock;
 
+    console.log('Connecting to websocket at : ', gameWebSockPath)
     try {
         sock = new WebSocket(gameWebSockPath);
     } catch (err) {
@@ -85,7 +86,6 @@ let loadMegaModule = function (gameType) {
 
     request_join_game(gameType)
     .then(function (sockID) {
-        //gameWebSockPath = _get_websocket_path(sockID);
         if (!sockID)
             throw new EvalError('Request Join Game FAILED !');
         gameSockID = sockID;
@@ -93,6 +93,12 @@ let loadMegaModule = function (gameType) {
         return _connect_to_game_socket(gameWebSockPath);
     })
     .then(function (gameWebSock) {
+        if (gameWebSock.CONNECTING)
+            console.log('websocket is connecting')
+        if (gameWebSock.OPEN)
+            console.log('websocket is open for comm')
+        if (gameWebSock.CLOSING)
+            console.log('websocket is closing')
         _prepare_websocket(gameWebSock);
     })
     .catch(e => {
