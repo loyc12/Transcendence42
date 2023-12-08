@@ -123,6 +123,20 @@
                     {% endblock %}
                 </div>
             </div>
+            <div class="row">
+                <div id="endGame" class="endGame">
+                    {% block endGame %}
+                    {% include 'AfterGame/aftergame.html' %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                <div id="championship" class="championship">
+                    {% block championship %}
+                    {% include 'Tournament/tournament.html' %}
+                    {% endblock %}
+                </div>
+            </div>
         </div>  
     </body>
     
