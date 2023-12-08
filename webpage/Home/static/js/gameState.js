@@ -3,6 +3,27 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+
+// keyboard keys
+let UP =     'up';
+let DOWN =   'dn';
+let LEFT =   'lf';
+let RIGHT =  'rt';
+let SPACE =  ' ';
+
+// keypad keys
+let KW = 'w';
+let KS = 's';
+let KA = 'a';
+let KD = 'd';
+let NZERO = '0';
+
+let START = 'start_game';
+let CLOSE = 'end_game';
+let KEYPRESS = 'key_press';
+let ESCAPE = None;
+let RETURN = None;
+
     //get init_data from gameState.js
 
 // Store the initial dimensions
@@ -86,100 +107,127 @@ setCanvasSize();
 document.addEventListener("keydown", function (event) {
     //paddle1
     // Move paddle up (keyCode 38 or W key)
-    if ((event.key === "ArrowUp") && paddle1.y > 0) {
+    if (event.key === "ArrowUp") {// && paddle1.y > 0) {
         console.log('ArrowUp');
-        paddle1.y -= paddle1.speed;
+        _send_player_keyevent(UP)
+        //paddle1.y -= paddle1.speed;
     }
     
     // Move paddle down (keyCode 40 or S key)
-    if ((event.key === "ArrowDown") && paddle1.y < canvas.height - paddle1.height) {
+    if (event.key === "ArrowDown") {// && paddle1.y < canvas.height - paddle1.height) {
         console.log('ArrowDown');
-        paddle1.y += paddle1.speed;
+        _send_player_keyevent(DOWN)
+        // console.log('ArrowDown');
+        // paddle1.y += paddle1.speed;
     }
 
     // Move paddle left (keyCode 37 or A key)
-    if ((event.key === "ArrowLeft") && paddle1.x > 0) {
+    if (event.key === "ArrowLeft") {// && paddle1.x > 0) {
         console.log('ArrowLeft');
-        paddle1.x -= paddle1.speed;
+        _send_player_keyevent(LEFT)
+        //paddle1.x -= paddle1.speed;
     }
     
     // Move paddle right (keyCode 39 or D key)
-    if ((event.key === "ArrowRight") && paddle1.x < canvas.width - paddle1.width) {
+    if (event.key === "ArrowRight") {// && paddle1.x < canvas.width - paddle1.width) {
         console.log('ArrowRight');
-        paddle1.x += paddle1.speed;
+        _send_player_keyevent(RIGHT)
+        // paddle1.x += paddle1.speed;
     }
     
     // paddle2
     // Move paddle up (keyCode 38 or W key)
-    if (( event.key === 'w') && paddle2.y > 0) {
+    if ( event.key === 'w') {// && paddle2.y > 0) {
         console.log('W');
-        paddle2.y -= paddle2.speed;
+        _send_player_keyevent(KW)
+        // paddle2.y -= paddle2.speed;
     }
     
     // Move paddle down (keyCode 40 or S key)
-    if (( event.key === 's') && paddle2.y < canvas.height - paddle2.height) {
+    if ( event.key === 's') {// && paddle2.y < canvas.height - paddle2.height) {
         console.log('S');
-        paddle2.y += paddle2.speed;
+        _send_player_keyevent(KS)
+        // paddle2.y += paddle2.speed;
     }
     
     // Move paddle left (keyCode 37 or A key)
-    if (( event.key === 'a') && paddle2.x > 0) {
+    if ( event.key === 'a') {// && paddle2.x > 0) {
         console.log('A');
-        paddle2.x -= paddle2.speed;
+        _send_player_keyevent(KA)
+        // paddle2.x -= paddle2.speed;
     }
     
     // Move paddle right (keyCode 39 or D key)
-    if (( event.key === 'd') && paddle2.x < canvas.width - paddle2.width) {
+    if ( event.key === 'd') {// && paddle2.x < canvas.width - paddle2.width) {
         console.log('D');
-        paddle2.x += paddle2.speed;
+        _send_player_keyevent(KD)
+        // paddle2.x += paddle2.speed;
     }
 });
 
-// function update() {
-//     // Clear the canvas
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     ctx.fillStyle = '#000000';
-//     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-//     // Check for collisions with the paddle
-//     if (
-//         ball.x + ball.radius > paddle1.x &&
-//         ball.x - ball.radius < paddle1.x + paddle1.width &&
-//         ball.y + ball.radius > paddle1.y &&
-//         ball.y - ball.radius < paddle1.y + paddle1.height
-//         ) {
-//             ball.color = "#ff6700"; // Change to green color
-//     } 
-        
-//         // Check for collisions with the paddle
-//     if (
-//         ball.x + ball.radius > paddle2.x &&
-//         ball.x - ball.radius < paddle2.x + paddle2.width &&
-//         ball.y + ball.radius > paddle2.y &&
-//         ball.y - ball.radius < paddle2.y + paddle2.height
-//         ) {
-//             ball.color = "#23e301"; // Change to green color
-//     }
-                
-//     // Draw the paddle
-//     ctx.fillStyle = paddle1.color;
-//     ctx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
-    
-//     ctx.fillStyle = paddle2.color;
-//     ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
-    
+// 
 
-//     // Draw the ball
-//     ctx.fillStyle = ball.color;
-//     ctx.beginPath();
-//     ctx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
-//     ctx.fill();
+// Afficher les valeurs dans la console
+console.log('Game Type:', initParam.gameType);
+console.log('Width:', initParam.sizeInfo.width);
+console.log('Height:', initParam.sizeInfo.height);
+console.log('Racket Size:', initParam.sizeInfo.sRacket);
+console.log('Racket:', initParam.racketCount);
+for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
+    let racketX = initParam.racketInitPos[i];
+    let racketY = initParam.racketInitPos[i + 1];
+    
+    // Vérifiez si la position de raquette est 'x'
+    if (racketX !== 'x' && racketX !== 'y') {
+        console.log(`Position de raquette ${i / 3 + 1}: x=${racketX}, y=${racketY}`);
+    } 
+    if (initParam.racketInitPos[i + 2] === 'x') {
+        console.log(`raquette ${i / 3 + 1} orientation Horizontal`);
+    }
+    if (initParam.racketInitPos[i + 2] === 'y') {
+        console.log(`raquette ${i / 3 + 1} orientation Vertical`);
+    }
+}
+console.log('Ball:', initParam.ballInitPos);
+console.log('Ball Size:', initParam.sizeInfo.sBall);
+console.log('Team:', initParam.teamCount);
 
-//     ctx.font = "42px Arial";
-//     ctx.fillStyle = "#ffffff";
-//     ctx.fillText(s1, 100, 50);
-//     ctx.fillText(s2, 700, 50);
+function setCanvasSize() {
+    const parent = canvas.parentElement
 
-//     // Request the next animation frame
-//     requestAnimationFrame(update);
-// }
+    //Use initial dimensions if the parent is smaller
+    canvas.width = Math.min(initialWidth, parent.clientWidth);
+    canvas.height = Math.min(initialHeight, parent.clientHeight);
+    
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+setCanvasSize();
+
+
+// start update system from any data first 
+// Sample update data
+const newData = {'gameID': 1, 'racketPos': [20, 512, 2028, 512], 'ballPos': [522, 522], 'lastPonger': 0, 'scores': [0, 0]};
+
+// Function to parse update data
+function parseUpdateData(update) {
+    const gameId = update.gameID;
+    const racketPositions = update.racketPos;
+    const ballPosition = update.ballPos;
+    const lastPonger = update.lastPonger;
+    const scores = update.scores;
+
+    // You can add more processing or rendering logic based on this parsed data
+    console.log('Update Game ID:', gameId);
+    console.log('Update Racket Positions:', racketPositions);
+    console.log('Update Ball Position:', ballPosition);
+    console.log('Update Last Ponger:', lastPonger);
+    console.log('Update Scores:', scores);
+
+    // Now you can use this parsed data to update your game state or render the changes
+    // For example, call a function to update the canvas with the new positions
+    updateCanvas(racketPositions, ballPosition);
+}
+
+// Example usage
+parseUpdateData(newData);

@@ -3,6 +3,37 @@ let gameID;
 let webSockPath;
 let webSock;
 
+
+// keyboard keys
+let UP =     'up';
+let DOWN =   'dn';
+let LEFT =   'lf';
+let RIGHT =  'rt';
+let SPACE =  ' ';
+
+// keypad keys
+let KW = 'w';
+let KS = 's';
+let KA = 'a';
+let KD = 'd';
+let NZERO = '0';
+
+let START = 'start_game';
+let CLOSE = 'end_game';
+let KEYPRESS = 'key_press';
+let ESCAPE = None;
+let RETURN = None;
+
+
+let _send_player_keyevent = function(key) {
+    payload = JSON.stringify({
+        'ev': KEYPRESS,
+        'key': key
+    })
+    webSock.send(payload)
+}
+
+
 let _get_websocket_path = function(gameID) {
     return 'ws://' + window.location.host + '/game/ws/' + gameID + '/';
 }
@@ -39,6 +70,7 @@ let _connect_to_game_socket = function (webSockPath) {
     }
     return sock;
 }
+
 
 let _prepare_websocket = function (webSock) {
     webSock.onmessage = _on_game_event;

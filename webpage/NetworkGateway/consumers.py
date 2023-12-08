@@ -47,6 +47,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         event = json.loads(text_data)
+        print('Received player event : ', event)
 
 
     async def game_new_connection_message(self, event):
