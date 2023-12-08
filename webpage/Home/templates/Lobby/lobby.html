@@ -4,68 +4,63 @@
 			<div class="col-lg-3 d-flex justify-content-center">
 				<!-- sidebar: users connecting to get ready to play -->
 				<table class="table-primary" style="color: #F0FFFF; background-color: #178CA8; border: 5px solid #F0FFFF; width: 80%; text-align: center; margin-top: 50px;">
-					<thead>
-						<tr>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="table-active">
-							<td colspan="2" class="table-active" style="font-size: 40px; margin: 30px; text-align: center;">Players</td>
-						</tr>
-						<tr>
-							<!-- add a column to put the fucking img in it so it will be fucking align-->
-							<td class="align-right">
-								<!-- <div class="profile" id="profile"> -->
+					<thead> <tr> <th scope="col"> </th> </tr> </thead>
+						<tbody>
+							<!-- Column system to align imgf info.-->
+							<tr class="table-active">
+								<td colspan="2" class="table-active" style="font-size: 40px; margin: 30px; text-align: center;">Players</td>
+							</tr>
+							<!-- Player Box EXAMPLE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+							<tr>
+								<td class="align-right">
+									<!-- <div class="profile" id="profile"> -->
 									<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;">
-								<!-- </div> -->
-							</th>
-							<ul class="info">
-								<td class="align-left" style="color: #f0ffff; font-size: 40px;">Player1 :[variable_login] </td>
-							</ul>								
-						</tr>
-						<!-- <tr>
-							<td class="align-right">
-								<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;">
-							</th>
-							<td class="align-right" style="color: #f0ffff; font-size: 40px;">player2</td>
-						</tr> -->
-						<!-- <tr>
-							<td class="align-right">
-								<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;">
-							</th>
-							<td class="align-right" style="color: #f0ffff; font-size: 40px;">player3</td>	
-						</tr> -->
-						<tr class="table-active">
+									<!-- </div> -->
+								</th><!-- </td> ? -->
+								<ul class="info">
+									<td class="align-left" style="color: #f0ffff; font-size: 40px;">Player1 :[variable_login] </td>
+								</ul>								
+							</tr>
+							<!-- BOUTON  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+							<!-- DEMO
+							<tr class="table-active">
 							<td colspan="2" class="table-active text-center">
-								<button type="button" onclick="on_click_update_players()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine">START!</button>
-							</td>
-						</tr>
-						<tr class="table-active">
-							<td colspan="2" class="table-active text-center">
-
-								<button class="btn btn-lg custom-spinner" id="custom-spinner" type="button" disabled>
+								if not_ready  <!-- If not ready, present this button :
+									<button type="button" class="btn align-items-center" style="background-color: #GREY; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine">READY!</button>
+								elif  <!-- If ready, present this clickable button :
+									<button type="button" onclick="on_click_update_players()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine">READY!</button>
+								else  <!-- When the game is loading, present this button :
+									<button class="btn btn-lg custom-spinner" id="custom-spinner" type="button" disabled>
 									   <span class="spinner-border spinner-border-sm" style="color: #F0FFFF;" aria-hidden="true"></span>
 									   <span role="status" style="color: #F0FFFF;">Loading...</span>
-									 </button>
+									</button>
+								endif 
 							</td>
-
-						</tr>
-					</tbody>
+							</tr> -->
+							<tr class="table-active">
+								<td colspan="2" class="table-active text-center">
+									<button type="button" onclick="on_click_update_players()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine">READY!</button>
+								</td>
+							</tr>
+							<!-- LOADING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+							<tr class="table-active">
+								<td colspan="2" class="table-active text-center">
+									<button class="btn btn-lg custom-spinner" id="custom-spinner" type="button" disabled>
+										<span class="spinner-border spinner-border-sm" style="color: #F0FFFF;" aria-hidden="true"></span>
+										<span role="status" style="color: #F0FFFF;">Loading...</span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
 				</table>
 			</div>
+			<!-- JEU  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 			<div class="col-lg-9 d-flex flex-column justify-content-center">
 				<div id="game-info-container">
-					<!-- <canvas id="canvas" class="flex-grow-1" style="background-color: #000000; margin-top: 50px; width: 100%; height: 100%; box-sizing: border-box;"></canvas> -->
-					<!-- <canvas id="canvas" width="1024" height="512" style="background-color: #000000;"></canvas> -->
 					<canvas id="gameCanvas" class="flex-grow-1" style="background-color: #000000;  width: 100%; height: 100%;"></canvas>
-					<!-- <script src="/webpage/Home/static/js/canvasRender.js" defer > -->
-
-					</script>
-					
 				</div>
 			</div>
+
 		</div>
 	</div>
-
 {% endblock %}
