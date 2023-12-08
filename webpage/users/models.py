@@ -49,8 +49,7 @@ class User(AbstractBaseUser):
     def is_ingame(self):
         return (self.current_game is not None)
     
-    @property
-    def nb_games_played(self):
+    def get_nb_games_played(self):
         try:
             games_played = self.player_set.get(user=self.id)
         except ObjectDoesNotExist:
@@ -59,8 +58,9 @@ class User(AbstractBaseUser):
         return games_played.count()
 
     def update_stats(self, save: bool=True):
-        games_played = self.player_set.get(user=self.id)
-        nb_games_played = games_played.count()
+        # games_played = self.player_set.get(user=self.id)
+        # nb_games_played = games_played.count()
+        nb_games_played = self.get_nb_games_played()
         nb_wins = self.game_set.get(winner=self.id).count()
         nb_loses = nb_games_played - nb_wins
         print("nb_games_played : ", nb_games_played)
