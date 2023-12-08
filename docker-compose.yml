@@ -21,6 +21,7 @@ services:
     volumes:
       - django_game_vol:/app/game
       - django_home_vol:/app/Home
+      - django_gateway_vol:/app/NetworkGateway
 
 
   postgres:
@@ -34,7 +35,7 @@ services:
 #    ports: DO_NOT_REMOVE -> Pour exposition public (potentiel)
 #      - 5432:5432
     volumes:
-      - postgres_volume:/var/lib/postgres/data
+      - postgres_volume:/var/lib/postgres
     networks:
       trans_net:
         ipv4_address: 192.130.0.2
@@ -68,16 +69,22 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ./postgres/volume/data
+      device: "${PWD}/postgres/volume"
   django_game_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ./webpage/game
+      device: "${PWD}/webpage/game"
   django_home_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: ./webpage/Home
+      device: "${PWD}/webpage/Home"
+  django_gateway_vol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: "${PWD}/webpage/NetworkGateway"
