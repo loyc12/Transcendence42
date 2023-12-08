@@ -45,7 +45,7 @@ let _on_game_event = function(event) {
     if (data.ev === 'up') {
         console.log('UPDATE event received from websocket.');
         console.log(data)
-        parseUpdateData(data)
+        parseUpdateData(data.state)
         // TODO: Render updated game state
     }
     else if (data.ev === 'connection') {
