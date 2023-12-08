@@ -58,7 +58,7 @@ const initParam = {
 //     'sizeInfo': {
 //         'width': 1536, 'height': 1024, 
 //         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
-//         'sRacket': 160, 'sBall': 20}, 
+//         'sRacket': 160, 'sBall': 20}, ddddddd
 //     'racketCount': 4, 
 //     'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
 //     'ballInitPos': [1152, 768],

@@ -44,7 +44,7 @@ print("DJANGO_DEBUG : ", DJANGO_DEBUG)
 #: keep the secret key used in production secret!
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # APPS - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
@@ -103,8 +103,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True #Againts MIME sniffing
 # X-Frame-Options (Against Clickjacking)
 X_FRAME_OPTIONS = 'DENY' 
 # Secure session management
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True # Should be True
+#CSRF_COOKIE_SECURE = True
+#SESSION_COOKIE_SECURE = True # Should be True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -232,7 +232,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [],
+            "hosts": [(REDIS_CACHE_URL)],
         },
     },
 }
