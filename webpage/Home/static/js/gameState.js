@@ -21,8 +21,8 @@ let NZERO = '0';
 let START = 'start_game';
 let CLOSE = 'end_game';
 let KEYPRESS = 'key_press';
-let ESCAPE = None;
-let RETURN = None;
+let ESCAPE = null;
+let RETURN = null;
 
     //get init_data from gameState.js
 
@@ -109,14 +109,14 @@ document.addEventListener("keydown", function (event) {
     // Move paddle up (keyCode 38 or W key)
     if (event.key === "ArrowUp") {// && paddle1.y > 0) {
         console.log('ArrowUp');
-        _send_player_keyevent(UP)
+        _send_player_keyevent(UP);
         //paddle1.y -= paddle1.speed;
     }
     
     // Move paddle down (keyCode 40 or S key)
     if (event.key === "ArrowDown") {// && paddle1.y < canvas.height - paddle1.height) {
         console.log('ArrowDown');
-        _send_player_keyevent(DOWN)
+        _send_player_keyevent(DOWN);
         // console.log('ArrowDown');
         // paddle1.y += paddle1.speed;
     }
@@ -131,7 +131,7 @@ document.addEventListener("keydown", function (event) {
     // Move paddle right (keyCode 39 or D key)
     if (event.key === "ArrowRight") {// && paddle1.x < canvas.width - paddle1.width) {
         console.log('ArrowRight');
-        _send_player_keyevent(RIGHT)
+        _send_player_keyevent(RIGHT);
         // paddle1.x += paddle1.speed;
     }
     
@@ -139,28 +139,28 @@ document.addEventListener("keydown", function (event) {
     // Move paddle up (keyCode 38 or W key)
     if ( event.key === 'w') {// && paddle2.y > 0) {
         console.log('W');
-        _send_player_keyevent(KW)
+        _send_player_keyevent(KW);
         // paddle2.y -= paddle2.speed;
     }
     
     // Move paddle down (keyCode 40 or S key)
     if ( event.key === 's') {// && paddle2.y < canvas.height - paddle2.height) {
         console.log('S');
-        _send_player_keyevent(KS)
+        _send_player_keyevent(KS);
         // paddle2.y += paddle2.speed;
     }
     
     // Move paddle left (keyCode 37 or A key)
     if ( event.key === 'a') {// && paddle2.x > 0) {
         console.log('A');
-        _send_player_keyevent(KA)
+        _send_player_keyevent(KA);
         // paddle2.x -= paddle2.speed;
     }
     
     // Move paddle right (keyCode 39 or D key)
     if ( event.key === 'd') {// && paddle2.x < canvas.width - paddle2.width) {
         console.log('D');
-        _send_player_keyevent(KD)
+        _send_player_keyevent(KD);
         // paddle2.x += paddle2.speed;
     }
 });
