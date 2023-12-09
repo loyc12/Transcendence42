@@ -140,25 +140,17 @@ class GameConnector:
                 ev = self.__events.get()
         return ev
 
-    async def getEvent(self):
-        ev = None
-        async with self.__events_lock:
-            if not self.__events.empty():
-                ev = self.__events.get()
-        return ev
+    async def getEvents(self):
 
-    # def getEvents(self):
-    #     ev = None
-    #     async with self.__events_lock:
-    #         if not self.__events.empty():
-    #             ev = self.__events.get()
-    #     return ev
+        async with self.__events_lock:
+            return [await self.__events.get() for _ in range(self.__events.qsize())]
 
     async def push_event(self, playerID, evType, key=None):
         event = GameEvent(playerID, evType, key)
         print("push_event: ", event)
         async with self.__events_lock:
-            self.__events.put(event)
+            await self.__events.put(event)
+            print('event queue length : ', self.__events.qsize())
 
     async def _send_players_list(self):
         async with self.__game_lock:
@@ -403,6 +395,7 @@ class GameGateway(BaseGateway):
         #async for lply in lgame.players:
         #    tasks.append(gm.addPlayerToGame(lply.user.id, lply.user.login, game.id))
         await asyncio.gather(*tasks)
+        await game_connector.send_init_state(gm.getInitInfo(gameType))
         await gm.startGame(lgame.sockID)
         #lgame.set_is_started()
         return lgame
