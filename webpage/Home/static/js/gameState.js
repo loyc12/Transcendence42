@@ -9,6 +9,9 @@ const ctx = canvas.getContext('2d');
 const initialWidth = canvas.width;
 const initialHeight = canvas.height;
 
+let currentWidth = canvas.width;
+let currentHeight = canvas.height;
+
 // both bottom
 // const initParam = {
 //     'gameType': 'Ping',
@@ -79,7 +82,7 @@ function setCanvasSize() {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-setCanvasSize();
+// setCanvasSize();
 
 
 
@@ -183,13 +186,31 @@ function setCanvasSize() {
 }
 setCanvasSize();
 
+let curentData;
+
+function parseInitData(init_data) {
+    curentData = init_data;
+
+
+//     const initParam = {
+//         'gameType': 'Pong', 
+//         'sizeInfo': {'width': 2048, 'height': 1024, 
+//            'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
+//            'sRacket': 160, 'sBall': 20}, 
+//        'racketCount': 2, 
+//        'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
+//        'ballInitPos': [512, 512], 
+//        'teamCount': 2
+//    };
+
+}
+
 
 // start update system from any data first 
-// Sample update data
-const newData = {'gameID': 1, 'racketPos': [20, 512, 2028, 512], 'ballPos': [522, 522], 'lastPonger': 0, 'scores': [0, 0]};
 
 // Function to parse update data
 function parseUpdateData(update) {
+    updateCanvas = update
     console.log('parseUpdateData : ' + update)
     const gameId = update.gameID;
     const racketPositions = update.racketPos;
@@ -210,4 +231,4 @@ function parseUpdateData(update) {
 }
 
 // Example usage
-parseUpdateData(newData);
+// parseUpdateData(newData);
