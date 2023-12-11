@@ -5,7 +5,7 @@ const ctx = canvas.getContext('2d');
 
 //get init_data from gameState.js
 
-// Store the initial dimensions
+// Store the initial dimensions0
 const initialWidth = canvas.width;
 const initialHeight = canvas.height;
 
@@ -67,8 +67,6 @@ function printCurrentParam (currentGameInfo) {
     console.log('Team:', currentGameInfo.teamCount);
 }
 
-// DEBUG
-// printCurrentParam()
 
 let setCanvasSize = function () {
     
@@ -82,70 +80,82 @@ let setCanvasSize = function () {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-// setCanvasSize();
 
+
+const prevent_keyset = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'];
+// Function called on player keypress events.
+// It sends the event through the websocket to be handled by by GameManager server side.
 let _player_event_handler = function (event) {
+
+    // Repeated keys are refused
     if (event.repeat) {
         return;
-      }
-    //paddle1
+    }
+    console.log('event keypress : ' + event.key )
+    if (prevent_keyset.indexOf(event.code) > -1) {
+        console.log('PREVENTING DEFAULT');
+        event.preventDefault();
+    }
+
     // Move paddle up (keyCode 38 or W key)
-    if (event.key === "ArrowUp") {// && paddle1.y > 0) {
-        console.log('ArrowUp');
-        _send_player_keyevent(UP);
-        //paddle1.y -= paddle1.speed;
+    if ( event.key === 'w') {
+        console.log('W');
+        _send_player_keyevent(KW);
     }
     
     // Move paddle down (keyCode 40 or S key)
-    if (event.key === "ArrowDown") {// && paddle1.y < canvas.height - paddle1.height) {
+    else if ( event.key === 's') {
+        console.log('S');
+        _send_player_keyevent(KS);
+    }
+    
+    // Move paddle left (keyCode 37 or A key)
+    else if ( event.key === 'a') {
+        console.log('A');
+        _send_player_keyevent(KA);
+    }
+    
+    // Move paddle right (keyCode 39 or D key)
+    else if ( event.key === 'd') {
+        console.log('D');
+        _send_player_keyevent(KD);
+    }
+    
+    else if (event.key === ' ') {
+        console.log('<SPACE> : event.code : ' + event.code + ', event.key : ' + event.key)
+        _send_player_keyevent(SPACE);
+    }
+
+    // Move paddle up (keyCode 38 or W key)
+    else if (event.key === "ArrowUp") {
+        console.log('ArrowUp');
+        _send_player_keyevent(UP);
+    }
+    
+    // Move paddle down (keyCode 40 or S key)
+    else if (event.key === "ArrowDown") {
         console.log('ArrowDown');
         _send_player_keyevent(DOWN);
-        // console.log('ArrowDown');
-        // paddle1.y += paddle1.speed;
     }
 
     // Move paddle left (keyCode 37 or A key)
-    if (event.key === "ArrowLeft") {// && paddle1.x > 0) {
+    else if (event.key === "ArrowLeft") {
         console.log('ArrowLeft');
         _send_player_keyevent(LEFT)
-        //paddle1.x -= paddle1.speed;
     }
     
     // Move paddle right (keyCode 39 or D key)
-    if (event.key === "ArrowRight") {// && paddle1.x < canvas.width - paddle1.width) {
+    else if (event.key === "ArrowRight") {
         console.log('ArrowRight');
         _send_player_keyevent(RIGHT);
-        // paddle1.x += paddle1.speed;
     }
+
+    else if (event.key === '0') {
+        console.log('Numpad 0')
+        _send_player_keyevent(NZERO);
+    }
+
     
-    // paddle2
-    // Move paddle up (keyCode 38 or W key)
-    if ( event.key === 'w') {// && paddle2.y > 0) {
-        console.log('W');
-        _send_player_keyevent(KW);
-        // paddle2.y -= paddle2.speed;
-    }
-    
-    // Move paddle down (keyCode 40 or S key)
-    if ( event.key === 's') {// && paddle2.y < canvas.height - paddle2.height) {
-        console.log('S');
-        _send_player_keyevent(KS);
-        // paddle2.y += paddle2.speed;
-    }
-    
-    // Move paddle left (keyCode 37 or A key)
-    if ( event.key === 'a') {// && paddle2.x > 0) {
-        console.log('A');
-        _send_player_keyevent(KA);
-        // paddle2.x -= paddle2.speed;
-    }
-    
-    // Move paddle right (keyCode 39 or D key)
-    if ( event.key === 'd') {// && paddle2.x < canvas.width - paddle2.width) {
-        console.log('D');
-        _send_player_keyevent(KD);
-        // paddle2.x += paddle2.speed;
-    }
 }
 
 let activatePlayerControler = function () {
@@ -156,9 +166,7 @@ let deactivatePlayerControler = function () {
     document.removeEventListener("keydown", _player_event_handler);
 }
 
-// let curentData;
-
-/// SETUP currentGameInfo GLOBAL VARIABLE
+/// SETUP currentGameInfo GLOBAL VARIABLE defined in defs.js
 function parseInitData (init_data) {
     //curentData = init_data;
     if (! 'update' in init_data)
@@ -170,70 +178,33 @@ function parseInitData (init_data) {
     canvas.height = height;
     
     /// Pre calculations used in rendering functions
+    currentGameInfo.racketSize = init_data.sizeInfo.sRacket;
+    currentGameInfo.ballSize = init_data.sizeInfo.sBall;
+
     currentGameInfo.offsets = [];
+    currentGameInfo.widths = [];
+    currentGameInfo.heights = [];
     for (ori of init_data.orientations) {
         if (ori === 'x') {
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
+            currentGameInfo.widths.push()
         } else if (ori === 'y') {
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
         }
     }
-    //currentGameInfo.ballOffset = -(currentGameInfo.sizeInfo.sBall * 0.5);    
-    // currentGameInfo.xRatio = currentWidth * init_data.sizeInfo.wRatio;
-    // currentGameInfo.yRatio = currentHeight * init_data.sizeInfo.hRatio;
-    currentGameInfo.racketSize = init_data.sizeInfo.sRacket;// * init_data.sizeInfo.wRatio;
-    currentGameInfo.ballSize = init_data.sizeInfo.sBall;// * init_data.sizeInfo.hRatio;
-
-
-//     const currentGameInfo = {
-//         'gameType': 'Pong', 
-//         'sizeInfo': {'width': 2048, 'height': 1024, 
-//            'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-//            'sRacket': 160, 'sBall': 20}, 
-//        'racketCount': 2, 
-//        'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
-//        'ballInitPos': [512, 512], 
-//        'teamCount': 2
-//    };
-
 }
 
 
-// start update system from any data first 
-// Sample update data
-// const newData = {'gameID': 1, 'racgketPos': [20, 512, 2028, 512], 'ballPos': [522, 522], 'lastPonger': 0, 'scores': [0, 0]};
-
-// Function to parse update data
+// Function to parse update data. 
 let parseUpdateData = function (update) {
     currentGameInfo.update = update;
-    // updateCanvas = update
-    console.log('parseUpdateData ');
-    // console.log('parseUpdateData : ' + update)
-    // const gameId = update.gameID;
-    // const racketPositions = update.racketPos;
-    // const ballPosition = update.ballPos;
-    // const lastPonger = update.lastPonger;
-    const scores = update.scores;
-    
-    // // You can add more processing or rendering logic based on this parsed data
-    // console.log('Update Game ID:', gameId);
-    // console.log('Update Racket Positions:', racketPositions);
-    // console.log('Update Ball Position:', ballPosition);
-    // console.log('Update Last Ponger:', lastPonger);
-    console.log('Update Scores:', scores);
-    
-    // Now you can use this parsed data to update your game state or render the changes
-    // For example, call a function to update the canvas with the new positions
-    //updateCanvas(racketPositions, ballPosition);
     updateCanvas(currentGameInfo);
 }
 
-// Example usage
-// parseUpdateData(newData);
-
+// function called by 
 let parsePlayersInfo = function(info) {
     console.log('Players info : ', info);
-    /// Deal with players info ...
+    /// TODO: Deal with players info ...
 }
