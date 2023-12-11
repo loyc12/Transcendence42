@@ -5,22 +5,22 @@ var gameWebSock = null;
 
 
 // keyboard keys
-let UP =     'up';
-let DOWN =   'dn';
-let LEFT =   'lf';
-let RIGHT =  'rt';
-let SPACE =  ' ';
+// let UP =     'up';
+// let DOWN =   'dn';
+// let LEFT =   'lf';
+// let RIGHT =  'rt';
+// let SPACE =  ' ';
 
-// keypad keys
-let KW = 'w';
-let KS = 's';
-let KA = 'a';
-let KD = 'd';
-let NZERO = '0';
+// // keypad keys
+// let KW = 'w';
+// let KS = 's';
+// let KA = 'a';
+// let KD = 'd';
+// let NZERO = '0';
 
-let START = 'start_game';
-let CLOSE = 'end_game';
-let KEYPRESS = 'key_press';
+// let START = 'start_game';
+// let CLOSE = 'end_game';
+// let KEYPRESS = 'key_press';
 // let ESCAPE = null;
 // let RETURN = null;
 
@@ -38,6 +38,9 @@ let _get_websocket_path = function(sockID) {
     return 'ws://' + window.location.host + '/game/ws/' + sockID + '/';
 }
 
+
+// THIS FUNCTION IS THE LANDING CALLBACK METHOD FOR 
+// WEBSOCKET MESSAGES TO THE CLIENT.
 let _on_game_event = function(event) {
     const data = JSON.parse(event.data);
     console.log('ev : ' + data.ev)
@@ -62,9 +65,10 @@ let _on_game_event = function(event) {
         }
         //...
     }
-    else if (data.ev === "initGameInfo") {
+    else if (data.ev === "init") {
         console.log('INIT GAME INFO event received from websocket.');
         console.log(data)
+        parseInitData(data.init)
     }
     //...
 }
@@ -115,6 +119,12 @@ let loadMegaModule = function (gameType) {
         alert("You can't connect to a game while already connected to another.")
         throw new EvalError("You can't connect to a game while already connected to another.");
     }
+    
+    setCurrentState(initPongParam);
+    loadModule('lobby');
+    // renderCanvas(currentGameInfo);
+    renderCanvas(initPongParam);
+    return ;
 
     request_join_game(gameType)
     .then(function (sockID) {
