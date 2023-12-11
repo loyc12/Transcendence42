@@ -24,6 +24,8 @@ function printCurrentParam (currentGameInfo) {
     console.log('Height:', currentGameInfo.sizeInfo.height);
     console.log('Racket Size:', currentGameInfo.sizeInfo.sRacket);
     console.log('Racket:', currentGameInfo.racketCount);
+     
+
     for (let i = 0; i < currentGameInfo.racketCount; i++) {
         let racketX = currentGameInfo.update.racketPos[2*i];
         let racketY = currentGameInfo.update.racketPos[2*i + 1];
@@ -183,25 +185,26 @@ function parseInitData (init_data) {
 // Function to parse update data
 let parseUpdateData = function (update) {
     currentGameInfo.update = update;
-    updateCanvas(currentGameInfo);
     // updateCanvas = update
+    console.log('parseUpdateData ');
     // console.log('parseUpdateData : ' + update)
     // const gameId = update.gameID;
     // const racketPositions = update.racketPos;
     // const ballPosition = update.ballPos;
     // const lastPonger = update.lastPonger;
-    // const scores = update.scores;
-
+    const scores = update.scores;
+    
     // // You can add more processing or rendering logic based on this parsed data
     // console.log('Update Game ID:', gameId);
     // console.log('Update Racket Positions:', racketPositions);
     // console.log('Update Ball Position:', ballPosition);
     // console.log('Update Last Ponger:', lastPonger);
-    // console.log('Update Scores:', scores);
-
+    console.log('Update Scores:', scores);
+    
     // Now you can use this parsed data to update your game state or render the changes
     // For example, call a function to update the canvas with the new positions
     //updateCanvas(racketPositions, ballPosition);
+    updateCanvas(currentGameInfo);
 }
 
 // Example usage
