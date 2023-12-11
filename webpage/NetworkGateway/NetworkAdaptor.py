@@ -125,7 +125,7 @@ class GameConnector:
         if not (game and isinstance(game, Game)):
             raise TypeError('Trying to set game instance to game connector, but object passed is not a Game model type.')
         self.__gameDB = game
-        
+
 
     async def events(self):
         async with self.__events_lock:
@@ -142,6 +142,7 @@ class GameConnector:
 
     async def push_event(self, playerID, evType, key=None):
         event = GameEvent(playerID, evType, key)
+        print("push_event: ", event)
         async with self.__events_lock:
             self.__events.put(event)
 

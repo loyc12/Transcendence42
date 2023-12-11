@@ -21,8 +21,8 @@ let NZERO = '0';
 let START = 'start_game';
 let CLOSE = 'end_game';
 let KEYPRESS = 'key_press';
-let ESCAPE = None;
-let RETURN = None;
+// let ESCAPE = null;
+// let RETURN = null;
 
 
 let _send_player_keyevent = function(key) {
@@ -30,7 +30,7 @@ let _send_player_keyevent = function(key) {
         'ev': KEYPRESS,
         'key': key
     })
-    webSock.send(payload)
+    gameWebSock.send(payload)
 }
 
 
@@ -45,6 +45,7 @@ let _on_game_event = function(event) {
     if (data.ev === 'up') {
         console.log('UPDATE event received from websocket.');
         console.log(data)
+        parseUpdateData(data.state)
         // TODO: Render updated game state
     }
     else if (data.ev === 'connection') {

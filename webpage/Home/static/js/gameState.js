@@ -3,32 +3,14 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-
-// keyboard keys
-let UP =     'up';
-let DOWN =   'dn';
-let LEFT =   'lf';
-let RIGHT =  'rt';
-let SPACE =  ' ';
-
-// keypad keys
-let KW = 'w';
-let KS = 's';
-let KA = 'a';
-let KD = 'd';
-let NZERO = '0';
-
-let START = 'start_game';
-let CLOSE = 'end_game';
-let KEYPRESS = 'key_press';
-let ESCAPE = null;
-let RETURN = null;
-
-    //get init_data from gameState.js
+//get init_data from gameState.js
 
 // Store the initial dimensions
 const initialWidth = canvas.width;
 const initialHeight = canvas.height;
+
+let currentWidth = canvas.width;
+let currentHeight = canvas.height;
 
 // both bottom
 // const initParam = {
@@ -100,7 +82,7 @@ function setCanvasSize() {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-setCanvasSize();
+// setCanvasSize();
 
 
 
@@ -204,6 +186,25 @@ function setCanvasSize() {
 }
 setCanvasSize();
 
+let curentData;
+
+function parseInitData(init_data) {
+    curentData = init_data;
+
+
+//     const initParam = {
+//         'gameType': 'Pong', 
+//         'sizeInfo': {'width': 2048, 'height': 1024, 
+//            'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
+//            'sRacket': 160, 'sBall': 20}, 
+//        'racketCount': 2, 
+//        'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
+//        'ballInitPos': [512, 512], 
+//        'teamCount': 2
+//    };
+
+}
+
 
 // start update system from any data first 
 // Sample update data
@@ -211,6 +212,8 @@ setCanvasSize();
 
 // Function to parse update data
 function parseUpdateData(update) {
+    updateCanvas = update
+    console.log('parseUpdateData : ' + update)
     const gameId = update.gameID;
     const racketPositions = update.racketPos;
     const ballPosition = update.ballPos;
@@ -226,7 +229,7 @@ function parseUpdateData(update) {
 
     // Now you can use this parsed data to update your game state or render the changes
     // For example, call a function to update the canvas with the new positions
-    updateCanvas(racketPositions, ballPosition);
+    //updateCanvas(racketPositions, ballPosition);
 }
 
 // Example usage
