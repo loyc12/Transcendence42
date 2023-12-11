@@ -75,7 +75,7 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 
 re: down all
 
-hard_re: down db_volume_reset all
+hard_re: down db_volume_reset update all
 
 
 #	Utility functions 
@@ -101,18 +101,24 @@ superuser:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py createsuperuser
 
 db_volume_reset:
-	sudo rm -rf $(DATA)
+	@if [ ! $(rm -rf $(DATA)) ]; then\
+		sudo rm -rf $(DATA);\
+	fi
 	mkdir $(DATA)
 	docker volume prune -f
 	docker volume rm transcendence42_postgres_volume
 #	mkdir -p $(DATA)
+
+update:
+	@git submodule update -f --init --remote
+#	@cd webpage/game/PingPongRebound && git pull -f origin master
 
 
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
 
 $(GAMEMANAGER):
-	git submodule update --init --recursive
+	@git submodule update --init --remote
 
 $(GAME_SUBPATH):	$(GAMEMANAGER)
 
@@ -152,9 +158,9 @@ $(CERT_CRT) $(CERT_KEY):	$(MKCERT_PATH)
 
 # MODE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 _activate_db_mode:		$(DOTENV)
-	@sed -i '' 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' $(DOTENV)
+#	# @sed -i "" 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' $(DOTENV)
 _deactivate_db_mode:	$(DOTENV)
-	@sed -i '' 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' $(DOTENV)
+#	@sed -i "" 's/DJG_WITH_DB=True/DJG_WITH_DB=\"\"/g' $(DOTENV)
 
 # _activate_db_mode:		$(DOTENV)
 # 	@sed -i 's/DJG_WITH_DB=\"\"/DJG_WITH_DB=True/g' .env
