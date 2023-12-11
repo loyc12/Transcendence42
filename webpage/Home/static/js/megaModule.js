@@ -70,6 +70,9 @@ let _on_game_event = function(event) {
         // console.log(data)
         parseInitData(data.init)
     }
+    else if (data.ev === "pinfo") {
+        parsePlayersInfo(data.info);
+    }
     //...
 }
 

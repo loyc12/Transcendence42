@@ -206,3 +206,8 @@ let parseUpdateData = function (update) {
 
 // Example usage
 // parseUpdateData(newData);
+
+let parsePlayersInfo = function(info) {
+    console.log('Players info : ', info);
+    /// Deal with players info ...
+}
