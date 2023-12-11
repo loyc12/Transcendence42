@@ -132,7 +132,7 @@ class GameConnector:
             while not self.__events.empty():
                 yield self.__events.get()
         #yield None
-        
+
     async def getEvent(self):
         ev = None
         async with self.__events_lock:
