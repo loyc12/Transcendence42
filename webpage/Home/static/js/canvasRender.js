@@ -22,7 +22,7 @@ let setCurrentState = function (initData) {//update) {
     //     'sizeInfo': {
     //         'width': 2048, 'height': 1024, 
     //         'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-    //         'rSize': 160, 'bSize': 20
+    //         'sRacket': 160, 'sBall': 20
     //         // 'sRacket': 160, 'sBall': 20
     //     },
     //     'racketCount': 2,

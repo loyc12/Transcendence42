@@ -22,7 +22,7 @@ function printCurrentParam (currentGameInfo) {
     console.log('Game Type:', currentGameInfo.gameType);
     console.log('Width:', currentGameInfo.sizeInfo.width);
     console.log('Height:', currentGameInfo.sizeInfo.height);
-    console.log('Racket Size:', currentGameInfo.sizeInfo.rSize);
+    console.log('Racket Size:', currentGameInfo.sizeInfo.sRacket);
     console.log('Racket:', currentGameInfo.racketCount);
     for (let i = 0; i < currentGameInfo.racketCount; i++) {
         let racketX = currentGameInfo.update.racketPos[2*i];
@@ -41,7 +41,7 @@ function printCurrentParam (currentGameInfo) {
         }
     }
     console.log('Ball:', currentGameInfo.ballPos);
-    console.log('Ball Size:', currentGameInfo.sizeInfo.bSize);
+    console.log('Ball Size:', currentGameInfo.sizeInfo.sBall);
     console.log('Team:', currentGameInfo.teamCount);
 }
 
@@ -146,18 +146,18 @@ function parseInitData (init_data) {
     currentGameInfo.offsets = [];
     for (ori of init_data.orientations) {
         if (ori === 'x') {
-            currentGameInfo.offsets.push(-(init_data.sizeInfo.rSize * 0.5));
-            currentGameInfo.offsets.push(-(init_data.sizeInfo.bSize * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
         } else if (ori == 'y') {
-            currentGameInfo.offsets.push(-(init_data.sizeInfo.bSize * 0.5));
-            currentGameInfo.offsets.push(-(init_data.sizeInfo.rSize * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
         }
     }
-    currentGameInfo.ballOffset = -(currentGameInfo.sizeInfo.bSize * 0.5);    
+    currentGameInfo.ballOffset = -(currentGameInfo.sizeInfo.sBall * 0.5);    
     // currentGameInfo.xRatio = currentWidth * init_data.sizeInfo.wRatio;
     // currentGameInfo.yRatio = currentHeight * init_data.sizeInfo.hRatio;
-    currentGameInfo.racketSize = init_data.sizeInfo.rSize;// * init_data.sizeInfo.wRatio;
-    currentGameInfo.ballSize = init_data.sizeInfo.bSize;// * init_data.sizeInfo.hRatio;
+    currentGameInfo.racketSize = init_data.sizeInfo.sRacket;// * init_data.sizeInfo.wRatio;
+    currentGameInfo.ballSize = init_data.sizeInfo.sBall;// * init_data.sizeInfo.hRatio;
 
 
 //     const currentGameInfo = {

@@ -34,7 +34,7 @@ const initPingParam = {
     'sizeInfo': {
         'width': 2048, 'height': 1024,
         'wRatio': 0.00048828125, 'hRatio': 0.0009765625,
-        'rSize': 160, 'bSize': 20
+        'sRacket': 160, 'sBall': 20
     },
     'racketCount': 2,
     'teamCount': 2,
@@ -55,7 +55,7 @@ const initPongParam = {
      'sizeInfo': {
         'width': 2048, 'height': 1024, 
         'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-        'rSize': 160, 'bSize': 20
+        'sRacket': 160, 'sBall': 20
     }, 
     'racketCount': 2, 
     'teamCount': 2,
@@ -76,7 +76,7 @@ const initPingestParam = {
     'sizeInfo': {
         'width': 1536, 'height': 1024, 
         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
-        'rSize': 160, 'bSize': 20},
+        'sRacket': 160, 'sBall': 20},
     'racketCount': 4, 
     'teamCount': 4,
     'orientations': ['x', 'x', 'x', 'x'],
