@@ -12,67 +12,42 @@ const initialHeight = canvas.height;
 let currentWidth = canvas.width;
 let currentHeight = canvas.height;
 
-// both bottom
-// const initParam = {
-//     'gameType': 'Ping',
-//     'sizeInfo': {'width': 2048, 'height': 1024, 'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 'sRacket': 160, 'sBall': 20},
-//     'racketCount': 2,
-//     'racketInitPos': [682, 1004, 'x', 1365, 1004, 'x'],
-//     'ballInitPos': [1024, 682],
-//     'teamCount': 2
-// };
+// This value holds the initState of the current game being played.
+// Defaults to gameType Pong.
+let currentGameInfo = initPongParam;
 
-// in front of each other
-const initParam = {
-     'gameType': 'Pong', 
-     'sizeInfo': {'width': 2048, 'height': 1024, 
-        'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-        'sRacket': 160, 'sBall': 20}, 
-    'racketCount': 2, 
-    'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
-    'ballInitPos': [512, 512], 
-    'teamCount': 2
-};
-
-// 4 players
-// const initParam = {
-//     'gameType': 'Pingest', 
-//     'sizeInfo': {
-//         'width': 1536, 'height': 1024, 
-//         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
-//         'sRacket': 160, 'sBall': 20}, ddddddd
-//     'racketCount': 4, 
-//     'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
-//     'ballInitPos': [1152, 768],
-//     'teamCount': 4
-// }
 
 // Afficher les valeurs dans la console
-console.log('Game Type:', initParam.gameType);
-console.log('Width:', initParam.sizeInfo.width);
-console.log('Height:', initParam.sizeInfo.height);
-console.log('Racket Size:', initParam.sizeInfo.sRacket);
-console.log('Racket:', initParam.racketCount);
-for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
-    let racketX = initParam.racketInitPos[i];
-    let racketY = initParam.racketInitPos[i + 1];
-    
-    // Vérifiez si la position de raquette est 'x'
-    if (racketX !== 'x' && racketX !== 'y') {
-        console.log(`Position de raquette ${i / 3 + 1}: x=${racketX}, y=${racketY}`);
-    } 
-    if (initParam.racketInitPos[i + 2] === 'x') {
-        console.log(`raquette ${i / 3 + 1} orientation Horizontal`);
+let printCurrentParam = function () {
+    console.log('Game Type:', initParam.gameType);
+    console.log('Width:', initParam.sizeInfo.width);
+    console.log('Height:', initParam.sizeInfo.height);
+    console.log('Racket Size:', initParam.sizeInfo.sRacket);
+    console.log('Racket:', initParam.racketCount);
+    for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
+        let racketX = initParam.racketInitPos[i];
+        let racketY = initParam.racketInitPos[i + 1];
+        
+        // Vérifiez si la position de raquette est 'x'
+        if (racketX !== 'x' && racketX !== 'y') {
+            console.log(`Position de raquette ${i / 3 + 1}: x=${racketX}, y=${racketY}`);
+        } 
+        if (initParam.racketInitPos[i + 2] === 'x') {
+            console.log(`raquette ${i / 3 + 1} orientation Horizontal`);
+        }
+        if (initParam.racketInitPos[i + 2] === 'y') {
+            console.log(`raquette ${i / 3 + 1} orientation Vertical`);
+        }
     }
-    if (initParam.racketInitPos[i + 2] === 'y') {
-        console.log(`raquette ${i / 3 + 1} orientation Vertical`);
-    }
+    console.log('Ball:', initParam.ballInitPos);
+    console.log('Ball Size:', initParam.sizeInfo.sBall);
+    console.log('Team:', initParam.teamCount);
 }
-console.log('Ball:', initParam.ballInitPos);
-console.log('Ball Size:', initParam.sizeInfo.sBall);
-console.log('Team:', initParam.teamCount);
 
-function setCanvasSize() {
+// DEBUG
+printCurrentParam()
+
+let setCanvasSize = function () {
     const parent = canvas.parentElement
 
     //Use initial dimensions if the parent is smaller
@@ -84,9 +59,7 @@ function setCanvasSize() {
 }
 // setCanvasSize();
 
-
-
-document.addEventListener("keydown", function (event) {
+let _player_event_handler = function (event) {
     //paddle1
     // Move paddle up (keyCode 38 or W key)
     if (event.key === "ArrowUp") {// && paddle1.y > 0) {
@@ -145,51 +118,41 @@ document.addEventListener("keydown", function (event) {
         _send_player_keyevent(KD);
         // paddle2.x += paddle2.speed;
     }
-});
-
-// 
-
-// Afficher les valeurs dans la console
-console.log('Game Type:', initParam.gameType);
-console.log('Width:', initParam.sizeInfo.width);
-console.log('Height:', initParam.sizeInfo.height);
-console.log('Racket Size:', initParam.sizeInfo.sRacket);
-console.log('Racket:', initParam.racketCount);
-for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
-    let racketX = initParam.racketInitPos[i];
-    let racketY = initParam.racketInitPos[i + 1];
-    
-    // Vérifiez si la position de raquette est 'x'
-    if (racketX !== 'x' && racketX !== 'y') {
-        console.log(`Position de raquette ${i / 3 + 1}: x=${racketX}, y=${racketY}`);
-    } 
-    if (initParam.racketInitPos[i + 2] === 'x') {
-        console.log(`raquette ${i / 3 + 1} orientation Horizontal`);
-    }
-    if (initParam.racketInitPos[i + 2] === 'y') {
-        console.log(`raquette ${i / 3 + 1} orientation Vertical`);
-    }
 }
-console.log('Ball:', initParam.ballInitPos);
-console.log('Ball Size:', initParam.sizeInfo.sBall);
-console.log('Team:', initParam.teamCount);
 
-function setCanvasSize() {
-    const parent = canvas.parentElement
-
-    //Use initial dimensions if the parent is smaller
-    canvas.width = Math.min(initialWidth, parent.clientWidth);
-    canvas.height = Math.min(initialHeight, parent.clientHeight);
-    
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+let activatePlayerControler = function () {
+    document.addEventListener("keydown", _player_event_handler);
 }
-setCanvasSize();
 
-let curentData;
+let deactivatePlayerControler = function () {
+    document.removeEventListener("keydown", _player_event_handler);
+}
 
-function parseInitData(init_data) {
-    curentData = init_data;
+// let curentData;
+
+/// SETUP currentGameInfo GLOBAL VARIABLE
+let parseInitData = function (init_data) {
+    //curentData = init_data;
+    if (! 'update' in init_data)
+        alert("ERROR: initData received is missing the 'update' struct.")
+    currentGameInfo = init_data;
+    
+    /// Pre calculations used in rendering functions
+    currentGameInfo.offsets = [];
+    for (ori of init_data.orientations) {
+        if (ori === 'x') {
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.bSize * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.rSize * 0.5));
+        } else if (ori == 'y') {
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.rSize * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.bSize * 0.5));
+        }
+    }
+    currentGameInfo.ballOffset = -(currentGameInfo.sizeInfo.bSize * 0.5);    
+    currentGameInfo.xRatio = currentWidth * init_data.sizeInfo.wRatio;
+    currentGameInfo.yRatio = currentHeight * init_data.sizeInfo.hRatio;
+    currentGameInfo.racketSize = init_data.sizeInfo.rSize * init_data.sizeInfo.wRatio;
+    currentGameInfo.ballSize = init_data.sizeInfo.bSize * init_data.sizeInfo.hRatio;
 
 
 //     const initParam = {
@@ -211,7 +174,7 @@ function parseInitData(init_data) {
 // const newData = {'gameID': 1, 'racgketPos': [20, 512, 2028, 512], 'ballPos': [522, 522], 'lastPonger': 0, 'scores': [0, 0]};
 
 // Function to parse update data
-function parseUpdateData(update) {
+let parseUpdateData = function (update) {
     updateCanvas = update
     console.log('parseUpdateData : ' + update)
     const gameId = update.gameID;
