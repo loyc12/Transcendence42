@@ -16,7 +16,7 @@ let setCurrentState = function (initData) {//update) {
     // const ballPosition = update.ballPos;
     // const lastPonger = update.lastPonger;
     // const scores = update.scores;
-
+    console.log('setCurrentState gameType:', initData.gameType);
     currentGameInfo = initData;
     // currentGameInfo = {
     //     'gameType': update.gameType,

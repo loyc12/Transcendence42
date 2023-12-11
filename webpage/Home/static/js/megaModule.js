@@ -120,6 +120,7 @@ let loadMegaModule = function (gameType) {
         throw new EvalError("You can't connect to a game while already connected to another.");
     }
     
+    console.log('From MegaModule gameType : ' + gameType)
     parseInitData(initPongParam);
     printCurrentParam(currentGameInfo);
     loadModule('lobby');
