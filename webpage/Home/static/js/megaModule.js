@@ -66,7 +66,7 @@ let _on_game_event = function(event) {
         //...
     }
     else if (data.ev === "init") {
-        console.log('INIT GAME INFO event received from websocket.');
+        console.log('MWMWM INIT GAME INFO event received from websocket.');
         console.log(data)
         parseInitData(data.init)
     }

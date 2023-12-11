@@ -49,6 +49,8 @@ function printCurrentParam (currentGameInfo) {
 // printCurrentParam()
 
 let setCanvasSize = function () {
+    
+    console.log('setCanvasSize begin_ ' );
     const parent = canvas.parentElement
 
     //Use initial dimensions if the parent is smaller
@@ -176,6 +178,7 @@ function parseInitData (init_data) {
 
 // Function to parse update data
 let parseUpdateData = function (update) {
+    console.log('parseUpdateData begin_ ' );
     updateCanvas = update
     console.log('parseUpdateData : ' + update)
     const gameId = update.gameID;
