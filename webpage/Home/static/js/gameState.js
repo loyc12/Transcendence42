@@ -65,6 +65,9 @@ let setCanvasSize = function () {
 // setCanvasSize();
 
 let _player_event_handler = function (event) {
+    if (event.repeat) {
+        return;
+      }
     //paddle1
     // Move paddle up (keyCode 38 or W key)
     if (event.key === "ArrowUp") {// && paddle1.y > 0) {
