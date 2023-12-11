@@ -18,6 +18,12 @@ let KEYPRESS = 'key_press';
 let ESCAPE = null;
 let RETURN = null;
 
+// Global vars declarations
+let currentWidth;// = canvas.width;
+let currentHeight;// = canvas.height;
+
+let currentGameInfo;
+
 
 // both bottom
 const initPingParam = {
@@ -77,3 +83,5 @@ const initPingestParam = {
     // 'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
     // 'ballInitPos': [1152, 768],
 }
+
+currentGameInfo = initPongParam;

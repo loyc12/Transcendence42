@@ -72,7 +72,9 @@ let select_hero_content = function (key) {
         current_content = key;
         console.log('current content page : ' + current_content)
         
-        disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
+        try {
+            disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
+        } catch {}
     }
     else
         console.log('heroContentElem NOT FOUND ...')

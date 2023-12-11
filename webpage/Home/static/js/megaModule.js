@@ -96,7 +96,7 @@ let _prepare_websocket = function (ws) {
     //... Might be more initialisation latter ...
 }
 
-let disconnect_socket = function () {
+function disconnect_socket() {
 
     console.log('Entered disconnect_socket')
     if (gameWebSock != null) {
@@ -120,7 +120,8 @@ let loadMegaModule = function (gameType) {
         throw new EvalError("You can't connect to a game while already connected to another.");
     }
     
-    setCurrentState(initPongParam);
+    parseInitData(initPongParam);
+    printCurrentParam(currentGameInfo);
     loadModule('lobby');
     // renderCanvas(currentGameInfo);
     renderCanvas(initPongParam);
