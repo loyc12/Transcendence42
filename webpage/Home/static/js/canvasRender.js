@@ -113,6 +113,8 @@ let renderCanvas = function (gameInfo) {
 
 let renderBall = function (ctx, gameInfo, ballPos) {
 
+    console.log('gameInfo in renderBall : ' + gameInfo)
+
     let x = (ballPos[0] + gameInfo.ballOffset) * gameInfo.xRatio;
     let y = (ballPos[1] + gameInfo.ballOffset) * gameInfo.yRatio;
 
@@ -125,17 +127,15 @@ let renderBall = function (ctx, gameInfo, ballPos) {
 
 let renderRackets = function(ctx, gameInfo, racketPositions) {
     // let tot = 0;
+    console.log('gameInfo in renderRackets : ' + gameInfo)
     let orientations = gameInfo.orientations;
     let racketCount = gameInfo.racketCount;
     let x, y;
 
     for (let i = 0; i < racketCount; i++) {
-        // tot += 1;
-        x = (racketPositions[i] + gameInfo.offsets[i]) * gameInfo.xRatio;
-        y = (racketPositions[i + 1] + gameInfo.offsets[i + 1]) * gameInfo.yRatio;
-        // console.log(racketX);
-        // console.log(racketY);
-        // console.log("player :", tot);
+        x = (racketPositions[2*i] + gameInfo.offsets[2*i]) * gameInfo.xRatio;
+        y = (racketPositions[2*i + 1] + gameInfo.offsets[2*i + 1]) * gameInfo.yRatio;
+        
         // Set the color of the racket based on the player's rank
         ctx.fillStyle = getPlayerColor(i);
         // Check if the position of the racket is 'x'
