@@ -17,6 +17,7 @@ let setCurrentState = function (initData) {//update) {
     // const lastPonger = update.lastPonger;
     // const scores = update.scores;
 
+    console.log('setCurrentState thgameType:', initData.gameType);
     currentGameInfo = initData;
     // currentGameInfo = {
     //     'gameType': update.gameType,
@@ -91,7 +92,9 @@ let renderCanvas = function (gameInfo) {
     const { width, height } = gameInfo.sizeInfo;
     // const { bx, by } = gameInfo.ballInitPos;
 
-    console.log('gameInfo in renderCanvas : ' + gameInfo)
+    console.log('gameInfo in renderCanvas gameType: ' + gameInfo.gameType);
+    console.log('gameInfo in renderCanvas width: ' + gameInfo.sizeInfo.width);
+    console.log('gameInfo in renderCanvas height: ' + gameInfo.sizeInfo.height);
     // Set canvas dimensions
     canvas.width = width;
     canvas.height = height;
@@ -126,6 +129,7 @@ let renderBall = function (ctx, gameInfo, ballPos) {
 }
 
 let renderRackets = function(ctx, gameInfo, racketPositions) {
+    
     // let tot = 0;
     console.log('gameInfo in renderRackets : ' + gameInfo)
     let orientations = gameInfo.orientations;
@@ -140,10 +144,12 @@ let renderRackets = function(ctx, gameInfo, racketPositions) {
         ctx.fillStyle = getPlayerColor(i);
         // Check if the position of the racket is 'x'
         if (orientations[i] === 'x') {
+            console.log('x');
             ctx.fillRect(x, y, gameInfo.racketSize, gameInfo.ballSize); // Assuming racketWidth and racketHeight are defined
         }
         // else if (initParam.racketInitPos[i + 2] === 'y'){
         else if (orientations[i] === 'y') {
+            console.log('y');
             ctx.fillRect(x, y,  gameInfo.ballSize, gameInfo.racketSize); // Assuming racketWidth and racketHeight are defined
         }
         else {
@@ -152,6 +158,28 @@ let renderRackets = function(ctx, gameInfo, racketPositions) {
             ctx.fillRect(x, y, gameInfo.ballSize, gameInfo.ballSize); // Assuming racketWidth and racketHeight are defined
         }
     }
+    /// 
+
+}
+
+let clearCanvas = function () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
+}
+
+
+let updateCanvas = function (newData) {
+
+    // Update the canvas based on the new data
+    console.log('Updating canvas with new data:', newData);
+    // Clear the canvas
+    clearCanvas();
+    // Render the canvas with the new data
+    renderCanvas(newData);
+}
+
+
+
+/// viens de render_racket
     // let tot = 0;
     // for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
     //     tot += 1;
@@ -175,22 +203,6 @@ let renderRackets = function(ctx, gameInfo, racketPositions) {
     //         ctx.fillRect(racketX, racketY, initParam.sizeInfo.sBall, initParam.sizeInfo.sBall); // Assuming racketWidth and racketHeight are defined
     //     }
     // }
-}
-
-let clearCanvas = function () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
-}
-
-
-let updateCanvas = function (newData) {
-
-    // Update the canvas based on the new data
-    console.log('Updating canvas with new data:', newData);
-    // Clear the canvas
-    clearCanvas();
-    // Render the canvas with the new data
-    renderCanvas(newData);
-}
 
 
 // class UpdateGame {

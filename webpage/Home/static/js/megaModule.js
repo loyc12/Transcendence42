@@ -123,6 +123,7 @@ let loadMegaModule = function (gameType) {
     setCurrentState(initPongParam);
     loadModule('lobby');
     // renderCanvas(currentGameInfo);
+    console.log("GoTo renderCanvas with initPongParam");
     renderCanvas(initPongParam);
     return ;
 
