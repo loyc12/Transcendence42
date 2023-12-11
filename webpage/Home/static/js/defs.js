@@ -90,4 +90,12 @@ const initPingestParam = {
     // 'ballInitPos': [1152, 768],
 }
 
+const allInitGameStates = new Map();
+allInitGameStates.set('Local_1p', initPongParam);
+allInitGameStates.set('Local_2p', initPongParam);
+allInitGameStates.set('Tournament', initPongParam);
+allInitGameStates.set('Multiplayer', initPingParam);
+allInitGameStates.set('Online_4p', initPingestParam);
+// {'Pong': initPongParam, 'Ping': initPingParam, 'Pingest': initPingestParam};
+
 currentGameInfo = initPongParam;
