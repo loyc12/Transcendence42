@@ -6,6 +6,26 @@ body {
     font-size: 20px;
 }
 
+body.skip-nav {
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    height:0;
+    width:0;
+    overflow:hidden;
+  }
+  
+body.skip-nav:focus {
+    overflow:visible;
+    background:black;
+    padding:5px;
+    color:white;
+    display:block;
+    position: static;
+    width:100%;
+    height:30px;
+  }
+
 /* -- NAVBAR CSS -- */
 #NavBar {
     background-color: #145faf;
