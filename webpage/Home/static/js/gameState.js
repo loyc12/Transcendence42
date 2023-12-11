@@ -9,43 +9,44 @@ const ctx = canvas.getContext('2d');
 const initialWidth = canvas.width;
 const initialHeight = canvas.height;
 
-let currentWidth = canvas.width;
-let currentHeight = canvas.height;
+currentWidth = canvas.width;
+currentHeight = canvas.height;
 
 // This value holds the initState of the current game being played.
 // Defaults to gameType Pong.
-let currentGameInfo = initPongParam;
+// let currentGameInfo = initPongParam;
 
 
 // Afficher les valeurs dans la console
-let printCurrentParam = function () {
-    console.log('Game Type:', initParam.gameType);
-    console.log('Width:', initParam.sizeInfo.width);
-    console.log('Height:', initParam.sizeInfo.height);
-    console.log('Racket Size:', initParam.sizeInfo.sRacket);
-    console.log('Racket:', initParam.racketCount);
-    for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
-        let racketX = initParam.racketInitPos[i];
-        let racketY = initParam.racketInitPos[i + 1];
+function printCurrentParam (currentGameInfo) {
+    console.log('Game Type:', currentGameInfo.gameType);
+    console.log('Width:', currentGameInfo.sizeInfo.width);
+    console.log('Height:', currentGameInfo.sizeInfo.height);
+    console.log('Racket Size:', currentGameInfo.sizeInfo.rSize);
+    console.log('Racket:', currentGameInfo.racketCount);
+    for (let i = 0; i < currentGameInfo.racketCount; i++) {
+        let racketX = currentGameInfo.update.racketPos[2*i];
+        let racketY = currentGameInfo.update.racketPos[2*i + 1];
+        let ori = currentGameInfo.orientations[i];
         
         // Vérifiez si la position de raquette est 'x'
         if (racketX !== 'x' && racketX !== 'y') {
-            console.log(`Position de raquette ${i / 3 + 1}: x=${racketX}, y=${racketY}`);
+            console.log(`Position de raquette ${i + 1}: x=${racketX}, y=${racketY}`);
         } 
-        if (initParam.racketInitPos[i + 2] === 'x') {
-            console.log(`raquette ${i / 3 + 1} orientation Horizontal`);
+        if (ori === 'x') {
+            console.log(`raquette ${i + 1} orientation Horizontal`);
         }
-        if (initParam.racketInitPos[i + 2] === 'y') {
-            console.log(`raquette ${i / 3 + 1} orientation Vertical`);
+        else if (ori === 'y') {
+            console.log(`raquette ${i + 1} orientation Vertical`);
         }
     }
-    console.log('Ball:', initParam.ballInitPos);
-    console.log('Ball Size:', initParam.sizeInfo.sBall);
-    console.log('Team:', initParam.teamCount);
+    console.log('Ball:', currentGameInfo.ballPos);
+    console.log('Ball Size:', currentGameInfo.sizeInfo.bSize);
+    console.log('Team:', currentGameInfo.teamCount);
 }
 
 // DEBUG
-printCurrentParam()
+// printCurrentParam()
 
 let setCanvasSize = function () {
     const parent = canvas.parentElement
@@ -131,7 +132,7 @@ let deactivatePlayerControler = function () {
 // let curentData;
 
 /// SETUP currentGameInfo GLOBAL VARIABLE
-let parseInitData = function (init_data) {
+function parseInitData (init_data) {
     //curentData = init_data;
     if (! 'update' in init_data)
         alert("ERROR: initData received is missing the 'update' struct.")
@@ -155,7 +156,7 @@ let parseInitData = function (init_data) {
     currentGameInfo.ballSize = init_data.sizeInfo.bSize * init_data.sizeInfo.hRatio;
 
 
-//     const initParam = {
+//     const currentGameInfo = {
 //         'gameType': 'Pong', 
 //         'sizeInfo': {'width': 2048, 'height': 1024, 
 //            'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
