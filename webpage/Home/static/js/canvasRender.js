@@ -83,7 +83,7 @@ let renderBall = function (ctx, gameInfo, update) {
 
 let renderRackets = function(ctx, gameInfo, update) {
     // let tot = 0;
-    // console.log('gameInfo in renderRackets : ' + gameInfo)
+    console.log('gameInfo in renderRackets : ' + gameInfo.gameType)
     let orientations = gameInfo.orientations;
     let racketCount = gameInfo.racketCount;
     let x, y, w, h;
@@ -97,6 +97,8 @@ let renderRackets = function(ctx, gameInfo, update) {
         // console.log('racket ' + i + ': (' + x + ', ' + y + ')')
         // Set the color of the racket based on the player's rank
         color = getPlayerColor(i);
+        if (gameInfo.gameType === 'Pong' && i > 2) {
+            color = '#ffffff';   }
         shadow = getPlayerShadowColor(i);
         
         // ctx[0].fillStyle = "white";
