@@ -69,15 +69,15 @@ let renderCanvas = function (ctx, gameInfo) {
 let renderBall = function (ctx, gameInfo, update) {
     // console.log('gameInfo in renderBall : ' + gameInfo)
 
-    const x = update.ballPos[0] + gameInfo.ballOffset;//(ballPos[0] + gameInfo.ballOffset) * gameInfo.xRatio;
-    const y = update.ballPos[1] + gameInfo.ballOffset;// * gameInfo.yRatio;
+    const x = update.ballPos[0];// + gameInfo.ballOffset;//(ballPos[0] + gameInfo.ballOffset) * gameInfo.xRatio;
+    const y = update.ballPos[1];// + gameInfo.ballOffset;// * gameInfo.yRatio;
     const shadow = getPlayerShadowColor(update.lastPonger);
     ctx.fillStyle = 'red'; // Ball color (customize as needed)
     ctx.beginPath();
     //ctx.arc(initParam.ballInitPos[0], initParam.ballInitPos[1], initParam.sizeInfo.sBall, 0, 2 * Math.PI); // Assuming ballRadius is defined
     ctx.shadowBlur = 40;
     ctx.shadowColor = shadow;
-    ctx.arc(x, y, gameInfo.ballSize, 0, 2 * Math.PI); // Assuming ballRadius is defined
+    ctx.arc(x, y, gameInfo.ballSize * 0.5, 0, 2 * Math.PI); // Assuming ballRadius is defined
     ctx.fill();
 }
 

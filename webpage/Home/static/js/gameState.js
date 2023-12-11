@@ -150,12 +150,12 @@ function parseInitData (init_data) {
         if (ori === 'x') {
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
-        } else if (ori == 'y') {
+        } else if (ori === 'y') {
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
         }
     }
-    currentGameInfo.ballOffset = -(currentGameInfo.sizeInfo.sBall * 0.5);    
+    //currentGameInfo.ballOffset = -(currentGameInfo.sizeInfo.sBall * 0.5);    
     // currentGameInfo.xRatio = currentWidth * init_data.sizeInfo.wRatio;
     // currentGameInfo.yRatio = currentHeight * init_data.sizeInfo.hRatio;
     currentGameInfo.racketSize = init_data.sizeInfo.sRacket;// * init_data.sizeInfo.wRatio;
