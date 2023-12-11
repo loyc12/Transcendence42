@@ -12,10 +12,30 @@ const initialHeight = canvas.height;
 currentWidth = canvas.width;
 currentHeight = canvas.height;
 
-// This value holds the initState of the current game being played.
-// Defaults to gameType Pong.
-// let currentGameInfo = initPongParam;
+// in front of each other
+const initParam = {
+     'gameType': 'Pong', 
+     'sizeInfo': {'width': 2048, 'height': 1024, 
+        'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
+        'sRacket': 160, 'sBall': 20}, 
+    'racketCount': 2, 
+    'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
+    'ballInitPos': [512, 512], 
+    'teamCount': 2
+};
 
+// 4 players
+// const initParam = {
+//     'gameType': 'Pingest', 
+//     'sizeInfo': {
+//         'width': 1536, 'height': 1024, 
+//         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
+//         'sRacket': 160, 'sBall': 20}, 
+//     'racketCount': 4, 
+//     'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
+//     'ballInitPos': [1152, 768],
+//     'teamCount': 4
+// }
 
 // Afficher les valeurs dans la console
 function printCurrentParam (currentGameInfo) {
