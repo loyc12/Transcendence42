@@ -1,12 +1,12 @@
 
-let initStart = true;
-const playerColors = ['#ff10f0', '#23e301', '#04d9ff', '#ff6700'];
+// let initStart = true;
 
 // let currentGameInfo = null;
 // let currentUpdate = null;
 
 
 let setCurrentState = function (initData) {//update) {
+    currentGameInfo = initData;
 
     // updateCanvas = update
     // console.log('parseUpdateData : ' + update)
@@ -16,14 +16,13 @@ let setCurrentState = function (initData) {//update) {
     // const ballPosition = update.ballPos;
     // const lastPonger = update.lastPonger;
     // const scores = update.scores;
-    console.log('setCurrentState gameType:', initData.gameType);
-    currentGameInfo = initData;
+
     // currentGameInfo = {
     //     'gameType': update.gameType,
     //     'sizeInfo': {
     //         'width': 2048, 'height': 1024, 
     //         'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-    //         'rSize': 160, 'bSize': 20
+    //         'sRacket': 160, 'sBall': 20
     //         // 'sRacket': 160, 'sBall': 20
     //     },
     //     'racketCount': 2,
@@ -48,8 +47,13 @@ const players = [
 // Function to get the player's color based on their rank
 let getPlayerColor = function(rank) {
     // Use modulo operator to cycle through colors if there are more ranks than colors
-    const index = (rank - 1) % playerColors.length;
+    const index = rank % playerColors.length;
     return playerColors[index];
+}
+let getPlayerShadowColor = function(rank) {
+    // Use modulo operator to cycle through colors if there are more ranks than colors
+    const index = rank % playerColors.length;
+    return playerShadowColors[index];
 }
 
 // Example usage:
@@ -62,16 +66,21 @@ players.forEach(player => {
     // Now you can use playerColor to set the color in your rendering logic
 });
 
-class RenderModule {
-    constructor(initData) {
-        this.initData = initData;
-    }
-    render() {
-        // Utilisez les données du initData pour effectuer le rendu
-        console.log('Rendering with Width:', this.initData.sizeInfo.width);
-        console.log('Rendering with Height:', this.initData.sizeInfo.height);
-    }
+
+let clearCanvas = function (ctx, w, h) {
+    ctx.clearRect(0, 0, w, h); // Clear the entire canvas
 }
+
+// class RenderModule {
+//     constructor(initData) {
+//         this.initData = initData;
+//     }
+//     render() {
+//         // Utilisez les données du initData pour effectuer le rendu
+//         console.log('Rendering with Width:', this.initData.sizeInfo.width);
+//         console.log('Rendering with Height:', this.initData.sizeInfo.height);
+//     }
+// }
 
 
 // Utilisation du module de rendu
@@ -87,98 +96,92 @@ class RenderModule {
 //     initStart = false;
 // }
 
-let renderCanvas = function (gameInfo) {
-    const { width, height } = gameInfo.sizeInfo;
+let renderCanvas = function (ctx, gameInfo) {
+    // const { width, height } = gameInfo.sizeInfo;
     // const { bx, by } = gameInfo.ballInitPos;
 
-    console.log('gameInfo in renderCanvas gameType: ' + gameInfo.gameType);
-    console.log('gameInfo in renderCanvas width: ' + gameInfo.sizeInfo.width);
-    console.log('gameInfo in renderCanvas height: ' + gameInfo.sizeInfo.height);
-    // Set canvas dimensions
-    canvas.width = width;
-    canvas.height = height;
+    // console.log('gameInfo in renderCanvas : ' + gameInfo)
+    // Set canvas dimensions (ALREADY DONE IN parseInitData() ... maybe)
+    // canvas.width = width;
+    // canvas.height = height;
 
-    // Render black background
-    clearCanvas()
-    // ctx.fillStyle = 'black';
-    // ctx.fillRect(0, 0, width, height);
-
+    // Render black background (ALREADY DONE PRIOR)
+    // clearCanvas()
 
     // You can add additional rendering logic here
     // For now, let's just log the canvas dimensions
     
     // Render game elements based on initial game data
-    renderBall(ctx, gameInfo, gameInfo.update.ballPos);
-    renderRackets(ctx, gameInfo, gameInfo.update.racketPos);
-    console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
+    renderBall(ctx, gameInfo, gameInfo.update);
+    renderRackets(ctx, gameInfo, gameInfo.update);
+    // console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
 }
 
-let renderBall = function (ctx, gameInfo, ballPos) {
+let renderBall = function (ctx, gameInfo, update) {
+    // console.log('gameInfo in renderBall : ' + gameInfo)
 
-    console.log('gameInfo in renderBall : ' + gameInfo)
-
-    let x = (ballPos[0] + gameInfo.ballOffset) * gameInfo.xRatio;
-    let y = (ballPos[1] + gameInfo.ballOffset) * gameInfo.yRatio;
-
+    const x = update.ballPos[0] + gameInfo.ballOffset;//(ballPos[0] + gameInfo.ballOffset) * gameInfo.xRatio;
+    const y = update.ballPos[1] + gameInfo.ballOffset;// * gameInfo.yRatio;
+    const shadow = getPlayerShadowColor(update.lastPonger);
     ctx.fillStyle = 'red'; // Ball color (customize as needed)
     ctx.beginPath();
     //ctx.arc(initParam.ballInitPos[0], initParam.ballInitPos[1], initParam.sizeInfo.sBall, 0, 2 * Math.PI); // Assuming ballRadius is defined
+    ctx.shadowBlur = 40;
+    ctx.shadowColor = shadow;
     ctx.arc(x, y, gameInfo.ballSize, 0, 2 * Math.PI); // Assuming ballRadius is defined
     ctx.fill();
 }
 
-let renderRackets = function(ctx, gameInfo, racketPositions) {
-    
+let renderRackets = function(ctx, gameInfo, update) {
     // let tot = 0;
-    console.log('gameInfo in renderRackets : ' + gameInfo)
+    // console.log('gameInfo in renderRackets : ' + gameInfo)
     let orientations = gameInfo.orientations;
     let racketCount = gameInfo.racketCount;
-    let x, y;
+    let x, y, w, h;
+    let color, shadow;
 
     for (let i = 0; i < racketCount; i++) {
-        x = (racketPositions[2*i] + gameInfo.offsets[2*i]) * gameInfo.xRatio;
-        y = (racketPositions[2*i + 1] + gameInfo.offsets[2*i + 1]) * gameInfo.yRatio;
-        
+        // x = (racketPositions[2*i] + gameInfo.offsets[2*i]) * gameInfo.xRatio;
+        x = update.racketPos[2*i] + currentGameInfo.offsets[2*i];
+        y = update.racketPos[2*i + 1] + currentGameInfo.offsets[2*i + 1];
+        // y = (racketPositions[2*i + 1] + gameInfo.offsets[2*i + 1]) * gameInfo.yRatio;
+        // console.log('racket ' + i + ': (' + x + ', ' + y + ')')
         // Set the color of the racket based on the player's rank
-        ctx.fillStyle = getPlayerColor(i);
+        color = getPlayerColor(i);
+        shadow = getPlayerShadowColor(i);
+        
+        // ctx[0].fillStyle = "white";
+        // ctx[0].fillRect(0,0,200,200);
+        // ctx[0].shadowBlur = 20;
+        // ctx[0].shadowColor = "black";
+        // ctx[0].fillRect(50,50,100,100);
+
+        //ctx.fillStyle = 'red';//getPlayerColor(i);
         // Check if the position of the racket is 'x'
         if (orientations[i] === 'x') {
-            console.log('x');
-            ctx.fillRect(x, y, gameInfo.racketSize, gameInfo.ballSize); // Assuming racketWidth and racketHeight are defined
+            // console.log(`orientation horizontal :: racket box (${x}, ${y}) (${x + gameInfo.racketSize}, ${y + gameInfo.ballSize})`)
+            w = gameInfo.racketSize;
+            h = gameInfo.ballSize;
+            //ctx.fillRect(x, y, gameInfo.racketSize, gameInfo.ballSize); // Assuming racketWidth and racketHeight are defined
         }
         // else if (initParam.racketInitPos[i + 2] === 'y'){
         else if (orientations[i] === 'y') {
-            console.log('y');
-            ctx.fillRect(x, y,  gameInfo.ballSize, gameInfo.racketSize); // Assuming racketWidth and racketHeight are defined
+            // console.log(`orientation vertical :: racket box (${x}, ${y}) (${x + gameInfo.racketSize}, ${y + gameInfo.ballSize})`)
+            w = gameInfo.ballSize;
+            h = gameInfo.racketSize;
+            // ctx.fillRect(x, y, gameInfo.ballSize, gameInfo.racketSize); // Assuming racketWidth and racketHeight are defined
         }
-        else {
-            // Render the racket at the specified position
-            ctx.fillStyle = 'yellow'; // Racket color (customize as needed)
-            ctx.fillRect(x, y, gameInfo.ballSize, gameInfo.ballSize); // Assuming racketWidth and racketHeight are defined
-        }
+        // else {
+        //     // Render the racket at the specified position
+        //     ctx.fillStyle = 'yellow'; // Racket color (customize as needed)
+        //     ctx.fillRect(x, y, gameInfo.ballSize, gameInfo.ballSize); // Assuming racketWidth and racketHeight are defined
+        // }
+        
+        ctx.fillStyle = color;
+        ctx.shadowBlur = 40;
+        ctx.shadowColor = shadow;
+        ctx.fillRect(x, y, w, h);
     }
-    /// 
-
-}
-
-let clearCanvas = function () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the entire canvas
-}
-
-
-let updateCanvas = function (newData) {
-
-    // Update the canvas based on the new data
-    console.log('Updating canvas with new data:', newData);
-    // Clear the canvas
-    clearCanvas();
-    // Render the canvas with the new data
-    renderCanvas(newData);
-}
-
-
-
-/// viens de render_racket
     // let tot = 0;
     // for (let i = 0; i < initParam.racketInitPos.length; i += 3) {
     //     tot += 1;
@@ -202,6 +205,22 @@ let updateCanvas = function (newData) {
     //         ctx.fillRect(racketX, racketY, initParam.sizeInfo.sBall, initParam.sizeInfo.sBall); // Assuming racketWidth and racketHeight are defined
     //     }
     // }
+}
+
+
+/// Should be the only function in the rendering chain to 
+/// access global variables. Every downstream function call should take 
+/// them as arguments.
+// let updateCanvas = function (gameInfo) {
+let updateCanvas = function (gameInfo) {
+
+    // Update the canvas based on the new data
+    // console.log('Updating canvas with new data:', gameInfo);
+    // Clear the canvas
+    clearCanvas(ctx, canvas.width, canvas.height);
+    // Render the canvas with the new data
+    renderCanvas(ctx, gameInfo);
+}
 
 
 // class UpdateGame {

@@ -43,11 +43,11 @@ let _get_websocket_path = function(sockID) {
 // WEBSOCKET MESSAGES TO THE CLIENT.
 let _on_game_event = function(event) {
     const data = JSON.parse(event.data);
-    console.log('ev : ' + data.ev)
-    console.log('ev === "connection" ? ' + (data.ev === 'connection'))
+    // console.log('ev : ' + data.ev)
+    // console.log('ev === "connection" ? ' + (data.ev === 'connection'))
     if (data.ev === 'up') {
-        console.log('UPDATE event received from websocket.');
-        console.log(data)
+        // console.log('UPDATE event received from websocket.');
+        // console.log(data)
         parseUpdateData(data.state)
         // TODO: Render updated game state
     }
@@ -55,8 +55,8 @@ let _on_game_event = function(event) {
         /// Triggered when either the current user gets connected to a game socket
         /// or another user has connected to the same game.
         /// data.players
-        console.log('PLAYERS event received from websocket.');
-        console.log(data)
+        // console.log('PLAYERS event received from websocket.');
+        // console.log(data)
         let players = data.player_list;
         let i = 0
         for (p of players) {
@@ -66,8 +66,8 @@ let _on_game_event = function(event) {
         //...
     }
     else if (data.ev === "init") {
-        console.log('MWMWM INIT GAME INFO event received from websocket.');
-        console.log(data)
+        // console.log('INIT GAME INFO event received from websocket.');
+        // console.log(data)
         parseInitData(data.init)
     }
     //...
@@ -125,9 +125,8 @@ let loadMegaModule = function (gameType) {
     printCurrentParam(currentGameInfo);
     loadModule('lobby');
     // renderCanvas(currentGameInfo);
-    console.log("GoTo renderCanvas with initPongParam");
-    renderCanvas(initPongParam);
-    return ;
+    updateCanvas(currentGameInfo);
+    // return ;
 
     request_join_game(gameType)
     .then(function (sockID) {
@@ -145,17 +144,17 @@ let loadMegaModule = function (gameType) {
         if (gameWebSock.CLOSING)
             console.log('websocket is closing')
         _prepare_websocket(gameWebSock);
+        console.log('Connection to websocket SUCCESSFUL !')
     })
     .catch(e => {
         //alert('You failed to join a game for the following reason : ' + e)
         console.log('Exeption while requesting to join game : ' + e)
     })
     //return;
-    //console.log('gameWebSockPath : ' + gameWebSockPath)
-    //gameWebSock = _connect_to_game_socket(gameWebSockPath)
-    //console.log('Connection to websocket SUCCESSFUL !')
-    //_prepare_websocket(gameWebSock);
     
     // TODO: Enable Start/Ready button click
     // ...
+    
+    /// Enable player keypress handler
+    activatePlayerControler()
 }
