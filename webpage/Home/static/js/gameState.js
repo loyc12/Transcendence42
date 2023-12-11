@@ -136,24 +136,28 @@ function parseInitData (init_data) {
     //curentData = init_data;
     if (! 'update' in init_data)
         alert("ERROR: initData received is missing the 'update' struct.")
+    const { width, height } = init_data.sizeInfo;
     currentGameInfo = init_data;
+    
+    canvas.width = width;
+    canvas.height = height;
     
     /// Pre calculations used in rendering functions
     currentGameInfo.offsets = [];
     for (ori of init_data.orientations) {
         if (ori === 'x') {
-            currentGameInfo.offsets.push(-(init_data.sizeInfo.bSize * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.rSize * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.bSize * 0.5));
         } else if (ori == 'y') {
-            currentGameInfo.offsets.push(-(init_data.sizeInfo.rSize * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.bSize * 0.5));
+            currentGameInfo.offsets.push(-(init_data.sizeInfo.rSize * 0.5));
         }
     }
     currentGameInfo.ballOffset = -(currentGameInfo.sizeInfo.bSize * 0.5);    
-    currentGameInfo.xRatio = currentWidth * init_data.sizeInfo.wRatio;
-    currentGameInfo.yRatio = currentHeight * init_data.sizeInfo.hRatio;
-    currentGameInfo.racketSize = init_data.sizeInfo.rSize * init_data.sizeInfo.wRatio;
-    currentGameInfo.ballSize = init_data.sizeInfo.bSize * init_data.sizeInfo.hRatio;
+    // currentGameInfo.xRatio = currentWidth * init_data.sizeInfo.wRatio;
+    // currentGameInfo.yRatio = currentHeight * init_data.sizeInfo.hRatio;
+    currentGameInfo.racketSize = init_data.sizeInfo.rSize;// * init_data.sizeInfo.wRatio;
+    currentGameInfo.ballSize = init_data.sizeInfo.bSize;// * init_data.sizeInfo.hRatio;
 
 
 //     const currentGameInfo = {
@@ -174,20 +178,22 @@ function parseInitData (init_data) {
 
 // Function to parse update data
 let parseUpdateData = function (update) {
-    updateCanvas = update
-    console.log('parseUpdateData : ' + update)
-    const gameId = update.gameID;
-    const racketPositions = update.racketPos;
-    const ballPosition = update.ballPos;
-    const lastPonger = update.lastPonger;
-    const scores = update.scores;
+    currentGameInfo.update = update;
+    updateCanvas(currentGameInfo);
+    // updateCanvas = update
+    // console.log('parseUpdateData : ' + update)
+    // const gameId = update.gameID;
+    // const racketPositions = update.racketPos;
+    // const ballPosition = update.ballPos;
+    // const lastPonger = update.lastPonger;
+    // const scores = update.scores;
 
-    // You can add more processing or rendering logic based on this parsed data
-    console.log('Update Game ID:', gameId);
-    console.log('Update Racket Positions:', racketPositions);
-    console.log('Update Ball Position:', ballPosition);
-    console.log('Update Last Ponger:', lastPonger);
-    console.log('Update Scores:', scores);
+    // // You can add more processing or rendering logic based on this parsed data
+    // console.log('Update Game ID:', gameId);
+    // console.log('Update Racket Positions:', racketPositions);
+    // console.log('Update Ball Position:', ballPosition);
+    // console.log('Update Last Ponger:', lastPonger);
+    // console.log('Update Scores:', scores);
 
     // Now you can use this parsed data to update your game state or render the changes
     // For example, call a function to update the canvas with the new positions

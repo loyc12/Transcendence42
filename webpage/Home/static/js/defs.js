@@ -24,6 +24,9 @@ let currentHeight;// = canvas.height;
 
 let currentGameInfo;
 
+const playerColors = ['#ffffff', '#ff10f0', '#23e301', '#04d9ff', '#ff6700'];// index 0 is default
+const playerShadowColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'];// To be determined. index 0 is default color (AI)
+
 
 // both bottom
 const initPingParam = {
@@ -38,6 +41,7 @@ const initPingParam = {
     'orientations': ['x', 'x'],
     'update': {
         'racketPos': [682, 1004, 1365, 1004 ],
+        "lastPonger": 0,
         'ballPos': [1024, 682],
         'score' : [0, 0],
     }
@@ -55,10 +59,11 @@ const initPongParam = {
     }, 
     'racketCount': 2, 
     'teamCount': 2,
-    'orientations': ['x', 'x'],
+    'orientations': ['y', 'y'],
     'update': {
         'racketPos': [20, 512, 2028, 512],
-        'ballPos': [512, 512],
+        "lastPonger": 0,
+        'ballPos': [1014, 512],
         'score' : [0, 0],
     }
     // 'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
@@ -77,6 +82,7 @@ const initPingestParam = {
     'orientations': ['x', 'x', 'x', 'x'],
     'update': {
         'racketPos': [438, 20, 1097, 20, 438, 1004, 1097, 1004],
+        "lastPonger": 0,
         'ballPos': [512, 512],
         'score' : [0, 0],
     }
