@@ -100,7 +100,7 @@ class LobbyGame:
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
     def is_full(self):
-        if self.withAI and self.__players:
+        if (self.withAI or (self.gameMode == 'Local_2p')) and self.__players:
             return True
         return self.nb_players == self.__required_players
     @property

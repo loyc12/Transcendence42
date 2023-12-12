@@ -98,25 +98,25 @@ let _player_event_handler = function (event) {
     }
 
     // Move paddle up (keyCode 38 or W key)
-    if ( event.key === 'w') {
+    if ( event.key === 'w' && event.key === 'W') {
         console.log('W');
         _send_player_keyevent(KW);
     }
     
     // Move paddle down (keyCode 40 or S key)
-    else if ( event.key === 's') {
+    else if ( event.key === 's' && event.key === 'S') {
         console.log('S');
         _send_player_keyevent(KS);
     }
     
     // Move paddle left (keyCode 37 or A key)
-    else if ( event.key === 'a') {
+    else if ( event.key === 'a' && event.key === 'A') {
         console.log('A');
         _send_player_keyevent(KA);
     }
     
     // Move paddle right (keyCode 39 or D key)
-    else if ( event.key === 'd') {
+    else if ( event.key === 'd' && event.key === 'D') {
         console.log('D');
         _send_player_keyevent(KD);
     }
@@ -200,6 +200,7 @@ function parseInitData (init_data) {
 // Function to parse update data. 
 let parseUpdateData = function (update) {
     currentGameInfo.update = update;
+    console.log('scores: ' + update.scores);
     updateCanvas(currentGameInfo);
 }
 
