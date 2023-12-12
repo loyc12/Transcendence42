@@ -39,10 +39,10 @@ let renderCanvas = function (ctx, gameInfo) {
 
     console.log('Game Score: S1:S2 :', gameInfo.update.scores);
 
-    ctx.font = "42px Arial";
-    ctx.fillStyle = "#ffffff";
-    ctx.fillText(gameInfo.update.scores[ 0 ], 100, 50);
-    ctx.fillText(gameInfo.update.scores[ 1 ], 700, 50);
+    // ctx.font = "42px Arial";
+    // ctx.fillStyle = "#ffffff";
+    // ctx.fillText(gameInfo.update.scores[0], 100, 50);
+    // ctx.fillText(gameInfo.update.scores[1], 700, 50);
 
 }
 
