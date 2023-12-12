@@ -210,3 +210,19 @@ let parsePlayersInfo = function(info) {
     console.log('** Players info : ', info);
     /// TODO: Deal with players info ...
 }
+
+// function updateGameState(updatedGameState) {
+    //     // Update game state based on the received data
+    //     gameState.gameID = updatedGameState.gameID;
+    //     gameState.racketPos = updatedGameState.racketPos;
+    //     gameState.ballPos = updatedGameState.ballPos;
+    //     gameState.score = updatedGameState.score;
+    // }
+    
+    //     // Display scores
+    //     for (let i = 0; i < gameState.score.length; i++) {
+    //         const scoreElement = document.createElement('div');
+    //         scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
+    //         gameInfoContainer.appendChild(scoreElement);
+    //     }
+    // }
