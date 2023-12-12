@@ -27,12 +27,14 @@ let _on_game_event = function(event) {
 
     if (data.ev === 'up') {
         // Called by websocket with event type 'up' for every update during a game.
-        parseUpdateData(data.state)
+        console.log('Received UP Event : ' + data.state);
+        parseUpdateData(data.state);
     }
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
         /// or another user has connected to the same game. 
         // TODO: Should trigger a function to update the players list and infos in lobby phase
+        console.log('Received Connection !');
         let players = data.player_list;
         let i = 0
         for (p of players) {
@@ -44,11 +46,13 @@ let _on_game_event = function(event) {
     else if (data.ev === "init") {
         // Sent ONCE at the begining of lobby phase with data required to render a game.
         // See PingPongRebound/json-template.json, section : getInitInfo()
-        parseInitData(data.init)
+        console.log('Received INIT : ' + data.init);
+        parseInitData(data.init);
     }
     else if (data.ev === "player_info") {
         // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
         // with data describing active players.
+        console.log('Received PLAYR INFO : ' + data.info);
         parsePlayersInfo(data.info);
     }
 }
@@ -115,7 +119,7 @@ let loadMegaModule = function (gameType) {
     
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
-    console.log(`init state for gameType ${gameType} : `);
+    console.log(`--- init state for gameType ${gameType} : `);
     console.log(get_default_init_state(gameType));
     parseInitData(get_default_init_state(gameType));
     printCurrentParam(currentGameInfo);

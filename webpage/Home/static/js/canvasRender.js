@@ -23,16 +23,6 @@ let getPlayerShadowColor = function(rank) {
     return playerShadowColors[index];
 }
 
-// Example usage:
-// players.forEach(player => {
-//     const playerName = player.name;
-//     const playerRank = player.rank;
-//     const playerColor = getPlayerColor(playerRank);
-
-//     console.log(`${playerName} (Rank ${playerRank}): Color - ${playerColor}`);
-//     // Now you can use playerColor to set the color in your rendering logic
-// });
-
 
 let clearCanvas = function (ctx, w, h) {
     ctx.clearRect(0, 0, w, h); // Clear the entire canvas
@@ -45,7 +35,8 @@ let renderCanvas = function (ctx, gameInfo) {
     // Render game elements based on initial game data
     renderBall(ctx, gameInfo, gameInfo.update);
     renderRackets(ctx, gameInfo, gameInfo.update);
-    // console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
+    console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
+    console.log(`Game Score: S1: ${currentGameInfo.update.s1}  S2: ${currentGameInfo.update.s2}`);
 }
 
 let renderBall = function (ctx, gameInfo, update) {
@@ -102,7 +93,6 @@ let renderRackets = function(ctx, gameInfo, update) {
 let updateCanvas = function (gameInfo) {
 
     // Update the canvas based on the new data
-    // console.log('Updating canvas with new data:', gameInfo);
     // Clear the canvas
     clearCanvas(ctx, canvas.width, canvas.height);
     // Render the canvas with the new data
