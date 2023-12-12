@@ -24,6 +24,7 @@
         <style>
             .custom-spinner {
                 animation: changeColor 2s linear infinite;
+                display: none;
             }
             @keyframes changeColor {
                 0%, 100% {
@@ -123,11 +124,19 @@
                     {% endblock %}
                 </div>
             </div>
-             <!-- Canvas - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-             <div class="row">
+               <!-- Game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+               <div class="row">
                 <div id="game" class="game">
                     {% block game %}
-                        {% include 'Lobby/game.html' %}
+                        {% include 'Game/game.html' %}
+                    {% endblock %}
+                </div>
+            </div>
+            <!-- Result - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="afterGame" class="afterGame">
+                    {% block afterGame %}
+                        {% include 'afterGame/afterGame.html' %}
                     {% endblock %}
                 </div>
             </div>
@@ -156,6 +165,7 @@
     <script src="{% static 'js/gameState.js' %}" defer></script>
     <script src="{% static 'js/canvasRender.js' %}" defer></script>
     <script src="{% static 'js/megaModule.js' %}" defer></script>
+    <script src="{% static 'js/update_player_info.js' %}" defer></script>
     <!-- <script src="{% static 'js/canvasRender.js' %}" defer></script> -->
 {% endcompress %}
 </html>

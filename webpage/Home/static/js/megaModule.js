@@ -23,12 +23,18 @@ let _get_websocket_path = function(sockID) {
 // THROUGH THE WEBSOCKET FOR THIS CLIENT.
 let _on_game_event = function(event) {
 
+    console.log('Client RECEIVED evenv : ' + event)
+
     const data = JSON.parse(event.data);
 
     if (data.ev === 'up') {
         // Called by websocket with event type 'up' for every update during a game.
-        // console.log('Received UP Event : ' + data.state);
-        parseUpdateData(data.state);
+        parseUpdateData(data.state)
+    }
+    else if (data.ev === "init") {
+        // Sent ONCE at the begining of lobby phase with data required to render a game.
+        // See PingPongRebound/json-template.json, section : getInitInfo()
+        parseInitData(data.init)
     }
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
@@ -43,17 +49,16 @@ let _on_game_event = function(event) {
         }
         //...
     }
-    else if (data.ev === "init") {
-        // Sent ONCE at the begining of lobby phase with data required to render a game.
-        // See PingPongRebound/json-template.json, section : getInitInfo()
-        // console.log('Received INIT : ' + data.init);
-        parseInitData(data.init);
-    }
     else if (data.ev === "player_info") {
         // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
         // with data describing active players.
         // console.log('Received PLAYR INFO : ' + data.info);
         parsePlayersInfo(data.info);
+    }
+    else if (data.ev === "start") {
+        // Trigger event received when game should start. Sent by websocket when all players have signaled their readiness.
+        console.log('RECEIVED START SIGNAL FROM SERVER !');
+        loadGame()
     }
 }
 
@@ -149,5 +154,14 @@ let loadMegaModule = function (gameType) {
     
     /// Enable player keypress handler
     // TODO: SHOULD WAIT UNTIL GAME START SIGNAL IS SENT BY WEBSOCKET.
-    activatePlayerControler()
+    // activatePlayerControler()
+}
+
+let loadGame = function() {
+    console.log('Load loadGame')
+    loadModule('game');
+    activatePlayerControler();
+    
+    // document.getElementById('lobby').style.display = 'block';
+    
 }
