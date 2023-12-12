@@ -36,7 +36,14 @@ let renderCanvas = function (ctx, gameInfo) {
     renderBall(ctx, gameInfo, gameInfo.update);
     renderRackets(ctx, gameInfo, gameInfo.update);
     console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
-    console.log(`Game Score: S1: ${currentGameInfo.update.s1}  S2: ${currentGameInfo.update.s2}`);
+
+    console.log('Game Score: S1:S2 :', gameInfo.update.scores);
+
+    ctx.font = "42px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(gameInfo.update.scores[ 0 ], 100, 50);
+    ctx.fillText(gameInfo.update.scores[ 1 ], 700, 50);
+
 }
 
 let renderBall = function (ctx, gameInfo, update) {

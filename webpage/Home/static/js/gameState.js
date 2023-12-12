@@ -199,9 +199,7 @@ function parseInitData (init_data) {
 
 // Function to parse update data. 
 let parseUpdateData = function (update) {
-    //
-    console.log('--- Updating SCORE S1:', update.scores[0]);
-    console.log('--- Updating SCORE S2:', update.scores[1]);
+    
     currentGameInfo.update = update;
     updateCanvas(currentGameInfo);
 }
