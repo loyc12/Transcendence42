@@ -33,3 +33,15 @@ let update_player_info = function (player_info_list) {
 let on_click_update_players = function () {
   update_player_info(mock_player_list);
 };
+
+//Signal that send to the server that this player is ready to join the game.
+let signal_player_ready = function() {
+  document.getElementById("startEngine").disabled = true; 
+  document.getElementById("startEngine").innerHTML = "READY!";
+  // let payload = {
+  //   'ev': 'ready'
+  // }
+  // gameWebSock.send(JSON.stringify(payload));
+
+  // /// GREY out button
+}

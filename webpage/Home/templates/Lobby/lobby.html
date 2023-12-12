@@ -10,7 +10,7 @@
 							<tr class="table-active">
 								<td colspan="2" class="table-active" style="font-size: 40px; margin: 30px; text-align: center;">Players</td>
 							</tr>
-							<!-- Player Box EXAMPLE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+							<!-- Player Box EXAMPLE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 							<tr>
 								<td class="align-right">
 									<!-- <div class="profile" id="profile"> -->
@@ -22,24 +22,14 @@
 								</ul>								
 							</tr>
 							<!-- BOUTON  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-							<!-- DEMO
-							<tr class="table-active">
-							<td colspan="2" class="table-active text-center">
-								if not_ready  <!-- If not ready, present this button :
-									<button type="button" class="btn align-items-center" style="background-color: #GREY; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine">READY!</button>
-								elif  <!-- If ready, present this clickable button :
-									<button type="button" onclick="on_click_update_players()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine">READY!</button>
-								else  <!-- When the game is loading, present this button :
-									<button class="btn btn-lg custom-spinner" id="custom-spinner" type="button" disabled>
-									   <span class="spinner-border spinner-border-sm" style="color: #F0FFFF;" aria-hidden="true"></span>
-									   <span role="status" style="color: #F0FFFF;">Loading...</span>
-									</button>
-								endif 
-							</td>
-							</tr> -->
+							<!-- Already connected in the websocket -->
+							<!-- 1. on_click_update_players() : On click, send message to backend
+							
+							-->
 							<tr class="table-active">
 								<td colspan="2" class="table-active text-center">
-									<button type="button" onclick="on_click_update_players()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine">READY!</button>
+									<button type="button" onclick="signal_player_ready()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine" >READY?</button>
+									<!-- <button type="button" disabled class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine" >READY!</button> -->
 								</td>
 							</tr>
 							<!-- LOADING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
