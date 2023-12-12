@@ -1,5 +1,5 @@
-let score1 = 0;
-let score2 = 0;
+// let score1 = 0;
+// let score2 = 0;
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;
@@ -33,6 +33,8 @@ let clearCanvas = function (ctx, w, h) {
 let renderCanvas = function (ctx, gameInfo) {
     // You can add additional rendering logic here
     // For now, let's just log the canvas dimensions
+    // const score1 = gameInfo.update.scores[0];
+    // const score2 = gameInfo.update.scores[1];
     
     // Render game elements based on initial game data
     renderBall(ctx, gameInfo, gameInfo.update);
@@ -40,11 +42,13 @@ let renderCanvas = function (ctx, gameInfo) {
     console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
 
     console.log('Game Score: S1:S2 :', gameInfo.update.scores);
+    // console.log('Game Score: S1 :', score1);
+    // console.log('Game Score: S2 :', score2);
     
     // ctx.font = "42px Arial";
     // ctx.fillStyle = "#ffffff";
-    // ctx.fillText(gameInfo.update.scores[0], 100, 50);
-    // ctx.fillText(gameInfo.update.scores[1], 700, 50);
+    // ctx.fillText(score1, 100, 50);
+    // ctx.fillText(score2, 700, 50);
 
 }
 
@@ -102,6 +106,7 @@ let renderRackets = function(ctx, gameInfo, update) {
 let updateCanvas = function (gameInfo) {
 
     // Update the canvas based on the new data
+
     // Clear the canvas
     clearCanvas(ctx, canvas.width, canvas.height);
     // Render the canvas with the new data
