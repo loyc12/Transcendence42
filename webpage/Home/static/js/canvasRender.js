@@ -1,3 +1,5 @@
+let score1 = 0;
+let score2 = 0;
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;

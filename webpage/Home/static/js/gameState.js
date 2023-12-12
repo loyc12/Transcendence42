@@ -181,7 +181,7 @@ function parseInitData (init_data) {
      // Display scores
     for (let i = 0; i < currentGameInfo.scores.length; i++) {
         const scoreElement = document.createElement('div');
-        scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
+        scoreElement.textContent = `Player ${i + 1} Score: ${currentGameInfo.scores[i]}`;
         gameInfoContainer.appendChild(scoreElement);
     }
     
