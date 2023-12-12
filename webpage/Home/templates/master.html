@@ -123,6 +123,14 @@
                     {% endblock %}
                 </div>
             </div>
+             <!-- Canvas - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+             <div class="row">
+                <div id="game" class="game">
+                    {% block game %}
+                        {% include 'Lobby/game.html' %}
+                    {% endblock %}
+                </div>
+            </div>
         </div>  
     </body>
 
