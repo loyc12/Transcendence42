@@ -45,6 +45,7 @@ import time
 from NetworkGateway.consumers import GameConsumer
 from NetworkGateway.models import GameEvent
 from game.models import Game
+import game.PingPongRebound.defs as df
 from asgiref.sync import sync_to_async, async_to_sync
 
 
@@ -377,23 +378,28 @@ class GameGateway(BaseGateway):
         #game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount[gameType])
         print('lgame type : ', type(lgame))
         print('gameType type : ', type(gameType))
-        #print('self.__game_manager.getMaxPlayerCount(gameType) type : ', type(self.__game_manager.getMaxPlayerCount(gameType)))
+
+        # Checks if is local game with 2 local players on same keyboard or single player on board. Passes the result to addGame().
+        GameManagerMode = df.DUAL if (lgame.gameMode == 'Local_2p') else df.SOLO
+        
         game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount(gameType))
 
         self.match_maker.remove_lobby_game(lgame)
         game_connector = lgame.game_connector
         gm = self.__game_manager
+
         print('game after sync_to_async db game creation : ', game)
-        gm_status = await gm.addGame(gameType, lgame.sockID, game_connector)
+        gm_status = await gm.addGame(
+            gameType,
+            lgame.sockID,
+            connector=game_connector,
+            gameMode=GameManagerMode
+        )
         if not gm_status:
             raise GameGatwayException('Error occured while trying to create new game in game_manager.')
 
 
-        #tasks = [self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id) for lply in lgame.players]
-        #await asyncio.gather(tasks)
         tasks = [gm.addPlayerToGame(lply.user.id, lply.user.login, lgame.sockID) for lply in lgame.players]
-        #async for lply in lgame.players:
-        #    tasks.append(gm.addPlayerToGame(lply.user.id, lply.user.login, game.id))
         await asyncio.gather(*tasks)
         await game_connector.send_init_state(gm.getInitInfo(gameType))
         await gm.startGame(lgame.sockID)

@@ -19,7 +19,7 @@ let _get_websocket_path = function(sockID) {
 }
 
 
-// THIS FUNCTION CALLED FOR EACH MESSAGE SEND BY THE SERVER
+// THIS FUNCTION CALLED FOR EACH MESSAGE SENT BY THE SERVER
 // THROUGH THE WEBSOCKET FOR THIS CLIENT.
 let _on_game_event = function(event) {
 

@@ -111,7 +111,11 @@ db_volume_reset:
 
 update:
 	@git submodule update -f --init --remote
-#	@cd webpage/game/PingPongRebound && git pull -f origin master
+	@cd webpage/game/PingPongRebound && git checkout master
+
+update_debug:
+	@git submodule update -f --init --remote --checkout beta
+	@cd webpage/game/PingPongRebound && git checkout beta
 
 
 ### DEPENDENCY INSTALLS START >>>
