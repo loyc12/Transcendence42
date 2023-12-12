@@ -3,7 +3,7 @@ let current_content = null;
 
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin',
                         'contentHome', 'contentInfo', 'contentGame', 'contentLogin',
-                        'gameTypeLocal', 'gameTypeOnline', 'lobby']
+                        'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'afterGame']
 
 let all_hero_content2 = {
     'init': {

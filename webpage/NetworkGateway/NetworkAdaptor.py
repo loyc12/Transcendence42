@@ -175,7 +175,10 @@ class GameConnector:
             self.__sockID,
             consumer.channel_name
         )
-        await self._send_players_list()
+        asyncio.gather(
+            self._send_players_list(),
+        )
+
 
     async def disconnect_player(self, user):
         ''' Used to kickout player forcefully '''
@@ -222,6 +225,19 @@ class GameConnector:
         if not state:
             raise TypeError('No state was provided.')
         self.__send_state_change('end_game', 'end_state', state)
+
+    async def send_start_signal(self):
+        print('<<< SENDING START SIGNAL !! >>>')
+        payload = json.dumps({
+            'ev': 'start'
+        })
+        await self.__channel_layer.group_send(self.__sockID,
+                {
+                    'type': 'game_send_state',
+                    'game_state': payload
+                }
+            )
+        # self.__send_state_change('start', 'start', '')
         
     async def send_score(self, scores):
         if not scores:
@@ -326,6 +342,8 @@ class GameGateway(BaseGateway):
             gconn = lobby_game.game_connector
 
         await gconn.connect_player(consumer.user, consumer)
+        await gconn.send_init_state(self.__game_manager.getInitInfo(lobby_game.gameType))
+
 
         # if gconn.lobby_game:
         #     print('Connected to game with SUCCESS ! LobbyGame : ', gconn.lobby_game)
@@ -401,7 +419,10 @@ class GameGateway(BaseGateway):
 
         tasks = [gm.addPlayerToGame(lply.user.id, lply.user.login, lgame.sockID) for lply in lgame.players]
         await asyncio.gather(*tasks)
-        await game_connector.send_init_state(gm.getInitInfo(gameType))
+        # await game_connector.send_init_state(gm.getInitInfo(gameType))
+        
+
+        await lgame.game_connector.send_start_signal()
         await gm.startGame(lgame.sockID)
         #lgame.set_is_started()
         return lgame
@@ -417,8 +438,11 @@ class GameGateway(BaseGateway):
         print(f"Trying to set user {user.id} as ready")
         if lgame.is_ready:
             ## SEND GAME TO GAME MANAGER
+            print('\n\n GAME IS READY !!! ')
+            print('SENDING GAME TO MANAGER !!! ')
             await self.__push_game_to_gamemanager(lgame.gameType, lgame)
             print(f"Lobby Game send to game manager : ", {lgame})
+            
 
 
     async def __send_single_async_update(self, game_id, state, ev_wrap):

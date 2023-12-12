@@ -326,10 +326,10 @@ class MatchMaker:
         lply.is_connected = True
 
         ### DEBUG ONLY 
-        print('Try set player ready ...')
+        # print('Try set player ready ...')
         #if not await self.set_ready(user):
         #    return None
-        print('Player supposed to be ready')
+        # print('Player supposed to be ready')
         ##lply.is_ready = True ### DEBUG ONLY 
         ### DEBUG ONLY 
 
