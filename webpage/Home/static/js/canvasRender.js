@@ -38,7 +38,7 @@ let renderCanvas = function (ctx, gameInfo) {
     console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
 
     console.log('Game Score: S1:S2 :', gameInfo.update.scores);
-
+    
     // ctx.font = "42px Arial";
     // ctx.fillStyle = "#ffffff";
     // ctx.fillText(gameInfo.update.scores[0], 100, 50);

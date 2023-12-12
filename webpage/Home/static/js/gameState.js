@@ -176,6 +176,14 @@ function parseInitData (init_data) {
     
     canvas.width = width;
     canvas.height = height;
+
+    currentGameInfo.scores = [0,0];
+     // Display scores
+    for (let i = 0; i < currentGameInfo.scores.length; i++) {
+        const scoreElement = document.createElement('div');
+        scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
+        gameInfoContainer.appendChild(scoreElement);
+    }
     
     /// Pre calculations used in rendering functions
     currentGameInfo.racketSize = init_data.sizeInfo.sRacket;
