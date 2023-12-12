@@ -51,3 +51,7 @@ let signal_player_ready = function() {
 
   /// GREY out button
 }
+
+let loadEndGame = function () {
+  loadModule('afterGame');
+}
