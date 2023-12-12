@@ -38,10 +38,16 @@ let on_click_update_players = function () {
 let signal_player_ready = function() {
   document.getElementById("startEngine").disabled = true; 
   document.getElementById("startEngine").innerHTML = "READY!";
-  // let payload = {
-  //   'ev': 'ready'
-  // }
-  // gameWebSock.send(JSON.stringify(payload));
 
-  // /// GREY out button
+  //document.getElementById("custom-spinner").style.alignItems = "center";
+  document.getElementById("custom-spinner").style.display = "block";
+  let payload = {
+    'ev': 'ready'
+  }
+  console.log('Sending payload : ' + payload);
+  gameWebSock.send(JSON.stringify(payload));
+  console.log('Payload sent.');
+  loadModule('game');
+
+  /// GREY out button
 }

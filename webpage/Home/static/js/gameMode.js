@@ -2,7 +2,7 @@
 // Variable to store selected options
 let selectedOptions = {};
 
-let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby']
+let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game']
 // Function to load a module
 function loadModule(moduleName) {
 
@@ -31,6 +31,10 @@ function loadModule(moduleName) {
     else if (moduleName === 'lobby') {
         console.log('Load lobby')
         document.getElementById('lobby').style.display = 'block';
+    }
+    else if (moduleName === 'game') {
+        console.log('Load game')
+        document.getElementById('game').style.display = 'block';
     }
     else {
         console.log('Make join game request.')
