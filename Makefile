@@ -114,7 +114,7 @@ update:
 	@cd webpage/game/PingPongRebound && git checkout master && git pull -f
 
 update_debug:
-	@git submodule update -f --init --remote --checkout beta
+	@git submodule update -f --init --remote
 	@cd webpage/game/PingPongRebound && git checkout beta && git pull -f
 
 

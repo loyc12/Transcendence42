@@ -14,25 +14,25 @@ currentHeight = canvas.height;
 
 // in front of each other
 const initParam = {
-     'gameType': 'Pong', 
-     'sizeInfo': {'width': 2048, 'height': 1024, 
-        'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-        'sRacket': 160, 'sBall': 20}, 
-    'racketCount': 2, 
-    'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
-    'ballInitPos': [512, 512], 
+     'gameType': 'Pong',
+     'sizeInfo': {'width': 2048, 'height': 1024,
+        'wRatio': 0.00048828125, 'hRatio': 0.0009765625,
+        'sRacket': 160, 'sBall': 20},
+    'racketCount': 2,
+    'racketInitPos': [20, 512, 'y', 2028, 512, 'y'],
+    'ballInitPos': [512, 512],
     'teamCount': 2
 };
 
 // 4 players
 // const initParam = {
-//     'gameType': 'Pingest', 
+//     'gameType': 'Pingest',
 //     'sizeInfo': {
-//         'width': 1536, 'height': 1024, 
-//         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
-//         'sRacket': 160, 'sBall': 20}, 
-//     'racketCount': 4, 
-//     'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
+//         'width': 1536, 'height': 1024,
+//         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625,
+//         'sRacket': 160, 'sBall': 20},
+//     'racketCount': 4,
+//     'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'],
 //     'ballInitPos': [1152, 768],
 //     'teamCount': 4
 // }
@@ -44,17 +44,17 @@ function printCurrentParam (currentGameInfo) {
     console.log('Height:', currentGameInfo.sizeInfo.height);
     console.log('Racket Size:', currentGameInfo.sizeInfo.sRacket);
     console.log('Racket:', currentGameInfo.racketCount);
-     
+
 
     for (let i = 0; i < currentGameInfo.racketCount; i++) {
         let racketX = currentGameInfo.update.racketPos[2*i];
         let racketY = currentGameInfo.update.racketPos[2*i + 1];
         let ori = currentGameInfo.orientations[i];
-        
+
         // Vérifiez si la position de raquette est 'x'
         if (racketX !== 'x' && racketX !== 'y') {
             console.log(`Position de raquette ${i + 1}: x=${racketX}, y=${racketY}`);
-        } 
+        }
         if (ori === 'x') {
             console.log(`raquette ${i + 1} orientation Horizontal`);
         }
@@ -69,14 +69,14 @@ function printCurrentParam (currentGameInfo) {
 
 
 let setCanvasSize = function () {
-    
+
     console.log('setCanvasSize begin_ ' );
     const parent = canvas.parentElement
 
     //Use initial dimensions if the parent is smaller
     canvas.width = Math.min(initialWidth, parent.clientWidth);
     canvas.height = Math.min(initialHeight, parent.clientHeight);
-    
+
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
@@ -98,29 +98,29 @@ let _player_event_handler = function (event) {
     }
 
     // Move paddle up (keyCode 38 or W key)
-    if ( event.key === 'w' && event.key === 'W') {
+    if ( event.key === 'w' || event.key === 'W') {
         console.log('W');
         _send_player_keyevent(KW);
     }
-    
+
     // Move paddle down (keyCode 40 or S key)
-    else if ( event.key === 's' && event.key === 'S') {
+    else if ( event.key === 's' || event.key === 'S') {
         console.log('S');
         _send_player_keyevent(KS);
     }
-    
+
     // Move paddle left (keyCode 37 or A key)
-    else if ( event.key === 'a' && event.key === 'A') {
+    else if ( event.key === 'a' || event.key === 'A') {
         console.log('A');
         _send_player_keyevent(KA);
     }
-    
+
     // Move paddle right (keyCode 39 or D key)
-    else if ( event.key === 'd' && event.key === 'D') {
+    else if ( event.key === 'd' || event.key === 'D') {
         console.log('D');
         _send_player_keyevent(KD);
     }
-    
+
     else if (event.key === ' ') {
         console.log('<SPACE> : event.code : ' + event.code + ', event.key : ' + event.key)
         _send_player_keyevent(SPACE);
@@ -131,7 +131,7 @@ let _player_event_handler = function (event) {
         console.log('ArrowUp');
         _send_player_keyevent(UP);
     }
-    
+
     // Move paddle down (keyCode 40 or S key)
     else if (event.key === "ArrowDown") {
         console.log('ArrowDown');
@@ -143,7 +143,7 @@ let _player_event_handler = function (event) {
         console.log('ArrowLeft');
         _send_player_keyevent(LEFT)
     }
-    
+
     // Move paddle right (keyCode 39 or D key)
     else if (event.key === "ArrowRight") {
         console.log('ArrowRight');
@@ -155,7 +155,7 @@ let _player_event_handler = function (event) {
         _send_player_keyevent(NZERO);
     }
 
-    
+
 }
 
 let activatePlayerControler = function () {
@@ -173,10 +173,11 @@ function parseInitData (init_data) {
         alert("ERROR: initData received is missing the 'update' struct.")
     const { width, height } = init_data.sizeInfo;
     currentGameInfo = init_data;
-    
+
     canvas.width = width;
     canvas.height = height;
 
+<<<<<<< HEAD
     // currentGameInfo.scores = [0,0];
     //  // Display scores
     // for (let i = 0; i < currentGameInfo.scores.length; i++) {
@@ -185,6 +186,8 @@ function parseInitData (init_data) {
     //     gameInfoContainer.appendChild(scoreElement);
     // }
     
+=======
+>>>>>>> 89314c4c8131f4868be3f838fd170a6b99f002d4
     /// Pre calculations used in rendering functions
     currentGameInfo.racketSize = init_data.sizeInfo.sRacket;
     currentGameInfo.ballSize = init_data.sizeInfo.sBall;
@@ -205,7 +208,7 @@ function parseInitData (init_data) {
 }
 
 
-// Function to parse update data. 
+// Function to parse update data.
 let parseUpdateData = function (update) {
     
     currentGameInfo.update = update;
@@ -213,7 +216,7 @@ let parseUpdateData = function (update) {
     updateCanvas(currentGameInfo);
 }
 
-// function called by 
+// function called by
 let parsePlayersInfo = function(info) {
     console.log('** Players info : ', info);
     /// TODO: Deal with players info ...
