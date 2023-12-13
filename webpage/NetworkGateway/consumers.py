@@ -10,18 +10,18 @@ from game.apps import GameConfig as app
 # class IDConsumer(AsyncWebsocketConsumer):
 #     async def connect(self):
 #         await self.accept()
-        
+
 #     async def disconnect(self, close_code):
 #         pass
-    
+
 #     async def receive(self, text_data):
 #         text_data_json = json.loads(text_data)
 #         message = text_data_json['message']
-        
+
 #         await self.send(text_data=json.dumps({
 #             'message': message
 #         }))
-        
+
 # # - - - - - - -  -
 
 class GameConsumerError(Exception):
@@ -65,7 +65,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         self.game_connector = await self.netGateway.connect_player(self.sockID, self)
 
-        ### DEBUG ONLY 
+        ### DEBUG ONLY
         #await self.netGateway.set_player_ready(self.user)
 
 
@@ -94,7 +94,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         event = json.loads(text_data)
         if not self.__validate_receive_msg(event):
             raise GameConsumerWarning('Reveived message is malformed.')
-        
+
         # Clean up input struct.
         event_type = event['ev']
         key = event['key'] if 'key' in event else None
@@ -105,7 +105,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         else:
             # await self.game_connector.push_event(event)
             await self.game_connector.push_event(self.userID, event_type, key)
-        
+
 
 
     async def game_new_connection_message(self, event):
@@ -114,31 +114,32 @@ class GameConsumer(AsyncWebsocketConsumer):
             'ev': 'connection',
             'player_list': event['players'] #self.lobby_game.player_names#[lply.user.display_name for lply in self.lobby_game.players]
         }
+        print('payload ready to go ! ', payload)
         await self.send(text_data=json.dumps(payload))
 
-    
+
     async def game_send_state(self, event):
         ''' specifically for sending game state updates '''
         # print('game_send_state was here !')
         await self.send(text_data=event['game_state'])
 
     async def game_send_event(self, event):
-        ''' For sending all other game events to player. payload should 
+        ''' For sending all other game events to player. payload should
         be network ready.'''
         await self.send(text_data=event['payload'])
-        
+
 
 
 
 """
 class GameConsumer(AsyncWebsocketConsumer):
-    
+
     #public_games = dict()
     #tournament_games = dict()# structured tournament_games[<tournament_name>][<game_id>]
 
     # async def validate_user_can_connect_to_game(self, user):
     #    '''
-    #        Validates that : 
+    #        Validates that :
     #            - User is not already connected to a game.
     #            - The game isn't already full.
     #    '''
@@ -147,7 +148,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     #        if user.running_game in self.public_games:
     #            # User trying to reconnect to the game they are already connected to.
     #            return False
-           
+
     #        if self.public_games[user.running_game]:
     #            pass
 
@@ -158,7 +159,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         print("REACHED GameConsumer.connect method !")
         self.game_id = self.scope['url_route']['kwargs']['game_id']
         self.game_group_name = f"game_{self.game_id}"
-        
+
         if 'user' in self.scope:
             print('scope DOES contain user. ')
             user = self.scope['user']
@@ -188,9 +189,9 @@ class GameConsumer(AsyncWebsocketConsumer):
                 #'username': username
             }
         )
-    
+
     async def init_message(self, event):
-        
+
         msg = event['msg']
         #username = event['username']
         print("WwowW !")
@@ -206,9 +207,9 @@ class GameConsumer(AsyncWebsocketConsumer):
         print(f"delta time : {delta_t}, fps : {5.0 / delta_t}")
 
         await self.send(text_data=json.dumps({'msg': msg + f" The dog is full and refuses to eat any more sockets."}))
-        
 
-        
+
+
     async def disconnect(self, event):
         self.channel_layer.group_discard(
             self.game_group_name,
@@ -233,7 +234,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         ### Currently just a ping response
         await self.send(text_data=json.dumps({'msg': 'async message received. wow.', 'event_type': event_type, 'details': details}))
-        
+
 
     async def game_send_data(self, event):
         await self.send(text_data=event['game_state'])
