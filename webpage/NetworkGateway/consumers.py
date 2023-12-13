@@ -112,7 +112,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         payload = {
             'ev': 'connection',
-            'player_list': event['players']#self.lobby_game.player_names#[lply.user.display_name for lply in self.lobby_game.players]
+            'player_list': event['players'] #self.lobby_game.player_names#[lply.user.display_name for lply in self.lobby_game.players]
         }
         await self.send(text_data=json.dumps(payload))
 

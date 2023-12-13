@@ -12,14 +12,24 @@
 							</tr>
 							<!-- Player Box EXAMPLE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 							<tr>
-								<td class="align-right">
-									<!-- <div class="profile" id="profile"> -->
-									<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;">
-									<!-- </div> -->
-								</th><!-- </td> ? -->
-								<ul class="info">
-									<td class="align-left" style="color: #f0ffff; font-size: 40px;">Player1 :[variable_login] </td>
-								</ul>								
+								<td class="lobbyProfile" class="align-right">
+									<div class="infoLobby" id="lobbyProfile1"> 							 
+										<img src="../../static/img/profile_picTEST.png" alt="player1" width="60" style="border-radius: 50%;" id="imgPlayer1" loading="lazy">
+										<div class="align-left" style="color: #f0ffff; font-size: 40px;" id="namePlayer1">Player1 :`${namePlayer1}` </div>
+									</div>
+									<div class="infoLobby" id="lobbyProfile2"> 
+										<img src="../../static/img/profile_picTEST.png" alt="player2" width="60" style="border-radius: 50%;" id="imgPlayer2" loading="lazy">
+										<div class="align-left" style="color: #f0ffff; font-size: 40px;" id="namePlayer2">Player2 :[variable_login] </div>
+									</div> 
+									<div class="infoLobby" id="lobbyProfile3"> 
+										<img src="../../static/img/profile_picTEST.png" alt="player3" width="60" style="border-radius: 50%;" id="imgPlayer3" loading="lazy">
+										<div class="align-left" style="color: #f0ffff; font-size: 40px;" id="namePlayer3">Player3 :[variable_login] </div>							
+									</div> 
+									<div class="infoLobby" id="lobbyProfile4"> 
+										<img src="../../static/img/profile_picTEST.png" alt="player4" width="60" style="border-radius: 50%;" id="imgPlayer4" loading="lazy">
+										<div class="align-left" style="color: #f0ffff; font-size: 40px;" id="namePlayer4">Player4 :[variable_login] </div>
+									</div> 
+								</td>
 							</tr>
 							<!-- BOUTON  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 							<tr class="table-active">
@@ -31,8 +41,8 @@
 							<tr class="table-active">
 								<td colspan="2" class="table-active text-center">
 									<button class="btn btn-lg custom-spinner" id="custom-spinner" type="button" disabled>
-										<span class="spinner-border spinner-border-sm" style="color: #F0FFFF; alignItems = center;" aria-hidden="true"></span>
-										<span role="status" style="color: #F0FFFF; alignItems = center; "> Loading...</span>
+										<span class="spinner-border spinner-border-sm" style="color: #F0FFFF;" aria-hidden="true"></span>
+										<span role="status" style="color: #F0FFFF;"> Loading...</span>
 									</button>
 								</td>
 							</tr>

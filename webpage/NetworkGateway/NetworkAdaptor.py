@@ -155,13 +155,24 @@ class GameConnector:
 
     async def _send_players_list(self):
         async with self.__game_lock:
-            names = self.lobby_game.player_names
+            players = self.lobby_game.players
+
+        # payload = json.dumps([
+        payload = [
+            {
+                'login': ply.user.login,
+                'img': ply.user.img_link,
+                'ready': ply.is_ready
+            }
+            for ply in players
+        ]
+        
         #payload = json.dumps(names)
         await self.__channel_layer.group_send(
             self.__sockID,
             {
                 'type': 'game_new_connection_message',
-                'players': names #payload
+                'players': payload
             }
         )
 

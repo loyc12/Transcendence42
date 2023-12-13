@@ -36,10 +36,13 @@ let _on_game_event = function(event) {
         // See PingPongRebound/json-template.json, section : getInitInfo()
         parseInitData(data.init)
     }
+
+
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
         /// or another user has connected to the same game. 
         // TODO: Should trigger a function to update the players list and infos in lobby phase
+        console.log('Websocket connection event.')
         let players = data.player_list;
         let i = 0
         for (p of players) {
@@ -47,12 +50,18 @@ let _on_game_event = function(event) {
             console.log('Player ' + i + ' : ' + p)
         }
         //...
+        console.log("Trying to update_player_info()");
+        update_player_info(data.player_list)
     }
+
+
     else if (data.ev === "player_info") {
         // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
         // with data describing active players.
         parsePlayersInfo(data.info);
     }
+
+
     else if (data.ev === "start") {
         // Trigger event received when game should start. Sent by websocket when all players have signaled their readiness.
         console.log('RECEIVED START SIGNAL FROM SERVER !');
