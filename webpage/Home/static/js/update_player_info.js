@@ -47,11 +47,14 @@ let signal_player_ready = function() {
   console.log('Sending payload : ' + payload);
   gameWebSock.send(JSON.stringify(payload));
   console.log('Payload sent.');
-  loadModule('game');
+
+  /// DEBUG
+  // loadModule('game');
 
   /// GREY out button
 }
 
 let loadEndGame = function () {
   loadModule('afterGame');
+  disconnect_socket()
 }

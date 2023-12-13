@@ -416,12 +416,10 @@ class GameGateway(BaseGateway):
         if not gm_status:
             raise GameGatwayException('Error occured while trying to create new game in game_manager.')
 
-
         tasks = [gm.addPlayerToGame(lply.user.id, lply.user.login, lgame.sockID) for lply in lgame.players]
         await asyncio.gather(*tasks)
         # await game_connector.send_init_state(gm.getInitInfo(gameType))
         
-
         await lgame.game_connector.send_start_signal()
         await gm.startGame(lgame.sockID)
         #lgame.set_is_started()
@@ -433,8 +431,10 @@ class GameGateway(BaseGateway):
         or game_connector unlike websocket messages with consumer. '''
         async with self.__gateway_lock:
             lgame = self.match_maker.set_ready(user)
+
         if not lgame:
             raise GameGatwayException(f"Trying to set user {user.login} as ready, but wasn't found in lobby.")
+
         print(f"Trying to set user {user.id} as ready")
         if lgame.is_ready:
             ## SEND GAME TO GAME MANAGER
