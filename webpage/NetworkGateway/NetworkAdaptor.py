@@ -187,9 +187,9 @@ class GameConnector:
             self.__sockID,
             consumer.channel_name
         )
-        asyncio.gather(
-            self._send_players_list(),
-        )
+        # asyncio.gather(
+        await self._send_players_list()
+        # )
 
 
     async def disconnect_player(self, user):
@@ -441,13 +441,15 @@ class GameGateway(BaseGateway):
     async def set_player_ready(self, user: User):
         ''' Called from a sync HTTP POST request, so no reference to lobby_game
         or game_connector unlike websocket messages with consumer. '''
+        print(f"\n\nTrying to set user {user.id} as ready")
         async with self.__gateway_lock:
             lgame = self.match_maker.set_ready(user)
 
         if not lgame:
             raise GameGatwayException(f"Trying to set user {user.login} as ready, but wasn't found in lobby.")
 
-        print(f"Trying to set user {user.id} as ready")
+        await lgame.game_connector._send_players_list()
+        print('Checking if game is ready ?')
         if lgame.is_ready:
             ## SEND GAME TO GAME MANAGER
             print('\n\n GAME IS READY !!! ')

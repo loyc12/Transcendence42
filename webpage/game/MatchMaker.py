@@ -369,7 +369,8 @@ class MatchMaker:
     def set_ready(self, user: User):
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
-            return None        
+            print('Player not in lobby while setting ready.')
+            return None
         gameMode, lgame, lply = finder_result
         lply.is_ready = True
         return lgame
