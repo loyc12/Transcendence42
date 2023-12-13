@@ -66,7 +66,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         self.game_connector = await self.netGateway.connect_player(self.sockID, self)
 
         ### DEBUG ONLY 
-        await self.netGateway.set_player_ready(self.user)
+        #await self.netGateway.set_player_ready(self.user)
 
 
     async def disconnect(self, event):
@@ -98,9 +98,14 @@ class GameConsumer(AsyncWebsocketConsumer):
         # Clean up input struct.
         event_type = event['ev']
         key = event['key'] if 'key' in event else None
+
+        if event_type == 'ready':
+            print('\n\n READY SIGNAL RECEIVED SERVERSIDE !!')
+            await self.netGateway.set_player_ready(self.user)
+        else:
+            # await self.game_connector.push_event(event)
+            await self.game_connector.push_event(self.userID, event_type, key)
         
-        # await self.game_connector.push_event(event)
-        await self.game_connector.push_event(self.userID, event_type, key)
 
 
     async def game_new_connection_message(self, event):

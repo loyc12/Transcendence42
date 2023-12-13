@@ -33,3 +33,25 @@ let update_player_info = function (player_info_list) {
 let on_click_update_players = function () {
   update_player_info(mock_player_list);
 };
+
+//Signal that send to the server that this player is ready to join the game.
+let signal_player_ready = function() {
+  document.getElementById("startEngine").disabled = true; 
+  document.getElementById("startEngine").innerHTML = "READY!";
+
+  //document.getElementById("custom-spinner").style.alignItems = "center";
+  document.getElementById("custom-spinner").style.display = "block";
+  let payload = {
+    'ev': 'ready'
+  }
+  console.log('Sending payload : ' + payload);
+  gameWebSock.send(JSON.stringify(payload));
+  console.log('Payload sent.');
+  loadModule('game');
+
+  /// GREY out button
+}
+
+let loadEndGame = function () {
+  loadModule('afterGame');
+}
