@@ -38,8 +38,8 @@ let update_player_info = function (player_info_list) {
     document.getElementById(imgElemID).src = img;
     document.getElementById(nameElemID).innerHTML = `Player ${i} : ${login}`;
     if (ready)
-      document.getElementById(imgElemID)
-      document.getElementById(imgElemID).style.borderBlockColor = "green";
+      document.getElementById(imgElemID).classList.add("playerActive");
+      // document.getElementById(imgElemID).style.borderBlockColor = "green";
   }
 };
 
