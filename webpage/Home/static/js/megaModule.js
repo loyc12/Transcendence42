@@ -61,6 +61,7 @@ let _on_game_event = function(event) {
     else if (data.ev === "player_info") {
         // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
         // with data describing active players.
+        // console.log('Received PLAYR INFO : ' + data.info);
         parsePlayersInfo(data.info);
     }
 
@@ -134,7 +135,7 @@ let loadMegaModule = function (gameType) {
 
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
-    console.log(`init state for gameType ${gameType} : `);
+    console.log(`--- init state for gameType ${gameType} : `);
     console.log(get_default_init_state(gameType));
     parseInitData(get_default_init_state(gameType));
     printCurrentParam(currentGameInfo);
