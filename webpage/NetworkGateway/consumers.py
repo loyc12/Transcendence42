@@ -114,6 +114,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             'ev': 'connection',
             'player_list': event['players'] #self.lobby_game.player_names#[lply.user.display_name for lply in self.lobby_game.players]
         }
+        print('payload ready to go ! ', payload)
         await self.send(text_data=json.dumps(payload))
 
 

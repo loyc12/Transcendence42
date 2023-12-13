@@ -40,14 +40,17 @@ let _on_game_event = function(event) {
 
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
-        /// or another user has connected to the same game. 
+        /// or another user has connected to the same game.
         // TODO: Should trigger a function to update the players list and infos in lobby phase
         console.log('Websocket connection event.')
         let players = data.player_list;
         let i = 0
         for (p of players) {
             ++i;
-            console.log('Player ' + i + ' : ' + p)
+            console.log('Player ' + i + ' : ' + p);
+            console.log(`Player ${i} :: login : ` + p.login)
+            console.log(`Player ${i} :: img : ` + p.img)
+            console.log(`Player ${i} :: ready : ` + p.ready)
         }
         //...
         console.log("Trying to update_player_info()");
@@ -100,7 +103,7 @@ function disconnect_socket() {
         console.log('Trying to close websocket connection')
         gameWebSock.close()
         console.log('Maybe closed websocket ? is closed ?' + gameWebSock.CLOSED);
-        
+
         gameSockID = null;
         gameWebSockPath = null;
         gameWebSock = null;
@@ -119,7 +122,7 @@ let get_default_init_state = function(gameType) {
 }
 
 let loadMegaModule = function (gameType) {
-    
+
     console.log('LOAD MEGA MODULE STARTING GAME JOIN PROCESS !')
     // Send HTTP POST request to get matched to a game in the MatchMaker or create a new one
     if (gameWebSock != null) {
@@ -129,7 +132,7 @@ let loadMegaModule = function (gameType) {
 
     // Load the lobby page.
     loadModule('lobby');
-    
+
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
     console.log(`--- init state for gameType ${gameType} : `);
@@ -137,7 +140,7 @@ let loadMegaModule = function (gameType) {
     parseInitData(get_default_init_state(gameType));
     printCurrentParam(currentGameInfo);
 
-    // Will draw the gameType's default init state 
+    // Will draw the gameType's default init state
     updateCanvas(currentGameInfo);
 
     // Request the server to join a game of gameType. Player will be placed in MatchMaker first.
@@ -159,7 +162,7 @@ let loadMegaModule = function (gameType) {
         //alert('You failed to join a game for the following reason : ' + e)
         console.log('Exeption while requesting to join game : ' + e)
     })
-    
+
     /// Enable player keypress handler
     // TODO: SHOULD WAIT UNTIL GAME START SIGNAL IS SENT BY WEBSOCKET.
     // activatePlayerControler()
@@ -169,7 +172,7 @@ let loadGame = function() {
     console.log('Load loadGame')
     loadModule('game');
     activatePlayerControler();
-    
+
     // document.getElementById('lobby').style.display = 'block';
-    
+
 }
