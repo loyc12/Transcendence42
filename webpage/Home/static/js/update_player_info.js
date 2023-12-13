@@ -39,6 +39,9 @@ let update_player_info = function (player_info_list) {
     // document.getElementById(imgElemID) = login;
     document.getElementById(imgElemID).src = img;
     document.getElementById(nameElemID).innerHTML = `Player ${i} : ${login}`;
+    if (ready)
+      document.getElementById(imgElemID).style.borderBlockColor = "green";
+
     // img_elem.src = img;
     // name_elem.innerHTML = `Player ${i} : ${login}`;
   }
@@ -87,7 +90,6 @@ let on_click_update_players = function () {
 let signal_player_ready = function() {
   document.getElementById("startEngine").disabled = true;
   document.getElementById("startEngine").innerHTML = "READY!";
-
   //document.getElementById("custom-spinner").style.alignItems = "center";
   document.getElementById("custom-spinner").style.display = "block";
   let payload = {
