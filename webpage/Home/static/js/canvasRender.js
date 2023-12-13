@@ -1,3 +1,5 @@
+// let score1 = 0;
+// let score2 = 0;
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;
@@ -23,16 +25,6 @@ let getPlayerShadowColor = function(rank) {
     return playerShadowColors[index];
 }
 
-// Example usage:
-// players.forEach(player => {
-//     const playerName = player.name;
-//     const playerRank = player.rank;
-//     const playerColor = getPlayerColor(playerRank);
-
-//     console.log(`${playerName} (Rank ${playerRank}): Color - ${playerColor}`);
-//     // Now you can use playerColor to set the color in your rendering logic
-// });
-
 
 let clearCanvas = function (ctx, w, h) {
     ctx.clearRect(0, 0, w, h); // Clear the entire canvas
@@ -41,11 +33,23 @@ let clearCanvas = function (ctx, w, h) {
 let renderCanvas = function (ctx, gameInfo) {
     // You can add additional rendering logic here
     // For now, let's just log the canvas dimensions
+    // const score1 = gameInfo.update.scores[0];
+    // const score2 = gameInfo.update.scores[1];
     
     // Render game elements based on initial game data
     renderBall(ctx, gameInfo, gameInfo.update);
     renderRackets(ctx, gameInfo, gameInfo.update);
-    // console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
+    console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
+
+    console.log('Game Score: S1:S2 :', gameInfo.update.scores);
+    // console.log('Game Score: S1 :', score1);
+    // console.log('Game Score: S2 :', score2);
+    
+    // ctx.font = "42px Arial";
+    // ctx.fillStyle = "#ffffff";
+    // ctx.fillText(score1, 100, 50);
+    // ctx.fillText(score2, 700, 50);
+
 }
 
 let renderBall = function (ctx, gameInfo, update) {
@@ -102,7 +106,7 @@ let renderRackets = function(ctx, gameInfo, update) {
 let updateCanvas = function (gameInfo) {
 
     // Update the canvas based on the new data
-    // console.log('Updating canvas with new data:', gameInfo);
+
     // Clear the canvas
     clearCanvas(ctx, canvas.width, canvas.height);
     // Render the canvas with the new data

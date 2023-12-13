@@ -22,7 +22,7 @@ class User(AbstractBaseUser):
     loses           = models.PositiveIntegerField(default=0)
 
     USERNAME_FIELD = "login"
-    
+
     # Method that return a string with the information of the user
     objects = UserManager()
 
@@ -31,7 +31,7 @@ class User(AbstractBaseUser):
                 display_name: {self.display_name},\
                 created_at: {self.created_at},\
                 updated_at: {self.updated_at}"
-    
+
 
     @property
     def current_game(self):
@@ -44,11 +44,11 @@ class User(AbstractBaseUser):
             raise IntegrityError('User should not be referenced in multiple running games.')
         else:
             return cur_games.first()
-        
+
     @property
     def is_ingame(self):
         return (self.current_game is not None)
-    
+
     def get_nb_games_played(self):
         try:
             games_played = self.player_set.get(user=self.id)
@@ -73,7 +73,7 @@ class User(AbstractBaseUser):
 
         if save:
             self.save()
-        
+
 
     # def leave_game(self, save: bool):
     #     cur_game = self.current_game
@@ -86,13 +86,13 @@ class User(AbstractBaseUser):
 
     def join_game(self, game):
         #if not game.can_join(self):
-        #    raise OperationalError('Trying to join game while already playing in another.') 
+        #    raise OperationalError('Trying to join game while already playing in another.')
         cur_game = self.current_game
         if cur_game == game:
             return
         if cur_game and cur_game != game:
             raise OperationalError('User trying to join game while already member of another.')
-            
+
         #self.current_game = game
         game.add_player(self)
         self.save()
