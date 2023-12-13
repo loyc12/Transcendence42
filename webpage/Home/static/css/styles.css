@@ -105,6 +105,11 @@ body.skip-nav:focus {
 #lobby .align-right {
     text-align: left; /* Align text and image to the left */
 }
+
+.infoLobby {
+    /* list-style-type: none; */
+}
+
 /* -- END -- LOBBY CSS -- */
 
 /* -- LOGIN CSS -- */

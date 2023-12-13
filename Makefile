@@ -78,7 +78,7 @@ re: down all
 hard_re: down db_volume_reset update all
 
 
-#	Utility functions 
+#	Utility functions
 logs:
 	docker logs $(shell docker ps -aqf "name=^django_backend")
 db_logs:
@@ -94,7 +94,7 @@ migrations:
 migrate:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py migrate
 flush:
-	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py flush 
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py flush
 
 
 superuser:
@@ -111,7 +111,11 @@ db_volume_reset:
 
 update:
 	@git submodule update -f --init --remote
-#	@cd webpage/game/PingPongRebound && git pull -f origin master
+	@cd webpage/game/PingPongRebound && git checkout master && git pull -f
+
+update_debug:
+	@git submodule update -f --init --remote
+	@cd webpage/game/PingPongRebound && git checkout beta && git pull -f
 
 
 ### DEPENDENCY INSTALLS START >>>
