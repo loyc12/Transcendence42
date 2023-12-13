@@ -196,6 +196,7 @@ class GameConnector:
         ''' Used to kickout player forcefully '''
         #if not self.gameID:
         #    raise GameGatwayException('GameConnector.disconnect_player() can only be called once the game is started. Otherwise call GameGateway.disconnect_player().')
+        print(f'GameConnector :: ENTER disconnect player')
         if not self.lobby_game:
             return None
         async with self.__game_lock:
@@ -203,14 +204,19 @@ class GameConnector:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
 
-
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
+
+        print(f'GameConnector :: SWITCH')
         if self.game:
             ## TODO: Disconnect player while in live game.
+            print(f'GameConnector :: disconnect player {user.id} INGAME')
             await self.push_event(user.id, 'end_game') # send disconnect event to Game instance in game manager. Same place as keypress events.
         elif self.nb_connected > 0:
             ##
+            print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             await self._send_players_list()
+        else:
+            print('WTF DUDE !!')
         #else:
         #    lgame, lply = self.match_maker.remove_player(user)
             #lply = self.lobby_game.remove_user(user)
@@ -378,17 +384,50 @@ class GameGateway(BaseGateway):
         # )
         return gconn
 
-
-    async def disconnect_player(self, user: User):
+    async def disconnect_player(self, user: User, consumer):
         ''' This method should only be used to disconnect players while in lobby. '''
-        async with self.__gateway_lock:
-            rem = self.match_maker.remove_player(user)
-        if not rem:
-            raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
-        lgame, lply = rem
-        if not lgame.is_empty:
-            lgame.game_connector.disconnect_player(user)
-            #lgame.game_connector._send_players_list()
+
+        print('GameGateway trying to disconnect player')
+        gconn = consumer.game_connector
+        if user in self.match_maker:
+            print('\nTry remove and disconnect player in Lobby inside MatchMaker.')
+            async with self.__gateway_lock:
+                rem = self.match_maker.remove_player(user)
+            lgame, lply = rem
+            if not lgame.is_empty:
+                await gconn.disconnect_player(user)
+                #lgame.game_connector._send_players_list()
+
+        elif (gconn is not None):
+            print('\nTry remove and disconnect player IN GAME.')
+            await gconn.disconnect_player(user)
+            consumer.user = None
+            consumer.game_connector = None
+
+        else:# Disconnect if in tournament
+            print('Trying to disconnect but GOT ELSED !')
+
+
+
+        # async with self.__gateway_lock:
+        #     rem = self.match_maker.remove_player(user)
+        # if not rem:
+        #     raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
+        # lgame, lply = rem
+        # if not lgame.is_empty:
+        #     lgame.game_connector.disconnect_player(user)
+        #     #lgame.game_connector._send_players_list()
+
+    # async def disconnect_player(self, user: User, consumer):
+    #     ''' This method should only be used to disconnect players while in lobby. '''
+    #     async with self.__gateway_lock:
+    #         rem = self.match_maker.remove_player(user)
+    #     if not rem:
+    #         raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
+    #     lgame, lply = rem
+    #     if not lgame.is_empty:
+    #         lgame.game_connector.disconnect_player(user)
+    #         #lgame.game_connector._send_players_list()
 
 
     @sync_to_async
@@ -487,7 +526,16 @@ class GameGateway(BaseGateway):
 
 
 
-    async def manage_end_game(end_game_state: dict):
+    async def manage_end_game(self, end_game_state: dict):
         ''' Will deal with either individual games or tournament games. Called by GameManager at the end of a game. '''
+        print('\n\n !!!! WOWOW MANAGING END GAME !!!\n\n')
+        print('END GAME : ', end_game_state)
+
+        if not end_game_state:
+            raise GameGatwayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
+
+        gconn = end_game_state.pop('gameConnector')
+
+        # stop_and_register_results
         pass
 

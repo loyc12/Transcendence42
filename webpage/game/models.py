@@ -44,7 +44,7 @@ class Game(models.Model):
                 "\n<-| final score :   " + (self.finale_scores if self.finale_scores else 'None') +\
                 "\n<---------------------------------->"
                 #"\n<-| host :          " + (self.host.username if self.host else 'None') +\
-    
+
     def __repr__(self):
         return (self.__str__())
 
@@ -66,7 +66,7 @@ class Game(models.Model):
     @property
     def is_full(self):
         return self.players.count() == self.max_players
-    
+
     def can_join(self, user: User) -> bool:
         return (
             not (
@@ -125,9 +125,9 @@ class Game(models.Model):
     #      Does NOT remove the users from the game's players field since it is used to log
     #      the games data long term for users to track their stats through games they played in.
     #      This will allow players to join an other game in the future. This should only
-    #      be done when the it is time to cut ties with between the game and its players 
+    #      be done when the it is time to cut ties with between the game and its players
     #      to definitly in at runtime. '''
-        
+
     #     plys = self.players.all()
     #     for ply in plys:
     #         ply.leave_game(save=False)
@@ -140,7 +140,7 @@ class Game(models.Model):
 
 
     def stop_and_register_results(self, scores: dict[int, int]):
-        ''' 
+        '''
             Sets the game as over.
             params:
                 - scores: should have len == max_players for the game type
@@ -156,7 +156,7 @@ class Game(models.Model):
         plys = Player.objects.filter(game=self)
         if len(plys) != self.max_players:
             raise IntegrityError("Nb of players registered to the game does not fit the number required for this game type.")
-        
+
         # Set score for individual players in game
         for ply in plys:
             ply.score = scores[ply.user.id]
@@ -173,6 +173,6 @@ class Game(models.Model):
         self.timestamp_end()
 
         self.finale_scores = scores
-        
+
         #self.__flush_all_players()
         self.save()

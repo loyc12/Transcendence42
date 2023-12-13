@@ -135,6 +135,9 @@ let loadMegaModule = function (gameType) {
         throw new EvalError("You can't connect to a game while already connected to another.");
     }
 
+    // Resets lobby state
+    reset_default_lobby();
+
     // Load the lobby page.
     loadModule('lobby');
 
