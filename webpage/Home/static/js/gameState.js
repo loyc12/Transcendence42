@@ -177,7 +177,6 @@ function parseInitData (init_data) {
     canvas.width = width;
     canvas.height = height;
 
-<<<<<<< HEAD
     // currentGameInfo.scores = [0,0];
     //  // Display scores
     // for (let i = 0; i < currentGameInfo.scores.length; i++) {
@@ -186,8 +185,6 @@ function parseInitData (init_data) {
     //     gameInfoContainer.appendChild(scoreElement);
     // }
     
-=======
->>>>>>> 89314c4c8131f4868be3f838fd170a6b99f002d4
     /// Pre calculations used in rendering functions
     currentGameInfo.racketSize = init_data.sizeInfo.sRacket;
     currentGameInfo.ballSize = init_data.sizeInfo.sBall;

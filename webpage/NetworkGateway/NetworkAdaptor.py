@@ -1,33 +1,33 @@
 '''
-    This WebsocketNetworkAdaptor class is a singleton that manages the bidirectional 
+    This WebsocketNetworkAdaptor class is a singleton that manages the bidirectional
     throughput between the AsyncWebsocketConsumers and the singleton
     GameManager instance that manages the async gameloops for all games.
-    It's methods should be called when connecting and disconnecting clients 
-    of websockets, and receiving and sending messages through them. 
+    It's methods should be called when connecting and disconnecting clients
+    of websockets, and receiving and sending messages through them.
 
     The standard format for sent and received messages from/to websockets is
-    as follows : 
+    as follows :
 
         - All messages start by an 'ev' field describing the event type of this
-        specific communication. 
-        
-        List of event types received from the client: 
+        specific communication.
+
+        List of event types received from the client:
             1. 'start': Sets the client state as ready.
             2. 'stop': Player requests the game to stop.
                     This will stop the game (Opponent wins by default).
             3. 'keypress': Next to the 'ev' key will be a 'details' dict wih the dict key named 'key'
-                    describing the keyboard input that triggered the event as str. 
+                    describing the keyboard input that triggered the event as str.
                     To get its value, the event should be indexed as such : keypressed = event['details']['key']
             4. 'keyrelease' (ignorable): Same as format as 'keypress'.
             ...
 
         List of event types sent to the client:
-            1. 'up': Event type for regular updates of game states. 
+            1. 'up': Event type for regular updates of game states.
                     Next to the 'ev' dict key will be the 'state' key with the current game state as value.
                     See GameManager for details.
             2. 'disconnect' (Theoretical): Kicks out player from game, stops game for all players and cancel game records keeping.
 
-        
+
 '''
 
 #COLLE
@@ -78,7 +78,7 @@ class BaseGateway(ABC):
 
 
 class GameConnector:
-    ''' Game connector holds the information necessary to handle the sending 
+    ''' Game connector holds the information necessary to handle the sending
         of game updates.
     '''
     __channel_layer = get_channel_layer()
@@ -116,12 +116,12 @@ class GameConnector:
     @property
     def gameID(self):
         return self.__gameDB.id
-    
+
     def set_lobby_game(self, lgame):
         if self.lobby_game and lgame != self.lobby_game:
             GameGatwayException('Trying to set game_connector.lobby_game to different game. lobby_game can only be set once.')
         self.lobby_game = lgame
-    
+
     def set_game_db_instance(self, game: Game):
         if not (game and isinstance(game, Game)):
             raise TypeError('Trying to set game instance to game connector, but object passed is not a Game model type.')
@@ -166,7 +166,8 @@ class GameConnector:
             }
             for ply in players
         ]
-        
+        print('send player info payload : ', payload)
+
         #payload = json.dumps(names)
         await self.__channel_layer.group_send(
             self.__sockID,
@@ -186,30 +187,36 @@ class GameConnector:
             self.__sockID,
             consumer.channel_name
         )
-        asyncio.gather(
-            self._send_players_list(),
-        )
+        # asyncio.gather(
+        await self._send_players_list()
+        # )
 
 
     async def disconnect_player(self, user):
         ''' Used to kickout player forcefully '''
         #if not self.gameID:
         #    raise GameGatwayException('GameConnector.disconnect_player() can only be called once the game is started. Otherwise call GameGateway.disconnect_player().')
+        print(f'GameConnector :: ENTER disconnect player')
         if not self.lobby_game:
             return None
         async with self.__game_lock:
             if user.id not in self.__player_consumers:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
-        
 
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
+
+        print(f'GameConnector :: SWITCH')
         if self.game:
-            ## TODO: Disconnect player while in live game. 
+            ## TODO: Disconnect player while in live game.
+            print(f'GameConnector :: disconnect player {user.id} INGAME')
             await self.push_event(user.id, 'end_game') # send disconnect event to Game instance in game manager. Same place as keypress events.
         elif self.nb_connected > 0:
-            ## 
+            ##
+            print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             await self._send_players_list()
+        else:
+            print('WTF DUDE !!')
         #else:
         #    lgame, lply = self.match_maker.remove_player(user)
             #lply = self.lobby_game.remove_user(user)
@@ -249,17 +256,17 @@ class GameConnector:
                 }
             )
         # self.__send_state_change('start', 'start', '')
-        
+
     async def send_score(self, scores):
         if not scores:
             raise TypeError('No scores was provided.')
         self.__send_state_change('scores', 'scores', scores)
-        
+
 
     async def start_countdown(self):
         if not self.is_running:
             raise ValueError('Trying to start countdown, but game is not initialized.')
-        
+
         event = {
             'ev': 'countdown',
             'counter': 3
@@ -298,7 +305,7 @@ class GameGateway(BaseGateway):
 
         #self.__connected_games: dict[str, GameConnector] = dict()
         self.__gateway_lock = asyncio.Lock()
-        
+
     @property
     def match_maker(self):
         return self.__match_maker
@@ -335,7 +342,7 @@ class GameGateway(BaseGateway):
         ''' Called by websocket consumer connect() method. '''
         if not (self.__game_manager or self.__match_maker):
             raise ValueError('MatchMaker and GameManager must be set before accepting connections.')
-        
+
         #gconn = await self.__get_game_connector(sockID)
         #await gconn.add_player(consumer.user, consumer)
 
@@ -376,18 +383,51 @@ class GameGateway(BaseGateway):
         #     }
         # )
         return gconn
-    
 
-    async def disconnect_player(self, user: User):
+    async def disconnect_player(self, user: User, consumer):
         ''' This method should only be used to disconnect players while in lobby. '''
-        async with self.__gateway_lock:
-            rem = self.match_maker.remove_player(user)
-        if not rem:
-            raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
-        lgame, lply = rem
-        if not lgame.is_empty:
-            lgame.game_connector.disconnect_player(user)
-            #lgame.game_connector._send_players_list()
+
+        print('GameGateway trying to disconnect player')
+        gconn = consumer.game_connector
+        if user in self.match_maker:
+            print('\nTry remove and disconnect player in Lobby inside MatchMaker.')
+            async with self.__gateway_lock:
+                rem = self.match_maker.remove_player(user)
+            lgame, lply = rem
+            if not lgame.is_empty:
+                await gconn.disconnect_player(user)
+                #lgame.game_connector._send_players_list()
+
+        elif (gconn is not None):
+            print('\nTry remove and disconnect player IN GAME.')
+            await gconn.disconnect_player(user)
+            consumer.user = None
+            consumer.game_connector = None
+
+        else:# Disconnect if in tournament
+            print('Trying to disconnect but GOT ELSED !')
+
+
+
+        # async with self.__gateway_lock:
+        #     rem = self.match_maker.remove_player(user)
+        # if not rem:
+        #     raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
+        # lgame, lply = rem
+        # if not lgame.is_empty:
+        #     lgame.game_connector.disconnect_player(user)
+        #     #lgame.game_connector._send_players_list()
+
+    # async def disconnect_player(self, user: User, consumer):
+    #     ''' This method should only be used to disconnect players while in lobby. '''
+    #     async with self.__gateway_lock:
+    #         rem = self.match_maker.remove_player(user)
+    #     if not rem:
+    #         raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
+    #     lgame, lply = rem
+    #     if not lgame.is_empty:
+    #         lgame.game_connector.disconnect_player(user)
+    #         #lgame.game_connector._send_players_list()
 
 
     @sync_to_async
@@ -410,7 +450,7 @@ class GameGateway(BaseGateway):
 
         # Checks if is local game with 2 local players on same keyboard or single player on board. Passes the result to addGame().
         GameManagerMode = df.DUAL if (lgame.gameMode == 'Local_2p') else df.SOLO
-        
+
         game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount(gameType))
 
         self.match_maker.remove_lobby_game(lgame)
@@ -430,7 +470,7 @@ class GameGateway(BaseGateway):
         tasks = [gm.addPlayerToGame(lply.user.id, lply.user.login, lgame.sockID) for lply in lgame.players]
         await asyncio.gather(*tasks)
         # await game_connector.send_init_state(gm.getInitInfo(gameType))
-        
+
         await lgame.game_connector.send_start_signal()
         await gm.startGame(lgame.sockID)
         #lgame.set_is_started()
@@ -440,20 +480,22 @@ class GameGateway(BaseGateway):
     async def set_player_ready(self, user: User):
         ''' Called from a sync HTTP POST request, so no reference to lobby_game
         or game_connector unlike websocket messages with consumer. '''
+        print(f"\n\nTrying to set user {user.id} as ready")
         async with self.__gateway_lock:
             lgame = self.match_maker.set_ready(user)
 
         if not lgame:
             raise GameGatwayException(f"Trying to set user {user.login} as ready, but wasn't found in lobby.")
 
-        print(f"Trying to set user {user.id} as ready")
+        await lgame.game_connector._send_players_list()
+        print('Checking if game is ready ?')
         if lgame.is_ready:
             ## SEND GAME TO GAME MANAGER
             print('\n\n GAME IS READY !!! ')
             print('SENDING GAME TO MANAGER !!! ')
             await self.__push_game_to_gamemanager(lgame.gameType, lgame)
             print(f"Lobby Game send to game manager : ", {lgame})
-            
+
 
 
     async def __send_single_async_update(self, game_id, state, ev_wrap):
@@ -481,10 +523,19 @@ class GameGateway(BaseGateway):
         for game_id, state in game_states.items():
             # tasks.append(self.__send_single_async_update(game_id, state, ev_wrap))
             await self.__send_single_async_update(game_id, state, ev_wrap)
- 
 
 
-    async def manage_end_game(end_game_state: dict):
+
+    async def manage_end_game(self, end_game_state: dict):
         ''' Will deal with either individual games or tournament games. Called by GameManager at the end of a game. '''
+        print('\n\n !!!! WOWOW MANAGING END GAME !!!\n\n')
+        print('END GAME : ', end_game_state)
+
+        if not end_game_state:
+            raise GameGatwayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
+
+        gconn = end_game_state.pop('gameConnector')
+
+        # stop_and_register_results
         pass
 

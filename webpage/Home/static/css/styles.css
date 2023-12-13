@@ -14,7 +14,7 @@ body.skip-nav {
     width:0;
     overflow:hidden;
   }
-  
+
 body.skip-nav:focus {
     overflow:visible;
     background:black;
@@ -106,8 +106,13 @@ body.skip-nav:focus {
     text-align: left; /* Align text and image to the left */
 }
 
-.infoLobby {
-    /* list-style-type: none; */
+#lobbyActive {
+    border-width: 4px;
+    border-style: solid;
+    border-color: #e51097;
+}
+#infoLobby {
+    list-style-type: none;
 }
 
 /* -- END -- LOBBY CSS -- */
@@ -226,7 +231,7 @@ body.skip-nav:focus {
 
 .connectors {
     float: left;
-    min-width: 100px; /*move the finals and winner box*/ 
+    min-width: 100px; /*move the finals and winner box*/
 }
 
 .connectors.finals .top-line {

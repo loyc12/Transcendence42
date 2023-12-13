@@ -40,7 +40,7 @@ class LobbyGame:
     def __get_lobby_id(cls):
         cls.__id_counter += 1
         return cls.__id_counter
-    
+
     @classmethod
     def set_maxPlayerCounts(cls, maxPlayerCounts: dict):
         if not (maxPlayerCounts and isinstance(maxPlayerCounts, dict)):
@@ -70,7 +70,7 @@ class LobbyGame:
         return self.__id
     @property
     def sockID(self):
-        return "sock{:06d}".format(self.__id)    
+        return "sock{:06d}".format(self.__id)
     @property
     def form(self):
         return self.__form
@@ -104,17 +104,8 @@ class LobbyGame:
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
     def is_full(self):
-        print('-> Game Lobby is full check : ')
-        print('-> is withAI : ', self.withAI)
-        print('-> (self.gameMode == "Local_2p") : ', (self.gameMode == 'Local_2p'))
-        print('-> (len(self.__players) > 0) : ',  (len(self.__players) > 0))
-        print('-> full test (self.withAI or (self.gameMode == "Local_2p")) and (len(self.__players) > 0) : ', (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0))
-        print('-> (False or False) and True : ', (False or False) and True)
-        print('-> ((self.withAI or (self.gameMode == "Local_2p")) and (len(self.__players) : ', (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0))
         if (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0):
-            print("WHERE's MY BIG MISTAKE")
             return True
-        print(f"-> has required nb players {self.nb_players}/{self.__required_players}")
         return self.nb_players == self.__required_players
     @property
     def is_empty(self):
@@ -140,7 +131,7 @@ class LobbyGame:
             raise MatchMakerWarning(f'Tryin to set user {user.login} as ready in game {self.lobbyID}, but this player is not in this game.')
         lply.is_ready = True
         return lply
-    
+
     def remove_user(self, user: User):
         for i, lply in enumerate(self.__players):
             if user == lply.user:
@@ -170,7 +161,7 @@ class LobbyGame:
 class MatchMaker:
 
     _maxRacketCounts = dict()
-    
+
     def __init__(self, game_manager = None):
 
         self.gm = game_manager
@@ -200,10 +191,13 @@ class MatchMaker:
             # }
 
 
+    def __contains__(self, user: User):
+        return self.has_player(user)
+
     def has_game(self, gameID):
         pass
     def has_player(self, user: User):
-        pass
+        return self.__find_player_in_lobby(user) is not None
 
 
     # def is_game_full(self, gameType: str, lgame: LobbyGame):
@@ -216,13 +210,13 @@ class MatchMaker:
     #     # then 2 players are allowed.
     #     if lgame.withAI and lgame.players and lgame.players[0].is_ready:
     #         return True
-        
+
     #     return self.is_game_full(lgame.gameType, lgame)\
     #         and all(lply.is_ready for lply in lgame.players)
 
 
     def __find_existing_game_such_as(self, user: User, form: GameCreationForm|dict):
-    
+
         for lgame in self._gameLobby[form['gameMode']]:
             for lply in lgame.players:
                 # if user == lply.user:
@@ -250,13 +244,13 @@ class MatchMaker:
 
     def remove_lobby_game(self, lgame: LobbyGame):
         ''' Begore removing game from lobby prior to adding game in GameManager,
-        make sure to keep a ref outside to extract its GameConnector instance to 
+        make sure to keep a ref outside to extract its GameConnector instance to
         pass to GameManager. '''
         game_mode = lgame.gameMode
         modeGames = self._gameLobby[game_mode]
         if lgame not in modeGames:
             raise MatchMakerException(f"Trying to remove game {lgame} from the lobby but this game does not exist in MatchMaker.")
-        
+
         modeGames.remove(lgame)
         #game_type = lgame.gameType
         #if not game_type or not game_type in self._gameLobby:
@@ -292,15 +286,15 @@ class MatchMaker:
     #     for lply in lgame.players:
     #         await self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id)
     #     await self.gm.startGame(game.id)
-    #     lgame.set_is_started()        
+    #     lgame.set_is_started()
     #     self.__remove_lobby_game(lgame)
     #     return lgame
 
     #COLLE
     # recois le form ici
     def join_lobby(self, user: User, form: GameCreationForm|dict):
-        ''' Can accept either GameCreationForm.cleaned_data objects or 
-        popperly formated dict with valid entries for "gameMode" and "gameType". 
+        ''' Can accept either GameCreationForm.cleaned_data objects or
+        popperly formated dict with valid entries for "gameMode" and "gameType".
         Then, if valid, instanciates the game in the database and puts  '''
 
         gameMode = form.get('gameMode')
@@ -330,7 +324,7 @@ class MatchMaker:
 
     def connect_player(self, user: User):
         ''' Called by websocked when player connects to the games websocker with lobbyID
-            after having called join_lobby() first, but before the game has officialy 
+            after having called join_lobby() first, but before the game has officialy
             been created. '''
         finder_result = self.__find_player_in_lobby(user)
         #print('finder_result : ', finder_result)
@@ -339,16 +333,16 @@ class MatchMaker:
         gameMode, lgame, lply = finder_result
         lply.is_connected = True
 
-        ### DEBUG ONLY 
+        ### DEBUG ONLY
         # print('Try set player ready ...')
         #if not await self.set_ready(user):
         #    return None
         # print('Player supposed to be ready')
-        ##lply.is_ready = True ### DEBUG ONLY 
-        ### DEBUG ONLY 
+        ##lply.is_ready = True ### DEBUG ONLY
+        ### DEBUG ONLY
 
         print('gameMode, gameType, lgame, lply: ', gameMode, lgame.gameType, lgame, lply)
-        
+
         print(f'User {user.login} was SUCCESSFULLY connected !')
         #if self.is_game_ready(lgame):
         #    asyncio.run(self.__push_game_to_gamemanager(lgame.gameType, lgame))
@@ -369,22 +363,23 @@ class MatchMaker:
     def set_ready(self, user: User):
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
-            return None        
+            print('Player not in lobby while setting ready.')
+            return None
         gameMode, lgame, lply = finder_result
         lply.is_ready = True
         return lgame
         #return self.set_ready_player(lgame, lply)
-        
-        
+
+
 
     def remove_player(self, user: User):
         #gameType, lgame, lply = self.__find_player_in_lobby(user)
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
-            return None        
+            return None
         gameMode, lgame, lply = finder_result
         if lgame.nb_players == 1:
-            self.__remove_lobby_game(lgame)
+            self.remove_lobby_game(lgame)
             #self._maxRacketCounts[lgame.gameType].remove(lgame)
         else:
             lgame.remove_player(lply)

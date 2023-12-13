@@ -72,8 +72,8 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, event):
         ### REWORK NEEDED
         print('Websocket disconnecting !')
-        if self.game_connector.lobby_game:
-            self.game_connector.disconnect_player(self.user)
+        await self.netGateway.disconnect_player(self.user, self)
+            # self.game_connector.disconnect_player(self.user)
             #if self.game_connector.game:
             #else:
             #    self.netGateway.diconnect_player(self.user)
@@ -114,6 +114,7 @@ class GameConsumer(AsyncWebsocketConsumer):
             'ev': 'connection',
             'player_list': event['players'] #self.lobby_game.player_names#[lply.user.display_name for lply in self.lobby_game.players]
         }
+        print('payload ready to go ! ', payload)
         await self.send(text_data=json.dumps(payload))
 
 

@@ -17,46 +17,95 @@ let mock_player_list = [
   },
 ];
 
+
+const default_lobby_template = document.getElementById('lobby').innerHTML;
+console.log(default_lobby_template)
+
+
+let reset_default_lobby = function () {
+  document.getElementById('lobby').innerHTML = default_lobby_template;
+}
+
+
 let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
+  document.getElementById("startEngine").disabled = false;
 
-  // for (ply of players) {
-  //   imgElemID = ``
+  // for (let i=1; i <= 4; ++i) {
+  //   // currentGameInfo.racketCount;
+  //   profElemID = `lobbyProfile${i}`;
+  //   imgElemID = `imgPlayer${i}`;
+  //   nameElemID = `namePlayer${i}`;
+  //   document.getElementById(profElemID).style.display = 'block';
+
+  //   if (! player_info_list) {
+  //     // CLEAN UP
+  //     // lobbyProfile1
+  //     document.getElementById(imgElemID).style.border = "3px outset #ffffff";
+  //     document.getElementById(nameElemID).innerHTML = `Player ${i} : --`;
+  //     if (i > currentGameInfo.racketCount)
+  //       document.getElementById(profElemID).style.display = 'none';
+
+  //   } else {
+  //     // DISPLAY REAL PLAYERS
+  //     if (i >= currentGameInfo.racketCount)
+  //       break;
+  //     ply = player_info_list[i - 1];
+
+  //     login = ply.login;
+  //     img = ply.img;
+  //     ready = ply.ready;
+
+  //     console.log('login : ' + login)
+  //     console.log('img : ' + img)
+  //     console.log('ready : ' + ready)
+
+  //     document.getElementById(imgElemID).src = img;
+  //     document.getElementById(nameElemID).innerHTML = `Player ${i} : ${login}`;
+  //     if (ready)
+  //     {
+  //       console.log(`Player ${i} is ready`);
+  //       document.getElementById(imgElemID).style.border = "3px outset #34eb34";
+  //     }
+  //   }
   // }
 
-  // profil_elem = document.getElementById("lobbyProfile1");
-  // img_elem1 = document.getElementById("imgPlayer1");
-  // img_elem2 = document.getElementById("imgPlayer2");
-  // img_elem3 = document.getElementById("imgPlayer3");
-  img_elem4 = document.getElementById("imgPlayer4");
-  // img_elem1.src = '';
-  // img_elem2.src = 
-  // img_elem3.src = 
-  // img_elem4.src = 
-
-  // name_elem1 = document.getElementById("namePlayer1");
-  // name_elem2 = document.getElementById("namePlayer2")
-  // name_elem3 = document.getElementById("namePlayer3")
-  name_elem4 = document.getElementById("namePlayer4")
-  player_name = 'Bobby !';
-  name_elem4.innerHTML = `Player4 : ${player_name}`;////'<div class="align-right4 style="color: #f0ffff; font-size: 40px;" id="namePlayer1">Player1 : Bobby ! </div>';
-  //name_eme2.innerHTML= "Player1 :" + {{ namePlayer1 }}
 
 
+  if (!player_info_list) {
+    for (let i=1; i <= 4; ++i) {
+      imgElemID = `imgPlayer${++i}`;
+      nameElemID = `namePlayer${i}`;
 
+    }
+  }
+  else {
+    let i = 0;
+    for (ply of player_info_list) {
+      imgElemID = `imgPlayer${++i}`;
+      nameElemID = `namePlayer${i}`;
 
-  // elems = [];
-  // elems.push(document.getElementById("lobbyProfil_img1"));
-  // elems.push(document.getElementById("player2"));
-  // elems.push(document.getElementById("player3"));
-  // elems.push(document.getElementById("player4"));
+      login = ply.login;
+      img = ply.img;
+      ready = ply.ready;
 
-  // player_info_list;
-  // for (let i = 0; i < elems.length; i++) {
-  //   elems[i].textContent = player_info_list[i]["playerName"];
-  // }
-};
+      console.log('login : ' + login)
+      console.log('img : ' + img)
+      console.log('ready : ' + ready)
+
+      document.getElementById(imgElemID).src = img;
+      document.getElementById(nameElemID).innerHTML = `Player ${i} : ${login}`;
+      if (ready)
+      {
+        console.log(`Player ${i} is ready`);
+        // document.getElementById(imgElemID).classList.add("lobbyActive");
+        // document.getElementById(imgElemID).style.borderColor = "green";
+        document.getElementById(imgElemID).style.border = "3px outset #34eb34";
+      }
+    }
+  }
+}
 
 let on_click_update_players = function () {
   update_player_info(mock_player_list);
@@ -64,9 +113,8 @@ let on_click_update_players = function () {
 
 //Signal that send to the server that this player is ready to join the game.
 let signal_player_ready = function() {
-  document.getElementById("startEngine").disabled = true; 
+  document.getElementById("startEngine").disabled = true;
   document.getElementById("startEngine").innerHTML = "READY!";
-
   //document.getElementById("custom-spinner").style.alignItems = "center";
   document.getElementById("custom-spinner").style.display = "block";
   let payload = {
