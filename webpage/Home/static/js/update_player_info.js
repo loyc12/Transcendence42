@@ -54,4 +54,5 @@ let signal_player_ready = function() {
 
 let loadEndGame = function () {
   loadModule('afterGame');
+  disconnect_socket();
 }
