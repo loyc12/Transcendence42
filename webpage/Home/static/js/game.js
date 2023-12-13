@@ -92,21 +92,21 @@ let request_join_game = async function (gameType) {
   return sockID;
 }
 
-let send_ready_signal = function () {
-  /// Called when player is connected to websocket and wants to set themself as ready to start playing.
+// let send_ready_signal = function () {
+//   /// Called when player is connected to websocket and wants to set themself as ready to start playing.
 
-  fetch('https://' + window.location.host + '/game/ready/', {
-      method: "POST",
-      credentials: 'same-origin',
-      headers: {
-          "X-CSRFToken": getCookie("csrftoken")
-      }
-  })
-  .then (function(data) {
-      console.log('Ready signal was received and handled SUCCESSFULLY')
-  })
-  .catch(err => console.log(err));
-}
+//   fetch('https://' + window.location.host + '/game/ready/', {
+//       method: "POST",
+//       credentials: 'same-origin',
+//       headers: {
+//           "X-CSRFToken": getCookie("csrftoken")
+//       }
+//   })
+//   .then (function(data) {
+//       console.log('Ready signal was received and handled SUCCESSFULLY')
+//   })
+//   .catch(err => console.log(err));
+// }
 
 /*
 let join_payload_builder = function (gameMode, gameType, withAI, eventID=0) {

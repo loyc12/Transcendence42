@@ -82,7 +82,7 @@ class LobbyGame:
         return self.__form['gameMode']
     @property
     def withAI(self):
-        return self.__form['withAI']
+        return self.__form['withAI'] == 'True'
     @property
     def players(self):
         return self.__players
@@ -97,11 +97,24 @@ class LobbyGame:
         return self.__game_connector
     @property
     def is_ready(self) -> bool:
+        print('-> Game Lobby is_ready check :')
+        print('-> is_full : ', self.is_full)
+        print('-> Players connected and ready status : ', [lply.is_connected and lply.is_ready for lply in self.__players])
+
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
     def is_full(self):
-        if (self.withAI or (self.gameMode == 'Local_2p')) and self.__players:
+        print('-> Game Lobby is full check : ')
+        print('-> is withAI : ', self.withAI)
+        print('-> (self.gameMode == "Local_2p") : ', (self.gameMode == 'Local_2p'))
+        print('-> (len(self.__players) > 0) : ',  (len(self.__players) > 0))
+        print('-> full test (self.withAI or (self.gameMode == "Local_2p")) and (len(self.__players) > 0) : ', (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0))
+        print('-> (False or False) and True : ', (False or False) and True)
+        print('-> ((self.withAI or (self.gameMode == "Local_2p")) and (len(self.__players) : ', (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0))
+        if (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0):
+            print("WHERE's MY BIG MISTAKE")
             return True
+        print(f"-> has required nb players {self.nb_players}/{self.__required_players}")
         return self.nb_players == self.__required_players
     @property
     def is_empty(self):
@@ -165,6 +178,7 @@ class MatchMaker:
         self._gameLobby = {
             'Tournament': [],
             'Multiplayer': [],
+            'Online_4p': [],
             'Local_1p': [],
             'Local_2p': []
         }

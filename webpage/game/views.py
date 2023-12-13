@@ -82,6 +82,7 @@ def game_join(request):
     #return HttpResponse(f"Trying to create game with id : {game_id}")
 
 
+
 ''' Testing game instances creation '''
 def _build_test_game(user: User) -> Game:
     return (Game.objects.create(
