@@ -21,21 +21,28 @@ let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
 
-  profil_elem = document.getElementById("lobbyProfile1");
-  img_elem1 = profil_elem.getElementById("imgPlayer1");
-  // img_elem2 = profil_elem.getElementById("imgPlayer1")
-  // img_elem3 = profil_elem.getElementById("imgPlayer1")
-  // img_elem4 = profil_elem.getElementById("imgPlayer1")
+  // for (ply of players) {
+  //   imgElemID = ``
+  // }
+
+  // profil_elem = document.getElementById("lobbyProfile1");
+  // img_elem1 = document.getElementById("imgPlayer1");
+  // img_elem2 = document.getElementById("imgPlayer2");
+  // img_elem3 = document.getElementById("imgPlayer3");
+  img_elem4 = document.getElementById("imgPlayer4");
   // img_elem1.src = '';
   // img_elem2.src = 
   // img_elem3.src = 
   // img_elem4.src = 
 
-  name_elem1 = profil_elem.getElementById("namePlayer1");
-  // name_elem2 = profil_elem.getElementById("namePlayer2")
-  // name_elem3 = profil_elem.getElementById("namePlayer3")
-  // name_elem4 = profil_elem.getElementById("namePlayer4")
-  name_elem1.innerHTML = 'Player 1 : Bobby !';
+  // name_elem1 = document.getElementById("namePlayer1");
+  // name_elem2 = document.getElementById("namePlayer2")
+  // name_elem3 = document.getElementById("namePlayer3")
+  name_elem4 = document.getElementById("namePlayer4")
+  player_name = 'Bobby !';
+  name_elem4.innerHTML = `Player4 : ${player_name}`;////'<div class="align-right4 style="color: #f0ffff; font-size: 40px;" id="namePlayer1">Player1 : Bobby ! </div>';
+  //name_eme2.innerHTML= "Player1 :" + {{ namePlayer1 }}
+
 
 
 
