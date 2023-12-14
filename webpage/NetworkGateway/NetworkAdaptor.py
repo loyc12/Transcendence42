@@ -204,6 +204,8 @@ class GameConnector:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
 
+        #await self.send_end_state(end_state);
+
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
 
         print(f'GameConnector :: SWITCH')
@@ -216,6 +218,7 @@ class GameConnector:
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             await self._send_players_list()
         else:
+        #SOLO AI exemple : 
             print('WTF DUDE !!')
         #else:
         #    lgame, lply = self.match_maker.remove_player(user)
@@ -236,13 +239,13 @@ class GameConnector:
 
     async def send_init_state(self, state):
         if not state:
-            raise TypeError('No state was provided.')
+            raise TypeError('send_init_state :: No state was provided.')
         self.__send_state_change('init_game', 'init_state', state)
 
     async def send_end_state(self, state):
         if not state:
-            raise TypeError('No state was provided.')
-        self.__send_state_change('end_game', 'end_state', state)
+            raise TypeError('send_end_state :: No state was provided.')
+        self.__send_state_change('end', 'end_state', state)
 
     async def send_start_signal(self):
         print('<<< SENDING START SIGNAL !! >>>')
@@ -535,6 +538,8 @@ class GameGateway(BaseGateway):
             raise GameGatwayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
 
         gconn = end_game_state.pop('gameConnector')
+        await gconn.send_end_state(end_game_state)
+        # gconn.disconnect_player(self.user);
 
         # stop_and_register_results
         pass

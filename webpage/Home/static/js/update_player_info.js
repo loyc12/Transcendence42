@@ -96,6 +96,7 @@ let signal_player_ready = function() {
 }
 
 let loadEndGame = function () {
+  console.log('CALLED loadEndGame');
   loadModule('aftergame');
   disconnect_socket();
 }
