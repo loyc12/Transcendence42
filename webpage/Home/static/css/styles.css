@@ -91,7 +91,13 @@ body.skip-nav:focus {
     border: solid 1px #000000;
 }
 
-.lobbyProfile {
+#lobby table.table-primary tbody .infoLobby {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#lobby .lobbyProfile {
     display: flex;
     flex-direction: column;
 }
@@ -103,11 +109,10 @@ body.skip-nav:focus {
 
 #lobby td, #lobby th {
     padding: 10px;
-    text-align: left;
 }
 
 #lobby .align-right {
-    text-align: left; /* Align text and image to the left */
+    text-align: right; /* Align text to the right*/
 }
 
 #lobbyActive {
@@ -116,20 +121,25 @@ body.skip-nav:focus {
     border-color: #e51097;
 }
 
-.playerImage {
-    border: 3px outset white;
-    border-radius: 50%;
+#lobby .playerImage {
+    margin-right: 15px;
 }
 
-#infoLobby {
+#lobby .infoLobby {
     list-style-type: none;
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.align-right {
+#lobby .align-right {
     margin-left: 10px;
+}
+
+#lobby .custom-spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* -- END -- LOBBY CSS -- */

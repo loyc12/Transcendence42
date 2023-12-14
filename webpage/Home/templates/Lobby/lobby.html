@@ -8,23 +8,34 @@
 					<tbody>
 						<!-- Column system to align imgf info.-->
 						<tr class="table-active">
-							<td colspan="2" class="table-active" style="font-size: 40px; margin: 30px; text-align: center;">Players
+							<td colspan="2" class="table-active" style="font-size: 40px; margin: 30px; text-align: center;">Players</td>
 
 							<!-- Player Box EXAMPLE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-							<div class="lobbyProfile" >
-								<div class="infoLobby" id="lobbyProfile1">
-									<img src="../../static/img/Celine4.png" class="playerImg" alt="player1" width="60" id="imgPlayer1" loading="lazy">
-									<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer1">Player1 :{{ namePlayer1 }} </div>
-								<div class="infoLobby" id="lobbyProfile2">
-									<img src="../../static/img/Celine3.png" class="playerImg" alt="player2" width="60" id="imgPlayer2" loading="lazy">
-									<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer2">Player2 :{{ namePlayer2 }} </div>
-								<div class="infoLobby" id="lobbyProfile3">
-									<img src="../../static/img/Celine2.png" class="playerImg" alt="player3" width="60" id="imgPlayer3" loading="lazy">
-									<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer3">Player3 :{{ namePlayer3 }} </div>
-								<div class="infoLobby" id="lobbyProfile4">
-									<img src="../../static/img/Celine1.png" class="playerImg" alt="player4" width="60" id="imgPlayer4" loading="lazy">
-									<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer4">Player4 :{{ namePlayer4 }} </div>
-							</div>
+						</tr>
+						<tr class="table-active">
+							<td colspan="2" class="table-active">
+								<div class="lobbyProfile" >
+									<div class="infoLobby" id="lobbyProfile1">
+										<img src="../../static/img/Celine4.png" class="playerImg" alt="player1" width="60" style="border: 3px outset white;
+										border-radius: 50%;" id="imgPlayer1" loading="lazy">
+										<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer1"> {{ namePlayer1 }} </div>
+									</div>
+									<div class="infoLobby" id="lobbyProfile2">
+										<img src="../../static/img/Celine3.png" class="playerImg" alt="player2" width="60" style="border: 3px outset white;
+										border-radius: 50%;" id="imgPlayer2" loading="lazy">
+										<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer2"> {{ namePlayer2 }} </div>
+									</div>
+									<div class="infoLobby" id="lobbyProfile3">
+										<img src="../../static/img/Celine2.png" class="playerImg" alt="player3" width="60" style="border: 3px outset white;
+										border-radius: 50%;" id="imgPlayer3" loading="lazy">
+										<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer3"> {{ namePlayer3 }} </div>
+									</div>
+									<div class="infoLobby" id="lobbyProfile4">
+										<img src="../../static/img/Celine1.png" class="playerImg" alt="player4" width="60" style="border: 3px outset white;
+										border-radius: 50%;" id="imgPlayer4" loading="lazy">
+										<div class="align-right" style="color: #f0ffff; font-size: 40px;" id="namePlayer4"> {{ namePlayer4 }} </div>
+									</div>
+								</div>
 							</td>
 						</tr>
 						<!-- BOUTON  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -35,7 +46,7 @@
 						</tr>
 						<!-- LOADING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 						<tr class="table-active">
-							<td colspan="2" class="table-active text-center">
+							<td colspan="2" class="table-active custom-spinner-container">
 								<button class="btn btn-lg custom-spinner" id="custom-spinner" type="button" disabled>
 									<span class="spinner-border spinner-border-sm" style="color: #F0FFFF;" aria-hidden="true"></span>
 									<span role="status" style="color: #F0FFFF;"> Loading...</span>
