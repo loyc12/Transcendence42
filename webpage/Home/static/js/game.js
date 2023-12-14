@@ -72,6 +72,7 @@ let request_join_game = async function (gameType) {
   
   //console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
+  currentGameType = gameType
   if (gameType === 'Local_1p') {
     payload = _build_join_request_payload('Local_1p', 'Pong', true);
   } else if (gameType === 'Local_2p') {
