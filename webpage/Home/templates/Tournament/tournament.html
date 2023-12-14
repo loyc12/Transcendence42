@@ -7,25 +7,25 @@
 					<div class="bracket-game">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span>PlayerX</span>
-							<div class="score">0</div>
+							<span> {{ namePlayer1 }} </span>
+							<div class="score"> {{scoreP1}} </div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span>PlayerY</span>
-							<div class="score">1</div>
+							<span>{{ namePlayer2 }} </span>
+							<div class="score"> {{scoreP2}} </div>
 						</div>
 					</div>
 					<div class="bracket-game cont">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span>PlayerZ</span>
-							<div class="score">1</div>
+							<span> {{ namePlayer3 }} </span>
+							<div class="score"> {{scoreP3}} </div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span>PlayerW</span>
-							<div class="score">0</div>
+							<span>{{ namePlayer4 }} </span>
+							<div class="score"> {{scoreP4}} </div>
 						</div>
 					</div>
 				</div>
@@ -43,13 +43,13 @@
 					<div class="bracket-game">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span>PlayerZ</span>
-							<div class="score">1</div>
+							<span> {{winner1}} </span>
+							<div class="score"> {{scoreWinner1}} </div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span>PlayerY</span>
-							<div class="score">0</div>
+							<span> {{winner2}} </span>
+							<div class="score"> {{scoreWinner2}} </div>
 						</div>
 					</div>
 				</div>
@@ -60,8 +60,8 @@
 					<div class="bracket-game">
 						<div class="player">
 							<!-- To be change according to data from db -->
-							<span>PlayerZ</span>
-							<div class="score">1</div>
+							<span> {{winner}} </span>
+							<div class="score"> {{scoreWinner}} </div>
 						</div>
 					</div>
 				</div>
@@ -73,13 +73,13 @@
 					<div class="bracket-game">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span>PlayerX</span>
-							<div class="score">1</div>
+							<span> {{loser1}} </span>
+							<div class="score"> {{scoreLoser1}} </div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span>PlayerW</span>
-							<div class="score">0</div>
+							<span> {{loser2}} </span>
+							<div class="score">{{scoreLoser2}} </div>
 						</div>
 					</div>
 				</div>
@@ -90,8 +90,8 @@
 					<div class="bracket-game">
 						<div class="player">
 							<!-- To be change according to data from db -->
-							<span>PlayerX</span>
-							<div class="score">1</div>
+							<span> {{bronzeWinner}} </span>
+							<div class="score"> {{scoreBronze}} </div>
 						</div>
 					</div>
 				</div>
@@ -99,7 +99,7 @@
 		</div>
 		<div class="row text-center">
 			<div class="col winner text-center" style="background-color: #0e4870;">
-				Gagnant: [variable_playerWithAlltheWins]
+				Gagnant: {{winner}}
 			</div>
 		</div>
 	</div>
