@@ -131,6 +131,6 @@ let signal_player_ready = function() {
 }
 
 let loadEndGame = function () {
-  loadModule('afterGame');
+  loadModule('aftergame');
   disconnect_socket();
 }

@@ -126,14 +126,14 @@
             </div>
             <div class="row">
                 <div id="aftergame" class="aftergame">
-                    {% block endGame %}
-                    {% include 'AfterGame/aftergame.html' %}
+                    {% block aftergame %}
+                        {% include 'AfterGame/aftergame.html' %}
                     {% endblock %}
                 </div>
             </div>
             <div class="row">
                 <div id="tournament" class="tournament">
-                    {% block championship %}
+                    {% block tournament %}
                     {% include 'Tournament/tournament.html' %}
                     {% endblock %}
                 </div>
@@ -143,14 +143,6 @@
                 <div id="game" class="game">
                     {% block game %}
                         {% include 'Game/game.html' %}
-                    {% endblock %}
-                </div>
-            </div>
-            <!-- Result - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <div class="row">
-                <div id="afterGame" class="afterGame">
-                    {% block afterGame %}
-                        {% include 'afterGame/afterGame.html' %}
                     {% endblock %}
                 </div>
             </div>
