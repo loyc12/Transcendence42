@@ -461,6 +461,15 @@ class GameGateway(BaseGateway):
 
         # Checks if is local game with 2 local players on same keyboard or single player on board. Passes the result to addGame().
         GameManagerMode = df.DUAL if (lgame.gameMode == 'Local_2p') else df.SOLO
+        if lgame.gameMode == 'Local_2p':
+            GameManagerMode = df.DUAL
+        elif lgame.gameMode == 'Local_1p':
+            GameManagerMode = df.SOLO
+        elif lgame.gameMode == 'Multiplayer':
+            GameManagerMode = df.FREEPLAY
+        else:
+            GameManagerMode = df.TOURNAMENT
+
 
         game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount(gameType))
 
@@ -553,20 +562,25 @@ class GameGateway(BaseGateway):
         gconn = end_game_state.pop('gameConnector')
         game = gconn.game
 
-        compile_results = not (gameMode == 'solo' or gameMode == 'dual')
+        compile_results = (gameMode == 'freeplay' or gameMode == 'tournament')
+        eprint('gameMode : ', gameMode)
         eprint('compile_results : ', compile_results)
         eprint('endState : ', endState)
 
         if endState == 'quit':
             eprint('endState == quit indeed')
-            await game.stop_and_register_results(scores, compile_results=compile_results)
+            res = await game.stop_and_register_results(scores, compile_results=compile_results)
+            eprint('db push res : ', res)
         elif endState == 'win':
             eprint('endState == win indeed')
-            await game.stop_and_register_results(scores, compile_results=compile_results)
+            res = await game.stop_and_register_results(scores, compile_results=compile_results)
+            eprint('db push res : ', res)
         elif endState == 'crash':
             eprint('endState == crash indeed')
+        else:
+            eprint("WTF DUDE !!!! ")
 
-            
+
         eprint('manage_end_game :: Trying to call gconn.send_end_state')
         await gconn.send_end_state(end_game_state)
         eprint('manage_end_game :: post send_end_state')

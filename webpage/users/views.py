@@ -54,6 +54,5 @@ def get_profile(request):
     return render(request, 'users/profile.html', context={
         'user': request.user,
          'nb_games_played': nb_games_played,
-        #'is_ingame': is_ingame
         })
     #return JsonResponse(json.loads(payload))

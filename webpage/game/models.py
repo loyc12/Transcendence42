@@ -1,8 +1,13 @@
+import sys
 from datetime import datetime
 from django.db import models, IntegrityError, OperationalError
 from users.models import User
 from asgiref.sync import sync_to_async
 
+
+
+def eprint(*args):
+    print(*args, file=sys.stderr)
 
 # Create your models here.
 class Player(models.Model):
@@ -148,7 +153,7 @@ class Game(models.Model):
                 - scores: should have len == max_players for the game type
                 and be a dict with player id as key and score as value.
         '''
-        print('CALLED stop_and_register_results')
+        eprint('CALLED stop_and_register_results')
         # if not isinstance(scores, dict):
         #     raise TypeError('scores param must be a dict.')
         if len(scores) != self.max_players:
@@ -164,14 +169,14 @@ class Game(models.Model):
                 raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
             for ply, s in zip(plys, scores):
                 ply.score = s
-                print(f'Player ({ply.login}) score set to {ply.score} in game {self.id}')
+                eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
 
             plys.bulk_update(plys, ['score'])# batch updates to postgres rather then individual saves.
 
             # Find winner
-            print('Trying to set game winner in DB')
+            eprint('Trying to set game winner in DB')
             o_plys = plys.order_by('-score')
-            self.winner = o_plys.first()
+            self.winner = o_plys.first().user
 
         # Set end of game state
         self.is_running = False
@@ -183,3 +188,4 @@ class Game(models.Model):
 
         #self.__flush_all_players()
         self.save()
+        return ('wow')
