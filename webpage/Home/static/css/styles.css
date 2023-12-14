@@ -91,6 +91,10 @@ body.skip-nav:focus {
     border: solid 1px #000000;
 }
 
+.lobbyProfile {
+    display: flex;
+    flex-direction: column;
+}
 
 #lobby table {
     width: 100%;
@@ -111,8 +115,21 @@ body.skip-nav:focus {
     border-style: solid;
     border-color: #e51097;
 }
+
+.playerImage {
+    border: 3px outset white;
+    border-radius: 50%;
+}
+
 #infoLobby {
     list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.align-right {
+    margin-left: 10px;
 }
 
 /* -- END -- LOBBY CSS -- */
