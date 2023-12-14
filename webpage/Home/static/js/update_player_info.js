@@ -95,7 +95,7 @@ let update_player_info = function (player_info_list) {
       console.log('ready : ' + ready)
 
       document.getElementById(imgElemID).src = img;
-      document.getElementById(nameElemID).innerHTML = `Player ${i} : ${login}`;
+      document.getElementById(nameElemID).innerHTML = ` ${login}`;
       if (ready)
       {
         console.log(`Player ${i} is ready`);

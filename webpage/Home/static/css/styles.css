@@ -81,11 +81,13 @@ body.skip-nav:focus {
     height: 90vh;
 }
 
+/* maybe don't need it anymore */
 .main-canvas, .game-canvas {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
 #lobby canvas {
     border: solid 1px #000000;
