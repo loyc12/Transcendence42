@@ -24,7 +24,6 @@ let _get_websocket_path = function(sockID) {
 let _on_game_event = function(event) {
 
     console.log('Client RECEIVED evenv : ' + event)
-
     const data = JSON.parse(event.data);
 
     if (data.ev === 'up') {
@@ -36,8 +35,6 @@ let _on_game_event = function(event) {
         // See PingPongRebound/json-template.json, section : getInitInfo()
         parseInitData(data.init)
     }
-
-
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
         /// or another user has connected to the same game.
@@ -98,6 +95,7 @@ let _connect_to_game_socket = function (gameWebSockPath) {
 }
 
 let _prepare_websocket = function (ws) {
+    console.log('PREPARING WEBSOCKET')
     gameWebSock = ws;
     ws.onmessage = _on_game_event;
     ws.onclose = _on_server_side_disconnect;

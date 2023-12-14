@@ -95,8 +95,8 @@ let signal_player_ready = function() {
   /// GREY out button
 }
 
-let loadEndGame = function () {
-  console.log('CALLED loadEndGame');
+let loadEndGame = function (data) {
+  console.log('CALLED loadEndGame ' + data);
   loadModule('aftergame');
   disconnect_socket();
 }
