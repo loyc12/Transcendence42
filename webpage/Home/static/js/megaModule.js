@@ -71,7 +71,7 @@ let _on_game_event = function(event) {
     else if (data.ev === "end") {
         // Trigger event received when game should start. Sent by websocket when all players have signaled their readiness.
         console.log('RECEIVED END SIGNAL FROM SERVER !');
-        loadEndGame(data);
+        loadEndGame(data.end_state);
     }
 }
 

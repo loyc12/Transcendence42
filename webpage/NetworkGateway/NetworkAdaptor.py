@@ -201,7 +201,7 @@ class GameConnector:
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             await self._send_players_list()
         else:
-        #SOLO AI exemple : 
+        #SOLO AI exemple :
             print('WTF DUDE !!')
         #else:
         #    lgame, lply = self.match_maker.remove_player(user)
@@ -213,7 +213,7 @@ class GameConnector:
         # async with self.__game_lock:
         #     for ply in self.__player_consumers:
         pass
-                
+
 
 
 
@@ -240,8 +240,8 @@ class GameConnector:
             raise TypeError('send_end_state :: No state was provided.')
         print('CALLED send_end_state()')
         # self.__send_state_change('end', 'end_state', state)
-        
-        
+
+
         payload = json.dumps({
             'ev': 'end',
             'end_state': state
@@ -447,7 +447,7 @@ class GameGateway(BaseGateway):
 
     def __is_official_gameMode(self, gameMode):
         return gameMode in self.official_gameModes
-    
+
     gameModeEnums = {
         'Local_1p': df.SOLO,
         'Local_2p': df.DUAL,
@@ -589,7 +589,8 @@ class GameGateway(BaseGateway):
             eprint("WTF DUDE !!! ")
 
 
-        eprint('manage_end_game :: Trying to call gconn.send_end_state')
+        eprint('manage_end_game :: Trying to call gconn.send_end_state with endState : ')
+        eprint("endState : ", end_game_state)
         await gconn.send_end_state(end_game_state)
         eprint('manage_end_game :: post send_end_state')
 

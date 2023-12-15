@@ -125,21 +125,23 @@ let signal_player_ready = function() {
 
 let loadEndGame = function (data) {
   // console.log('end is: ' + getEndInfo().endState);
-  console.log('=== CALLED loadEndGame STATE:' + data.endState );
+  console.log('=== CALLED loadEndGame STATE:' + data );
+  console.log('=== CALLED loadEndGame STATE: endState ' + data.endState );
   if (data.endState === 'win'){
-    console.log('**win');
+
+    console.log('**win ', namePlayer1);
     document.getElementById("winner").style.display = "block";
-    document.getElementById("crash").style.display = "none";
-    loadModule('aftergame');
-  }
-  else if (data.endState !== 'crash'){
-    console.log('***lose');
-    document.getElementById("loser").style.display = "block";
     document.getElementById("crash").style.display = "none";
     loadModule('aftergame');
   }
   else if (data.endState === 'crash'){
     console.log('*****crash');
+    loadModule('aftergame');
+  }
+  else if (data.endState !== 'crash'){
+    console.log('***lose', namePlayer1);
+    document.getElementById("loser").style.display = "block";
+    document.getElementById("crash").style.display = "none";
     loadModule('aftergame');
   }
   disconnect_socket();
