@@ -124,7 +124,57 @@ let signal_player_ready = function() {
 }
 
 let loadEndGame = function (data) {
+  // console.log('end is: ' + getEndInfo().endState);
   console.log('CALLED loadEndGame ' + data);
-  loadModule('aftergame');
+  if (data.endState === 'win'){
+    console.log('**win');
+    document.getElementById("winner").style.display = "block";
+    document.getElementById("crash").style.display = "none";
+    loadModule('aftergame');
+  }
+  // // else if (data.endState === 'lose') {
+  // //   document.getElementById("loser").style.display = "block";
+  // //   document.getElementById("crash").style.display = "none";
+  // //   loadModule('aftergame');
+  // }
+  else if (data.endState !== 'crash'){
+    console.log('***lose');
+    document.getElementById("loser").style.display = "block";
+    document.getElementById("crash").style.display = "none";
+    loadModule('aftergame');
+  }
+  else{
+    console.log('*****crash');
+    loadModule('aftergame');
+  }  
   disconnect_socket();
 }
+
+// { // getEndInfo()
+//   "gameType": "pong", //  random == doesn't matter( create random one if none are joinable )
+//   "gameMode": "solo", //  solo, dual, freeplay, tournament
+//   "endState": "win", //   win, quit, crash
+//   "winingTeam": 1, //     teamID
+//   "quitter": 2, //        playerID
+//   "scores": [
+//       "s1",
+//       "s2",
+//       "s3",
+//       "s4"
+//   ],
+//   "playerInfo": getPlayerInfo{}
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

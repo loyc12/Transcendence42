@@ -134,9 +134,9 @@ body.skip-nav:focus {
     margin-bottom: 10px;
 }
 
-#lobby .align-right {
+/* #lobby .align-right {
     margin-left: 10px;
-}
+} */
 
 #lobby .custom-spinner-container {
     display: flex;
@@ -145,6 +145,18 @@ body.skip-nav:focus {
 }
 
 /* -- END -- LOBBY CSS -- */
+
+/* -- GAME in lobby CSS -- */
+
+#game {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+
+}
+
+/* -- END -- GAME CSS -- */
+
 
 /* -- LOGIN CSS -- */
 #login {
