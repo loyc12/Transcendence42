@@ -41,7 +41,7 @@ class User(AbstractBaseUser):
     @property
     def is_ingame(self):
         return (self.current_game is not None)
-    
+
     @property
     def nb_games_played(self):
         try:    return self.player_set.filter(user=self.id).count()
@@ -56,12 +56,12 @@ class User(AbstractBaseUser):
     def nb_losses(self):
         try:    return self.nb_games_played - self.nb_wins - self.nb_given_up
         except ObjectDoesNotExist: return 0
-    
+
     @property
     def nb_given_up(self):
         try:    return self.player_set.filter(user=self.id, gave_up=True).count()
         except ObjectDoesNotExist: return 0
-        
+
     @property
     def win_loss_ratio(self):
         nb_played = self.nb_games_played
