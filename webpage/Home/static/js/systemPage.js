@@ -73,7 +73,11 @@ let select_hero_content = function (key) {
         heroContentElem.style.display = 'block';
         current_content = key;
         console.log('current content page : ' + current_content)
-        
+        if (current_content === 'login')
+        {
+            console.log('Special case login : a suivre')
+            
+        }
         try {
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
         } catch {}
@@ -90,10 +94,10 @@ let buttonModule3 = document.getElementById('buttonModuleLogin');
 if (buttonModule0)
     buttonModule0.addEventListener('click', function () {select_hero_content('init');})
 if (buttonModule1)
-    buttonModule1.addEventListener('click', function () {select_hero_content('info');})
+    buttonModule1.addEventListener('click', function () { select_hero_content('info');})
 if (buttonModule2)
     buttonModule2.addEventListener('click', function () {select_hero_content('game');})
 if (buttonModule3)
-    buttonModule3.addEventListener('click', function () {select_hero_content('login');})
+    buttonModule3.addEventListener('click', function () { select_hero_content('login');})
 select_hero_content('init')
 
