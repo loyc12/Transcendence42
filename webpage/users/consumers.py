@@ -38,6 +38,21 @@ class UserConsumer(AsyncWebsocketConsumer):
 
 
     async def disconnect(self, event):
+
+        # if self.scope["user"].is_authenticated:
+        #     # Check if the user is authenticated using the session flag
+        #     user_authenticated = self.scope.get("session", {}).get("user_id", False)
+        #     if user_authenticated:
+        #         await self.accept()
+        #     else:
+        #         await self.close()
+
+
+
+
+        self.scope["session"].pop("user_id")
+        self.scope["session"].pop("user_login")
+        self.scope["session"].save()
         ### DELETE
         print('\n\nUser Websocket disconnecting !\n\n')
         # await self.netGateway.disconnect_player(self.user, self)
