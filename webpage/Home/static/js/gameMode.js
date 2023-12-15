@@ -13,7 +13,7 @@ function loadModule(moduleName) {
         document.getElementById(c).style.display = 'none'
     }
 
-    // Select desired submodule 
+    // Select desired submodule
     console.log('requested Module name : ' + moduleName)
     if (moduleName === 'gameMode') {
         console.log('Load base gameMode page')
@@ -48,8 +48,6 @@ function loadModule(moduleName) {
         console.log('Make join game request.')
         request_join_game(moduleName)
     }
-    
-   
         //case 'module1':
         //    moduleContainer.innerHTML = `
         //        <button onclick="loadSubModule('subModule1')">Game Local: SOLO [AI]</button>

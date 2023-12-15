@@ -79,7 +79,7 @@ let _on_server_side_disconnect = function(e) {
     console.error('The server disconnecter you');
     console.log('Server closed websocket connection. Current socket readyState : ' + gameWebSock.readyState);
     gameWebSock = null;
-    
+
 };
 
 let _connect_to_game_socket = function (gameWebSockPath) {

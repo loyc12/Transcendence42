@@ -40,11 +40,11 @@
     <body style="background-color: #178ca8;">
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container-fluid">
-         <!-- NAVBAR  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->   
+         <!-- NAVBAR  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <!-- Navbar HOME STATE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             {% if request.session.user_id %}
                 <div class="row">
-                    <div id="NavBarInit" div class="NavBar"> 
+                    <div id="NavBarInit" div class="NavBar">
                     {% block navbar_home %}
                             {% include 'Selector/home_navbar.html' %}
                     {% endblock %}
@@ -52,17 +52,17 @@
                 </div>
             {% else %}
                 <div class="row">
-                    <div id="NavBarInit" div class="NavBar"> 
+                    <div id="NavBarInit" div class="NavBar">
                     {% block anon_navbar %}
                             {% include 'Selector/anon_navbar.html' %}
                     {% endblock %}
                     </div>
-                </div> 
+                </div>
             {% endif %}
 
             <!-- Navbar INFO - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBarInfo" div class="NavBar"> 
+                <div id="NavBarInfo" div class="NavBar">
                 {% block navbar_info %}
                         {% include 'Selector/info_navbar.html' %}
                 {% endblock %}
@@ -70,7 +70,7 @@
             </div>
             <!-- Navbar GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBarGame" div class="NavBar"> 
+                <div id="NavBarGame" div class="NavBar">
                 {% block navbar_game %}
                         {% include 'Selector/game_navbar.html' %}
                 {% endblock %}
@@ -78,7 +78,7 @@
             </div>
             <!-- Navbar LOGIN - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBarLogin" div class="NavBar"> 
+                <div id="NavBarLogin" div class="NavBar">
                 {% block navbar_login %}
                         {% include 'Selector/login_navbar.html' %}
                 {% endblock %}
@@ -146,9 +146,9 @@
                     {% endblock %}
                 </div>
             </div>
-        </div>  
+        </div>
     </body>
-    
+
     <footer class="border-top" style="background-color: #4cbe96;" >
         <div class="container-fluid">
             <div class="row">

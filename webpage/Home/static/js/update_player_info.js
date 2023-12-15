@@ -68,7 +68,7 @@ let update_player_info = function (player_info_list) {
 
 
   hide_excess_player_profiles(currentGameInfo.racketCount);
-  
+
   console.log('currentGameType : ' + currentGameType)
   if (currentGameType === 'Local_1p')
     update_local_1p_info(player_info_list[0]);
@@ -125,28 +125,23 @@ let signal_player_ready = function() {
 
 let loadEndGame = function (data) {
   // console.log('end is: ' + getEndInfo().endState);
-  console.log('CALLED loadEndGame ' + data);
+  console.log('=== CALLED loadEndGame STATE:' + data.endState );
   if (data.endState === 'win'){
     console.log('**win');
     document.getElementById("winner").style.display = "block";
     document.getElementById("crash").style.display = "none";
     loadModule('aftergame');
   }
-  // // else if (data.endState === 'lose') {
-  // //   document.getElementById("loser").style.display = "block";
-  // //   document.getElementById("crash").style.display = "none";
-  // //   loadModule('aftergame');
-  // }
   else if (data.endState !== 'crash'){
     console.log('***lose');
     document.getElementById("loser").style.display = "block";
     document.getElementById("crash").style.display = "none";
     loadModule('aftergame');
   }
-  else{
+  else if (data.endState === 'crash'){
     console.log('*****crash');
     loadModule('aftergame');
-  }  
+  }
   disconnect_socket();
 }
 
