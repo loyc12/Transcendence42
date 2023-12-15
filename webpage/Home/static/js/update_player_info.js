@@ -26,61 +26,26 @@ let reset_default_lobby = function () {
   document.getElementById('lobby').innerHTML = default_lobby_template;
 }
 
+let update_local_2p_info = function (player_info) {
+
+  console.log("update_local_2p_info info CALLED.");
+  document.getElementById("imgPlayer1").src = player_info.img;
+  document.getElementById("namePlayer1").innerHTML = player_info.login;
+  // document.getElementById("imgPlayer2").src = img;
+  document.getElementById("imgPlayer2").style.border = "3px outset #34eb34";
+  document.getElementById("namePlayer2").innerHTML = "Guest";
+}
 
 let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
   document.getElementById("startEngine").disabled = false;
 
-  // for (let i=1; i <= 4; ++i) {
-  //   // currentGameInfo.racketCount;
-  //   profElemID = `lobbyProfile${i}`;
-  //   imgElemID = `imgPlayer${i}`;
-  //   nameElemID = `namePlayer${i}`;
-  //   document.getElementById(profElemID).style.display = 'block';
-
-  //   if (! player_info_list) {
-  //     // CLEAN UP
-  //     // lobbyProfile1
-  //     document.getElementById(imgElemID).style.border = "3px outset #ffffff";
-  //     document.getElementById(nameElemID).innerHTML = `Player ${i} : --`;
-  //     if (i > currentGameInfo.racketCount)
-  //       document.getElementById(profElemID).style.display = 'none';
-
-  //   } else {
-  //     // DISPLAY REAL PLAYERS
-  //     if (i >= currentGameInfo.racketCount)
-  //       break;
-  //     ply = player_info_list[i - 1];
-
-  //     login = ply.login;
-  //     img = ply.img;
-  //     ready = ply.ready;
-
-  //     console.log('login : ' + login)
-  //     console.log('img : ' + img)
-  //     console.log('ready : ' + ready)
-
-  //     document.getElementById(imgElemID).src = img;
-  //     document.getElementById(nameElemID).innerHTML = `Player ${i} : ${login}`;
-  //     if (ready)
-  //     {
-  //       console.log(`Player ${i} is ready`);
-  //       document.getElementById(imgElemID).style.border = "3px outset #34eb34";
-  //     }
-  //   }
-  // }
-
-
-
-  if (!player_info_list) {
-    for (let i=1; i <= 4; ++i) {
-      imgElemID = `imgPlayer${++i}`;
-      nameElemID = `namePlayer${i}`;
-
-    }
-  }
+  console.log('currentGameType : ' + currentGameType)
+  if (currentGameType === 'Local_2p')
+    update_local_2p_info(player_info_list[0]);
   else {
+    console.log("update_player_info info CALLED.");
     let i = 0;
     for (ply of player_info_list) {
       imgElemID = `imgPlayer${++i}`;
@@ -130,7 +95,8 @@ let signal_player_ready = function() {
   /// GREY out button
 }
 
-let loadEndGame = function () {
-  loadModule('afterGame');
+let loadEndGame = function (data) {
+  console.log('CALLED loadEndGame ' + data);
+  loadModule('aftergame');
   disconnect_socket();
 }

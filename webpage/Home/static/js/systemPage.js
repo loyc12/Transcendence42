@@ -3,7 +3,7 @@ let current_content = null;
 
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin',
                         'contentHome', 'contentInfo', 'contentGame', 'contentLogin',
-                        'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'afterGame']
+                        'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame', 'tournament']
 
 let all_hero_content2 = {
     'init': {
@@ -48,9 +48,11 @@ let select_hero_content = function (key) {
 
     if (heroContentElem)
     {
+        // Herodiv = [local | remote ]
         if (contentElems['heroDiv'] === 'contentGame') {
             console.log('Special case contentGame loadModule(gameMode)')
             loadModule('gameMode')
+            disconnect_socket()
         }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
         if (current_content == key)

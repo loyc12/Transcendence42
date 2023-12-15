@@ -24,7 +24,6 @@ let _get_websocket_path = function(sockID) {
 let _on_game_event = function(event) {
 
     console.log('Client RECEIVED evenv : ' + event)
-
     const data = JSON.parse(event.data);
 
     if (data.ev === 'up') {
@@ -36,8 +35,6 @@ let _on_game_event = function(event) {
         // See PingPongRebound/json-template.json, section : getInitInfo()
         parseInitData(data.init)
     }
-
-
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
         /// or another user has connected to the same game.
@@ -73,13 +70,16 @@ let _on_game_event = function(event) {
     }
     else if (data.ev === "end") {
         // Trigger event received when game should start. Sent by websocket when all players have signaled their readiness.
-        console.log('RECEIVED START SIGNAL FROM SERVER !');
+        console.log('RECEIVED END SIGNAL FROM SERVER !');
         loadEndGame(data);
     }
 }
 
 let _on_server_side_disconnect = function(e) {
     console.error('The server disconnecter you');
+    console.log('Server closed websocket connection. Current socket readyState : ' + gameWebSock.readyState);
+    gameWebSock = null;
+    
 };
 
 let _connect_to_game_socket = function (gameWebSockPath) {
@@ -95,6 +95,7 @@ let _connect_to_game_socket = function (gameWebSockPath) {
 }
 
 let _prepare_websocket = function (ws) {
+    console.log('PREPARING WEBSOCKET')
     gameWebSock = ws;
     ws.onmessage = _on_game_event;
     ws.onclose = _on_server_side_disconnect;
@@ -103,15 +104,16 @@ let _prepare_websocket = function (ws) {
 
 function disconnect_socket() {
 
-    console.log('Entered disconnect_socket')
+    console.log('TRY DISCONNECT WEBSOCKET')
     if (gameWebSock != null) {
         console.log('Trying to close websocket connection')
         gameWebSock.close()
-        console.log('Maybe closed websocket ? is closed ?' + gameWebSock.CLOSED);
+        console.log('WebSocket.readyState : ' + gameWebSock.readyState)
+        //console.log('Maybe closed websocket ? is closed ?' + gameWebSock.CLOSED);
 
         gameSockID = null;
         gameWebSockPath = null;
-        gameWebSock = null;
+        // gameWebSock = null;
         /// TODO: Potentially wait for socket to close and do something ...
     }
     deactivatePlayerControler()

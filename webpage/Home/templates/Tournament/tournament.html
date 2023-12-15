@@ -1,4 +1,4 @@
-{% block championship %}
+{% block tournament %}
 <div class="tournament" id="tournament">
 	<div class="clearfix">
 		<div class="row">
@@ -7,25 +7,25 @@
 					<div class="bracket-game">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span> {{ namePlayer1 }} </span>
-							<div class="score"> {{scoreP1}} </div>
+							<span>PlayerX</span>
+							<div class="score">0</div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span>{{ namePlayer2 }} </span>
-							<div class="score"> {{scoreP2}} </div>
+							<span>PlayerY</span>
+							<div class="score">1</div>
 						</div>
 					</div>
 					<div class="bracket-game cont">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span> {{ namePlayer3 }} </span>
-							<div class="score"> {{scoreP3}} </div>
+							<span>PlayerZ</span>
+							<div class="score">1</div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span>{{ namePlayer4 }} </span>
-							<div class="score"> {{scoreP4}} </div>
+							<span>PlayerW</span>
+							<div class="score">0</div>
 						</div>
 					</div>
 				</div>
@@ -43,13 +43,13 @@
 					<div class="bracket-game">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span> {{winner1}} </span>
-							<div class="score"> {{scoreWinner1}} </div>
+							<span>PlayerZ</span>
+							<div class="score">1</div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span> {{winner2}} </span>
-							<div class="score"> {{scoreWinner2}} </div>
+							<span>PlayerY</span>
+							<div class="score">0</div>
 						</div>
 					</div>
 				</div>
@@ -60,8 +60,8 @@
 					<div class="bracket-game">
 						<div class="player">
 							<!-- To be change according to data from db -->
-							<span> {{winner}} </span>
-							<div class="score"> {{scoreWinner}} </div>
+							<span>PlayerZ</span>
+							<div class="score">1</div>
 						</div>
 					</div>
 				</div>
@@ -73,13 +73,13 @@
 					<div class="bracket-game">
 						<div class="player top">
 							<!-- To be change according to data from db -->
-							<span> {{loser1}} </span>
-							<div class="score"> {{scoreLoser1}} </div>
+							<span>PlayerX</span>
+							<div class="score">1</div>
 						</div>
 						<div class="player bottom">
 							<!-- To be change according to data from db -->
-							<span> {{loser2}} </span>
-							<div class="score">{{scoreLoser2}} </div>
+							<span>PlayerW</span>
+							<div class="score">0</div>
 						</div>
 					</div>
 				</div>
@@ -90,8 +90,8 @@
 					<div class="bracket-game">
 						<div class="player">
 							<!-- To be change according to data from db -->
-							<span> {{bronzeWinner}} </span>
-							<div class="score"> {{scoreBronze}} </div>
+							<span>PlayerX</span>
+							<div class="score">1</div>
 						</div>
 					</div>
 				</div>
@@ -99,13 +99,9 @@
 		</div>
 		<div class="row text-center">
 			<div class="col winner text-center" style="background-color: #0e4870;">
-				Gagnant: {{winner}}
+				Gagnant: [variable_playerWithAlltheWins]
 			</div>
 		</div>
 	</div>
 </div>
-	
-	
-	
-	
 {% endblock %}

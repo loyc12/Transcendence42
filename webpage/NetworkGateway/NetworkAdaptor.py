@@ -30,10 +30,9 @@
 
 '''
 
-#COLLE
-
 from abc import ABC
 import json
+import sys
 
 from channels.layers import get_channel_layer
 
@@ -49,29 +48,14 @@ import game.PingPongRebound.defs as df
 from asgiref.sync import sync_to_async, async_to_sync
 
 
+def eprint(*args):
+    print(*args, file=sys.stderr)
 
 
-
-# def async_to_sync_locked_class(func):
-#     @wraps(func)
-#     def __async_to_sync_game_locked(cls, *args, **kwargs):
-#         async def __game_locked_exec(args, kwargs):
-#             async with cls.__gateway_lock:
-#                 func(cls, *args, **kwargs)
-#         asyncio.run(__game_locked_exec(args, kwargs))
-#     return __async_to_sync_game_locked
-
-
-# def async_to_sync_locked(func):
-#     @wraps(func)
-#     def __async_to_sync_game_locked(self, *args, **kwargs):
-#         async def __game_locked_exec(args, kwargs):
-#             async with self.__gateway_lock:
-#                 func(self, *args, **kwargs)
-#         asyncio.run(__game_locked_exec(args, kwargs))
-#     return __async_to_sync_game_locked
 
 ### Connector Clases
+
+# Expand system
 class BaseGateway(ABC):
     pass
 
@@ -91,7 +75,7 @@ class GameConnector:
 
     def __init__(self, sockID):
         self.__sockID = sockID
-        self.__gameDB: Game = None# Database inst returned when creating game instance in database.
+        self.__gameDB: Game = None# Database instance returned when creating game instance in database.
         self.__player_consumers: dict[int, GameConsumer] = dict()
         self.__game_lock = asyncio.Lock()
         self.__events_lock = asyncio.Lock()
@@ -193,7 +177,6 @@ class GameConnector:
 
 
     async def disconnect_player(self, user):
-        ''' Used to kickout player forcefully '''
         #if not self.gameID:
         #    raise GameGatwayException('GameConnector.disconnect_player() can only be called once the game is started. Otherwise call GameGateway.disconnect_player().')
         print(f'GameConnector :: ENTER disconnect player')
@@ -203,6 +186,8 @@ class GameConnector:
             if user.id not in self.__player_consumers:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
+
+        #await self.send_end_state(end_state);
 
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
 
@@ -216,11 +201,22 @@ class GameConnector:
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             await self._send_players_list()
         else:
+        #SOLO AI exemple : 
             print('WTF DUDE !!')
         #else:
         #    lgame, lply = self.match_maker.remove_player(user)
             #lply = self.lobby_game.remove_user(user)
             #asyncio.async_to_sync(self.__channel_layer.group_discard)(self.__sockID, pcons.channel_name)
+
+
+    async def disconnect_all_players(self):
+        # async with self.__game_lock:
+        #     for ply in self.__player_consumers:
+        pass
+                
+
+
+
 
     async def __send_state_change(self, ev_type, ev_key, ev_value):
         payload = json.dumps({
@@ -236,13 +232,28 @@ class GameConnector:
 
     async def send_init_state(self, state):
         if not state:
-            raise TypeError('No state was provided.')
+            raise TypeError('send_init_state :: No state was provided.')
         self.__send_state_change('init_game', 'init_state', state)
 
     async def send_end_state(self, state):
         if not state:
-            raise TypeError('No state was provided.')
-        self.__send_state_change('end_game', 'end_state', state)
+            raise TypeError('send_end_state :: No state was provided.')
+        print('CALLED send_end_state()')
+        # self.__send_state_change('end', 'end_state', state)
+        
+        
+        payload = json.dumps({
+            'ev': 'end',
+            'end_state': state
+        })
+        await self.__channel_layer.group_send(self.__sockID,
+                {
+                    'type': 'game_send_end_state',
+                    'end_state': payload
+                }
+            )
+
+
 
     async def send_start_signal(self):
         print('<<< SENDING START SIGNAL !! >>>')
@@ -450,6 +461,15 @@ class GameGateway(BaseGateway):
 
         # Checks if is local game with 2 local players on same keyboard or single player on board. Passes the result to addGame().
         GameManagerMode = df.DUAL if (lgame.gameMode == 'Local_2p') else df.SOLO
+        if lgame.gameMode == 'Local_2p':
+            GameManagerMode = df.DUAL
+        elif lgame.gameMode == 'Local_1p':
+            GameManagerMode = df.SOLO
+        elif lgame.gameMode == 'Multiplayer':
+            GameManagerMode = df.FREEPLAY
+        else:
+            GameManagerMode = df.TOURNAMENT
+
 
         game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount(gameType))
 
@@ -534,8 +554,36 @@ class GameGateway(BaseGateway):
         if not end_game_state:
             raise GameGatwayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
 
+
+        endState = end_game_state.get("endState", None)
+        scores = end_game_state.get("scores", None)
+        gameMode = end_game_state['gameMode']
+
         gconn = end_game_state.pop('gameConnector')
+        game = gconn.game
+
+        compile_results = (gameMode == 'freeplay' or gameMode == 'tournament')
+        eprint('gameMode : ', gameMode)
+        eprint('compile_results : ', compile_results)
+        eprint('endState : ', endState)
+
+        if endState == 'quit':
+            eprint('endState == quit indeed')
+            res = await game.stop_and_register_results(scores, compile_results=compile_results)
+            eprint('db push res : ', res)
+        elif endState == 'win':
+            eprint('endState == win indeed')
+            res = await game.stop_and_register_results(scores, compile_results=compile_results)
+            eprint('db push res : ', res)
+        elif endState == 'crash':
+            eprint('endState == crash indeed')
+        else:
+            eprint("WTF DUDE !!!! ")
+
+
+        eprint('manage_end_game :: Trying to call gconn.send_end_state')
+        await gconn.send_end_state(end_game_state)
+        eprint('manage_end_game :: post send_end_state')
 
         # stop_and_register_results
-        pass
-
+        eprint('EXITING manage_end_game()')

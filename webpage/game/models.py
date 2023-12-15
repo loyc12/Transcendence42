@@ -1,7 +1,13 @@
+import sys
 from datetime import datetime
 from django.db import models, IntegrityError, OperationalError
 from users.models import User
+from asgiref.sync import sync_to_async
 
+
+
+def eprint(*args):
+    print(*args, file=sys.stderr)
 
 # Create your models here.
 class Player(models.Model):
@@ -139,32 +145,38 @@ class Game(models.Model):
         self.ended_at = datetime.now()
 
 
-    def stop_and_register_results(self, scores: dict[int, int]):
+    @sync_to_async
+    def stop_and_register_results(self, scores: dict[int, int], compile_results: bool=True):
         '''
             Sets the game as over.
             params:
                 - scores: should have len == max_players for the game type
                 and be a dict with player id as key and score as value.
         '''
-        if not isinstance(scores, dict):
-            raise TypeError('scores param must be a dict.')
+        eprint('CALLED stop_and_register_results')
+        # if not isinstance(scores, dict):
+        #     raise TypeError('scores param must be a dict.')
         if len(scores) != self.max_players:
             raise OperationalError(f"Wrong nb of player scores ({len(scores)}) in scores dict.")
         if not self.is_running:
             raise OperationalError("Trying to register results and end a game, when the game hasn't started yet.")
 
         plys = Player.objects.filter(game=self)
-        if len(plys) != self.max_players:
-            raise IntegrityError("Nb of players registered to the game does not fit the number required for this game type.")
 
-        # Set score for individual players in game
-        for ply in plys:
-            ply.score = scores[ply.user.id]
-        plys.bulk_update(plys, ['score'])# batch updates to postgres rather then individual saves.
+        if compile_results:
+            # Set score for individual players in game
+            if compile_results and len(plys) != self.max_players:
+                raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
+            for ply, s in zip(plys, scores):
+                ply.score = s
+                eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
 
-        # Find winner
-        o_plys = plys.order_by('-score')
-        self.winner = o_plys.first()
+            plys.bulk_update(plys, ['score'])# batch updates to postgres rather then individual saves.
+
+            # Find winner
+            eprint('Trying to set game winner in DB')
+            o_plys = plys.order_by('-score')
+            self.winner = o_plys.first().user
 
         # Set end of game state
         self.is_running = False
@@ -176,3 +188,4 @@ class Game(models.Model):
 
         #self.__flush_all_players()
         self.save()
+        return ('wow')

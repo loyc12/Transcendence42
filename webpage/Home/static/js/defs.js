@@ -21,6 +21,7 @@ let RETURN = null;
 // Global vars declarations
 let currentWidth;// = canvas.width;
 let currentHeight;// = canvas.height;
+let currentGameType;
 
 let currentGameInfo;
 
