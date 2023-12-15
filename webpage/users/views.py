@@ -46,4 +46,3 @@ def get_profile(request):
         'nb_given_up': nb_given_up,
         'win_loss_ratio': f'{(request.user.win_loss_ratio):.2%}'#.format(request.user.win_loss_ratio * 100)
         })
-    #return JsonResponse(json.loads(payload))
