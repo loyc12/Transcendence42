@@ -54,6 +54,17 @@ let select_hero_content = function (key) {
             loadModule('gameMode')
             disconnect_socket()
         }
+        if (contentElems['heroDiv'] === 'contentLogin') {
+            console.log('Special case contentLogin loadModule(login)')
+            window.addEventListener('beforeunload', function (e)
+            {
+                console.log('CATCH WINDOWS EVENT BEFORE UNLOAD')
+                e.preventDefault();
+                console.log('CATCH PREVENT DEFAULT')
+                e.returnValue = '';
+                //disconnect_socket()
+            });
+        }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
         if (current_content == key)
             return ;
@@ -90,10 +101,10 @@ let buttonModule3 = document.getElementById('buttonModuleLogin');
 if (buttonModule0)
     buttonModule0.addEventListener('click', function () {select_hero_content('init');})
 if (buttonModule1)
-    buttonModule1.addEventListener('click', function () {select_hero_content('info');})
+    buttonModule1.addEventListener('click', function () { select_hero_content('info');})
 if (buttonModule2)
     buttonModule2.addEventListener('click', function () {select_hero_content('game');})
 if (buttonModule3)
-    buttonModule3.addEventListener('click', function () {select_hero_content('login');})
+    buttonModule3.addEventListener('click', function () { select_hero_content('login');})
 select_hero_content('init')
 
