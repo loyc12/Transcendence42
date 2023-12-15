@@ -1,5 +1,9 @@
-let score1 = 0;
-let score2 = 0;
+// let score1 = 0;
+// let score2 = 0;
+let scoreplayer1 = [(canvas.width / 2 - 50 ) , 250];
+let scoreplayer2 = [(canvas.width / 2 + 50 ) , 250];
+let scoreplayer3 = [(canvas.width / 2 - 50 ) , (canvas.height - 250)];
+let scoreplayer4 = [(canvas.width / 2 + 50 ) , (canvas.height - 250)];
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;
@@ -48,10 +52,15 @@ let renderCanvas = function (ctx, gameInfo) {
     // console.log("gameInfo : " + gameInfo);
     // console.log("gameInfo.update : " + gameInfo.update)
     // console.log("gameInfo.update.scores : " + gameInfo.update.scores);
+    // for (let i = 0; i < gameInfo.update.scores.length; i++) {
+    //     const scoreElement = document.createElement('div');
+    //     scoreElement.textContent = `Player ${i + 1} Score: ${gameInfo.update.scores[i]}`;
+    //     gameInfoContainer.appendChild(scoreElement);
+    // }
 
     // ctx.fillText(gameInfo.update.scores, (canvas.width / 2 - 100) , 250);
-    ctx.fillText(gameInfo.update.scores[0], (canvas.width / 2 + 50 ) , 250);
-    ctx.fillText(gameInfo.update.scores[1], (canvas.width / 2 + 100) , 250);
+    ctx.fillText(gameInfo.update.scores[0], scoreplayer1);
+    ctx.fillText(gameInfo.update.scores[1], scoreplayer2);
     // ctx.fillText(score1, (canvas.width / 2 - 50) , 250);
     // ctx.fillText(score2, (canvas.width / 2 + 50) , 250);
 
