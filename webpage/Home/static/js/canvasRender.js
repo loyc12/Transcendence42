@@ -41,19 +41,17 @@ let renderCanvas = function (ctx, gameInfo) {
     renderBall(ctx, gameInfo, gameInfo.update);
     renderRackets(ctx, gameInfo, gameInfo.update);
 
-    // console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
-
-    // console.log('Game Score: S1:S2 :', gameInfo.update.scores);
-    // score1 = gameInfo.update.scores[0];
-    // score2 = gameInfo.update.scores[1];
-    // console.log('Game Score: S1 :', score1);
-    // console.log('Game Score: S2 :', score2);
-
     ctx.font = "64px Arial";
     ctx.fillStyle = "gray";
-    ctx.fillRect(canvas.width / 2, 0, canvas.width / 2, canvas.height / 2);
+    ctx.fillRect(canvas.width / 2, 0, 1, canvas.height);
     ctx.fillStyle = "white";
-    ctx.fillText(gameInfo.update.scores, (canvas.width / 2 - 50) , 250);
+    // console.log("gameInfo : " + gameInfo);
+    // console.log("gameInfo.update : " + gameInfo.update)
+    // console.log("gameInfo.update.scores : " + gameInfo.update.scores);
+
+    // ctx.fillText(gameInfo.update.scores, (canvas.width / 2 - 100) , 250);
+    ctx.fillText(gameInfo.update.scores[0], (canvas.width / 2 + 50 ) , 250);
+    ctx.fillText(gameInfo.update.scores[1], (canvas.width / 2 + 100) , 250);
     // ctx.fillText(score1, (canvas.width / 2 - 50) , 250);
     // ctx.fillText(score2, (canvas.width / 2 + 50) , 250);
 
