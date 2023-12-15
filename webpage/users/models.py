@@ -14,10 +14,6 @@ class User(AbstractBaseUser):
     updated_at      = models.DateTimeField(auto_now=True)
     is_active       = models.BooleanField (default=False) #status online/offline
 
-    # nb_games_played = models.PositiveIntegerField(default=0)
-    # wins            = models.PositiveIntegerField(default=0)
-    # loses           = models.PositiveIntegerField(default=0)
-
     USERNAME_FIELD = "login"
 
     # Method that return a string with the information of the user
@@ -50,6 +46,7 @@ class User(AbstractBaseUser):
     def nb_games_played(self):
         try:    return self.player_set.filter(user=self.id).count()
         except ObjectDoesNotExist: return 0
+
     @property
     def nb_wins(self):
         try:    return self.game_set.filter(winner=self.id).count()
@@ -59,10 +56,12 @@ class User(AbstractBaseUser):
     def nb_losses(self):
         try:    return self.nb_games_played - self.nb_wins - self.nb_given_up
         except ObjectDoesNotExist: return 0
+    
     @property
     def nb_given_up(self):
         try:    return self.player_set.filter(user=self.id, gave_up=True).count()
         except ObjectDoesNotExist: return 0
+        
     @property
     def win_loss_ratio(self):
         nb_played = self.nb_games_played
@@ -74,51 +73,13 @@ class User(AbstractBaseUser):
             return 1.0
         return nb_wins / nb_played
 
-    # def get_nb_games_played(self):
-    #     try:
-    #         games_played = self.player_set.get(user=self.id)
-    #     except ObjectDoesNotExist:
-    #         return (0)
-    #     print("games played : ", games_played.count())
-    #     return games_played.count()
-
-    # def update_stats(self, save: bool=True):
-    #     # games_played = self.player_set.get(user=self.id)
-    #     # nb_games_played = games_played.count()
-    #     nb_games_played = self.get_nb_games_played()
-    #     nb_wins = self.game_set.get(winner=self.id).count()
-    #     nb_loses = nb_games_played - nb_wins
-    #     print("nb_games_played : ", nb_games_played)
-
-    #     self.nb_games_played =  nb_games_played
-    #     self.nb_wins =          nb_wins
-    #     self.nb_loses =         nb_loses
-
-    #     # ...
-
-    #     if save:
-    #         self.save()
-
-
-    # def leave_game(self, save: bool):
-    #     cur_game = self.current_game
-    #     if not cur_game:
-    #         return
-    #     cur_game.declare_broken()
-    #     #self.current_game = None
-    #     if save:
-    #         self.save()
-
     def join_game(self, game):
-        #if not game.can_join(self):
-        #    raise OperationalError('Trying to join game while already playing in another.')
         cur_game = self.current_game
         if cur_game == game:
             return
         if cur_game and cur_game != game:
             raise OperationalError('User trying to join game while already member of another.')
 
-        #self.current_game = game
         game.add_player(self)
         self.save()
 
