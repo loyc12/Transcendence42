@@ -15,20 +15,19 @@ class Player(models.Model):
     game =          models.ForeignKey('Game', on_delete=models.CASCADE)
     joined_at =     models.DateTimeField(auto_now_add=True)
     score =         models.IntegerField(default=0)
-    #gave_up =       models.BooleanField(default=False)
+    gave_up =       models.BooleanField(default=False)
     #default_win =   models.BooleanField(default=False)
 
 class Game(models.Model):
 
-    #group_id =      models.CharField(primary_key=True, max_length=16, unique=True, )# same as websocket channel group.
     game_type =     models.CharField(max_length=16, default='Pong')
     max_players =   models.IntegerField(default=2)
     created_at =    models.DateTimeField(auto_now_add=True)
     started_at =    models.DateTimeField(null=True, blank=True, default=None)
     ended_at =      models.DateTimeField(null=True, blank=True, default=None)
-    #host =          models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, related_name='game_host')
     players =       models.ManyToManyField('users.User', through=Player)# should be ordered according to joined_at parameter of Player model.
 
+    is_official =   models.BooleanField(default=False)
     is_running =    models.BooleanField(default=False)
     is_over =       models.BooleanField(default=False)
     is_tournament = models.BooleanField(default=False)
@@ -49,7 +48,6 @@ class Game(models.Model):
                 "\n<-| winner :        " + (self.winner.login if self.winner else 'None') +\
                 "\n<-| final score :   " + (self.finale_scores if self.finale_scores else 'None') +\
                 "\n<---------------------------------->"
-                #"\n<-| host :          " + (self.host.username if self.host else 'None') +\
 
     def __repr__(self):
         return (self.__str__())
@@ -146,7 +144,7 @@ class Game(models.Model):
 
 
     @sync_to_async
-    def stop_and_register_results(self, scores: dict[int, int], compile_results: bool=True):
+    def stop_and_register_results(self, scores: dict[int, int], quitter=0):
         '''
             Sets the game as over.
             params:
@@ -163,20 +161,30 @@ class Game(models.Model):
 
         plys = Player.objects.filter(game=self)
 
-        if compile_results:
+        if self.is_official:
             # Set score for individual players in game
-            if compile_results and len(plys) != self.max_players:
-                raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
+            # if not self.is_local2p and len(plys) != self.max_players:
+            #     raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
             for ply, s in zip(plys, scores):
                 ply.score = s
                 eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
+            
+            if quitter > 0:
+                for ply in plys:
+                    if ply.user.id == quitter:
+                        break
+                else:
+                    raise IntegrityError('\n\n NO PLAYER FOUND with quitter id : ', quitter)
+                ply.gave_up = True
 
-            plys.bulk_update(plys, ['score'])# batch updates to postgres rather then individual saves.
+            else:
+                # Find winner
+                eprint('Trying to set game winner in DB')
+                o_plys = plys.order_by('-score')
+                self.winner = o_plys.first().user
 
-            # Find winner
-            eprint('Trying to set game winner in DB')
-            o_plys = plys.order_by('-score')
-            self.winner = o_plys.first().user
+            plys.bulk_update(plys, ['score', 'gave_up'])# batch updates to postgres rather then individual saves.
+
 
         # Set end of game state
         self.is_running = False

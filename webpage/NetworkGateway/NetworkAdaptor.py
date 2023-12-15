@@ -440,12 +440,28 @@ class GameGateway(BaseGateway):
     #         lgame.game_connector.disconnect_player(user)
     #         #lgame.game_connector._send_players_list()
 
+    ### DEBUG VERSION :
+    official_gameModes = {'Local_1p', 'Multiplayer', 'Tournament', 'Online_4p'}
+    ### PRODUCTION VERSION :
+    # official_gameModes = {'Multiplayer', 'Tournament', 'Online_4p'}
+
+    def __is_official_gameMode(self, gameMode):
+        return gameMode in self.official_gameModes
+    
+    gameModeEnums = {
+        'Local_1p': df.SOLO,
+        'Local_2p': df.DUAL,
+        'Multiplayer': df.FREEPLAY,
+        'Online_4p': df.FREEPLAY,
+        'Tournament': df.TOURNAMENT
+    }
 
     @sync_to_async
     def __create_db_game(self, lgame, gameType, maxPlayers):#, **kwargs):
         game = Game.objects.create(
             game_type=gameType,
-            max_players=maxPlayers#self._maxRacketCounts[gameType]
+            max_players=maxPlayers,#self._maxRacketCounts[gameType]
+            is_official=self.__is_official_gameMode(lgame.gameMode)
         )
         for lply in lgame.players:
             game.add_player(lply.user, save=False)
@@ -460,23 +476,16 @@ class GameGateway(BaseGateway):
         print('gameType type : ', type(gameType))
 
         # Checks if is local game with 2 local players on same keyboard or single player on board. Passes the result to addGame().
-        GameManagerMode = df.DUAL if (lgame.gameMode == 'Local_2p') else df.SOLO
-        if lgame.gameMode == 'Local_2p':
-            GameManagerMode = df.DUAL
-        elif lgame.gameMode == 'Local_1p':
-            GameManagerMode = df.SOLO
-        elif lgame.gameMode == 'Multiplayer':
-            GameManagerMode = df.FREEPLAY
-        else:
-            GameManagerMode = df.TOURNAMENT
-
-
         game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount(gameType))
 
         self.match_maker.remove_lobby_game(lgame)
+
+        GameManagerMode = self.gameModeEnums.get(lgame.gameMode, None)
+        if not GameManagerMode:
+            raise TypeError('Trying to push game to GameManager with invalid gameMode')
+
         game_connector = lgame.game_connector
         gm = self.__game_manager
-
         print('game after sync_to_async db game creation : ', game)
         gm_status = await gm.addGame(
             gameType,
@@ -489,11 +498,10 @@ class GameGateway(BaseGateway):
 
         tasks = [gm.addPlayerToGame(lply.user.id, lply.user.login, lgame.sockID) for lply in lgame.players]
         await asyncio.gather(*tasks)
-        # await game_connector.send_init_state(gm.getInitInfo(gameType))
 
         await lgame.game_connector.send_start_signal()
         await gm.startGame(lgame.sockID)
-        #lgame.set_is_started()
+
         return lgame
 
 
@@ -562,23 +570,23 @@ class GameGateway(BaseGateway):
         gconn = end_game_state.pop('gameConnector')
         game = gconn.game
 
-        compile_results = (gameMode == 'freeplay' or gameMode == 'tournament')
         eprint('gameMode : ', gameMode)
-        eprint('compile_results : ', compile_results)
         eprint('endState : ', endState)
 
         if endState == 'quit':
             eprint('endState == quit indeed')
-            res = await game.stop_and_register_results(scores, compile_results=compile_results)
+            quitter = end_game_state['quitter']
+            eprint('game was quit by playerID ', quitter)
+            res = await game.stop_and_register_results(scores, quitter=quitter)
             eprint('db push res : ', res)
         elif endState == 'win':
             eprint('endState == win indeed')
-            res = await game.stop_and_register_results(scores, compile_results=compile_results)
+            res = await game.stop_and_register_results(scores)
             eprint('db push res : ', res)
         elif endState == 'crash':
             eprint('endState == crash indeed')
         else:
-            eprint("WTF DUDE !!!! ")
+            eprint("WTF DUDE !!! ")
 
 
         eprint('manage_end_game :: Trying to call gconn.send_end_state')

@@ -23,7 +23,7 @@ let _get_websocket_path = function(sockID) {
 // THROUGH THE WEBSOCKET FOR THIS CLIENT.
 let _on_game_event = function(event) {
 
-    console.log('Client RECEIVED evenv : ' + event)
+    // console.log('Client RECEIVED event : ' + event)
     const data = JSON.parse(event.data);
 
     if (data.ev === 'up') {

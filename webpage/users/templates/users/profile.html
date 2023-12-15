@@ -11,14 +11,14 @@
         <li>Information</li>
         <li>Prénom et nom:  {{ user.display_name }} </li>
         <li>Identifiant:    {{ user.login }} </li>
-        <li>Is active:      {{ user.is_active }} </li>
-        <li>Is ingame:      {{ user.is_ingame }} </li>
       </ul>
       <ul class="stats mt-3">
         <li>Statistiques</li>
-        <li>Nombre de parties jouées: {{ nb_games_played }}</li>
-        <li>Victoire(s):    {{ user.wins }} </li>
-        <li>Défaite(s):     {{ user.loses }} </li>
+        <li>Nombre de parties jouées: {{ nb_played }}</li>
+        <li>Victoire(s):    {{ nb_wins }} </li>
+        <li>Défaite(s):     {{ nb_losses }} </li>
+        <li>Abandonnée(s):     {{ nb_given_up }} </li>
+        <li>Pourcentage de victoire:     {{ win_loss_ratio }} </li>
       </ul>
     </div>
   </div>

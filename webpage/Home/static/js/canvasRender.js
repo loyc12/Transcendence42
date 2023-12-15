@@ -39,7 +39,7 @@ let renderCanvas = function (ctx, gameInfo) {
     // Render game elements based on initial game data
     renderBall(ctx, gameInfo, gameInfo.update);
     renderRackets(ctx, gameInfo, gameInfo.update);
-    console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
+    // console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
 
     console.log('Game Score: S1:S2 :', gameInfo.update.scores);
     // console.log('Game Score: S1 :', score1);
