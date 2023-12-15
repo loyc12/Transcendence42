@@ -54,17 +54,6 @@ let select_hero_content = function (key) {
             loadModule('gameMode')
             disconnect_socket()
         }
-        if (contentElems['heroDiv'] === 'contentLogin') {
-            console.log('Special case contentLogin loadModule(login)')
-            window.addEventListener('beforeunload', function (e)
-            {
-                console.log('CATCH WINDOWS EVENT BEFORE UNLOAD')
-                e.preventDefault();
-                console.log('CATCH PREVENT DEFAULT')
-                e.returnValue = '';
-                //disconnect_socket()
-            });
-        }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
         if (current_content == key)
             return ;
@@ -84,7 +73,6 @@ let select_hero_content = function (key) {
         heroContentElem.style.display = 'block';
         current_content = key;
         console.log('current content page : ' + current_content)
-        
         try {
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
         } catch {}
