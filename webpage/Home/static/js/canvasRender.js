@@ -1,5 +1,5 @@
-// let score1 = 0;
-// let score2 = 0;
+let score1 = 0;
+let score2 = 0;
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;
@@ -33,22 +33,29 @@ let clearCanvas = function (ctx, w, h) {
 let renderCanvas = function (ctx, gameInfo) {
     // You can add additional rendering logic here
     // For now, let's just log the canvas dimensions
+
     // const score1 = gameInfo.update.scores[0];
     // const score2 = gameInfo.update.scores[1];
-    
+
     // Render game elements based on initial game data
     renderBall(ctx, gameInfo, gameInfo.update);
     renderRackets(ctx, gameInfo, gameInfo.update);
+
     // console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
 
-    console.log('Game Score: S1:S2 :', gameInfo.update.scores);
+    // console.log('Game Score: S1:S2 :', gameInfo.update.scores);
+    // score1 = gameInfo.update.scores[0];
+    // score2 = gameInfo.update.scores[1];
     // console.log('Game Score: S1 :', score1);
     // console.log('Game Score: S2 :', score2);
-    
-    // ctx.font = "42px Arial";
-    // ctx.fillStyle = "#ffffff";
-    // ctx.fillText(score1, 100, 50);
-    // ctx.fillText(score2, 700, 50);
+
+    ctx.font = "64px Arial";
+    ctx.fillStyle = "gray";
+    ctx.fillRect(canvas.width / 2, 0, canvas.width / 2, canvas.height / 2);
+    ctx.fillStyle = "white";
+    ctx.fillText(gameInfo.update.scores, (canvas.width / 2 - 50) , 250);
+    // ctx.fillText(score1, (canvas.width / 2 - 50) , 250);
+    // ctx.fillText(score2, (canvas.width / 2 + 50) , 250);
 
 }
 
@@ -81,7 +88,7 @@ let renderRackets = function(ctx, gameInfo, update) {
         if (gameInfo.gameType === 'Pong' && i > 2) {
             color = '#ffffff';   }
         shadow = getPlayerShadowColor(i);
-  
+
         // Check if the position of the racket is 'x'
         if (orientations[i] === 'x') {
             w = gameInfo.racketSize;
@@ -91,7 +98,7 @@ let renderRackets = function(ctx, gameInfo, update) {
             w = gameInfo.ballSize;
             h = gameInfo.racketSize;
         }
-        
+
         ctx.fillStyle = color;
         ctx.shadowBlur = 40;
         ctx.shadowColor = shadow;
@@ -100,8 +107,8 @@ let renderRackets = function(ctx, gameInfo, update) {
 }
 
 
-/// Should be the only function in the rendering chain to 
-/// access global variables. Every downstream function call should take 
+/// Should be the only function in the rendering chain to
+/// access global variables. Every downstream function call should take
 /// them as arguments.
 let updateCanvas = function (gameInfo) {
 

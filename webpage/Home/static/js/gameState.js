@@ -168,6 +168,9 @@ let deactivatePlayerControler = function () {
 
 /// SETUP currentGameInfo GLOBAL VARIABLE defined in defs.js
 function parseInitData (init_data) {
+    //init score test ...
+    // var { score1, score2 } = [0,0];
+
     //curentData = init_data;
     if (! 'update' in init_data)
         alert("ERROR: initData received is missing the 'update' struct.")
@@ -177,6 +180,7 @@ function parseInitData (init_data) {
     canvas.width = width;
     canvas.height = height;
 
+
     // currentGameInfo.scores = [0,0];
     //  // Display scores
     // for (let i = 0; i < currentGameInfo.scores.length; i++) {
@@ -184,7 +188,7 @@ function parseInitData (init_data) {
     //     scoreElement.textContent = `Player ${i + 1} Score: ${currentGameInfo.scores[i]}`;
     //     gameInfoContainer.appendChild(scoreElement);
     // }
-    
+
     /// Pre calculations used in rendering functions
     currentGameInfo.racketSize = init_data.sizeInfo.sRacket;
     currentGameInfo.ballSize = init_data.sizeInfo.sBall;
@@ -207,7 +211,7 @@ function parseInitData (init_data) {
 
 // Function to parse update data.
 let parseUpdateData = function (update) {
-    
+
     currentGameInfo.update = update;
     console.log('scores: ' + update.scores);
     updateCanvas(currentGameInfo);
@@ -226,7 +230,7 @@ let parsePlayersInfo = function(info) {
     //     gameState.ballPos = updatedGameState.ballPos;
     //     gameState.score = updatedGameState.score;
     // }
-    
+
     //     // Display scores
     //     for (let i = 0; i < gameState.score.length; i++) {
     //         const scoreElement = document.createElement('div');
