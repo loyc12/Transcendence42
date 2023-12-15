@@ -73,6 +73,11 @@ let select_hero_content = function (key) {
         heroContentElem.style.display = 'block';
         current_content = key;
         console.log('current content page : ' + current_content)
+        if (current_content === 'login')
+        {
+            console.log('Special case login : a suivre')
+            
+        }
         try {
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
         } catch {}

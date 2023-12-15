@@ -163,7 +163,19 @@
 <!-- Events Handler Scripts  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% csrf_token %}
 {% compress js %}
+    {% if request.session.user_id %}
+        <script>
+            const user_id = {{ request.session.user_id }};
+            console.log("user_id = " + user_id);
+        </script>
+    {% else %}
+        <script>
+            const user_id = null;
+            console.log("user_id is null");
+        </script>
+    {% endif %}
     <script src="{% static 'js/defs.js' %}" defer></script>
+    <script src="{% static 'js/login_connection.js' %}" defer></script>
     <script src="{% static 'js/systemPage.js' %}" defer></script>
     <script src="{% static 'js/game.js' %}" defer></script>
     <script src="{% static 'js/gameMode.js' %}" defer></script>
