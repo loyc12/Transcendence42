@@ -4,7 +4,7 @@ var gameWebSockPath = null;
 var gameWebSock = null;
 
 
-
+// KEY EVENTS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 let _send_player_keyevent = function(key) {
     payload = JSON.stringify({
         'ev': KEYPRESS,
@@ -13,7 +13,7 @@ let _send_player_keyevent = function(key) {
     gameWebSock.send(payload)
 }
 
-
+// WEBSOCKETS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 let _get_websocket_path = function(sockID) {
     return 'ws://' + window.location.host + '/game/ws/' + sockID + '/';
 }
@@ -148,30 +148,33 @@ let loadMegaModule = function (gameType) {
     console.log(`--- init state for gameType ${gameType} : `);
     console.log(get_default_init_state(gameType));
     parseInitData(get_default_init_state(gameType));
+
+    //DEBUG
     printCurrentParam(currentGameInfo);
 
     // Will draw the gameType's default init state
     updateCanvas(currentGameInfo);
 
     // Request the server to join a game of gameType. Player will be placed in MatchMaker first.
+    // TOURNAMENT
     request_join_game(gameType)
-    .then(function (sockID) {
-        /// Officially connect to the game socket in the game group given by the server at sockID.
-        if (!sockID)
-            throw new EvalError('Request Join Game FAILED !');
-        gameSockID = sockID;
-        gameWebSockPath = _get_websocket_path(sockID);
-        return _connect_to_game_socket(gameWebSockPath);
-    })
-    .then(function (gameWebSock) {
-        /// Set websocket callbacks
-        _prepare_websocket(gameWebSock);
-        console.log('Connection to websocket SUCCESSFUL !')
-    })
-    .catch(e => {
-        //alert('You failed to join a game for the following reason : ' + e)
-        console.log('Exeption while requesting to join game : ' + e)
-    })
+        .then(function (sockID) {
+            /// Officially connect to the game socket in the game group given by the server at sockID.
+            if (!sockID)
+                throw new EvalError('Request Join Game FAILED !');
+            gameSockID = sockID;
+            gameWebSockPath = _get_websocket_path(sockID);
+            return _connect_to_game_socket(gameWebSockPath);
+        })
+        .then(function (gameWebSock) {
+            /// Set websocket callbacks
+            _prepare_websocket(gameWebSock);
+            console.log('Connection to websocket SUCCESSFUL !')
+        })
+        .catch(e => {
+            //alert('You failed to join a game for the following reason : ' + e)
+            console.log('Exeption while requesting to join game : ' + e)
+        })
 
     /// Enable player keypress handler
     // TODO: SHOULD WAIT UNTIL GAME START SIGNAL IS SENT BY WEBSOCKET.
