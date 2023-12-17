@@ -37,7 +37,6 @@ let _on_game_event = function(event) {
         console.log('Received INIT : ' + data.init);
         if (isTournament) {
             console.log('Tournament mode activated');
-            //document.getElementById("tournamentBracket").style.display = "block";
             //update_tournament_brackets(data.init.tournament);//function to update brackets
         }
     }

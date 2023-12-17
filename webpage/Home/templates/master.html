@@ -120,8 +120,11 @@
             <div class="row">
                 <div id="lobby" class="lobby">
                     {% block lobby %}
-                    {% include 'Lobby/lobby.html' %}
-                {% endblock %}
+                        {% include 'Lobby/lobby.html' %}
+                    {% endblock %}
+                    {% comment %} {% block tournament %}
+                        {% include 'Tournament/tournament.html' %}
+                    {% endblock %} {% endcomment %}
                 </div>
             </div>
             <div class="row">
@@ -131,13 +134,13 @@
                     {% endblock %}
                 </div>
             </div>
-            <div class="row">
+            {% comment %} <div class="row">
                 <div id="tournament" class="tournament">
                     {% block tournament %}
                     {% include 'Tournament/tournament.html' %}
                     {% endblock %}
                 </div>
-            </div> 
+            </div>  {% endcomment %}
             <!-- Game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="game" class="game">

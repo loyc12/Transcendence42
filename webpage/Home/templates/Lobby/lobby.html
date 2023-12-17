@@ -57,81 +57,8 @@
 				</table>
 			</div>
 		</div>
-		<!-- TOURNAMENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -->
-		<div class="clearfix">
-			<div class="row">
-				<div class="col mx-auto">
-					<!-- 1 FIRST ROUND - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-					<div class="round semifinals">
-						<!-- GROUP A  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-						<div class="bracket-game">
-							<!-- Player 1 Box EXAMPLE -->
-							<div class="player top">
-								<span id="nameP1">- - -</span>
-								<div class="score" id="scoreP1">- - -</div>
-							</div>
-							<!-- Player 2 Box EXAMPLE  -->
-							<div class="player bottom">
-								<span id="nameP2">- - -</span>
-								<div class="score" id="scoreP2">- - -</div>
-							</div>
-						</div>
-						<!-- GROUP B  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-						<div class="bracket-game cont">
-							<!-- Player 3 Box EXAMPLE -->
-							<div class="player top">
-								<span id="nameP3">- - -</span>
-								<div class="score" id="scoreP3">- - -</div>
-							</div>
-							<!-- Player 4 Box EXAMPLE -->
-							<div class="player bottom">
-								<span id="nameP4">- - -</span>
-								<div class="score" id="scoreP4">- - -</div>
-							</div>
-						</div>
-					</div>
-					<!-- GROUP C  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-					<div class="connectors finals">
-						<div class="top-line"></div>
-						<div class="clear"></div>
-						<div class="bottom-line"></div>
-						<div class="clear"></div>
-						<div class="vertical-line"></div>
-						<div class="clear"></div>
-						<div class="next-line"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="round finals">
-						<div class="bracket-game">
-							<!-- WINNER A Box EXAMPLE -->
-							<div class="player top" id="tournamentWinner1">
-								<span id="nameWinner1">- - -</span>
-								<div class="score" id="scoreWinner1">- - -</div>
-							</div>
-							<!-- WINNER B Box EXAMPLE -->
-							<div class="player bottom" id="tournamentWinner2">
-								<span id="nameWinner2">- - -</span>
-								<div class="score" id="scoreWinner2">- - -</div>
-							</div>
-						</div>
-					</div>
-					<div class="connectors winner">
-						<div class="next-line"></div>
-					</div>
-					<div class="round winner">
-						<div class="bracket-game">
-							<div class="player" id="tournamentWinner0">
-								<span id="winner">- - -</span>
-								<div class="score" id="scoreWinner">- - -</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row text-center">
-				<div class="col winner text-center" id="winner" style="background-color: #0e4870;">
-					Gagnant: - - -
-				</div>
-			</div>
+		<div id="tournament" class="tournament">
+			{% include 'Tournament/tournament.html' %}
+		</div>
 	</div>
 {% endblock %}

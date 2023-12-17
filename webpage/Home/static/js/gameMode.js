@@ -2,7 +2,7 @@
 // Variable to store selected options
 let selectedOptions = {};
 
-let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame', 'tournament']
+let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame']
 // Function to load a module
 function loadModule(moduleName) {
 
@@ -48,21 +48,6 @@ function loadModule(moduleName) {
         console.log('Make join game request.')
         request_join_game(moduleName)
     }
-        //case 'module1':
-        //    moduleContainer.innerHTML = `
-        //        <button onclick="loadSubModule('subModule1')">Game Local: SOLO [AI]</button>
-        //        <button onclick="loadSubModule('subModule2')">Game Local: 1 Vs 1 </button>
-        //    `;
-        //    break;
-        //case 'module2':
-        //    moduleContainer.innerHTML = `
-        //        <button onclick="loadSubModule('subModule3')">Game Online: Tournament </button>
-        //        <button onclick="loadSubModule('subModule4')">Game Online: MultiPlayer </button>
-        //    `;
-        //    break;
-        //default:
-        //    break;
-    //}
 }
 
 // Function to load a sub-module

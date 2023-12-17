@@ -1,108 +1,80 @@
-{% block tournament %}
-<div class="tournament" id="tournament">
-	<div class="clearfix">
-		<div class="row">
-			<div class="col mx-auto">
-				<div class="round semifinals">
-					<div class="bracket-game">
-						<div class="player top" id="playerTop">
-							<!-- To be change according to data from db -->
-							<span id="namePlayer1">{{namePlayer1}}</span>
-							<div class="score" id="scoreP1">{{scoreP1}}</div>
+{% comment %} {% block tournament %} {% endcomment %}
+{% block lobby %}
+		<!-- TOURNAMENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -->
+		<div class="clearfix">
+			<div class="row">
+				<div class="col mx-auto">
+					<!-- 1 FIRST ROUND - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+					<div class="round semifinals">
+						<!-- GROUP A  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<div class="bracket-game">
+							<!-- Player 1 Box EXAMPLE -->
+							<div class="player top">
+								<span id="nameP1">- - -</span>
+								<div class="score" id="scoreP1">- - -</div>
+							</div>
+							<!-- Player 2 Box EXAMPLE  -->
+							<div class="player bottom">
+								<span id="nameP2">- - -</span>
+								<div class="score" id="scoreP2">- - -</div>
+							</div>
 						</div>
-						<div class="player bottom">
-							<!-- To be change according to data from db -->
-							<span id="namePlayer2">{{namePlayer2}}</span>
-							<div class="score" id="scoreP2">{{scoreP2}}</div>
-						</div>
-					</div>
-					<div class="bracket-game cont">
-						<div class="player top">
-							<!-- To be change according to data from db -->
-							<span id="namePlayer3">{{namePlayer3}}</span>
-							<div class="score" id="scoreP3">{{scoreP3}}</div>
-						</div>
-						<div class="player bottom">
-							<!-- To be change according to data from db -->
-							<span id="namePlayer4">{{namePlayer4}}</span>
-							<div class="score" id="scoreP4">{{scoreP4}}</div>
-						</div>
-					</div>
-				</div>
-				<div class="connectors finals">
-					<div class="top-line"></div>
-					<div class="clear"></div>
-					<div class="bottom-line"></div>
-					<div class="clear"></div>
-					<div class="vertical-line"></div>
-					<div class="clear"></div>
-					<div class="next-line"></div>
-					<div class="clear"></div>
-				</div>
-				<div class="round finals">
-					<div class="bracket-game">
-						<div class="player top">
-							<!-- To be change according to data from db -->
-							<span id="nameWinner1">{{winner1}}</span>
-							<div class="score" id="scoreWinner1">{{scoreWinner1}}</div>
-						</div>
-						<div class="player bottom">
-							<!-- To be change according to data from db -->
-							<span id="nameWinner2">{{winner2}}</span>
-							<div class="score" id="scoreWinner2">{{scoreWinner2}}</div>
+						<!-- GROUP B  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+						<div class="bracket-game cont">
+							<!-- Player 3 Box EXAMPLE -->
+							<div class="player top">
+								<span id="nameP3">- - -</span>
+								<div class="score" id="scoreP3">- - -</div>
+							</div>
+							<!-- Player 4 Box EXAMPLE -->
+							<div class="player bottom">
+								<span id="nameP4">- - -</span>
+								<div class="score" id="scoreP4">- - -</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="connectors winner">
-					<div class="next-line"></div>
-				</div>
-				<div class="round winner">
-					<div class="bracket-game">
-						<div class="player">
-							<!-- To be change according to data from db -->
-							<span id="winner">{{winner}}</span>
-							<div class="score" id="scoreWinner">{{scoreWinner}}</div>
+					<!-- GROUP C  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+					<div class="connectors finals">
+						<div class="top-line"></div>
+						<div class="clear"></div>
+						<div class="bottom-line"></div>
+						<div class="clear"></div>
+						<div class="vertical-line"></div>
+						<div class="clear"></div>
+						<div class="next-line"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="round finals">
+						<div class="bracket-game">
+							<!-- WINNER A Box EXAMPLE -->
+							<div class="player top" id="tournamentWinner1">
+								<span id="nameWinner1">- - -</span>
+								<div class="score" id="scoreWinner1">- - -</div>
+							</div>
+							<!-- WINNER B Box EXAMPLE -->
+							<div class="player bottom" id="tournamentWinner2">
+								<span id="nameWinner2">- - -</span>
+								<div class="score" id="scoreWinner2">- - -</div>
+							</div>
+						</div>
+					</div>
+					<div class="connectors winner">
+						<div class="next-line"></div>
+					</div>
+					<div class="round winner">
+						<div class="bracket-game">
+							<div class="player" id="tournamentWinner0">
+								<span id="winner">- - -</span>
+								<div class="score" id="scoreWinner">- - -</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row text-center">
-			<div class="col winner text-center" id="winner" style="background-color: #0e4870;">
-				Gagnant: {{winner}}
+			<div class="row text-center">
+				<div class="col winner text-center" id="winner" style="background-color: #0e4870;">
+					Gagnant: - - -
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
 {% endblock %}
-
-<!-- <div class="row">
-	<div class="col">
-		<div class="round losers">
-			<div class="bracket-game">
-				<div class="player top">
-					To be change according to data from db
-					<span id="loser1">{{loser1}}</span>
-					<div class="score" id="scoreLoser1">{{scoreLoser1}}</div>
-				</div>
-				<div class="player bottom">
-					To be change according to data from db
-					<span id="loser2">{{loser2}}</span>
-					<div class="score" id="scoreLoser2">{{scoreLoser2}}</div>
-				</div>
-			</div>
-		</div>
-		<div class="connectors losers">
-			<div class="next-line-loser"></div>
-		</div>
-		<div class="round winner">
-			<div class="bracket-game">
-				<div class="player">
-					 To be change according to data from db
-					<span id="bronzeWinner">{{bronzeWinner}}</span>
-					<div class="score" id="bronzeScore">{{bronzeScore}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div> -->
