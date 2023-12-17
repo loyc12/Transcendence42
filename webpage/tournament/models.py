@@ -19,10 +19,6 @@ class Tournament(models.Model):
     max_players     = models.IntegerField (default=4)
     group_size      = models.IntegerField (default=2)
 
-    tag_groupA      = models.CharField    (max_length=1, default='A')#Round1
-    tag_groupB      = models.CharField    (max_length=1, default='B')#Round1
-    tag_groupC      = models.CharField    (max_length=1, default='C')#Round2
-
     members         = models.ManyToManyField('users.User', through=TourMember)
     # players =       models.ManyToManyField('users.User', through=Player)# should be ordered according to joined_at parameter of Player model.
 

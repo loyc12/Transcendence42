@@ -346,6 +346,8 @@ class GameGateway(BaseGateway):
         game.declare_started(save=True)
         lgame.game_connector.set_game_db_instance(game)
         return game
+    
+    
 
     async def __push_game_to_gamemanager(self, gameType: str, lgame):
         ''' When calling this function, the game should be validated ready to start. '''
