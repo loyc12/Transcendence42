@@ -31,7 +31,6 @@ function loadModule(moduleName) {
     else if (moduleName === 'lobby') {
         console.log('Load lobby')
         document.getElementById('lobby').style.display = 'block';
-        document.getElementById('Tournament').style.display = 'block';
     }
     else if (moduleName === 'game') {
         console.log('Load game')

@@ -37,7 +37,7 @@ let _on_game_event = function(event) {
         console.log('Received INIT : ' + data.init);
         if (isTournament) {
             console.log('Tournament mode activated');
-            document.getElementById("tournamentBracket").style.display = "block";
+            //document.getElementById("tournamentBracket").style.display = "block";
             //update_tournament_brackets(data.init.tournament);//function to update brackets
         }
     }
@@ -175,10 +175,13 @@ let loadMegaModule = function (gameType) {
 
             // Setting global var isTournament
             if (gameData.gameMode === 'Tournament')
+            {
+                console.log('Tournament mode activated');
                 isTournament = true;
+            }
             else
                 isTournament = false;
-
+            update_tournament_brackets();
             return _connect_to_game_socket(gameWebSockPath);
         })
         .then(function (gameWebSock) {
@@ -188,7 +191,7 @@ let loadMegaModule = function (gameType) {
         })
         .catch(e => {
             //alert('You failed to join a game for the following reason : ' + e)
-            console.log('Exeption while requesting to join game : ' + e)
+            console.error('Exeption while requesting to join game : ' + e)
         })
 
     /// Enable player keypress handler

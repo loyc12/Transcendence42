@@ -1,12 +1,5 @@
 let mock_player_list = [
-  //  {
-  //    playerName: "Jambon",
-  //    img: "<magnifique lien d'image profile1>",
-  //  },
-  //  {
-  //    playerName: "Pepperoni",
-  //    img: "<magnifique lien d'image profile2>",
-  //  },
+
   {
     playerName: "Chose",
     img: "<magnifique lien d'image profile2>",
