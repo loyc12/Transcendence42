@@ -240,7 +240,6 @@ class GameGateway(BaseGateway):
 
         #gconn = await self.__get_game_connector(sockID)
         #await gconn.add_player(consumer.user, consumer)
-        eprint('GameGateway :: connect_player() ')
 
         async with self.__gateway_lock:
             lobby_game = self.__match_maker.connect_player(consumer.user)
@@ -258,16 +257,12 @@ class GameGateway(BaseGateway):
         if lobby_game.is_tournament:
             ''' Tournament lobby games from MatchMaker are pseudo lobbies to be overwritten by the LiveTournament
              instance. Only  '''
-            eprint('connect_player : lobby_game.is_tournament : YES ')
-            # if self._live_tournament:
-            #     raise GameGatwayException('There can only be one tournament running at the same time. Try again later.')
+            if self._live_tournament:
+                raise GameGatwayException('Their can only be one tournament running at the same time. Try again later.')
             if not lobby_game.tour_connector:
-                eprint('connect_player : INITIALIZING live_tournament ')
-                tconn = TournamentConnector('Tour_' + sockID)
+                tconn = TournamentConnector('Tour::' + sockID)
                 self._live_tournament = LiveTournament(tconn, lobby_game)
                 lobby_game.set_tour_connector(tconn)
-                tour = await self.__create_db_tournament(lobby_game)
-                eprint('Tournament pushed to DB. Tournament ID : ', tour.id)
             else:
                 tconn = lobby_game.tour_connector
 
@@ -339,15 +334,18 @@ class GameGateway(BaseGateway):
         'Tournament': df.TOURNAMENT
     }
 
-    @sync_to_async
-    def __create_db_tournament(self, initLobby):
-        tour = Tournament.objects.create()
-        
-        for lply in initLobby.players:
-            tour.add_member(lply.user, save=False)
-        tour.declare_started(save=True)
-        # initLobby.tour_connector.set_tour_db_instance(game)
-        return tour
+    # @sync_to_async
+    # def __create_db_tounrament(self, lgame, gameType, maxPlayers):#, **kwargs):
+    #     game = Game.objects.create(
+    #         game_type=gameType,
+    #         max_players=maxPlayers,#self._maxRacketCounts[gameType]
+    #         is_official=self.__is_official_gameMode(lgame.gameMode)
+    #     )
+    #     for lply in lgame.players:
+    #         game.add_player(lply.user, save=False)
+    #     game.declare_started(save=True)
+    #     lgame.game_connector.set_game_db_instance(game)
+    #     return game
 
     @sync_to_async
     def __create_db_game(self, lgame, gameType, maxPlayers):#, **kwargs):
@@ -366,12 +364,12 @@ class GameGateway(BaseGateway):
 
     async def __push_game_to_gamemanager(self, gameType: str, lgame):
         ''' When calling this function, the game should be validated ready to start. '''
+        #game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount[gameType])
         print('lgame type : ', type(lgame))
         print('gameType type : ', type(gameType))
 
         # Checks if is local game with 2 local players on same keyboard or single player on board. Passes the result to addGame().
         game = await self.__create_db_game(lgame, gameType, self.__game_manager.getMaxPlayerCount(gameType))
-
 
         self.match_maker.remove_lobby_game(lgame)
 

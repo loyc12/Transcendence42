@@ -14,6 +14,8 @@ let _on_close_disconnect = function (event) {
     console.error('Server disconnected user websocket');
 }
 
+
+
 let _build_user_ws_path = function(sockID) {
     return 'ws://' + window.location.host + '/users/ws/' + sockID + '/';
 }

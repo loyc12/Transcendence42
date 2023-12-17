@@ -70,25 +70,19 @@ class Tournament(models.Model):
     def addGroupAGame(self, game):
         self.groupAGame = game
 
-    def declare_started(self, save=True):
+    def declare_started(self):
         self.is_running = True
         self.is_broken = False
         self.is_over = False
-        if save:
-            self.save()
 
-    def declare_broken(self, save=True):
+    def declare_broken(self):
         self.is_running = False
         self.is_broken = True
         self.is_over = True
-        if save:
-            self.save()
 
-    def declare_over(self, save=True):
+    def declare_over(self):
         self.is_running = False
         self.is_over = True
-        if save:
-            self.save()
 
     def add_member(self, user, save: bool=True):
 

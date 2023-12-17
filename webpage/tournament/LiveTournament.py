@@ -111,13 +111,13 @@ class LiveTournament:
                 brackets['groupC']['winner2']['won'] = True
 
         if len(plys_list) > 0:
-            brackets['groupA']['p1']['login'] = plys_list[0].user.login
+            brackets['groupA']['p1']['login'] = plys_list[0].login
         elif len(plys_list) > 1:
-            brackets['groupA']['p2']['login'] = plys_list[1].user.login
+            brackets['groupA']['p2']['login'] = plys_list[1].login
         elif len(plys_list) > 2:
-            brackets['groupB']['p3']['login'] = plys_list[2].user.login
+            brackets['groupB']['p3']['login'] = plys_list[2].login
         elif len(plys_list) > 3:
-            brackets['groupB']['p4']['login'] = plys_list[3].user.login
+            brackets['groupB']['p4']['login'] = plys_list[3].login
 
         return brackets
 
