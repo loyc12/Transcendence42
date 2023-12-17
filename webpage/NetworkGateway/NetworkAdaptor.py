@@ -334,6 +334,19 @@ class GameGateway(BaseGateway):
         'Tournament': df.TOURNAMENT
     }
 
+    # @sync_to_async
+    # def __create_db_tounrament(self, lgame, gameType, maxPlayers):#, **kwargs):
+    #     game = Game.objects.create(
+    #         game_type=gameType,
+    #         max_players=maxPlayers,#self._maxRacketCounts[gameType]
+    #         is_official=self.__is_official_gameMode(lgame.gameMode)
+    #     )
+    #     for lply in lgame.players:
+    #         game.add_player(lply.user, save=False)
+    #     game.declare_started(save=True)
+    #     lgame.game_connector.set_game_db_instance(game)
+    #     return game
+
     @sync_to_async
     def __create_db_game(self, lgame, gameType, maxPlayers):#, **kwargs):
         game = Game.objects.create(
