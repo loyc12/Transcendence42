@@ -51,43 +51,34 @@ def game_join(request):
     print('Created form gameType: ', form.cleaned_data['gameType'])
     #game_id = -1# default
 
+
+
+    mm = app.get_match_maker()
+    print(mm)
+
+    try:
+        lobby_game = mm.join_lobby(request.user, form.cleaned_data)
+    except MatchMakerWarning as w:
+        return JsonResponse(_build_error_payload(str(w)), status=400)
+
+    if not lobby_game:
+        return JsonResponse(_build_error_payload('Joining game lobby failed.'), status=400)
+        #return HttpResponse('Joining game lobby failed.', status=400)
+
+    payload = {
+        'status': 'success',
+        'sockID': lobby_game.sockID,
+        'gameMode': form.cleaned_data['gameMode'],
+        'gameType': form.cleaned_data['gameType'],
+        'withAI': form.cleaned_data['withAI'] if 'withAI' in form.cleaned_data else False
+    }
+
     ### TODO: CALL GameManager to create game according to request.
     if (form.cleaned_data['gameMode'] == 'Tournament'):
-        # print('Tournament mode not implemented yet.')
-        # tour = Tournament.objects.create()
-        # print('Tournament id : ', tour.id)
-        # print('Tournament winner : ', tour.winner)
-        # print('Tournament is_active : ', tour.is_active)
-
-
-        payload = {}
-        #     'status': 'success',
-        #     'sockID': lobby_game.sockID,
-        #     'gameMode': form.cleaned_data['gameMode'],
-        #     'gameType': form.cleaned_data['gameType'],
-        #     'withAI': form.cleaned_data['withAI'] if 'withAI' in form.cleaned_data else False
-        # }
-
+        payload['tourSockID'] = 'Tour_' + payload['sockID']
     else:
-        mm = app.get_match_maker()
-        print(mm)
+        pass
 
-        try:
-            lobby_game = mm.join_lobby(request.user, form.cleaned_data)
-        except MatchMakerWarning as w:
-            return JsonResponse(_build_error_payload(str(w)), status=400)
-
-        if not lobby_game:
-            return JsonResponse(_build_error_payload('Joining game lobby failed.'), status=400)
-            #return HttpResponse('Joining game lobby failed.', status=400)
-
-        payload = {
-            'status': 'success',
-            'sockID': lobby_game.sockID,
-            'gameMode': form.cleaned_data['gameMode'],
-            'gameType': form.cleaned_data['gameType'],
-            'withAI': form.cleaned_data['withAI'] if 'withAI' in form.cleaned_data else False
-        }
     return JsonResponse(payload)
     
 ''' Testing game instances creation '''

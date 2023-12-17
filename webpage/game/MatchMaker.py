@@ -269,40 +269,6 @@ class MatchMaker:
         #if not game_type or not game_type in self._gameLobby:
         #self._gameLobby[game_type].remove(lgame)
 
-    # @sync_to_async
-    # def __create_db_game(self, lgame: LobbyGame, gameType, maxPlayers):#, **kwargs):
-    #     game = Game.objects.create(
-    #         game_type=gameType,
-    #         max_players=maxPlayers#self._maxRacketCounts[gameType]
-    #     )
-    #     for lply in lgame.players:
-    #         game.add_player(lply.user)
-    #     game.declare_started()
-    #     return game
-
-    # async def __push_game_to_gamemanager(self, gameType: str, lgame: LobbyGame):
-    #     ''' When calling this function, the game should be validated ready to start. '''
-    #     game = await self.__create_db_game(lgame, gameType, self._maxRacketCounts[gameType])
-    #     #game = sync_to_async(Game.objects.create)()
-    #     #        game_type=gameType,
-    #     #        max_players=self._maxRacketCounts[gameType]
-    #     #    )
-    #     #)
-    #     print('game after sync_to_async db game creation : ', game)
-    #     gm_status = await self.gm.addGame(gameType, game.id)
-    #     if not gm_status:
-    #         raise MatchMakerException('Error occured while trying to create new game in game_manager.')
-
-
-    #     #tasks = [self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id) for lply in lgame.players]
-    #     #await asyncio.gather(tasks)
-    #     for lply in lgame.players:
-    #         await self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id)
-    #     await self.gm.startGame(game.id)
-    #     lgame.set_is_started()
-    #     self.__remove_lobby_game(lgame)
-    #     return lgame
-
     #COLLE
     # recois le form ici
     def join_lobby(self, user: User, form: GameCreationForm|dict):

@@ -213,18 +213,18 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         self.sockID = self.scope['url_route']['kwargs']['sock_id']
         print('tournament :::::: CONNECTING TO WEBSOCKET with id : ', self.sockID)
 
-        if 'tournament' in self.scope:
-            print('scope DOES contain tournament. ')
-            self.tournament = self.scope['tournament']
-            self.tournamentID = self.tournament.id
-            print(self.tournament)
-            print('tournament id : ', self.tournament.id)
-        else:
-            raise TournamentConsumerError('A tournament tried to connect to a websocket without being logged in.')
+        # if 'tournament' in self.scope:
+        #     print('scope DOES contain tournament. ')
+        #     # self.tournament = self.scope['tournament']
+        #     # self.tournamentID = self.tournament.id
+        #     print(self.tournament)
+        #     # print('tournament id : ', self.tournament.id)
+        # else:
+        #     raise TournamentConsumerError('A tournament tried to connect to a websocket without being logged in.')
         await self.accept()
         await self.send(text_data=json.dumps({
             'ev': 'connect',
-            'msg': 'Hello there buddy !'
+            'msg': 'Let it bleed !'
         }))
 
 

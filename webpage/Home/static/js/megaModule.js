@@ -178,10 +178,18 @@ let loadMegaModule = function (gameType) {
             {
                 console.log('Tournament mode activated');
                 isTournament = true;
+                tournamentWebSockID = gameData.tourSockID;
+                tournamentWebSock = _connect_to_tournament_socket(_build_tournament_ws_path(tournamentWebSockID))
             }
-            else
+            else {
+                console.log('Tournament mode not activated');
                 isTournament = false;
+                tournamentWebSock = null;
+                tournamentWebSockID = null;
+            }
+            console.log('Before update_tournament_brackets()');
             update_tournament_brackets();
+            console.log('After update_tournament_brackets()');
             return _connect_to_game_socket(gameWebSockPath);
         })
         .then(function (gameWebSock) {
