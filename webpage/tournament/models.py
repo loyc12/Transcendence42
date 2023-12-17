@@ -15,9 +15,11 @@ class Tournament(models.Model):
     tag_groupB      = models.CharField    (max_length=1, default='B')#Round1
     tag_groupC      = models.CharField    (max_length=1, default='C')#Round2
     
-    groupAGame    = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupAGame', null=True, blank=True)#Round1
-    groupBGame    = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupBGame', null=True, blank=True)#Round1
-    groupCGame    = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupCGame', null=True, blank=True)#Round2
+    # members         = models.ManyToManyField();
+
+    groupAGame      = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupAGame', null=True, blank=True)#Round1
+    groupBGame      = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupBGame', null=True, blank=True)#Round1
+    groupCGame      = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupCGame', null=True, blank=True)#Round2
     
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
@@ -46,6 +48,16 @@ class Tournament(models.Model):
             raise IntegrityError('Tournament should not be referenced in multiple running tournaments.')
         else:
             return cur_tournaments.first()
+
+    @property
+    def winner(self):
+        if not self.groupCGame:
+            return None
+        return self.groupCGame.winner
+
+    def addGroupAGame(self, game):
+        self.groupAGame = game
+
 
     # @property
     # def is_intournament(self):

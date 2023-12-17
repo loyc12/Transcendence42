@@ -22,17 +22,9 @@ application = ProtocolTypeRouter({
                 re_path(r'game/ws/(?P<sock_id>\w+)/$', GameConsumer.as_asgi()),
                 re_path(r'users/ws/(?P<sock_id>\w+)/$', UserConsumer.as_asgi()),
                 re_path(r'tournament/ws/(?P<sock_id>\w+)/$', TournamentConsumer.as_asgi()),
-                # path("game/ws/", AdminChatConsumer.as_asgi()),
-                # path("users/ws/", PublicChatConsumer.as_asgi()),
             ])
         )
     ),
-    # 'websocket': AuthMiddlewareStack(
-    #     URLRouter([
-    #         websocket_urlpatterns,
-    #         user_ws_urlpatterns
-    #     ])
-    # )
 })
 # DOC
 # https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/

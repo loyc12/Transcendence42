@@ -34,6 +34,12 @@ let _on_game_event = function(event) {
         // Sent ONCE at the begining of lobby phase with data required to render a game.
         // See PingPongRebound/json-template.json, section : getInitInfo()
         parseInitData(data.init)
+        console.log('Received INIT : ' + data.init);
+        if (isTournament) {
+            console.log('Tournament mode activated');
+            document.getElementById("tournamentBracket").style.display = "block";
+            //update_tournament_brackets(data.init.tournament);//function to update brackets
+        }
     }
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
@@ -158,12 +164,21 @@ let loadMegaModule = function (gameType) {
     // Request the server to join a game of gameType. Player will be placed in MatchMaker first.
     // TOURNAMENT
     request_join_game(gameType)
-        .then(function (sockID) {
+        .then(function (gameData) {
             /// Officially connect to the game socket in the game group given by the server at sockID.
-            if (!sockID)
+            if (!gameData.sockID)
                 throw new EvalError('Request Join Game FAILED !');
-            gameSockID = sockID;
-            gameWebSockPath = _get_websocket_path(sockID);
+            gameSockID = gameData.sockID;
+            gameWebSockPath = _get_websocket_path(gameData.sockID);
+            console.log('gameSockID after request_join_game : ' + gameSockID);
+            console.log('gameWebSockPath after request_join_game : ' + gameWebSockPath);
+
+            // Setting global var isTournament
+            if (gameData.gameMode === 'Tournament')
+                isTournament = true;
+            else
+                isTournament = false;
+
             return _connect_to_game_socket(gameWebSockPath);
         })
         .then(function (gameWebSock) {

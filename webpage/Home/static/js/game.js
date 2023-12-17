@@ -62,7 +62,9 @@ let _http_join_request = async function (payload) {
       console.log('response withAI : ', data.withAI);
       console.log('response eventID : ', data.eventID);
       //if (data.has('sockID'))
-      return data.sockID;
+      return data;
+    } else {
+      console.error('_http_join_request call did not return sockID :: data.sockID : ' + data.sockID);
     }
   })
   //.catch(err => console.log(err));
@@ -70,7 +72,7 @@ let _http_join_request = async function (payload) {
 
 let request_join_game = async function (gameType) {
   
-  //console.log('request_join_game temporarly deactivated. Come back again later.')
+  console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
   currentGameType = gameType
   if (gameType === 'Local_1p') {
@@ -87,8 +89,9 @@ let request_join_game = async function (gameType) {
     throw TypeError('Trying to request join game with unimplemented gameType: ' + gameType)
   }
 
-  const sockID = await _http_join_request(payload)
+  gameData = await _http_join_request(payload)
+  console.log('gameData : ' + gameData)
 
   //console.log('sockID at request_join_game() end : ' + sockID)
-  return sockID;
+  return gameData;
 }

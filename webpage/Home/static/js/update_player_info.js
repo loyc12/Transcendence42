@@ -85,9 +85,9 @@ let update_player_info = function (player_info_list) {
       img = ply.img;
       ready = ply.ready;
 
-      console.log('login : ' + login)
-      console.log('img : ' + img)
-      console.log('ready : ' + ready)
+      // console.log('login : ' + login)
+      // console.log('img : ' + img)
+      // console.log('ready : ' + ready)
 
       document.getElementById(imgElemID).src = img;
       document.getElementById(nameElemID).innerHTML = ` ${login}`;

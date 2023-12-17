@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from users.models import User
-from game.models import Game
+# from game.models import Game
 from game.forms import GameCreationForm
 #from game.PingPongRebound import Pong, Ponger, Pongest, Pongester, Ping, Pinger, Pingest
 #from game.PingPongRebound import GameManager as gm#Po, Pi, Pong, Ping, Ponger, Pinger, Pongest, Pingest
@@ -56,6 +56,9 @@ class LobbyGame:
         self.__required_players: int = self.__maxPlayerCounts[self.gameType]
         #self.__is_started: bool
         self.__game_connector = None # Set by GameGateway after successfull join_game() call with instance of GameConnector object.
+        self.__tour_connector = None # Set by GameGateway after successfull join_game() call with instance of TournamentConnector object. Only set if gameMode == 'Tournament'.
+        self.__tournament = None
+
 
     def __repr__(self):
         return f"LobbyGame<id: {self.lobbyID}, form: {self.form}, players: {self.player_names}>"
@@ -96,6 +99,9 @@ class LobbyGame:
     def game_connector(self):
         return self.__game_connector
     @property
+    def tour_connector(self):
+        return self.__tour_connector
+    @property
     def is_ready(self) -> bool:
         print('-> Game Lobby is_ready check :')
         print('-> is_full : ', self.is_full)
@@ -104,18 +110,27 @@ class LobbyGame:
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
     def is_full(self):
+        if self.gameMode == 'Tournament':
+            return (len(self.__players) == 4)
         if (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0):
             return True
         return self.nb_players == self.__required_players
     @property
     def is_empty(self):
         return not self.__players
+    @property
+    def is_tournament(self):
+        return self.gameMode == 'Tournament'
 
     #def set_is_started(self):
     #    self.__is_started = True
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn
+    def set_tour_connector(self, tconn):
+        self.__tour_connector = tconn
+    def set_tournament(self, liveTour):
+        self.__tournament = liveTour
 
     def add_player(self, lply: LobbyPlayer):
         if not (lply and isinstance(lply, LobbyPlayer)):

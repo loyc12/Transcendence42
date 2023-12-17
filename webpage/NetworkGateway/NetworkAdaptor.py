@@ -1,34 +1,3 @@
-'''
-    This WebsocketNetworkAdaptor class is a singleton that manages the bidirectional
-    throughput between the AsyncWebsocketConsumers and the singleton
-    GameManager instance that manages the async gameloops for all games.
-    It's methods should be called when connecting and disconnecting clients
-    of websockets, and receiving and sending messages through them.
-
-    The standard format for sent and received messages from/to websockets is
-    as follows :
-
-        - All messages start by an 'ev' field describing the event type of this
-        specific communication.
-
-        List of event types received from the client:
-            1. 'start': Sets the client state as ready.
-            2. 'stop': Player requests the game to stop.
-                    This will stop the game (Opponent wins by default).
-            3. 'keypress': Next to the 'ev' key will be a 'details' dict wih the dict key named 'key'
-                    describing the keyboard input that triggered the event as str.
-                    To get its value, the event should be indexed as such : keypressed = event['details']['key']
-            4. 'keyrelease' (ignorable): Same as format as 'keypress'.
-            ...
-
-        List of event types sent to the client:
-            1. 'up': Event type for regular updates of game states.
-                    Next to the 'ev' dict key will be the 'state' key with the current game state as value.
-                    See GameManager for details.
-            2. 'disconnect' (Theoretical): Kicks out player from game, stops game for all players and cancel game records keeping.
-
-
-'''
 
 from abc import ABC
 import json
@@ -40,34 +9,29 @@ from users.models import User
 from queue import Queue
 import asyncio
 import time
-# from functools import wraps
 from NetworkGateway.consumers import GameConsumer
 from NetworkGateway.models import GameEvent
 from game.models import Game
 import game.PingPongRebound.defs as df
 from asgiref.sync import sync_to_async, async_to_sync
-
+from tournament.consumers import TournamentConnector
+from tournament.models import Tournament
+from tournament.LiveTournament import LiveTournament
 
 def eprint(*args):
     print(*args, file=sys.stderr)
 
-
-
-### Connector Clases
-
-# Expand system
 class BaseGateway(ABC):
+    pass
+class GameGatwayException(Exception):
     pass
 
 
-
 class GameConnector:
-    ''' Game connector holds the information necessary to handle the sending
-        of game updates.
-    '''
     __channel_layer = get_channel_layer()
     __game_gateway = None # Set once by singleton GameGateway
 
+    #  DEFINE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     @classmethod
     def set_game_gateway(cls, game_gateway):
         if not cls.__game_gateway:
@@ -79,11 +43,8 @@ class GameConnector:
         self.__player_consumers: dict[int, GameConsumer] = dict()
         self.__game_lock = asyncio.Lock()
         self.__events_lock = asyncio.Lock()
-
         self.lobby_game = None # Returned after connecting to MatchMaker
-
         self.__events = asyncio.Queue()
-
 
     @property
     def is_running(self):
@@ -101,35 +62,35 @@ class GameConnector:
     def gameID(self):
         return self.__gameDB.id
 
+    #  SETTER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def set_lobby_game(self, lgame):
         if self.lobby_game and lgame != self.lobby_game:
             GameGatwayException('Trying to set game_connector.lobby_game to different game. lobby_game can only be set once.')
         self.lobby_game = lgame
-
     def set_game_db_instance(self, game: Game):
         if not (game and isinstance(game, Game)):
             raise TypeError('Trying to set game instance to game connector, but object passed is not a Game model type.')
         self.__gameDB = game
 
-
+    #  SETTER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    #  Get all events one by one
     async def events(self):
         async with self.__events_lock:
             while not self.__events.empty():
                 yield self.__events.get()
-        #yield None
-
+    #  Get all events as a list
+    async def getEvents(self):
+        async with self.__events_lock:
+            return [await self.__events.get() for _ in range(self.__events.qsize())]
+    #  Get one event (ev)           
     async def getEvent(self):
         ev = None
         async with self.__events_lock:
             if not self.__events.empty():
                 ev = self.__events.get()
         return ev
-
-    async def getEvents(self):
-
-        async with self.__events_lock:
-            return [await self.__events.get() for _ in range(self.__events.qsize())]
-
+    
+   #  PUSH_EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     async def push_event(self, playerID, evType, key=None):
         event = GameEvent(playerID, evType, key)
         print("push_event: ", event)
@@ -137,48 +98,48 @@ class GameConnector:
             await self.__events.put(event)
             print('event queue length : ', self.__events.qsize())
 
-    async def _send_players_list(self):
-        async with self.__game_lock:
-            players = self.lobby_game.players
-
-        # payload = json.dumps([
-        payload = [
-            {
-                'login': ply.user.login,
-                'img': ply.user.img_link,
-                'ready': ply.is_ready
-            }
-            for ply in players
-        ]
-        print('send player info payload : ', payload)
-
-        #payload = json.dumps(names)
-        await self.__channel_layer.group_send(
-            self.__sockID,
-            {
-                'type': 'game_new_connection_message',
-                'players': payload
-            }
-        )
-
+   #  STATE_EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+   # INIT_STATE
+    async def send_init_state(self, state):
+        if not state:
+            raise TypeError('send_init_state :: No state was provided.')
+        self.__send_state_change('init_game', 'init_state', state)
+    # STATE_CHANGE
+    async def __send_state_change(self, ev_type, ev_key, ev_value):
+        payload = json.dumps({ 'ev': ev_type, ev_key: ev_value })
+        await self.__channel_layer.group_send(self.__sockID,
+                {
+                    'type': 'game_send_state',
+                    'game_state': payload
+                }
+            )
+    # END_STATE
+    async def send_end_state(self, state):
+        if not state:
+            raise TypeError('send_end_state :: No state was provided.')
+        print('CALLED send_end_state()')
+        payload = json.dumps({ 'ev': 'end', 'end_state': state })
+        await self.__channel_layer.group_send(self.__sockID,
+                {
+                    'type': 'game_send_end_state',
+                    'end_state': payload
+                }
+            )
+    # CONNECTION//DECONNECTION EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # CONNECTION
     async def connect_player(self, user, consumer):
         async with self.__game_lock:
             if user.id in self.__player_consumers:
                 raise ValueError('Trying to add player to same game connector twice.')
             self.__player_consumers[user.id] = consumer
-
         await self.__channel_layer.group_add(
             self.__sockID,
             consumer.channel_name
         )
-        # asyncio.gather(
         await self._send_players_list()
-        # )
-
-
+    
+    # DECONNECTION
     async def disconnect_player(self, user):
-        #if not self.gameID:
-        #    raise GameGatwayException('GameConnector.disconnect_player() can only be called once the game is started. Otherwise call GameGateway.disconnect_player().')
         print(f'GameConnector :: ENTER disconnect player')
         if not self.lobby_game:
             return None
@@ -186,143 +147,79 @@ class GameConnector:
             if user.id not in self.__player_consumers:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
-
-        #await self.send_end_state(end_state);
-
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
-
         print(f'GameConnector :: SWITCH')
         if self.game:
-            ## TODO: Disconnect player while in live game.
             print(f'GameConnector :: disconnect player {user.id} INGAME')
-            await self.push_event(user.id, 'end_game') # send disconnect event to Game instance in game manager. Same place as keypress events.
+             # send disconnect event to Game instance in game manager. Same place as keypress events.
+            await self.push_event(user.id, 'end_game')
         elif self.nb_connected > 0:
-            ##
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
+            # send updated player list to all players without the disconnected player
             await self._send_players_list()
         else:
-        #SOLO AI exemple :
-            print('WTF DUDE !!')
-        #else:
-        #    lgame, lply = self.match_maker.remove_player(user)
-            #lply = self.lobby_game.remove_user(user)
-            #asyncio.async_to_sync(self.__channel_layer.group_discard)(self.__sockID, pcons.channel_name)
+            print('WTF DUDE !! async def disconnect_player(self, user), other')
+    # async def disconnect_all_players(self):
+    #     # async with self.__game_lock:
+    #     #     for ply in self.__player_consumers:
+    #     pass
 
-
-    async def disconnect_all_players(self):
-        # async with self.__game_lock:
-        #     for ply in self.__player_consumers:
-        pass
-
-
-
-
-
-    async def __send_state_change(self, ev_type, ev_key, ev_value):
-        payload = json.dumps({
-            'ev': ev_type,
-            ev_key: ev_value
-        })
-        await self.__channel_layer.group_send(self.__sockID,
-                {
-                    'type': 'game_send_state',
-                    'game_state': payload
-                }
-            )
-
-    async def send_init_state(self, state):
-        if not state:
-            raise TypeError('send_init_state :: No state was provided.')
-        self.__send_state_change('init_game', 'init_state', state)
-
-    async def send_end_state(self, state):
-        if not state:
-            raise TypeError('send_end_state :: No state was provided.')
-        print('CALLED send_end_state()')
-        # self.__send_state_change('end', 'end_state', state)
-
-
-        payload = json.dumps({
-            'ev': 'end',
-            'end_state': state
-        })
-        await self.__channel_layer.group_send(self.__sockID,
-                {
-                    'type': 'game_send_end_state',
-                    'end_state': payload
-                }
-            )
-
-
-
+    # INFORMATION SENDING EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # Get all players as a list
+    async def _send_players_list(self):
+        async with self.__game_lock:
+            # Players list from lobby_game
+            players = self.lobby_game.players
+        # Payload to send to all players
+        payload = [ { 'login': ply.user.login, 'img': ply.user.img_link, 'ready': ply.is_ready }
+            for ply in players ]
+        print('send player info payload : ', payload)
+        await self.__channel_layer.group_send(
+            self.__sockID,
+            {
+                'type': 'game_new_connection_message',
+                'players': payload
+            }
+        )
+    # Send start signal to SOCKID
     async def send_start_signal(self):
         print('<<< SENDING START SIGNAL !! >>>')
-        payload = json.dumps({
-            'ev': 'start'
-        })
+        payload = json.dumps({ 'ev': 'start' })
         await self.__channel_layer.group_send(self.__sockID,
                 {
                     'type': 'game_send_state',
                     'game_state': payload
                 }
             )
-        # self.__send_state_change('start', 'start', '')
-
+    # Send score
     async def send_score(self, scores):
         if not scores:
             raise TypeError('No scores was provided.')
         self.__send_state_change('scores', 'scores', scores)
 
 
-    async def start_countdown(self):
-        if not self.is_running:
-            raise ValueError('Trying to start countdown, but game is not initialized.')
-
-        event = {
-            'ev': 'countdown',
-            'counter': 3
-        }
-
-        for i in range(3):
-            t_start = time.monotonic()
-            payload = json.dumps(event)
-            await self.__channel_layer.group_send(self.__sockID,
-                {
-                    'type': 'game.send.state',
-                    'payload': payload
-                }
-            )
-            payload['counter'] -= 1
-            dt = time.monotonic() - t_start
-            await asyncio.sleep(1.0 - dt)
-
-        self.push_event(self.__sockID, 'start_game')
 
 
-
-
-
-class GameGatwayException(Exception):
-    pass
-
+# Singleton object which orchestrats the sending of updates to all games
 class GameGateway(BaseGateway):
-    ''' Singleton object which orchestrats the sending of updates to all games '''
-
     def __init__(self):
         GameConnector.set_game_gateway(self)
         self.__channel_layer = get_channel_layer()
         self.__match_maker = None# Must be setup with self.set_matchmaker() before accepting connections
         self.__game_manager = None# Must be setup with self.set_gamemanager() before accepting connections
-
-        #self.__connected_games: dict[str, GameConnector] = dict()
         self.__gateway_lock = asyncio.Lock()
+
+        # TOURNAMENT
+        # There can only be one live tournament going on at the same time
+        self._live_tournament: LiveTournament = None
 
     @property
     def match_maker(self):
         return self.__match_maker
 
-    ### In setup phase, in GameConfig.ready()
+    #  SETTER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def set_match_maker(self, match_maker):
+        #In setup phase, in GameConfig.ready()
         if self.__match_maker:
             raise ValueError('Can only be setup once')
         self.__match_maker = match_maker
@@ -331,23 +228,7 @@ class GameGateway(BaseGateway):
         if self.__game_manager:
             raise ValueError('Can only be setup once')
         self.__game_manager = game_manager
-    ########################################
-
-    # async def contains_game(self, sockID):
-        # res = False
-        # async with self.__gateway_lock:
-            # res = sockID in self.__connected_games
-        # return res
-
-    # async def __get_game_connector(self, sockID):
-    #     gconn = None
-    #     async with self.__gateway_lock:
-    #         gconn = self.__connected_games.get(sockID)
-    #     if gconn:
-    #         return gconn
-    #     else:
-    #         return GameConnector(sockID)
-
+ 
 
     async def connect_player(self, sockID, consumer):
         ''' Called by websocket consumer connect() method. '''
@@ -369,6 +250,21 @@ class GameGateway(BaseGateway):
             gconn.set_lobby_game(lobby_game)
         else:
             gconn = lobby_game.game_connector
+
+        if lobby_game.is_tournament:
+            ''' Tournament lobby games from MatchMaker are pseudo lobbies to be overwritten by the LiveTournament
+             instance. Only  '''
+            if self._live_tournament:
+                raise GameGatwayException('Their can only be one tournament running at the same time. Try again later.')
+            if not lobby_game.tour_connector:
+                tconn = TournamentConnector('Tour::' + sockID)
+                self._live_tournament = LiveTournament(tconn, lobby_game)
+                lobby_game.set_tour_connector(tconn)
+            
+            self._live_tournament.build_brackets()
+            await tconn.send_brackets()
+
+            
 
         await gconn.connect_player(consumer.user, consumer)
         await gconn.send_init_state(self.__game_manager.getInitInfo(lobby_game.gameType))
@@ -417,28 +313,6 @@ class GameGateway(BaseGateway):
 
         else:# Disconnect if in tournament
             print('Trying to disconnect but GOT ELSED !')
-
-
-
-        # async with self.__gateway_lock:
-        #     rem = self.match_maker.remove_player(user)
-        # if not rem:
-        #     raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
-        # lgame, lply = rem
-        # if not lgame.is_empty:
-        #     lgame.game_connector.disconnect_player(user)
-        #     #lgame.game_connector._send_players_list()
-
-    # async def disconnect_player(self, user: User, consumer):
-    #     ''' This method should only be used to disconnect players while in lobby. '''
-    #     async with self.__gateway_lock:
-    #         rem = self.match_maker.remove_player(user)
-    #     if not rem:
-    #         raise GameGatwayException(f"Trying to disconnect user {user.login} from lobby, but was not found there.")
-    #     lgame, lply = rem
-    #     if not lgame.is_empty:
-    #         lgame.game_connector.disconnect_player(user)
-    #         #lgame.game_connector._send_players_list()
 
     ### DEBUG VERSION :
     official_gameModes = {'Local_1p', 'Multiplayer', 'Tournament', 'Online_4p'}
@@ -596,3 +470,36 @@ class GameGateway(BaseGateway):
 
         # stop_and_register_results
         eprint('EXITING manage_end_game()')
+
+
+'''
+    This WebsocketNetworkAdaptor class is a singleton that manages the bidirectional
+    throughput between the AsyncWebsocketConsumers and the singleton
+    GameManager instance that manages the async gameloops for all games.
+    It's methods should be called when connecting and disconnecting clients
+    of websockets, and receiving and sending messages through them.
+
+    The standard format for sent and received messages from/to websockets is
+    as follows :
+
+        - All messages start by an 'ev' field describing the event type of this
+        specific communication.
+
+        List of event types received from the client:
+            1. 'start': Sets the client state as ready.
+            2. 'stop': Player requests the game to stop.
+                    This will stop the game (Opponent wins by default).
+            3. 'keypress': Next to the 'ev' key will be a 'details' dict wih the dict key named 'key'
+                    describing the keyboard input that triggered the event as str.
+                    To get its value, the event should be indexed as such : keypressed = event['details']['key']
+            4. 'keyrelease' (ignorable): Same as format as 'keypress'.
+            ...
+
+        List of event types sent to the client:
+            1. 'up': Event type for regular updates of game states.
+                    Next to the 'ev' dict key will be the 'state' key with the current game state as value.
+                    See GameManager for details.
+            2. 'disconnect' (Theoretical): Kicks out player from game, stops game for all players and cancel game records keeping.
+
+
+'''
