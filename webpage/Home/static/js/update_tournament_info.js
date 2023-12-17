@@ -21,26 +21,26 @@ let mock_groupB = {
     }
 }
 
-function shouldIncludeTournament() {
-    var tournamentStyle = getComputedStyle(document.getElementById('tournament')).display;
-    if (tournamentStyle === 'none') {
-        console.log('shouldIncludeTournament() :: Tournament is not displayed');
-        return false;
-    }
-    else if (tournamentStyle === 'block') {
-        console.log('shouldIncludeTournament() :: Tournament is displayed');
-        return true;
-    }
-    else
-    {
-        console.log('Error in shouldIncludeTournament()');
-    }
-    return false;
-}
+// function shouldIncludeTournament() {
+//     var tournamentStyle = getComputedStyle(document.getElementById('tournament')).display;
+//     if (tournamentStyle === 'none') {
+//         console.log('shouldIncludeTournament() :: Tournament is not displayed');
+//         return false;
+//     }
+//     else if (tournamentStyle === 'block') {
+//         console.log('shouldIncludeTournament() :: Tournament is displayed');
+//         return true;
+//     }
+//     else
+//     {
+//         console.log('Error in shouldIncludeTournament()');
+//     }
+//     return false;
+// }
 
 let update_tournament_brackets = function() {
 
-    document.getElementById('tournament').style.display = 'block';
+    //document.getElementById('tournament').style.display = 'block';
     
     //  GROUP A
     document.getElementById('nameP1').innerHTML = mock_groupA.p1.login;
