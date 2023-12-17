@@ -260,11 +260,12 @@ class GameGateway(BaseGateway):
                 tconn = TournamentConnector('Tour::' + sockID)
                 self._live_tournament = LiveTournament(tconn, lobby_game)
                 lobby_game.set_tour_connector(tconn)
+            else:
+                tconn = lobby_game.tour_connector
             
-            self._live_tournament.build_brackets()
-            await tconn.send_brackets()
+            brackets = self._live_tournament.build_brackets()
+            await tconn.send_brackets(brackets)
 
-            
 
         await gconn.connect_player(consumer.user, consumer)
         await gconn.send_init_state(self.__game_manager.getInitInfo(lobby_game.gameType))

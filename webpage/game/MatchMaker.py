@@ -57,7 +57,7 @@ class LobbyGame:
         #self.__is_started: bool
         self.__game_connector = None # Set by GameGateway after successfull join_game() call with instance of GameConnector object.
         self.__tour_connector = None # Set by GameGateway after successfull join_game() call with instance of TournamentConnector object. Only set if gameMode == 'Tournament'.
-        self.__tournament = None
+        # self.__tournament = None
 
 
     def __repr__(self):
@@ -129,8 +129,6 @@ class LobbyGame:
         self.__game_connector = gconn
     def set_tour_connector(self, tconn):
         self.__tour_connector = tconn
-    def set_tournament(self, liveTour):
-        self.__tournament = liveTour
 
     def add_player(self, lply: LobbyPlayer):
         if not (lply and isinstance(lply, LobbyPlayer)):
