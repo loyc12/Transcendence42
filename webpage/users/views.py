@@ -23,7 +23,6 @@ def import_data(api_data, request):
             display_name    = api_data.json()['displayname'],
             img_link        = api_data.json()['image']['link'],    
             is_active       = 1,
-            nb_games_played = 0,
         )
     # Update session
     u.save()
@@ -34,26 +33,16 @@ def get_profile(request):
 
     user = request.user
 
-    # payload = {
-    #     'display_name': user.display_name,
-    #     'login': user.login,
-    #     'img': user.img_link,
-    #     'is_active': user.is_active,
-    #     'is_ingame': user.is_ingame,
-    #     'nb_games_played': user.nb_games_played
-    # }
-    if user.is_authenticated:
-        nb_games_played = user.nb_games_played
-        #is_ingame = user.is_ingame
-    else:
-        nb_games_played = None  # or any default value you prefer
-        #is_ingame = None
-    # nb_games_played = user.nb_games_played
-    # is_ingame = user.is_ingame
+    nb_played = request.user.nb_games_played
+    nb_wins = request.user.nb_wins
+    nb_given_up = request.user.nb_given_up
+    nb_losses = nb_played - nb_wins - nb_given_up
 
     return render(request, 'users/profile.html', context={
         'user': request.user,
-         'nb_games_played': nb_games_played,
-        #'is_ingame': is_ingame
+        'nb_played': nb_played,
+        'nb_wins': nb_wins,
+        'nb_losses': nb_losses,
+        'nb_given_up': nb_given_up,
+        'win_loss_ratio': f'{(request.user.win_loss_ratio):.2%}'#.format(request.user.win_loss_ratio * 100)
         })
-    #return JsonResponse(json.loads(payload))

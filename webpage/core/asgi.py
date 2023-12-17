@@ -2,18 +2,32 @@
 import os
 from django.core.asgi import get_asgi_application
 from channels.auth import AuthMiddlewareStack
+from channels.security.websocket import AllowedHostsOriginValidator
 from channels.routing import ProtocolTypeRouter, URLRouter
-from NetworkGateway.routing import websocket_urlpatterns
+from NetworkGateway.consumers import GameConsumer
+from users.consumers import UserConsumer
+from django.urls import re_path
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
-    'websocket': AuthMiddlewareStack(
-        URLRouter(
-            websocket_urlpatterns
+    "websocket": AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter([
+                re_path(r'game/ws/(?P<sock_id>\w+)/$', GameConsumer.as_asgi()),
+                re_path(r'users/ws/(?P<sock_id>\w+)/$', UserConsumer.as_asgi())
+                # path("game/ws/", AdminChatConsumer.as_asgi()),
+                # path("users/ws/", PublicChatConsumer.as_asgi()),
+            ])
         )
-    )
+    ),
+    # 'websocket': AuthMiddlewareStack(
+    #     URLRouter([
+    #         websocket_urlpatterns,
+    #         user_ws_urlpatterns
+    #     ])
+    # )
 })
 # DOC
 # https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/

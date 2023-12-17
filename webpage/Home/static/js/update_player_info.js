@@ -17,35 +17,88 @@ let mock_player_list = [
   },
 ];
 
+
+const default_lobby_template = document.getElementById('lobby').innerHTML;
+console.log(default_lobby_template)
+
+
+let reset_default_lobby = function () {
+  document.getElementById('lobby').innerHTML = default_lobby_template;
+}
+
+let hide_excess_player_profiles = function (nb_rackets) {
+  // currentGameType.racketCount
+  console.log("hide_excess_player_profiles :: nb_rackets : " + nb_rackets);
+
+  for (let i=0; i < 4; i++) {
+    // lobbyProfile1
+    profElemID = `lobbyProfile${i + 1}`;
+    profElem = document.getElementById(profElemID);
+    if (i < nb_rackets)
+      profElem.style.display = 'flex';
+    else
+      profElem.style.display = 'none';
+  }
+}
+
+let update_local_1p_info = function (player_info) {
+
+  console.log("update_local_2p_info info CALLED.");
+  document.getElementById("imgPlayer1").src = player_info.img;
+  document.getElementById("namePlayer1").innerHTML = player_info.login;
+  // document.getElementById("imgPlayer2").src = img;
+  document.getElementById("imgPlayer2").style.border = "3px outset #34eb34";
+  document.getElementById("namePlayer2").innerHTML = "Celine Incognito";
+}
+
+let update_local_2p_info = function (player_info) {
+
+  console.log("update_local_2p_info info CALLED.");
+  document.getElementById("imgPlayer1").src = player_info.img;
+  document.getElementById("namePlayer1").innerHTML = player_info.login;
+  // document.getElementById("imgPlayer2").src = img;
+  document.getElementById("imgPlayer2").style.border = "3px outset #34eb34";
+  document.getElementById("namePlayer2").innerHTML = "Guest";
+}
+
 let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
+  document.getElementById("startEngine").disabled = false;
 
 
-  let i = 0;
-  for (ply of player_info_list) {
-    imgElemID = `imgPlayer${++i}`;
-    nameElemID = `namePlayer${i}`;
+  hide_excess_player_profiles(currentGameInfo.racketCount);
 
-    login = ply.login;
-    img = ply.img;
-    ready = ply.ready;
+  console.log('currentGameType : ' + currentGameType)
+  if (currentGameType === 'Local_1p')
+    update_local_1p_info(player_info_list[0]);
+  else if (currentGameType === 'Local_2p')
+    update_local_2p_info(player_info_list[0]);
+  else {
+    console.log("update_player_info info CALLED.");
+    let i = 0;
+    for (ply of player_info_list) {
+      imgElemID = `imgPlayer${++i}`;
+      nameElemID = `namePlayer${i}`;
 
-    console.log('login : ' + login)
-    console.log('img : ' + img)
-    console.log('ready : ' + ready)
+      login = ply.login;
+      img = ply.img;
+      ready = ply.ready;
 
-    document.getElementById(imgElemID).src = img;
-    document.getElementById(nameElemID).innerHTML = `Player ${i} : ${login}`;
-    if (ready)
-    {
-      console.log(`Player ${i} is ready`);
-      // document.getElementById(imgElemID).classList.add("lobbyActive");
-      // document.getElementById(imgElemID).style.borderColor = "green";
-      document.getElementById(imgElemID).style.border = "3px outset #34eb34";
+      console.log('login : ' + login)
+      console.log('img : ' + img)
+      console.log('ready : ' + ready)
+
+      document.getElementById(imgElemID).src = img;
+      document.getElementById(nameElemID).innerHTML = ` ${login}`;
+      if (ready)
+      {
+        console.log(`Player ${i} is ready`);
+        document.getElementById(imgElemID).style.border = "3px outset #34eb34";
+      }
     }
   }
-};
+}
 
 let on_click_update_players = function () {
   update_player_info(mock_player_list);
@@ -70,7 +123,55 @@ let signal_player_ready = function() {
   /// GREY out button
 }
 
-let loadEndGame = function () {
-  loadModule('afterGame');
+let loadEndGame = function (data) {
+  // console.log('end is: ' + getEndInfo().endState);
+  console.log('=== CALLED loadEndGame STATE:' + data );
+  console.log('=== CALLED loadEndGame STATE: endState ' + data.endState );
+  if (data.endState === 'win'){
+
+    console.log('**win ', namePlayer1);
+    document.getElementById("winner").style.display = "block";
+    document.getElementById("crash").style.display = "none";
+    loadModule('aftergame');
+  }
+  else if (data.endState === 'crash'){
+    console.log('*****crash');
+    loadModule('aftergame');
+  }
+  else if (data.endState !== 'crash'){
+    console.log('***lose', namePlayer1);
+    document.getElementById("loser").style.display = "block";
+    document.getElementById("crash").style.display = "none";
+    loadModule('aftergame');
+  }
   disconnect_socket();
 }
+
+// { // getEndInfo()
+//   "gameType": "pong", //  random == doesn't matter( create random one if none are joinable )
+//   "gameMode": "solo", //  solo, dual, freeplay, tournament
+//   "endState": "win", //   win, quit, crash
+//   "winingTeam": 1, //     teamID
+//   "quitter": 2, //        playerID
+//   "scores": [
+//       "s1",
+//       "s2",
+//       "s3",
+//       "s4"
+//   ],
+//   "playerInfo": getPlayerInfo{}
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

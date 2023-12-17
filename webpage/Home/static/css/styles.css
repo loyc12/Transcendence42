@@ -81,16 +81,28 @@ body.skip-nav:focus {
     height: 90vh;
 }
 
+/* maybe don't need it anymore */
 .main-canvas, .game-canvas {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+
 #lobby canvas {
     border: solid 1px #000000;
 }
 
+#lobby table.table-primary tbody .infoLobby {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#lobby .lobbyProfile {
+    display: flex;
+    flex-direction: column;
+}
 
 #lobby table {
     width: 100%;
@@ -99,11 +111,10 @@ body.skip-nav:focus {
 
 #lobby td, #lobby th {
     padding: 10px;
-    text-align: left;
 }
 
 #lobby .align-right {
-    text-align: left; /* Align text and image to the left */
+    text-align: right; /* Align text to the right*/
 }
 
 #lobbyActive {
@@ -111,11 +122,41 @@ body.skip-nav:focus {
     border-style: solid;
     border-color: #e51097;
 }
-#infoLobby {
+
+#lobby .playerImg {
+    margin-right: 15px;
+}
+
+#lobby .infoLobby {
     list-style-type: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* #lobby .align-right {
+    margin-left: 10px;
+} */
+
+#lobby .custom-spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* -- END -- LOBBY CSS -- */
+
+/* -- GAME in lobby CSS -- */
+
+#game {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+
+}
+
+/* -- END -- GAME CSS -- */
+
 
 /* -- LOGIN CSS -- */
 #login {
@@ -172,6 +213,12 @@ body.skip-nav:focus {
 /* -- END -- GAME TYPE CSS -- */
 
 /* -- TOURNAMENT CSS -- */
+#tournament {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
 .player, .score {
     font-size: 40px;
 }
@@ -296,6 +343,31 @@ body.skip-nav:focus {
 }
 
 /* -- END -- TOURNAMENT CSS -- */
+
+/* -- AFTER GAME CSS -- */
+
+#aftergame {
+    background-color: #178ca8;
+    color: #f0ffff;
+    height: 90vh;
+}
+
+.custom-card{
+    border: 2px solid #f0ffff;
+    padding: 20px;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.custom-card i {
+    margin: 0 10px;
+}
+
+.custom-card h1 {
+    font-size: 80px;
+}
+
+/* -- END -- AFTER GAME CSS -- */
 
 
 .hall h1, h4{

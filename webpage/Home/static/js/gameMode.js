@@ -2,7 +2,7 @@
 // Variable to store selected options
 let selectedOptions = {};
 
-let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'afterGame']
+let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame', 'tournament']
 // Function to load a module
 function loadModule(moduleName) {
 
@@ -13,7 +13,7 @@ function loadModule(moduleName) {
         document.getElementById(c).style.display = 'none'
     }
 
-    // Select desired submodule 
+    // Select desired submodule
     console.log('requested Module name : ' + moduleName)
     if (moduleName === 'gameMode') {
         console.log('Load base gameMode page')
@@ -36,16 +36,18 @@ function loadModule(moduleName) {
         console.log('Load game')
         document.getElementById('game').style.display = 'block';
     }
-    else if (moduleName === 'afterGame') {
-        console.log('Load afterGame')
-        document.getElementById('afterGame').style.display = 'block';
+    else if (moduleName === 'aftergame') {
+        console.log('Load aftergame')
+        document.getElementById('aftergame').style.display = 'block';
+    }
+    else if (moduleName === 'tournament') {
+        console.log('Load tournament')
+        document.getElementById('tournament').style.display = 'block';
     }
     else {
         console.log('Make join game request.')
         request_join_game(moduleName)
     }
-    
-   
         //case 'module1':
         //    moduleContainer.innerHTML = `
         //        <button onclick="loadSubModule('subModule1')">Game Local: SOLO [AI]</button>

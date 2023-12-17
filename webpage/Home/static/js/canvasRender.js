@@ -1,5 +1,9 @@
-// let score1 = 0;
-// let score2 = 0;
+// let sx = 0;
+// let sy = 0;
+// let scorePlayer1 = [(canvas.width / 2 - 50 ) , 250];
+// let scorePlayer2 = [(canvas.width / 2 + 50 ) , 250];
+// let scorePlayer3 = [(canvas.width / 2 - 50 ) , (canvas.height - 250)];
+// let scorePlayer4 = [(canvas.width / 2 + 50 ) , (canvas.height - 250)];
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;
@@ -31,24 +35,40 @@ let clearCanvas = function (ctx, w, h) {
 }
 
 let renderCanvas = function (ctx, gameInfo) {
-    // You can add additional rendering logic here
-    // For now, let's just log the canvas dimensions
-    // const score1 = gameInfo.update.scores[0];
-    // const score2 = gameInfo.update.scores[1];
-    
+
+    // Score Pos
+    let scorePlayer1 = [(canvas.width / 2 - 140 ) , 250];
+    let scorePlayer2 = [(canvas.width / 2 + 100 ) , 250];
+    let scorePlayer3 = [(canvas.width / 2 - 100 ) , (canvas.height - 250)];
+    let scorePlayer4 = [(canvas.width / 2 + 100 ) , (canvas.height - 250)];
+
     // Render game elements based on initial game data
     renderBall(ctx, gameInfo, gameInfo.update);
     renderRackets(ctx, gameInfo, gameInfo.update);
-    console.log(`Canvas Dimensions: ${canvas.width} x ${canvas.height}`);
 
-    console.log('Game Score: S1:S2 :', gameInfo.update.scores);
-    // console.log('Game Score: S1 :', score1);
-    // console.log('Game Score: S2 :', score2);
-    
-    // ctx.font = "42px Arial";
-    // ctx.fillStyle = "#ffffff";
-    // ctx.fillText(score1, 100, 50);
-    // ctx.fillText(score2, 700, 50);
+    ctx.font = "64px Arial";
+    ctx.fillStyle = "gray";
+    ctx.fillRect(canvas.width / 2, 0, 1, canvas.height);
+    ctx.fillStyle = "white";
+    // console.log("gameInfo : " + gameInfo);
+    // console.log("gameInfo.update : " + gameInfo.update)
+    // console.log("gameInfo.update.scores : " + gameInfo.update.scores);
+
+    // ctx.fillText(gameInfo.update.scores, (canvas.width / 2 - 100) , 250);
+    console.log('gameInfo.update.scores[0]  WIDTH: ' + canvas.width);
+    console.log('gameInfo.update.scores[0]  HEIGHT: ' + canvas.height);
+    console.log('gameInfo.update.scores[0]  POS: ' + scorePlayer1);
+    console.log('gameInfo.update.scores[1]  POS: ' + scorePlayer2);
+    // console.log('gameInfo.update.scores[2]  POS: ' + scorePlayer3);
+    // console.log('gameInfo.update.scores[3]  POS: ' + scorePlayer4);
+
+    // for (let i = 0; i < currentGameInfo.racketCount; i++) {
+            ctx.fillText(gameInfo.update.scores[0], scorePlayer1[0], scorePlayer1[1]);
+            ctx.fillText(gameInfo.update.scores[1], scorePlayer2[0], scorePlayer2[1]);
+    //     const scoreElement = document.createElement('div');
+    //     scoreElement.textContent = `Player ${i + 1} Score: ${gameInfo.update.scores[i]}`;
+    //     gameInfoContainer.appendChild(scoreElement);
+    // }
 
 }
 
@@ -81,7 +101,7 @@ let renderRackets = function(ctx, gameInfo, update) {
         if (gameInfo.gameType === 'Pong' && i > 2) {
             color = '#ffffff';   }
         shadow = getPlayerShadowColor(i);
-  
+
         // Check if the position of the racket is 'x'
         if (orientations[i] === 'x') {
             w = gameInfo.racketSize;
@@ -91,7 +111,7 @@ let renderRackets = function(ctx, gameInfo, update) {
             w = gameInfo.ballSize;
             h = gameInfo.racketSize;
         }
-        
+
         ctx.fillStyle = color;
         ctx.shadowBlur = 40;
         ctx.shadowColor = shadow;
@@ -100,8 +120,8 @@ let renderRackets = function(ctx, gameInfo, update) {
 }
 
 
-/// Should be the only function in the rendering chain to 
-/// access global variables. Every downstream function call should take 
+/// Should be the only function in the rendering chain to
+/// access global variables. Every downstream function call should take
 /// them as arguments.
 let updateCanvas = function (gameInfo) {
 

@@ -40,11 +40,11 @@
     <body style="background-color: #178ca8;">
         <!-- Container - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <div class="container-fluid">
-         <!-- NAVBAR  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->   
+         <!-- NAVBAR  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <!-- Navbar HOME STATE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             {% if request.session.user_id %}
                 <div class="row">
-                    <div id="NavBarInit" div class="NavBar"> 
+                    <div id="NavBarInit" div class="NavBar">
                     {% block navbar_home %}
                             {% include 'Selector/home_navbar.html' %}
                     {% endblock %}
@@ -52,17 +52,17 @@
                 </div>
             {% else %}
                 <div class="row">
-                    <div id="NavBarInit" div class="NavBar"> 
+                    <div id="NavBarInit" div class="NavBar">
                     {% block anon_navbar %}
                             {% include 'Selector/anon_navbar.html' %}
                     {% endblock %}
                     </div>
-                </div> 
+                </div>
             {% endif %}
 
             <!-- Navbar INFO - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBarInfo" div class="NavBar"> 
+                <div id="NavBarInfo" div class="NavBar">
                 {% block navbar_info %}
                         {% include 'Selector/info_navbar.html' %}
                 {% endblock %}
@@ -70,7 +70,7 @@
             </div>
             <!-- Navbar GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBarGame" div class="NavBar"> 
+                <div id="NavBarGame" div class="NavBar">
                 {% block navbar_game %}
                         {% include 'Selector/game_navbar.html' %}
                 {% endblock %}
@@ -78,7 +78,7 @@
             </div>
             <!-- Navbar LOGIN - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
-                <div id="NavBarLogin" div class="NavBar"> 
+                <div id="NavBarLogin" div class="NavBar">
                 {% block navbar_login %}
                         {% include 'Selector/login_navbar.html' %}
                 {% endblock %}
@@ -104,7 +104,7 @@
             <div class="row">
                 <div id="contentGame" class="module2">
                     {% block module2 %}
-                        {% include	'Game/gameMode.html' %}
+                    {% include	'Game/gameMode.html' %}
                     {% endblock %}
                 </div>
             </div>
@@ -112,15 +112,29 @@
             <div class="row">
                 <div id="contentLogin" class="module3">
                     {% block module3 %}
-                        {% include 'Login/login.html' %}
+                    {% include 'Login/login.html' %}
                     {% endblock %}
                 </div>
             </div>
-            <!-- Lobby - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Lobby: add aftergame and tournament in lobby. Have an if else to select aftergame or tournament - - - - -->
             <div class="row">
                 <div id="lobby" class="lobby">
                     {% block lobby %}
-                        {% include 'Lobby/lobby.html' %}
+                    {% include 'Lobby/lobby.html' %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                <div id="aftergame" class="aftergame">
+                    {% block aftergame %}
+                        {% include 'AfterGame/aftergame.html' %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                <div id="tournament" class="tournament">
+                    {% block tournament %}
+                    {% include 'Tournament/tournament.html' %}
                     {% endblock %}
                 </div>
             </div>
@@ -132,15 +146,7 @@
                     {% endblock %}
                 </div>
             </div>
-            <!-- Result - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <div class="row">
-                <div id="afterGame" class="afterGame">
-                    {% block afterGame %}
-                        {% include 'afterGame/afterGame.html' %}
-                    {% endblock %}
-                </div>
-            </div>
-        </div>  
+        </div>
     </body>
 
     <footer class="border-top" style="background-color: #4cbe96;" >
@@ -157,7 +163,19 @@
 <!-- Events Handler Scripts  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 {% csrf_token %}
 {% compress js %}
+    {% if request.session.user_id %}
+        <script>
+            const user_id = {{ request.session.user_id }};
+            console.log("user_id = " + user_id);
+        </script>
+    {% else %}
+        <script>
+            const user_id = null;
+            console.log("user_id is null");
+        </script>
+    {% endif %}
     <script src="{% static 'js/defs.js' %}" defer></script>
+    <script src="{% static 'js/login_connection.js' %}" defer></script>
     <script src="{% static 'js/systemPage.js' %}" defer></script>
     <script src="{% static 'js/game.js' %}" defer></script>
     <script src="{% static 'js/gameMode.js' %}" defer></script>

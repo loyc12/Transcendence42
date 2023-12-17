@@ -1,7 +1,13 @@
+import sys
 from datetime import datetime
 from django.db import models, IntegrityError, OperationalError
 from users.models import User
+from asgiref.sync import sync_to_async
 
+
+
+def eprint(*args):
+    print(*args, file=sys.stderr)
 
 # Create your models here.
 class Player(models.Model):
@@ -9,20 +15,19 @@ class Player(models.Model):
     game =          models.ForeignKey('Game', on_delete=models.CASCADE)
     joined_at =     models.DateTimeField(auto_now_add=True)
     score =         models.IntegerField(default=0)
-    #gave_up =       models.BooleanField(default=False)
+    gave_up =       models.BooleanField(default=False)
     #default_win =   models.BooleanField(default=False)
 
 class Game(models.Model):
 
-    #group_id =      models.CharField(primary_key=True, max_length=16, unique=True, )# same as websocket channel group.
     game_type =     models.CharField(max_length=16, default='Pong')
     max_players =   models.IntegerField(default=2)
     created_at =    models.DateTimeField(auto_now_add=True)
     started_at =    models.DateTimeField(null=True, blank=True, default=None)
     ended_at =      models.DateTimeField(null=True, blank=True, default=None)
-    #host =          models.ForeignKey('users.User', on_delete=models.SET_NULL, null=True, related_name='game_host')
     players =       models.ManyToManyField('users.User', through=Player)# should be ordered according to joined_at parameter of Player model.
 
+    is_official =   models.BooleanField(default=False)
     is_running =    models.BooleanField(default=False)
     is_over =       models.BooleanField(default=False)
     is_tournament = models.BooleanField(default=False)
@@ -43,8 +48,7 @@ class Game(models.Model):
                 "\n<-| winner :        " + (self.winner.login if self.winner else 'None') +\
                 "\n<-| final score :   " + (self.finale_scores if self.finale_scores else 'None') +\
                 "\n<---------------------------------->"
-                #"\n<-| host :          " + (self.host.username if self.host else 'None') +\
-    
+
     def __repr__(self):
         return (self.__str__())
 
@@ -66,7 +70,7 @@ class Game(models.Model):
     @property
     def is_full(self):
         return self.players.count() == self.max_players
-    
+
     def can_join(self, user: User) -> bool:
         return (
             not (
@@ -125,9 +129,9 @@ class Game(models.Model):
     #      Does NOT remove the users from the game's players field since it is used to log
     #      the games data long term for users to track their stats through games they played in.
     #      This will allow players to join an other game in the future. This should only
-    #      be done when the it is time to cut ties with between the game and its players 
+    #      be done when the it is time to cut ties with between the game and its players
     #      to definitly in at runtime. '''
-        
+
     #     plys = self.players.all()
     #     for ply in plys:
     #         ply.leave_game(save=False)
@@ -139,32 +143,48 @@ class Game(models.Model):
         self.ended_at = datetime.now()
 
 
-    def stop_and_register_results(self, scores: dict[int, int]):
-        ''' 
+    @sync_to_async
+    def stop_and_register_results(self, scores: dict[int, int], quitter=0):
+        '''
             Sets the game as over.
             params:
                 - scores: should have len == max_players for the game type
                 and be a dict with player id as key and score as value.
         '''
-        if not isinstance(scores, dict):
-            raise TypeError('scores param must be a dict.')
+        eprint('CALLED stop_and_register_results')
+        # if not isinstance(scores, dict):
+        #     raise TypeError('scores param must be a dict.')
         if len(scores) != self.max_players:
             raise OperationalError(f"Wrong nb of player scores ({len(scores)}) in scores dict.")
         if not self.is_running:
             raise OperationalError("Trying to register results and end a game, when the game hasn't started yet.")
 
         plys = Player.objects.filter(game=self)
-        if len(plys) != self.max_players:
-            raise IntegrityError("Nb of players registered to the game does not fit the number required for this game type.")
-        
-        # Set score for individual players in game
-        for ply in plys:
-            ply.score = scores[ply.user.id]
-        plys.bulk_update(plys, ['score'])# batch updates to postgres rather then individual saves.
 
-        # Find winner
-        o_plys = plys.order_by('-score')
-        self.winner = o_plys.first()
+        if self.is_official:
+            # Set score for individual players in game
+            # if not self.is_local2p and len(plys) != self.max_players:
+            #     raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
+            for ply, s in zip(plys, scores):
+                ply.score = s
+                eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
+            
+            if quitter > 0:
+                for ply in plys:
+                    if ply.user.id == quitter:
+                        break
+                else:
+                    raise IntegrityError('\n\n NO PLAYER FOUND with quitter id : ', quitter)
+                ply.gave_up = True
+
+            else:
+                # Find winner
+                eprint('Trying to set game winner in DB')
+                o_plys = plys.order_by('-score')
+                self.winner = o_plys.first().user
+
+            plys.bulk_update(plys, ['score', 'gave_up'])# batch updates to postgres rather then individual saves.
+
 
         # Set end of game state
         self.is_running = False
@@ -173,6 +193,7 @@ class Game(models.Model):
         self.timestamp_end()
 
         self.finale_scores = scores
-        
+
         #self.__flush_all_players()
         self.save()
+        return ('wow')

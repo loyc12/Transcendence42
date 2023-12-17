@@ -21,6 +21,7 @@ let RETURN = null;
 // Global vars declarations
 let currentWidth;// = canvas.width;
 let currentHeight;// = canvas.height;
+let currentGameType;
 
 let currentGameInfo;
 
@@ -43,7 +44,7 @@ const initPingParam = {
         'racketPos': [682, 1004, 1365, 1004 ],
         "lastPonger": 0,
         'ballPos': [1024, 682],
-        'score' : [0, 0],
+        'scores' : [0, 0],
     }
     // 'racketInitPos': [682, 1004, 'x', 1365, 1004, 'x'],
     // 'ballInitPos': [1024, 682],
@@ -51,42 +52,42 @@ const initPingParam = {
 
 // in front of each other
 const initPongParam = {
-     'gameType': 'Pong', 
+     'gameType': 'Pong',
      'sizeInfo': {
-        'width': 2048, 'height': 1024, 
-        'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
+        'width': 2048, 'height': 1024,
+        'wRatio': 0.00048828125, 'hRatio': 0.0009765625,
         'sRacket': 160, 'sBall': 20
-    }, 
-    'racketCount': 2, 
+    },
+    'racketCount': 2,
     'teamCount': 2,
     'orientations': ['y', 'y'],
     'update': {
         'racketPos': [20, 512, 2028, 512],
         "lastPonger": 0,
         'ballPos': [1014, 512],
-        'score' : [0, 0],
+        'scores' : [0, 0],
     }
-    // 'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
-    // 'ballInitPos': [512, 512], 
+    // 'racketInitPos': [20, 512, 'y', 2028, 512, 'y'],
+    // 'ballInitPos': [512, 512],
 };
 
 // 4 players
 const initPingestParam = {
-    'gameType': 'Pingest', 
+    'gameType': 'Pingest',
     'sizeInfo': {
-        'width': 1536, 'height': 1024, 
-        'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
+        'width': 1536, 'height': 1024,
+        'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625,
         'sRacket': 160, 'sBall': 20},
-    'racketCount': 4, 
+    'racketCount': 4,
     'teamCount': 4,
     'orientations': ['x', 'x', 'x', 'x'],
     'update': {
         'racketPos': [438, 20, 1097, 20, 438, 1004, 1097, 1004],
         "lastPonger": 0,
         'ballPos': [512, 512],
-        'score' : [0, 0],
+        'scores' : [0, 0, 0, 0],
     }
-    // 'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
+    // 'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'],
     // 'ballInitPos': [1152, 768],
 }
 
