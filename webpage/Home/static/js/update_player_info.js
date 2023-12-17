@@ -1,12 +1,5 @@
 let mock_player_list = [
-  //  {
-  //    playerName: "Jambon",
-  //    img: "<magnifique lien d'image profile1>",
-  //  },
-  //  {
-  //    playerName: "Pepperoni",
-  //    img: "<magnifique lien d'image profile2>",
-  //  },
+
   {
     playerName: "Chose",
     img: "<magnifique lien d'image profile2>",
@@ -85,9 +78,9 @@ let update_player_info = function (player_info_list) {
       img = ply.img;
       ready = ply.ready;
 
-      console.log('login : ' + login)
-      console.log('img : ' + img)
-      console.log('ready : ' + ready)
+      // console.log('login : ' + login)
+      // console.log('img : ' + img)
+      // console.log('ready : ' + ready)
 
       document.getElementById(imgElemID).src = img;
       document.getElementById(nameElemID).innerHTML = ` ${login}`;
@@ -153,7 +146,7 @@ let loadEndGame = function (data) {
     document.getElementById("winner").style.display = "block";
   }
   else if (data.endState !== 'crash'){
-    console.log('***lose');
+    console.log('***lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
   }
   disconnect_socket();

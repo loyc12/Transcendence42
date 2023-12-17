@@ -40,10 +40,10 @@ function loadModule(moduleName) {
         console.log('Load aftergame')
         document.getElementById('aftergame').style.display = 'block';
     }
-    else if (moduleName === 'tournament') {
-        console.log('Load tournament')
-        document.getElementById('tournament').style.display = 'block';
-    }
+    // else if (moduleName === 'tournament') {
+    //     console.log('Load tournament')
+    //     document.getElementById('tournament').style.display = 'block';
+    // }
     else {
         console.log('Make join game request.')
         request_join_game(moduleName)

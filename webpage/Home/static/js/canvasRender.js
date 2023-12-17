@@ -1,9 +1,3 @@
-// let sx = 0;
-// let sy = 0;
-// let scorePlayer1 = [(canvas.width / 2 - 50 ) , 250];
-// let scorePlayer2 = [(canvas.width / 2 + 50 ) , 250];
-// let scorePlayer3 = [(canvas.width / 2 - 50 ) , (canvas.height - 250)];
-// let scorePlayer4 = [(canvas.width / 2 + 50 ) , (canvas.height - 250)];
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;
@@ -50,25 +44,13 @@ let renderCanvas = function (ctx, gameInfo) {
     ctx.fillStyle = "gray";
     ctx.fillRect(canvas.width / 2, 0, 1, canvas.height);
     ctx.fillStyle = "white";
-    // console.log("gameInfo : " + gameInfo);
-    // console.log("gameInfo.update : " + gameInfo.update)
-    // console.log("gameInfo.update.scores : " + gameInfo.update.scores);
 
-    // ctx.fillText(gameInfo.update.scores, (canvas.width / 2 - 100) , 250);
     console.log('gameInfo.update.scores[0]  WIDTH: ' + canvas.width);
     console.log('gameInfo.update.scores[0]  HEIGHT: ' + canvas.height);
     console.log('gameInfo.update.scores[0]  POS: ' + scorePlayer1);
     console.log('gameInfo.update.scores[1]  POS: ' + scorePlayer2);
-    // console.log('gameInfo.update.scores[2]  POS: ' + scorePlayer3);
-    // console.log('gameInfo.update.scores[3]  POS: ' + scorePlayer4);
-
-    // for (let i = 0; i < currentGameInfo.racketCount; i++) {
             ctx.fillText(gameInfo.update.scores[0], scorePlayer1[0], scorePlayer1[1]);
             ctx.fillText(gameInfo.update.scores[1], scorePlayer2[0], scorePlayer2[1]);
-    //     const scoreElement = document.createElement('div');
-    //     scoreElement.textContent = `Player ${i + 1} Score: ${gameInfo.update.scores[i]}`;
-    //     gameInfoContainer.appendChild(scoreElement);
-    // }
 
 }
 
@@ -126,7 +108,6 @@ let renderRackets = function(ctx, gameInfo, update) {
 let updateCanvas = function (gameInfo) {
 
     // Update the canvas based on the new data
-
     // Clear the canvas
     clearCanvas(ctx, canvas.width, canvas.height);
     // Render the canvas with the new data

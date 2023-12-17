@@ -121,7 +121,7 @@
                 <div id="lobby" class="lobby">
                     {% block lobby %}
                     {% include 'Lobby/lobby.html' %}
-                    {% endblock %}
+                {% endblock %}
                 </div>
             </div>
             <div class="row">
@@ -137,9 +137,9 @@
                     {% include 'Tournament/tournament.html' %}
                     {% endblock %}
                 </div>
-            </div>
-               <!-- Game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-               <div class="row">
+            </div> 
+            <!-- Game - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
                 <div id="game" class="game">
                     {% block game %}
                         {% include 'Game/game.html' %}
@@ -176,6 +176,7 @@
     {% endif %}
     <script src="{% static 'js/defs.js' %}" defer></script>
     <script src="{% static 'js/login_connection.js' %}" defer></script>
+    <script src="{% static 'js/tournament_connection.js' %}" defer></script>
     <script src="{% static 'js/systemPage.js' %}" defer></script>
     <script src="{% static 'js/game.js' %}" defer></script>
     <script src="{% static 'js/gameMode.js' %}" defer></script>
@@ -184,6 +185,7 @@
     <script src="{% static 'js/canvasRender.js' %}" defer></script>
     <script src="{% static 'js/megaModule.js' %}" defer></script>
     <script src="{% static 'js/update_player_info.js' %}" defer></script>
+    <script src="{% static 'js/update_tournament_info.js'%}" defer></script>
     <!-- <script src="{% static 'js/canvasRender.js' %}" defer></script> -->
 {% endcompress %}
 </html>

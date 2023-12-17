@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from users.models import User
-from game.models import Game
+# from game.models import Game
 from game.forms import GameCreationForm
 #from game.PingPongRebound import Pong, Ponger, Pongest, Pongester, Ping, Pinger, Pingest
 #from game.PingPongRebound import GameManager as gm#Po, Pi, Pong, Ping, Ponger, Pinger, Pongest, Pingest
@@ -56,6 +56,9 @@ class LobbyGame:
         self.__required_players: int = self.__maxPlayerCounts[self.gameType]
         #self.__is_started: bool
         self.__game_connector = None # Set by GameGateway after successfull join_game() call with instance of GameConnector object.
+        self.__tour_connector = None # Set by GameGateway after successfull join_game() call with instance of TournamentConnector object. Only set if gameMode == 'Tournament'.
+        # self.__tournament = None
+
 
     def __repr__(self):
         return f"LobbyGame<id: {self.lobbyID}, form: {self.form}, players: {self.player_names}>"
@@ -96,6 +99,9 @@ class LobbyGame:
     def game_connector(self):
         return self.__game_connector
     @property
+    def tour_connector(self):
+        return self.__tour_connector
+    @property
     def is_ready(self) -> bool:
         print('-> Game Lobby is_ready check :')
         print('-> is_full : ', self.is_full)
@@ -104,18 +110,25 @@ class LobbyGame:
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
     def is_full(self):
+        if self.gameMode == 'Tournament':
+            return (len(self.__players) == 4)
         if (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0):
             return True
         return self.nb_players == self.__required_players
     @property
     def is_empty(self):
         return not self.__players
+    @property
+    def is_tournament(self):
+        return self.gameMode == 'Tournament'
 
     #def set_is_started(self):
     #    self.__is_started = True
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn
+    def set_tour_connector(self, tconn):
+        self.__tour_connector = tconn
 
     def add_player(self, lply: LobbyPlayer):
         if not (lply and isinstance(lply, LobbyPlayer)):
@@ -255,40 +268,6 @@ class MatchMaker:
         #game_type = lgame.gameType
         #if not game_type or not game_type in self._gameLobby:
         #self._gameLobby[game_type].remove(lgame)
-
-    # @sync_to_async
-    # def __create_db_game(self, lgame: LobbyGame, gameType, maxPlayers):#, **kwargs):
-    #     game = Game.objects.create(
-    #         game_type=gameType,
-    #         max_players=maxPlayers#self._maxRacketCounts[gameType]
-    #     )
-    #     for lply in lgame.players:
-    #         game.add_player(lply.user)
-    #     game.declare_started()
-    #     return game
-
-    # async def __push_game_to_gamemanager(self, gameType: str, lgame: LobbyGame):
-    #     ''' When calling this function, the game should be validated ready to start. '''
-    #     game = await self.__create_db_game(lgame, gameType, self._maxRacketCounts[gameType])
-    #     #game = sync_to_async(Game.objects.create)()
-    #     #        game_type=gameType,
-    #     #        max_players=self._maxRacketCounts[gameType]
-    #     #    )
-    #     #)
-    #     print('game after sync_to_async db game creation : ', game)
-    #     gm_status = await self.gm.addGame(gameType, game.id)
-    #     if not gm_status:
-    #         raise MatchMakerException('Error occured while trying to create new game in game_manager.')
-
-
-    #     #tasks = [self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id) for lply in lgame.players]
-    #     #await asyncio.gather(tasks)
-    #     for lply in lgame.players:
-    #         await self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id)
-    #     await self.gm.startGame(game.id)
-    #     lgame.set_is_started()
-    #     self.__remove_lobby_game(lgame)
-    #     return lgame
 
     #COLLE
     # recois le form ici

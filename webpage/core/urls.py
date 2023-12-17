@@ -13,6 +13,7 @@ urlpatterns = [
     path("login/", include('login.urls')),
     path("users/", include('users.urls')),
     path("game/", include('game.urls')),
+    path("tournament/", include('tournament.urls')),
 ]
 
 """

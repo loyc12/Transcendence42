@@ -19,11 +19,15 @@ let ESCAPE = null;
 let RETURN = null;
 
 // Global vars declarations
+let gameData;/// struct returned from request_join_game()
+
 let currentWidth;// = canvas.width;
 let currentHeight;// = canvas.height;
 let currentGameType;
 
 let currentGameInfo;
+
+let isTournament = false;
 
 const playerColors = ['#ffffff', '#ff10f0', '#23e301', '#04d9ff', '#ff6700'];// index 0 is default
 const playerShadowColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'];// To be determined. index 0 is default color (AI)
@@ -100,3 +104,37 @@ allInitGameStates.set('Online_4p', initPingestParam);
 // {'Pong': initPongParam, 'Ping': initPingParam, 'Pingest': initPingestParam};
 
 currentGameInfo = initPongParam;
+
+
+// const tournament_struct_template = {
+//     'groupA': {
+//         'p1': {
+//             'login': 'player1 login',// or null
+//             'score': ''
+//         },
+//         'p2': {
+//             'login': 'player2 login',// or null
+//             'score': ''
+//         }
+//     },
+//     'groupB': {
+//         'p3': {
+//             'player3': 'player3 login',// or null
+//             'score': '',
+//         },
+//         'p4': {
+//             'player4': 'player4 login',// or null
+//             'score': '',
+//         }
+//     },
+//     'groupC': {
+//         'winner1': {
+//             'login': 'winner1 login',// or null
+//             'score': '',
+//         },
+//         'winner2': {
+//             'login': 'winner2 login',// or null
+//             'score': '',
+//         }
+//     }
+// };
