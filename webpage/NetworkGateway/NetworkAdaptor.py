@@ -565,7 +565,7 @@ class GameGateway(BaseGateway):
 
         endState = end_game_state.get("endState", None)
         scores = end_game_state.get("scores", None)
-        gameMode = end_game_state['gameMode']
+        gameMode = end_game_state.get('gameMode', None)
 
         gconn = end_game_state.pop('gameConnector')
         game = gconn.game
@@ -589,8 +589,8 @@ class GameGateway(BaseGateway):
             eprint("WTF DUDE !!! ")
 
 
-        eprint('manage_end_game :: Trying to call gconn.send_end_state with endState : ')
-        eprint("endState : ", end_game_state)
+        eprint('manage_end_game :: Trying to call gconn.send_end_state')
+        eprint('end_game_state : ', end_game_state)
         await gconn.send_end_state(end_game_state)
         eprint('manage_end_game :: post send_end_state')
 

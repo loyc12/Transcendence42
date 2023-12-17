@@ -123,26 +123,38 @@ let signal_player_ready = function() {
   /// GREY out button
 }
 
+let reset_endgame_messages = function () {
+  document.getElementById("winner").style.display = "none";
+  document.getElementById("loser").style.display = "none";
+  document.getElementById("crash").style.display = "none";
+}
+
 let loadEndGame = function (data) {
   // console.log('end is: ' + getEndInfo().endState);
-  console.log('=== CALLED loadEndGame STATE:' + data );
-  console.log('=== CALLED loadEndGame STATE: endState ' + data.endState );
-  if (data.endState === 'win'){
+  // console.log('loadEndGame :: data : ' + data)
+  // console.log('loadEndGame :: data.winingTeam : ' + data.winingTeam)
+  // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
+  reset_endgame_messages();
+  loadModule('aftergame');
 
-    console.log('**win ', namePlayer1);
-    document.getElementById("winner").style.display = "block";
-    document.getElementById("crash").style.display = "none";
-    loadModule('aftergame');
-  }
-  else if (data.endState === 'crash'){
+  let winnerID = data.winingTeam;
+
+  let winner = data.playerInfo[winnerID];
+  let user_is_winner = (winner.playerID == user_id);
+
+  if (data.endState === 'crash' || winnerID == undefined){
     console.log('*****crash');
-    loadModule('aftergame');
+    document.getElementById("crash").style.display = "block";
+  }
+  else if (user_is_winner) {
+  // console.log('=== CALLED loadEndGame STATE:' + data.endState );
+  // if (data.endState === 'win'){
+    console.log('**win');
+    document.getElementById("winner").style.display = "block";
   }
   else if (data.endState !== 'crash'){
     console.log('***lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
-    document.getElementById("crash").style.display = "none";
-    loadModule('aftergame');
   }
   disconnect_socket();
 }
