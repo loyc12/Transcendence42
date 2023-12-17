@@ -86,7 +86,7 @@ class LiveTournament:
             if gameA.winner == plys_list[0].id:
                 winnerA = plys_list[0]
                 brackets['groupA']['p1']['won'] = True
-            else:
+            elif gameA.winner == plys_list[1].id:
                 winnerA = plys_list[1]
                 brackets['groupA']['p2']['won'] = True
 
@@ -96,32 +96,19 @@ class LiveTournament:
             if gameB.winner == plys_list[2].id:
                 winnerB = plys_list[2]
                 brackets['groupB']['p3']['won'] = True
-            else:
+            elif gameB.winner == plys_list[3].id:
                 winnerB = plys_list[3]
                 brackets['groupB']['p4']['won'] = True
 
-
         if self._groupC:
             gconnC = self._groupC.game_connector
             gameC = gconnC.game
-            if gameC.winner == plys_list[2].id:
-                winnerC = plys_list[2]
-                brackets['groupA']['winner1']['won'] = True
-            else:
-                winnerC = plys_list[3]
-                brackets['groupA']['winner2']['won'] = True
-
-
-        if self._groupB:
-            gconnB = self._groupB.game_connector
-            gameB = gconnB.game
-            brackets['groupB']['p2']['won'] = (gameB.winner == plys_list[2].id)
-            brackets['groupB']['p3']['won'] = (gameB.winner == plys_list[3].id)
-        if self._groupC:
-            gconnC = self._groupC.game_connector
-            gameC = gconnC.game
-            brackets['groupC']['winner1']['won'] = (gameC.winner == gameA.winner)
-            brackets['groupC']['winner2']['won'] = (gameC.winner == gameB.winner)
+            if gameC.winner == winnerA.id:
+                winnerC = winnerA
+                brackets['groupC']['winner1']['won'] = True
+            elif gameC.winner == winnerB.id:
+                winnerC = winnerB
+                brackets['groupC']['winner2']['won'] = True
 
         if len(plys_list) > 0:
             brackets['groupA']['p1']['login'] = plys_list[0].login
@@ -132,9 +119,9 @@ class LiveTournament:
         elif len(plys_list) > 3:
             brackets['groupB']['p4']['login'] = plys_list[3].login
 
-
         return brackets
-        pass # return the define bracket in def
+
+
 
     # def __contains__(self, game: LobbyGame):
     #     return next((True for g in self if g == game), False)
