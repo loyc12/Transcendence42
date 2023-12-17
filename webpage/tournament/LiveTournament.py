@@ -11,7 +11,7 @@ class LiveTournament:
 
         # Pseudo lobby only used as tournamanent initializer
         self.__init_lobby = initLobbyGame
-        
+
         self._groupA: LobbyGame = None
         self._groupB: LobbyGame = None
         self._groupC: LobbyGame = None
@@ -20,11 +20,11 @@ class LiveTournament:
     def get_id(cls):
         cls.__id_counter += 1
         return cls.__id_counter
-    
+
     @property
     def init_lobby(self):
         return self.__init_lobby
-    
+
     @property
     def is_first_stage(self):
         return self._groupC is None
@@ -36,12 +36,109 @@ class LiveTournament:
     def connector(self):
         return self.__tconn
 
-    # def build_brackets_info(self):
-    #     pass # return the define bracket in def
-        
+    def __get_bracket_template(self):
+        return {
+            'groupA': {
+                'p1': {
+                    'login': None,
+                    'score': '-',
+                    'won': False
+                },
+                'p2': {
+                    'login': None,
+                    'score': '-',
+                    'won': False
+                },
+            },
+            'groupB': {
+                'p3': {
+                    'login': None,
+                    'score': '-',
+                    'won': False
+                },
+                'p4': {
+                    'login': None,
+                    'score': '-',
+                    'won': False
+                },
+            },
+            'groupC': {
+                'winner1': {
+                    'login': None,
+                    'score': '-',
+                    'won': False
+                },
+                'winner1': {
+                    'login': None,
+                    'score': '-',
+                    'won': False
+                },
+            }
+        }
+
+    def get_brackets_info(self):
+        brackets = self.__get_bracket_template()
+        plys_list = self.__init_lobby.players
+
+        if self._groupA:
+            gconnA = self._groupA.game_connector
+            gameA = gconnA.game
+            if gameA.winner == plys_list[0].id:
+                winnerA = plys_list[0]
+                brackets['groupA']['p1']['won'] = True
+            else:
+                winnerA = plys_list[1]
+                brackets['groupA']['p2']['won'] = True
+
+        if self._groupB:
+            gconnB = self._groupC.game_connector
+            gameB = gconnB.game
+            if gameB.winner == plys_list[2].id:
+                winnerB = plys_list[2]
+                brackets['groupB']['p3']['won'] = True
+            else:
+                winnerB = plys_list[3]
+                brackets['groupB']['p4']['won'] = True
+
+
+        if self._groupC:
+            gconnC = self._groupC.game_connector
+            gameC = gconnC.game
+            if gameC.winner == plys_list[2].id:
+                winnerC = plys_list[2]
+                brackets['groupA']['winner1']['won'] = True
+            else:
+                winnerC = plys_list[3]
+                brackets['groupA']['winner2']['won'] = True
+
+
+        if self._groupB:
+            gconnB = self._groupB.game_connector
+            gameB = gconnB.game
+            brackets['groupB']['p2']['won'] = (gameB.winner == plys_list[2].id)
+            brackets['groupB']['p3']['won'] = (gameB.winner == plys_list[3].id)
+        if self._groupC:
+            gconnC = self._groupC.game_connector
+            gameC = gconnC.game
+            brackets['groupC']['winner1']['won'] = (gameC.winner == gameA.winner)
+            brackets['groupC']['winner2']['won'] = (gameC.winner == gameB.winner)
+
+        if len(plys_list) > 0:
+            brackets['groupA']['p1']['login'] = plys_list[0].login
+        elif len(plys_list) > 1:
+            brackets['groupA']['p2']['login'] = plys_list[1].login
+        elif len(plys_list) > 2:
+            brackets['groupB']['p3']['login'] = plys_list[2].login
+        elif len(plys_list) > 3:
+            brackets['groupB']['p4']['login'] = plys_list[3].login
+
+
+        return brackets
+        pass # return the define bracket in def
+
     # def __contains__(self, game: LobbyGame):
     #     return next((True for g in self if g == game), False)
-    
+
     # def __iter__(self):
     #     if self._groupA:
     #         yield self._groupA
@@ -49,67 +146,66 @@ class LiveTournament:
     #         yield self._groupB
     #     if self._groupC:
     #         yield self._groupC
-    
+
     # def __repr__(self):
     #     return f"Tournament {self.__id}, {self.__tconn}"
-    
+
     # @property
     # def id(self):
     #     return self.__id
-    
+
     # @property
     # def tconn(self):
     #     return self.__tconn
-    
+
     # @tconn.setter
     # def tconn(self, value):
     #     self.__tconn = value
-        
+
     # @property
     # def groupA(self):
     #     return self._groupA
-    
+
     # @groupA.setter
     # def groupA(self, value):
     #     self._groupA = value
-        
+
     # @property
     # def groupB(self):
     #     return self._groupB
-    
+
     # @groupB.setter
     # def groupB(self, value):
     #     self._groupB = value
-        
+
     # @property
     # def groupC(self):
     #     return self._groupC
-    
+
     # @groupC.setter
     # def groupC(self, value):
     #     self._groupC = value
-        
+
     # @property
     # def is_full_R1(self):
     #     return self._groupA and self._groupB
-    
+
     # @property
     # def is_full_R2(self):
     #     return self._groupC
-   
+
 #    @property
 #    def is_readyR1(self):
 #        return not self._groupA.is_ready and self._groupB.is_ready
-   
+
 #     @property
 #     def is_readyR2(self):
 #         return not self._groupC.is_ready
-    
-    
-     
-    
+
+
+
+
     #  SETTER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    
+
     #  EVENTS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    
-    
+

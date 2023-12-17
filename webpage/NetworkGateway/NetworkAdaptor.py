@@ -45,6 +45,7 @@ class GameConnector:
         self.__events_lock = asyncio.Lock()
         self.lobby_game = None # Returned after connecting to MatchMaker
         self.__events = asyncio.Queue()
+        self.__scores: list = []
 
     @property
     def is_running(self):
@@ -82,14 +83,16 @@ class GameConnector:
     async def getEvents(self):
         async with self.__events_lock:
             return [await self.__events.get() for _ in range(self.__events.qsize())]
-    #  Get one event (ev)           
+    #  Get one event (ev)
     async def getEvent(self):
         ev = None
         async with self.__events_lock:
             if not self.__events.empty():
                 ev = self.__events.get()
         return ev
-    
+    async def update_scores(self, scores):
+        self.__scores = scores
+
    #  PUSH_EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     async def push_event(self, playerID, evType, key=None):
         event = GameEvent(playerID, evType, key)
@@ -125,7 +128,7 @@ class GameConnector:
                     'end_state': payload
                 }
             )
-    # CONNECTION//DECONNECTION EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # CONNECTION//DECONNECTION EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # CONNECTION
     async def connect_player(self, user, consumer):
         async with self.__game_lock:
@@ -137,7 +140,7 @@ class GameConnector:
             consumer.channel_name
         )
         await self._send_players_list()
-    
+
     # DECONNECTION
     async def disconnect_player(self, user):
         print(f'GameConnector :: ENTER disconnect player')
@@ -164,7 +167,7 @@ class GameConnector:
     #     #     for ply in self.__player_consumers:
     #     pass
 
-    # INFORMATION SENDING EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+    # INFORMATION SENDING EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Get all players as a list
     async def _send_players_list(self):
         async with self.__game_lock:
@@ -228,7 +231,7 @@ class GameGateway(BaseGateway):
         if self.__game_manager:
             raise ValueError('Can only be setup once')
         self.__game_manager = game_manager
- 
+
 
     async def connect_player(self, sockID, consumer):
         ''' Called by websocket consumer connect() method. '''
@@ -262,8 +265,8 @@ class GameGateway(BaseGateway):
                 lobby_game.set_tour_connector(tconn)
             else:
                 tconn = lobby_game.tour_connector
-            
-            brackets = self._live_tournament.build_brackets()
+
+            brackets = self._live_tournament.get_brackets_info()
             await tconn.send_brackets(brackets)
 
 

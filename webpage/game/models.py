@@ -83,8 +83,8 @@ class Game(models.Model):
     #         print('Tournament Model :: ObjectDoesNotExist')
     #         return None
     #     return cur_tournament is not None
-        
-        
+
+
 
     def can_join(self, user: User) -> bool:
         return (
@@ -183,7 +183,7 @@ class Game(models.Model):
             for ply, s in zip(plys, scores):
                 ply.score = s
                 eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
-            
+
             if quitter > 0:
                 for ply in plys:
                     if ply.user.id == quitter:
