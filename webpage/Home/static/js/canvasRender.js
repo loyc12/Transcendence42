@@ -35,7 +35,7 @@ let renderCanvas = function (ctx, gameInfo) {
     // Score Pos
     let scorePlayer1 = [(canvas.width / 2 - 140 ) , 250];
     let scorePlayer2 = [(canvas.width / 2 + 100 ) , 250];
-    let scorePlayer3 = [(canvas.width / 2 - 100 ) , (canvas.height - 250)];
+    let scorePlayer3 = [(canvas.width / 2 - 140 ) , (canvas.height - 250)];
     let scorePlayer4 = [(canvas.width / 2 + 100 ) , (canvas.height - 250)];
 
     // Render game elements based on initial game data
