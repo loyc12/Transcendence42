@@ -39,7 +39,7 @@ class GameConnector:
         if not cls.__game_gateway:
             cls.__game_gateway = game_gateway
 
-    def __init__(self, sockID):
+    def __init__(self, sockID, is_tournament=False):
         self.__sockID = sockID
         self.__gameDB: Game = None# Database instance returned when creating game instance in database.
         self.__player_consumers: dict[int, GameConsumer] = dict()
@@ -48,6 +48,7 @@ class GameConnector:
         self.lobby_game = None # Returned after connecting to MatchMaker
         self.__events = asyncio.Queue()
         self.__scores: list = []
+        self.__is_tournament: bool = is_tournament
 
     @property
     def is_running(self):
@@ -64,6 +65,10 @@ class GameConnector:
     @property
     def gameID(self):
         return self.__gameDB.id
+    @property
+    def is_tournament(self):
+        return self.__is_tournament
+
 
     #  SETTER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def set_lobby_game(self, lgame):

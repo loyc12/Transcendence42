@@ -10,6 +10,9 @@ def eprint(*args):
     print(*args, file=sys.stderr)
 
 
+class LiveTournamentException(Exception):
+    pass
+
 class LiveTournament:
     __id_counter = 0
 
@@ -84,6 +87,19 @@ class LiveTournament:
         self.tournament.addGroupBGame(self._groupB)
         self.tournament.declare_started()
         return (self._groupA, self._groupB)
+
+
+
+    def connect_player(self, user: User):
+        if self._groupA and user in self._groupA:
+            lply = LobbyPlayer(user, is_connected=True, is_ready=True)
+            self._groupA.add_player(lply)
+        elif self._groupB and user in self._groupB:
+            pass
+        elif self._groupC and user in self._groupC:
+            pass
+        else:
+            raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
 
 
     def __get_bracket_template(self):

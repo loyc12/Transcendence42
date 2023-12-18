@@ -70,7 +70,7 @@ let renderBall = function (ctx, gameInfo, update) {
     const y = update.ballPos[1];
     // console.log( '... last player touch color update: ' + update.lastPonger);
     let ballColorLast = getPlayerColor(update.lastPonger - 1);
-    const shadow = getPlayerShadowColor(update.lastPonger);
+    const shadow = getPlayerShadowColor(update.lastPonger - 1);
     ctx.beginPath();
     ctx.shadowBlur = 40;
     // console.log(' ### update color player : ' + ballColorLast);
