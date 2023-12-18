@@ -54,8 +54,10 @@ const initPingParam = {
 const initPongParam = {
      'gameType': 'Pong',
      'sizeInfo': {
-        'width': 2048, 'height': 1024,
-        'wRatio': 0.00048828125, 'hRatio': 0.0009765625,
+        // 'width': 2048, 'height': 1024,
+        // 'wRatio': 0.00048828125, 'hRatio': 0.0009765625,
+        'width': 1536, 'height': 1024,
+        'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625,
         'sRacket': 160, 'sBall': 20
     },
     'racketCount': 2,
@@ -75,14 +77,14 @@ const initPongParam = {
 const initPingestParam = {
     'gameType': 'Pingest',
     'sizeInfo': {
-        'width': 1536, 'height': 1024,
+        'width': 1536, 'height': 1280,
         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625,
         'sRacket': 160, 'sBall': 20},
     'racketCount': 4,
     'teamCount': 4,
     'orientations': ['x', 'x', 'x', 'x'],
     'update': {
-        'racketPos': [438, 20, 1097, 20, 438, 1004, 1097, 1004],
+        'racketPos': [438, 20, 1097, 20, 438, 904, 1097, 904],
         "lastPonger": 0,
         'ballPos': [512, 512],
         'scores' : [0, 0, 0, 0],

@@ -36,7 +36,7 @@ let _http_join_request = async function (payload) {
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   console.log('csrftoken : ' + csrftoken)
   console.log('csrf from query selector : ' + document.querySelector('[name=csrfmiddlewaretoken]').value);
-  
+
   return fetch('http://' + window.location.host + '/game/join/', {
       method: "POST",
       body: JSON.stringify(payload),
@@ -69,7 +69,7 @@ let _http_join_request = async function (payload) {
 }
 
 let request_join_game = async function (gameType) {
-  
+
   //console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
   currentGameType = gameType
@@ -82,7 +82,7 @@ let request_join_game = async function (gameType) {
   } else if (gameType === 'Multiplayer') {
     payload = _build_join_request_payload('Multiplayer', 'Ping', false);
   } else if (gameType === 'Online_4p') {
-    payload = _build_join_request_payload('Online_4p', 'Pingest', false);
+    payload = _build_join_request_payload('Online_4p', 'Pingest', true);
   } else {
     throw TypeError('Trying to request join game with unimplemented gameType: ' + gameType)
   }

@@ -25,7 +25,7 @@ let all_hero_content2 = {
 }
 
 let hide_all_hero_content = function () {
-    
+
     for (c of content_flush) {
         elem = document.getElementById(c);
         if (elem)
@@ -37,7 +37,7 @@ let select_hero_content = function (key) {
     //hide_all_hero_content();
     console.log('select_hero_content after hide')
     let contentElems = all_hero_content2[key];
-    if (!contentElems) 
+    if (!contentElems)
         return;
     let navContentElem = document.getElementById(contentElems['navBar']);
     let heroContentElem = document.getElementById(contentElems['heroDiv']);
@@ -59,7 +59,7 @@ let select_hero_content = function (key) {
             return ;
         else
             hide_all_hero_content();
-        
+
         if (navContentElem)
             navContentElem.style.display = 'block';
         else
@@ -76,7 +76,7 @@ let select_hero_content = function (key) {
         if (current_content === 'login')
         {
             console.log('Special case login : a suivre')
-            
+
         }
         try {
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.

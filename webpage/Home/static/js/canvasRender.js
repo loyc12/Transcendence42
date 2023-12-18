@@ -95,6 +95,9 @@ let renderRackets = function(ctx, gameInfo, update) {
     for (let i = 0; i < racketCount; i++) {
         x = update.racketPos[2*i] + currentGameInfo.offsets[2*i];
         y = update.racketPos[2*i + 1] + currentGameInfo.offsets[2*i + 1];
+        // console.log('racket pos' + update.racketPos[2*i + 1] + 'racket offset ' + currentGameInfo.offsets[2*i + 1]);
+        // console.log('racketCount : '+ i + ' de ' + racketCount + ' >> ' + x + ' : ' + y);
+        console.log('racketCheck : X >> '+ update.racketPos[2*i] + ' : Y >> ' + update.racketPos[2*i + 1] );
 
         // Set the color of the racket based on the player's rank
         color = getPlayerColor(i);
