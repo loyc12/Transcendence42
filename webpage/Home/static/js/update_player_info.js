@@ -54,6 +54,7 @@ let update_local_2p_info = function (player_info) {
   document.getElementById("namePlayer2").innerHTML = "Guest";
 }
 
+
 let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
@@ -69,6 +70,7 @@ let update_player_info = function (player_info_list) {
     update_local_1p_info(player_info_list[0]);
   else if (currentGameType === 'Local_2p')
     update_local_2p_info(player_info_list[0]);
+
   else {
     console.log("update_player_info info CALLED.");
     let i = 0;

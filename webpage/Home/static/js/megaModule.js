@@ -26,6 +26,8 @@ let _on_game_event = function(event) {
     // console.log('Client RECEIVED event : ' + event)
     const data = JSON.parse(event.data);
 
+    console.log("_on_game_event:: JSON data content : ", data);
+
     if (data.ev === 'up') {
         // Called by websocket with event type 'up' for every update during a game.
         parseUpdateData(data.state)
@@ -60,12 +62,12 @@ let _on_game_event = function(event) {
     }
 
 
-    else if (data.ev === "player_info") {
-        // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
-        // with data describing active players.
-        // console.log('Received PLAYR INFO : ' + data.info);
-        parsePlayersInfo(data.info);
-    }
+    // else if (data.ev === "player_info") {
+    //     // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
+    //     // with data describing active players.
+    //     // console.log('Received PLAYR INFO : ' + data.info);
+    //     parsePlayersInfo(data.info);
+    // }
 
 
     else if (data.ev === "start") {
