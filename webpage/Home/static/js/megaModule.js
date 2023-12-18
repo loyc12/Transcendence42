@@ -145,8 +145,7 @@ let loadMegaModule = function (gameType) {
     // Resets lobby state
     reset_default_lobby();
 
-    // Load the lobby page.
-    loadModule('lobby');
+    
 
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
@@ -186,6 +185,10 @@ let loadMegaModule = function (gameType) {
                 tournamentWebSock = null;
                 tournamentWebSockID = null;
             }
+            
+            // Load the lobby page.
+            loadModule('lobby');
+
             console.log('Before update_tournament_brackets()');
             update_tournament_brackets();
             console.log('After update_tournament_brackets()');
