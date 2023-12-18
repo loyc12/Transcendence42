@@ -25,7 +25,7 @@ def eprint(*args):
 
 class BaseGateway(ABC):
     pass
-class GameGatwayException(Exception):
+class GameGatewayException(Exception):
     pass
 
 
@@ -39,7 +39,7 @@ class GameConnector:
         if not cls.__game_gateway:
             cls.__game_gateway = game_gateway
 
-    def __init__(self, sockID):
+    def __init__(self, sockID, is_tournament=False):
         self.__sockID = sockID
         self.__gameDB: Game = None# Database instance returned when creating game instance in database.
         self.__player_consumers: dict[int, GameConsumer] = dict()
@@ -48,6 +48,7 @@ class GameConnector:
         self.lobby_game = None # Returned after connecting to MatchMaker
         self.__events = asyncio.Queue()
         self.__scores: list = []
+        self.__is_tournament: bool = is_tournament
 
     @property
     def is_running(self):
@@ -64,11 +65,15 @@ class GameConnector:
     @property
     def gameID(self):
         return self.__gameDB.id
+    @property
+    def is_tournament(self):
+        return self.__is_tournament
+
 
     #  SETTER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def set_lobby_game(self, lgame):
         if self.lobby_game and lgame != self.lobby_game:
-            GameGatwayException('Trying to set game_connector.lobby_game to different game. lobby_game can only be set once.')
+            GameGatewayException('Trying to set game_connector.lobby_game to different game. lobby_game can only be set once.')
         self.lobby_game = lgame
     def set_game_db_instance(self, game: Game):
         if not (game and isinstance(game, Game)):
@@ -132,7 +137,7 @@ class GameConnector:
             )
     # CONNECTION//DECONNECTION EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # CONNECTION
-    async def connect_player(self, user, consumer):
+    async def connect_player(self, user, consumer, is_tournament_stage1=False):
         async with self.__game_lock:
             if user.id in self.__player_consumers:
                 raise ValueError('Trying to add player to same game connector twice.')
@@ -141,7 +146,8 @@ class GameConnector:
             self.__sockID,
             consumer.channel_name
         )
-        await self._send_players_list()
+        if not is_tournament_stage1:
+            await self._send_players_list()
 
     # DECONNECTION
     async def disconnect_player(self, user):
@@ -209,6 +215,8 @@ class GameConnector:
 class GameGateway(BaseGateway):
     def __init__(self):
         GameConnector.set_game_gateway(self)
+        LiveTournament.set_gameconnector_initializer(GameConnector)
+
         self.__channel_layer = get_channel_layer()
         self.__match_maker = None# Must be setup with self.set_matchmaker() before accepting connections
         self.__game_manager = None# Must be setup with self.set_gamemanager() before accepting connections
@@ -270,7 +278,7 @@ class GameGateway(BaseGateway):
         async with self.__gateway_lock:
             lobby_game = self.__match_maker.connect_player(consumer.user)
         if not lobby_game:
-            raise GameGatwayException(f'User {consumer.user} connection to game FAILED !')
+            raise GameGatewayException(f'User {consumer.user} connection to game FAILED !')
 
         #gconn.lobby_game = await self.__match_maker.connect_player(consumer.user)
         if not lobby_game.game_connector:
@@ -280,7 +288,7 @@ class GameGateway(BaseGateway):
         else:
             gconn = lobby_game.game_connector
 
-        if not lobby_game.tour_connector:
+        if lobby_game.is_tournament and not lobby_game.tour_connector:
             tconn = TournamentConnector(lobby_game)
             lobby_game.set_tour_connector(tconn)
 
@@ -295,7 +303,7 @@ class GameGateway(BaseGateway):
         #     #print('is game ready ? ', self.__match_maker.is_game_ready(gconn.lobby_game))
         # else:
         #     #print(f'User {self.user} connection to game FAILED !')
-        #     raise GameGatwayException(f'User {consumer.user} connection to game FAILED !')
+        #     raise GameGatewayException(f'User {consumer.user} connection to game FAILED !')
 
         # async with self.__gateway_lock:
         #     self.__connected_games[sockID] = gconn
@@ -312,45 +320,43 @@ class GameGateway(BaseGateway):
 
 
     async def connect_to_tournament(self, user: User, consumer):
+        ''' Tournament lobby games from MatchMaker are pseudo lobbies to be overwritten by the LiveTournament
+            instance. Only acts as initLobby to gather 4 players for the tournament using the regular player update
+        events. This pseud lobby will be sent to LiveTournament object to organize the tournament with the currently
+        connected and ready players.
+
+            At this point, it should be garanteed that there is only one tournament that can run at the same time.
+        '''
+
         eprint('LiveTournament after player connect to tournament : ', self._live_tournament)
 
         async with self.__gateway_lock:
             lobby_game = self.__match_maker.get_tournament()
 
-        if lobby_game.is_tournament:
-            ''' Tournament lobby games from MatchMaker are pseudo lobbies to be overwritten by the LiveTournament
-             instance. Only acts as initLobby to gather 4 players for the tournament using the regular player update
-            events. This pseud lobby will be sent to LiveTournament object to organize the tournament with the currently
-            connected and ready players. '''
-            eprint('connect_player : lobby_game.is_tournament : YES ')
-            # if self._live_tournament:
-            #     raise GameGatwayException('There can only be one tournament running at the same time. Try again later.')
-            if not lobby_game.tour_connector:
-                tconn = TournamentConnector(lobby_game)
-                lobby_game.set_tour_connector(tconn)
-                eprint('connect_player : INITIALIZING live_tournament with sockID : ', lobby_game.tourID)
-                # tour = await self.__create_db_tournament(lobby_game)
-                # eprint('Tournament pushed to DB. Tournament ID : ', tour.id)
-            else:
-                tconn = lobby_game.tour_connector
+        if not lobby_game.is_tournament:
+            raise GameGatewayException('Trying to connect player to tournament but there is no tournament lobby open.')
+        eprint('connect_player : lobby_game.is_tournament : YES ')
 
-            async with self.__gateway_lock:
+        if lobby_game.tour_connector:
+            tconn = lobby_game.tour_connector
+        else:
+            tconn = TournamentConnector(lobby_game)
+            lobby_game.set_tour_connector(tconn)
+            eprint('connect_player : INITIALIZING live_tournament with sockID : ', lobby_game.tourID)
+
+        async with self.__gateway_lock:
+            if not self._live_tournament:
                 self._live_tournament = LiveTournament(tconn, lobby_game)
-
-            eprint('LiveTournament after player connect : ', self._live_tournament)
-            brackets = self._live_tournament.get_brackets_info()
-            print('connect_player :: Sending Tournament backets : ', brackets)
-            await tconn.send_brackets(brackets)
-
         if not self._live_tournament:
-            raise GameGatwayException('Trying to connect to tournament without active tournament running.')
-        live_tour = self._live_tournament
-        tconn = live_tour.connector
+            raise GameGatewayException('Trying to connect to tournament without active tournament running.')
 
+        eprint('LiveTournament after player connect : ', self._live_tournament)
+        brackets = self._live_tournament.get_brackets_info()
+        print('connect_player :: Sending Tournament backets : ', brackets)
+        await tconn.send_brackets(brackets)
         await tconn.connect_player(user, consumer)
-        await tconn.send_brackets(self._live_tournament.get_brackets_info())
 
-        return tconn
+        return self._live_tournament
 
 
     async def disconnect_player(self, user: User, consumer):
@@ -440,7 +446,7 @@ class GameGateway(BaseGateway):
             gameMode=GameManagerMode
         )
         if not gm_status:
-            raise GameGatwayException('Error occured while trying to create new game in game_manager.')
+            raise GameGatewayException('Error occured while trying to create new game in game_manager.')
 
         tasks = [gm.addPlayerToGame(lply.user.id, lply.user.login, lgame.sockID) for lply in lgame.players]
         await asyncio.gather(*tasks)
@@ -453,14 +459,16 @@ class GameGateway(BaseGateway):
     async def __setup_live_tournament(self, initLobby):
         ''' Work in progress '''
         if self._live_tournament is None:
-            raise GameGatwayException('GameGateway :: Trying to setup live tournament while no live tournament has been instanciated.')
+            raise GameGatewayException('GameGateway :: Trying to setup live tournament while no live tournament has been instanciated.')
         tour = await self.__create_db_tournament(initLobby)
-        self.match_maker.remove_lobby_game(initLobby)
+
+        ## Remove initLobby from match_maker only after the end of the tournament.
+        # self.match_maker.remove_lobby_game(initLobby)
 
         gameA, gameB = await self._live_tournament.setup_game_lobbies_start()
         tour.declare_started(save=True)
-        await self.__push_game_to_gamemanager('Pong', gameA)
-        await self.__push_game_to_gamemanager('Pong', gameB)
+        # await self.__push_game_to_gamemanager('Pong', gameA)
+        # await self.__push_game_to_gamemanager('Pong', gameB)
 
     async def set_player_ready(self, user: User):
         ''' Called from a sync HTTP POST request, so no reference to lobby_game
@@ -470,7 +478,7 @@ class GameGateway(BaseGateway):
             lgame = self.match_maker.set_ready(user)
 
         if not lgame:
-            raise GameGatwayException(f"Trying to set user {user.login} as ready, but wasn't found in lobby.")
+            raise GameGatewayException(f"Trying to set user {user.login} as ready, but wasn't found in lobby.")
 
         await lgame.game_connector._send_players_list()
         print('Checking if game is ready ?')
@@ -521,7 +529,7 @@ class GameGateway(BaseGateway):
         print('END GAME : ', end_game_state)
 
         if not end_game_state:
-            raise GameGatwayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
+            raise GameGatewayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
 
 
         endState = end_game_state.get("endState", None)

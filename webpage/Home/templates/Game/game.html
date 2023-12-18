@@ -1,6 +1,19 @@
 {% block game %}
         <!-- JEU  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-		<div class="game" id="game">
+		<!-- GAME A ACCESS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<div class="game" id="gameA">
+			<div class="col-lg-9 d-flex flex-column justify-content-center">
+				<div id="game-info-container">
+					<button id="gameButtonA"  class="btn btn-primary">Game A
+						<span id="nameP1">- - -</span>
+					</button>
+
+					<canvas id="gameCanvas" class="flex-grow-1" style="background-color: #000000;  width: 100%; height: 100%;"></canvas>
+				</div>
+			</div>
+		</div>
+		{% comment %} <!-- GAME B ACCESS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<div class="game" id="gameB">
 			<div class="col-lg-9 d-flex flex-column justify-content-center">
 				<div id="game-info-container">
 					<!-- <button id="game-result-button" onclick="loadEndGame()" class="btn btn-primary">Result</button> -->
@@ -8,4 +21,13 @@
 				</div>
 			</div>
 		</div>
+		<!-- GAME C ACCESS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+		<div class="game" id="gameC">
+			<div class="col-lg-9 d-flex flex-column justify-content-center">
+				<div id="game-info-container">
+					<button id="gameButtonC" class="btn btn-primary">Game C</button>
+					<canvas id="gameCanvas" class="flex-grow-1" style="background-color: #000000;  width: 100%; height: 100%;"></canvas>
+				</div>
+			</div>
+		</div> {% endcomment %}
 {% endblock %}

@@ -10,8 +10,22 @@ def eprint(*args):
     print(*args, file=sys.stderr)
 
 
+class LiveTournamentException(Exception):
+    pass
+
 class LiveTournament:
     __id_counter = 0
+    gameConnectorFactory: callable = None
+    gameManager: callable = None
+
+    @classmethod
+    def set_gameconnector_initializer(cls, gameConnectorClass):
+        if not cls.gameConnectorFactory:
+            cls.gameManager = gameConnectorClass
+    @classmethod
+    def set_gamemanager_initializer(cls, gameManagerRef):
+        if not cls.gameManager:
+            cls.gameManager = gameManagerRef
 
     def __init__(self, tconn, initLobbyGame: LobbyGame):
 
@@ -24,6 +38,8 @@ class LiveTournament:
         self._groupA: LobbyGame = None
         self._groupB: LobbyGame = None
         self._groupC: LobbyGame = None
+
+
 
     @classmethod
     def get_id(cls):
@@ -47,6 +63,10 @@ class LiveTournament:
     @property
     def connector(self):
         return self.__tconn
+
+    @property
+    def is_setup(self):
+        return self.__init_lobby and self._groupA and self._groupB
     
     # def add_member(self, user: User):
     #     self.tournament.add_member(user)
@@ -75,6 +95,7 @@ class LiveTournament:
 
         eprint('GroupA players: ', players[:2])
         eprint('GroupB players: ', players[2:])
+
         # Do sophisticated Player Matching
         self._groupA = LobbyGame(formStage1, players[:2])
         self._groupB = LobbyGame(formStage1, players[2:])
@@ -84,6 +105,35 @@ class LiveTournament:
         self.tournament.addGroupBGame(self._groupB)
         self.tournament.declare_started()
         return (self._groupA, self._groupB)
+
+
+
+    async def connect_player(self, user: User, consumer):
+
+        if self._groupA and user in self._groupA:
+            lgame = self._groupA
+            lply = LobbyPlayer(user, is_connected=True, is_ready=True)
+            self._groupA.add_player(lply)
+        elif self._groupB and user in self._groupB:
+            lgame = self._groupB
+        elif self._groupC and user in self._groupC:
+            lgame = self._groupC
+        else:
+            raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
+
+        sockID = lgame.sockID
+        if not lgame.game_connector:
+            gconn = self.gameConnectorFactory(sockID)
+            lgame.set_game_connector(gconn)
+            gconn.set_lobby_game(lgame)
+        else:
+            gconn = lgame.game_connector
+
+
+        await gconn.connect_player(consumer.user, consumer, is_tournament_stage1=True)
+        await gconn.send_init_state(self.gameManager.getInitInfo(lgame.gameType))
+
+
 
 
     def __get_bracket_template(self):

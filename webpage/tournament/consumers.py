@@ -71,9 +71,11 @@ class TournamentConnector:
 
 
     async def connect_player(self, user, consumer):
+        ''' Connects the player to the tournament socket. '''
+
         async with self.__tour_lock:
             if user.id in self.__player_consumers:
-                raise ValueError('Trying to add player to same game connector twice.')
+                raise ValueError('Trying to add player to same tournament connector twice.')
             self.__player_consumers[user.id] = consumer
 
         await self.__channel_layer.group_add(
@@ -95,6 +97,8 @@ class TournamentConnector:
             consumer = self.__player_consumers.pop(user.id)
 
         #await self.send_end_state(end_state);
+        
+        ### TODO: Manage early exit from game.
 
         await self.__channel_layer.group_discard(self.sockID, consumer.channel_name)
 
@@ -229,7 +233,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         
         await self.accept()
 
-        await self.netGateway.connect_to_tournament(self.user, self)
+        self.tour = await self.netGateway.connect_to_tournament(self.user, self)
 
         await self.send(text_data=json.dumps({
             'ev': 'connect',

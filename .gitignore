@@ -3,6 +3,8 @@
 **/*.key
 **/__pycache__
 postgres/volume/data
+webpage/game/migrations/00*
+
 
 **/*.lock
 *.lock

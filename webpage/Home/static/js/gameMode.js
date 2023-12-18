@@ -42,7 +42,7 @@ function loadModule(moduleName) {
         console.log('Load game')
         document.getElementById('game').style.display = 'block';
     }
-    else if (moduleName === 'aftergame') {
+    else if (moduleName === 'aftergame' ) {
         console.log('Load aftergame')
         // if (isTournament)
         // {
