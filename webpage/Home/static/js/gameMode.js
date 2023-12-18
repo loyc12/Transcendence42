@@ -12,7 +12,6 @@ function loadModule(moduleName) {
         console.log('Trying to hide ' + c + ' module display.')
         document.getElementById(c).style.display = 'none'
     }
-
     // Select desired submodule
     console.log('requested Module name : ' + moduleName)
     if (moduleName === 'gameMode') {
@@ -31,7 +30,13 @@ function loadModule(moduleName) {
     else if (moduleName === 'lobby') {
         console.log('Load lobby')
         document.getElementById('lobby').style.display = 'block';
-        document.getElementById('tournament').style.display = 'block';
+        if (isTournament)
+        {
+            console.log('Load tournament module')
+            document.getElementById('tournament').style.display = 'block';
+        }
+        else
+            document.getElementById('tournament').style.display = 'none';
     }
     else if (moduleName === 'game') {
         console.log('Load game')
@@ -39,6 +44,16 @@ function loadModule(moduleName) {
     }
     else if (moduleName === 'aftergame') {
         console.log('Load aftergame')
+        // if (isTournament)
+        // {
+        //     console.log('Load tournament after game ROUND1');
+        //     isGhostLobby = True;
+        //     document.getElementById('buttonGhostLobby').style.display = 'block';
+        // }
+        // else
+        // {
+        //     document.getElementById('buttonGhostLobby').style.display = 'none';
+        // }
         document.getElementById('aftergame').style.display = 'block';
     }
     else {

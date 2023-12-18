@@ -59,8 +59,10 @@ let update_player_info = function (player_info_list) {
   console.log('update_player_info CALLED : ' + player_info_list);
   document.getElementById("startEngine").disabled = false;
 
-
-  hide_excess_player_profiles(currentGameInfo.racketCount);
+  if (isTournament)
+    hide_excess_player_profiles(4);
+  else
+    hide_excess_player_profiles(currentGameInfo.racketCount);
 
   console.log('currentGameType : ' + currentGameType)
   if (currentGameType === 'Local_1p')
@@ -73,15 +75,42 @@ let update_player_info = function (player_info_list) {
     for (ply of player_info_list) {
       imgElemID = `imgPlayer${++i}`;
       nameElemID = `namePlayer${i}`;
+      tourn1ElemID = `nameP${i}`;
+      tourn2ElemID = `nameWinner${i}`;
+      // scoreP1 = `ply.score${nameElemID}`;
+      // scoreP2 = `ply.score${nameElemID}`;
+      // scoreP3 = `ply.score${nameElemID}`;
+      // scoreP4 = `ply.score${nameElemID}`;
+
 
       login = ply.login;
       img = ply.img;
       ready = ply.ready;
+      score  = ply.score;
 
       // console.log('login : ' + login)
       // console.log('img : ' + img)
       // console.log('ready : ' + ready)
+      if (isTournament)
+      {
+        document.getElementById(tourn1ElemID).innerHTML = ` ${login}`;
+      }
+      if (isGhostLobby)
+      {
+        // //Score of ply.login at tourn1ElemID
+        // document.getElementById('scoreP1').innerHTML = ` ${score}`;
+        // //Score of ply.login at tourn1ElemID
+        // document.getElementById('scoreP2').innerHTML = ` ${score}`;
+        // //Score of ply.login at tourn1ElemID
+        // document.getElementById('scoreP3').innerHTML = ` ${score}`;
+        // //Score of ply.login at tourn1ElemID
+        // document.getElementById('scoreP4').innerHTML = ` ${score}`;
 
+        //Row 2 Match
+        document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
+        isTournament = False;
+
+      }
       document.getElementById(imgElemID).src = img;
       document.getElementById(nameElemID).innerHTML = ` ${login}`;
       if (ready)
@@ -101,7 +130,6 @@ let on_click_update_players = function () {
 let signal_player_ready = function() {
   document.getElementById("startEngine").disabled = true;
   document.getElementById("startEngine").innerHTML = "READY!";
-  //document.getElementById("custom-spinner").style.alignItems = "center";
   document.getElementById("custom-spinner").style.display = "block";
   let payload = {
     'ev': 'ready'
@@ -109,11 +137,6 @@ let signal_player_ready = function() {
   console.log('Sending payload : ' + payload);
   gameWebSock.send(JSON.stringify(payload));
   console.log('Payload sent.');
-
-  /// DEBUG
-  // loadModule('game');
-
-  /// GREY out button
 }
 
 let loadEndGame = function (data) {
@@ -139,32 +162,5 @@ let loadEndGame = function (data) {
   }
   disconnect_socket();
 }
-
-// { // getEndInfo()
-//   "gameType": "pong", //  random == doesn't matter( create random one if none are joinable )
-//   "gameMode": "solo", //  solo, dual, freeplay, tournament
-//   "endState": "win", //   win, quit, crash
-//   "winingTeam": 1, //     teamID
-//   "quitter": 2, //        playerID
-//   "scores": [
-//       "s1",
-//       "s2",
-//       "s3",
-//       "s4"
-//   ],
-//   "playerInfo": getPlayerInfo{}
-// }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

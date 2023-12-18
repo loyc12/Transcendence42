@@ -1,5 +1,14 @@
+import sys
+from game.MatchMaker import LobbyGame, LobbyPlayer
+from users.models import User
+from tournament.models import Tournament
+from tournament.consumers import TournamentConnector
+from asgiref.sync import sync_to_async
 
-from game.MatchMaker import LobbyGame
+
+def eprint(*args):
+    print(*args, file=sys.stderr)
+
 
 class LiveTournament:
     __id_counter = 0
@@ -31,10 +40,51 @@ class LiveTournament:
     @property
     def is_second_stage(self):
         return self._groupC is not None
+    @property
+    def tournament(self):
+        return self.__tconn.tournament
 
     @property
     def connector(self):
         return self.__tconn
+    
+    # def add_member(self, user: User):
+    #     self.tournament.add_member(user)
+
+    @sync_to_async
+    def setup_game_lobbies_start(self):
+        if not self.__init_lobby:
+            raise ValueError('LiveTournament trying to setup_game_lobbies_start() while not initLobby exist')
+        formStage1 = {
+            'gameMode': 'Multiplayer',
+            'gameType': 'Pong',
+            'withAI': False,
+            'eventID': 0,
+        }
+        plys = self.__init_lobby.players
+
+        # if len(plys) != 2:
+        if len(plys) != 4:
+            raise ValueError(f'LiveTournament trying to setup_game_lobbies_start while missing players in init_lobby ({len(plys)}).')
+
+        eprint('setup_game_lobbies_start :: players : ', plys)
+        for ply in plys:
+            self.tournament.add_member(ply.user)
+
+        players = self.__init_lobby.players
+
+        eprint('GroupA players: ', players[:2])
+        eprint('GroupB players: ', players[2:])
+        # Do sophisticated Player Matching
+        self._groupA = LobbyGame(formStage1, players[:2])
+        self._groupB = LobbyGame(formStage1, players[2:])
+
+        ## ... Start both tournament games
+        self.tournament.addGroupAGame(self._groupA)
+        self.tournament.addGroupBGame(self._groupB)
+        self.tournament.declare_started()
+        return (self._groupA, self._groupB)
+
 
     def __get_bracket_template(self):
         return {

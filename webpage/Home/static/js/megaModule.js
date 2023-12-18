@@ -107,7 +107,7 @@ let _prepare_websocket = function (ws) {
     //... Might be more initialisation latter ...
 }
 
-function disconnect_socket() {
+let disconnect_socket = function() {
 
     console.log('TRY DISCONNECT WEBSOCKET')
     if (gameWebSock != null) {
@@ -145,8 +145,7 @@ let loadMegaModule = function (gameType) {
     // Resets lobby state
     reset_default_lobby();
 
-    // Load the lobby page.
-    loadModule('lobby');
+    
 
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
@@ -178,8 +177,16 @@ let loadMegaModule = function (gameType) {
                 console.log('Tournament mode activated');
                 isTournament = true;
             }
-            else
+            else {
                 isTournament = false;
+                tournamentWebSock = null;
+                tournamentWebSockID = null;
+            }
+            
+            // Load the lobby page.
+            loadModule('lobby');
+
+            console.log('Before update_tournament_brackets()');
             update_tournament_brackets();
             return _connect_to_game_socket(gameWebSockPath);
         })
