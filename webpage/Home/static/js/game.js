@@ -62,7 +62,9 @@ let _http_join_request = async function (payload) {
       console.log('response withAI : ', data.withAI);
       console.log('response eventID : ', data.eventID);
       //if (data.has('sockID'))
-      return data.sockID;
+      return data;
+    } else {
+      console.error('_http_join_request call did not return sockID :: data.sockID : ' + data.sockID);
     }
   })
   //.catch(err => console.log(err));
@@ -71,6 +73,8 @@ let _http_join_request = async function (payload) {
 let request_join_game = async function (gameType) {
 
   //console.log('request_join_game temporarly deactivated. Come back again later.')
+
+  console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
   currentGameType = gameType
   if (gameType === 'Local_1p') {
@@ -87,48 +91,9 @@ let request_join_game = async function (gameType) {
     throw TypeError('Trying to request join game with unimplemented gameType: ' + gameType)
   }
 
-  const sockID = await _http_join_request(payload)
+  gameData = await _http_join_request(payload)
+  console.log('gameData : ' + gameData)
 
   //console.log('sockID at request_join_game() end : ' + sockID)
-  return sockID;
+  return gameData;
 }
-
-// let send_ready_signal = function () {
-//   /// Called when player is connected to websocket and wants to set themself as ready to start playing.
-
-//   fetch('https://' + window.location.host + '/game/ready/', {
-//       method: "POST",
-//       credentials: 'same-origin',
-//       headers: {
-//           "X-CSRFToken": getCookie("csrftoken")
-//       }
-//   })
-//   .then (function(data) {
-//       console.log('Ready signal was received and handled SUCCESSFULLY')
-//   })
-//   .catch(err => console.log(err));
-// }
-
-/*
-let join_payload_builder = function (gameMode, gameType, withAI, eventID=0) {
-
-}
-
-let request_join_game = function (gameType) {
-  console.log('request game join with gametype : ' + gameType)
-
-  switch (gameType) {
-
-    case 'Tournament':
-      break;
-    case 'Multiplayer':
-      break;
-    case 'Local_1p':
-      break;
-    case 'Local_2p':
-      break;
-    default:
-      throw TypeError('Trying to request join game with bad gameType. ')
-  }
-}
-*/

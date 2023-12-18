@@ -37,8 +37,13 @@ class UserConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, event):
         session_data = self.scope['session']
-        session_data.pop("user_id")
-        session_data.pop("user_login")
+        try:
+            session_data.pop("user_id")
+            session_data.pop("user_login")
+        except KeyError:
+            eprint('Disconnecting AnonymousUser')
+            raise StopConsumer
+
         session_data.save()
         print('\n\nUser Websocket disconnecting !\n\n')
         eprint('UserConsumer :: disconnecting and wipping sessions data')

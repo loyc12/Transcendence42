@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError, OperationalError
 from users.models import User
 from asgiref.sync import sync_to_async
@@ -30,7 +31,7 @@ class Game(models.Model):
     is_official =   models.BooleanField(default=False)
     is_running =    models.BooleanField(default=False)
     is_over =       models.BooleanField(default=False)
-    is_tournament = models.BooleanField(default=False)
+    # is_tournament = models.BooleanField(default=False)
     is_broken =     models.BooleanField(default=False)
 
     winner =        models.ForeignKey('users.User', null=True, blank=True, on_delete=models.SET_NULL, related_name='game_winner')
@@ -44,10 +45,10 @@ class Game(models.Model):
                 "\n<-| nb players :    " + str(self.max_players) +\
                 "\n<-| is running :    " + str(self.is_running) +\
                 "\n<-| is over :       " + str(self.is_over) +\
-                "\n<-| is tournament : " + str(self.is_tournament) +\
                 "\n<-| winner :        " + (self.winner.login if self.winner else 'None') +\
                 "\n<-| final score :   " + (self.finale_scores if self.finale_scores else 'None') +\
                 "\n<---------------------------------->"
+                # "\n<-| is tournament : " + str(self.is_tournament) +
 
     def __repr__(self):
         return (self.__str__())
@@ -70,6 +71,20 @@ class Game(models.Model):
     @property
     def is_full(self):
         return self.players.count() == self.max_players
+
+    # @property
+    # def is_tournament(self):
+    #     try:
+    #         print('Game Model :: is_tournament')
+    #         cur_tournament = Game.tournament_set.filter(groupAGame=self.id).values()\
+    #             | Game.tournament_set.filter(groupBGame=self.id).values()\
+    #             | Game.tournament_set.filter(groupCGame=self.id).values()
+    #     except ObjectDoesNotExist:
+    #         print('Tournament Model :: ObjectDoesNotExist')
+    #         return None
+    #     return cur_tournament is not None
+
+
 
     def can_join(self, user: User) -> bool:
         return (
@@ -168,7 +183,7 @@ class Game(models.Model):
             for ply, s in zip(plys, scores):
                 ply.score = s
                 eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
-            
+
             if quitter > 0:
                 for ply in plys:
                     if ply.user.id == quitter:

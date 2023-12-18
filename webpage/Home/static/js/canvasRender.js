@@ -1,9 +1,3 @@
-// const playerColor = ['#ffffff','#ff10f0', '#23e301', '#04d9ff', '#ff6700'];
-
-// let scorePlayer1 = [(canvas.width / 2 - 50 ) , 250];
-// let scorePlayer2 = [(canvas.width / 2 + 50 ) , 250];
-// let scorePlayer3 = [(canvas.width / 2 - 50 ) , (canvas.height - 250)];
-// let scorePlayer4 = [(canvas.width / 2 + 50 ) , (canvas.height - 250)];
 
 let setCurrentState = function (initData) {
     currentGameInfo = initData;
@@ -52,11 +46,7 @@ let renderCanvas = function (ctx, gameInfo) {
     ctx.fillStyle = "gray";
     ctx.fillRect(canvas.width / 2, 0, 1, canvas.height);
     ctx.fillStyle = "white";
-    // console.log("gameInfo : " + gameInfo);
-    // console.log("gameInfo.update : " + gameInfo.update)
-    // console.log("gameInfo.update.scores : " + gameInfo.update.scores);
 
-    // ctx.fillText(gameInfo.update.scores, (canvas.width / 2 - 100) , 250);
     console.log('gameInfo.update.scores[0]  WIDTH: ' + canvas.width);
     console.log('gameInfo.update.scores[0]  HEIGHT: ' + canvas.height);
     console.log('gameInfo.update.scores[0]  POS: ' + scorePlayer1);
@@ -133,7 +123,6 @@ let renderRackets = function(ctx, gameInfo, update) {
 let updateCanvas = function (gameInfo) {
 
     // Update the canvas based on the new data
-
     // Clear the canvas
     clearCanvas(ctx, canvas.width, canvas.height);
     // Render the canvas with the new data

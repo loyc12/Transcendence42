@@ -1,0 +1,25 @@
+{% comment %} 
+<div class="profile" id="profile">
+  <div class="row align-items-center">
+    <div class="col-4 d-flex justify-content-center mt-5">
+      <!-- REPLACE img path by [variable_img_link] from database-->
+      <!-- <img src="../../static/img/profile_picTEST.png" alt="profile pic" class="w-50 rounded-circle" loading="lazy"> -->
+      <img src="{{user.img_link}}" alt="profile pic" class="w-50 rounded-circle" loading="lazy">
+    </div>
+    <div class="offset-1 col-7 mt-5">
+      <ul class="info">
+        <li>Information</li>
+        <li>Prénom et nom:  {{ user.display_name }} </li>
+        <li>Identifiant:    {{ user.login }} </li>
+      </ul>
+      <ul class="stats mt-3">
+        <li>Statistiques</li>
+        <li>Nombre de parties jouées: {{ nb_played }}</li>
+        <li>Victoire(s):    {{ nb_wins }} </li>
+        <li>Défaite(s):     {{ nb_losses }} </li>
+        <li>Abandonnée(s):     {{ nb_given_up }} </li>
+        <li>Pourcentage de victoire:     {{ win_loss_ratio }} </li>
+      </ul>
+    </div>
+  </div>
+</div> {% endcomment %}
