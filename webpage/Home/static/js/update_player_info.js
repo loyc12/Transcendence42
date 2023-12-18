@@ -19,7 +19,7 @@ let mock_player_list = [
 
 
 const default_lobby_template = document.getElementById('lobby').innerHTML;
-console.log(default_lobby_template)
+// console.log(default_lobby_template)
 
 
 let reset_default_lobby = function () {

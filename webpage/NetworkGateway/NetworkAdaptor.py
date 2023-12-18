@@ -214,6 +214,8 @@ class GameConnector:
         #     for ply in self.__player_consumers:
         pass
 
+    async def update_scores(self, scores):
+        pass
 
 
 

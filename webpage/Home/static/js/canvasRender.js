@@ -1,5 +1,5 @@
-// let sx = 0;
-// let sy = 0;
+// const playerColor = ['#ffffff','#ff10f0', '#23e301', '#04d9ff', '#ff6700'];
+
 // let scorePlayer1 = [(canvas.width / 2 - 50 ) , 250];
 // let scorePlayer2 = [(canvas.width / 2 + 50 ) , 250];
 // let scorePlayer3 = [(canvas.width / 2 - 50 ) , (canvas.height - 250)];
@@ -10,6 +10,7 @@ let setCurrentState = function (initData) {
 };
 
 const players = [
+    { name: 'AI', rank: 0},
     { name: 'Player 1', rank: 1 },
     { name: 'Player 2', rank: 2 },
     { name: 'Player 3', rank: 3 },
@@ -19,13 +20,14 @@ const players = [
 // Function to get the player's color based on their rank
 let getPlayerColor = function(rank) {
     // Use modulo operator to cycle through colors if there are more ranks than colors
-    const index = rank % playerColors.length;
+    const index = (rank + 1) % playerColors.length; //rank = playerID ; index = color
+    console.log('index : ' + index + '  :: Player color:' + playerColors[index]);
     return playerColors[index];
 }
 
 let getPlayerShadowColor = function(rank) {
     // Use modulo operator to cycle through colors if there are more ranks than colors
-    const index = rank % playerColors.length;
+    const index = (rank + 1) % playerColors.length;
     return playerShadowColors[index];
 }
 
@@ -59,17 +61,16 @@ let renderCanvas = function (ctx, gameInfo) {
     console.log('gameInfo.update.scores[0]  HEIGHT: ' + canvas.height);
     console.log('gameInfo.update.scores[0]  POS: ' + scorePlayer1);
     console.log('gameInfo.update.scores[1]  POS: ' + scorePlayer2);
-    // console.log('gameInfo.update.scores[2]  POS: ' + scorePlayer3);
-    // console.log('gameInfo.update.scores[3]  POS: ' + scorePlayer4);
-
-    // for (let i = 0; i < currentGameInfo.racketCount; i++) {
-            ctx.fillText(gameInfo.update.scores[0], scorePlayer1[0], scorePlayer1[1]);
-            ctx.fillText(gameInfo.update.scores[1], scorePlayer2[0], scorePlayer2[1]);
-    //     const scoreElement = document.createElement('div');
-    //     scoreElement.textContent = `Player ${i + 1} Score: ${gameInfo.update.scores[i]}`;
-    //     gameInfoContainer.appendChild(scoreElement);
-    // }
-
+    if (gameInfo.racketCount > 2) {
+        console.log('gameInfo.update.scores[2]  POS: ' + scorePlayer3);
+        console.log('gameInfo.update.scores[3]  POS: ' + scorePlayer4);
+    }
+    ctx.fillText(gameInfo.update.scores[0], scorePlayer1[0], scorePlayer1[1]);
+    ctx.fillText(gameInfo.update.scores[1], scorePlayer2[0], scorePlayer2[1]);
+    if (gameInfo.gameType === 'Pingest') {
+        ctx.fillText(gameInfo.update.scores[2], scorePlayer3[0], scorePlayer3[1]);
+        ctx.fillText(gameInfo.update.scores[3], scorePlayer4[0], scorePlayer4[1]);
+    }
 }
 
 let renderBall = function (ctx, gameInfo, update) {
@@ -77,10 +78,14 @@ let renderBall = function (ctx, gameInfo, update) {
 
     const x = update.ballPos[0];
     const y = update.ballPos[1];
+    console.log( '... last player touch color update: ' + update.lastPonger);
+    let ballColorLast = getPlayerColor(update.lastPonger - 1);
     const shadow = getPlayerShadowColor(update.lastPonger);
-    ctx.fillStyle = 'red';// Ball color (customize as needed)
     ctx.beginPath();
     ctx.shadowBlur = 40;
+    // console.log(' ### update color player : ' + ballColorLast);
+    console.log( '... Ball Color update: ' + ballColorLast);
+    ctx.fillStyle = ballColorLast;// 'red' ballLastPlayerColor;
     ctx.shadowColor = shadow;
     ctx.arc(x, y, gameInfo.ballSize * 0.5, 0, 2 * Math.PI); // Assuming ballRadius is defined
     ctx.fill();
@@ -95,12 +100,11 @@ let renderRackets = function(ctx, gameInfo, update) {
     for (let i = 0; i < racketCount; i++) {
         x = update.racketPos[2*i] + currentGameInfo.offsets[2*i];
         y = update.racketPos[2*i + 1] + currentGameInfo.offsets[2*i + 1];
-        // console.log('racket pos' + update.racketPos[2*i + 1] + 'racket offset ' + currentGameInfo.offsets[2*i + 1]);
-        // console.log('racketCount : '+ i + ' de ' + racketCount + ' >> ' + x + ' : ' + y);
         console.log('racketCheck : X >> '+ update.racketPos[2*i] + ' : Y >> ' + update.racketPos[2*i + 1] );
 
         // Set the color of the racket based on the player's rank
         color = getPlayerColor(i);
+        console.log('- getter player color : ' + color);
         if (gameInfo.gameType === 'Pong' && i > 2) {
             color = '#ffffff';   }
         shadow = getPlayerShadowColor(i);

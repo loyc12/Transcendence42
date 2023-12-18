@@ -54,10 +54,8 @@ const initPingParam = {
 const initPongParam = {
      'gameType': 'Pong',
      'sizeInfo': {
-        // 'width': 2048, 'height': 1024,
-        // 'wRatio': 0.00048828125, 'hRatio': 0.0009765625,
-        'width': 1536, 'height': 1024,
-        'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625,
+        'width': 2048, 'height': 1024,
+        'wRatio': 0.00048828125, 'hRatio': 0.0009765625,
         'sRacket': 160, 'sBall': 20
     },
     'racketCount': 2,
