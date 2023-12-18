@@ -148,8 +148,8 @@ let reset_endgame_messages = function () {
 let loadEndGame = function (data) {
   // console.log('end is: ' + getEndInfo().endState);
   // console.log('loadEndGame :: data : ' + data)
-  // console.log('loadEndGame :: data.winingTeam : ' + data.winingTeam)
   // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
+  console.log('-=-= loadEndGame :: data.winingTeam : ' + data.winingTeam);
   reset_endgame_messages();
   loadModule('aftergame');
 
@@ -163,8 +163,6 @@ let loadEndGame = function (data) {
     document.getElementById("crash").style.display = "block";
   }
   else if (user_is_winner) {
-  // console.log('=== CALLED loadEndGame STATE:' + data.endState );
-  // if (data.endState === 'win'){
     console.log('**win');
     document.getElementById("winner").style.display = "block";
   }

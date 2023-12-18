@@ -34,7 +34,7 @@ let _on_game_event = function(event) {
         // Sent ONCE at the begining of lobby phase with data required to render a game.
         // See PingPongRebound/json-template.json, section : getInitInfo()
         parseInitData(data.init)
-        console.log('Received INIT : ' + data.init);
+        console.log('- - - Received INIT : ' + data.init);
         if (isTournament) {
             console.log('Tournament mode activated');
             //update_tournament_brackets(data.init.tournament);//function to update brackets
@@ -146,11 +146,11 @@ let loadMegaModule = function (gameType) {
     // Resets lobby state
     reset_default_lobby();
 
-    
+
 
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
-    console.log(`--- init state for gameType ${gameType} : `);
+    // console.log(`--- init state for gameType ${gameType} : `);
     console.log(get_default_init_state(gameType));
     parseInitData(get_default_init_state(gameType));
 
@@ -183,7 +183,7 @@ let loadMegaModule = function (gameType) {
                 tournamentWebSock = null;
                 tournamentWebSockID = null;
             }
-            
+
             // Load the lobby page.
             loadModule('lobby');
 

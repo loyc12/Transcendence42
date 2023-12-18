@@ -168,8 +168,8 @@ let deactivatePlayerControler = function () {
 
 /// SETUP currentGameInfo GLOBAL VARIABLE defined in defs.js
 function parseInitData (init_data) {
-    //init score test ...
-    // var { score1, score2 } = [0,0];
+
+    // console.log('- - - parseInitData CALLED : ' + init_data);
 
     //curentData = init_data;
     if (! 'update' in init_data)
