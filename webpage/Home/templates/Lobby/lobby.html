@@ -1,7 +1,7 @@
 {% block lobby %}
 	<div class="lobby"  id="lobby">
 		<div class="row align-items-center">
-			<div class="col-lg-3 justify-content-center">
+			<div class="col-xl-3 col-md-9 d-flex justify-content-center">
 				<!-- sidebar: users connecting to get ready to play -->
 				<table class="table-responsive" style="color: #F0FFFF; background-color: #178CA8; border: 5px solid #F0FFFF; width: 80%; text-align: center; margin-top: 50px;">
 					<thead> <tr> <th scope="col"> </th> </tr> </thead>
@@ -56,82 +56,26 @@
 					</tbody>
 				</table>
 			</div>
+			<!-- TOURNAMENT OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+			<div class="col-xl-9 col-md-3 d-flex justify-content-center" style="margin-bottom: 20px;">
+				<div id="tournament" class="tournament" style="display: none;">
+					{% include 'Tournament/tournament.html' %}
+					<!-- GAME A INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+					<div class="col-xl-9 col-md-3 d-flex justify-content-center" style="margin-bottom: 20px;">
+						<div id="gameA" class="game" style="display: block;">
+							<div id="game-info-container">
+								<button id="gameButtonA"  class="btn btn-primary">Game A
+									<span id="nameP1">- - -</span>
+								</button>
+								{% comment %}
+								<canvas id="gameCanvas" class="flex-grow-1" style="background-color: #000000;  width: 100%; height: 100%;"></canvas> {% endcomment %}
+							</div>
+						</div>
+					</div>
+					<!-- GAME B INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+					<!-- GAME C INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+				</div>
+			</div>
 		</div>
-		<!-- TOURNAMENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -->
-		<div class="clearfix">
-			<div class="row">
-				<div class="col mx-auto">
-					<!-- 1 FIRST ROUND - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-					<div class="round semifinals">
-						<!-- GROUP A  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-						<div class="bracket-game">
-							<!-- Player 1 Box EXAMPLE -->
-							<div class="player top">
-								<span id="nameP1">- - -</span>
-								<div class="score" id="scoreP1">- - -</div>
-							</div>
-							<!-- Player 2 Box EXAMPLE  -->
-							<div class="player bottom">
-								<span id="nameP2">- - -</span>
-								<div class="score" id="scoreP2">- - -</div>
-							</div>
-						</div>
-						<!-- GROUP B  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-						<div class="bracket-game cont">
-							<!-- Player 3 Box EXAMPLE -->
-							<div class="player top">
-								<span id="nameP3">- - -</span>
-								<div class="score" id="scoreP3">- - -</div>
-							</div>
-							<!-- Player 4 Box EXAMPLE -->
-							<div class="player bottom">
-								<span id="nameP4">- - -</span>
-								<div class="score" id="scoreP4">- - -</div>
-							</div>
-						</div>
-					</div>
-					<!-- GROUP C  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-					<div class="connectors finals">
-						<div class="top-line"></div>
-						<div class="clear"></div>
-						<div class="bottom-line"></div>
-						<div class="clear"></div>
-						<div class="vertical-line"></div>
-						<div class="clear"></div>
-						<div class="next-line"></div>
-						<div class="clear"></div>
-					</div>
-					<div class="round finals">
-						<div class="bracket-game">
-							<!-- WINNER A Box EXAMPLE -->
-							<div class="player top" id="tournamentWinner1">
-								<span id="nameWinner1">- - -</span>
-								<div class="score" id="scoreWinner1">- - -</div>
-							</div>
-							<!-- WINNER B Box EXAMPLE -->
-							<div class="player bottom" id="tournamentWinner2">
-								<span id="nameWinner2">- - -</span>
-								<div class="score" id="scoreWinner2">- - -</div>
-							</div>
-						</div>
-					</div>
-					<div class="connectors winner">
-						<div class="next-line"></div>
-					</div>
-					<div class="round winner">
-						<div class="bracket-game">
-							<div class="player" id="tournamentWinner0">
-								<span id="winner">- - -</span>
-								<div class="score" id="scoreWinner">- - -</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row text-center">
-				<div class="col winner text-center" id="winner" style="background-color: #0e4870;">
-					Gagnant: - - -
-				</div>
-			</div>
 	</div>
 {% endblock %}

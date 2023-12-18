@@ -26,6 +26,8 @@ let _on_game_event = function(event) {
     // console.log('Client RECEIVED event : ' + event)
     const data = JSON.parse(event.data);
 
+    console.log("_on_game_event:: JSON data content : ", data);
+
     if (data.ev === 'up') {
         // Called by websocket with event type 'up' for every update during a game.
         parseUpdateData(data.state)
@@ -34,10 +36,9 @@ let _on_game_event = function(event) {
         // Sent ONCE at the begining of lobby phase with data required to render a game.
         // See PingPongRebound/json-template.json, section : getInitInfo()
         parseInitData(data.init)
-        console.log('Received INIT : ' + data.init);
+        console.log('- - - Received INIT : ' + data.init);
         if (isTournament) {
             console.log('Tournament mode activated');
-            //document.getElementById("tournamentBracket").style.display = "block";
             //update_tournament_brackets(data.init.tournament);//function to update brackets
         }
     }
@@ -61,12 +62,12 @@ let _on_game_event = function(event) {
     }
 
 
-    else if (data.ev === "player_info") {
-        // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
-        // with data describing active players.
-        // console.log('Received PLAYR INFO : ' + data.info);
-        parsePlayersInfo(data.info);
-    }
+    // else if (data.ev === "player_info") {
+    //     // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
+    //     // with data describing active players.
+    //     // console.log('Received PLAYR INFO : ' + data.info);
+    //     parsePlayersInfo(data.info);
+    // }
 
 
     else if (data.ev === "start") {
@@ -109,7 +110,7 @@ let _prepare_websocket = function (ws) {
     //... Might be more initialisation latter ...
 }
 
-function disconnect_socket() {
+let disconnect_socket = function() {
 
     console.log('TRY DISCONNECT WEBSOCKET')
     if (gameWebSock != null) {
@@ -147,12 +148,11 @@ let loadMegaModule = function (gameType) {
     // Resets lobby state
     reset_default_lobby();
 
-    // Load the lobby page.
-    loadModule('lobby');
+
 
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
-    console.log(`--- init state for gameType ${gameType} : `);
+    // console.log(`--- init state for gameType ${gameType} : `);
     console.log(get_default_init_state(gameType));
     parseInitData(get_default_init_state(gameType));
 
@@ -179,18 +179,18 @@ let loadMegaModule = function (gameType) {
             {
                 console.log('Tournament mode activated');
                 isTournament = true;
-                tournamentWebSockID = gameData.tourSockID;
-                tournamentWebSock = _connect_to_tournament_socket(_build_tournament_ws_path(tournamentWebSockID))
             }
             else {
-                console.log('Tournament mode not activated');
                 isTournament = false;
                 tournamentWebSock = null;
                 tournamentWebSockID = null;
             }
+
+            // Load the lobby page.
+            loadModule('lobby');
+
             console.log('Before update_tournament_brackets()');
             update_tournament_brackets();
-            console.log('After update_tournament_brackets()');
             return _connect_to_game_socket(gameWebSockPath);
         })
         .then(function (gameWebSock) {

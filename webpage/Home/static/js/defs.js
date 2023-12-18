@@ -28,6 +28,7 @@ let currentGameType;
 let currentGameInfo;
 
 let isTournament = false;
+let isGhostLobby = false;
 
 const playerColors = ['#ffffff', '#ff10f0', '#23e301', '#04d9ff', '#ff6700'];// index 0 is default
 const playerShadowColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'];// To be determined. index 0 is default color (AI)
@@ -79,14 +80,14 @@ const initPongParam = {
 const initPingestParam = {
     'gameType': 'Pingest',
     'sizeInfo': {
-        'width': 1536, 'height': 1024,
+        'width': 1536, 'height': 1280,
         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625,
         'sRacket': 160, 'sBall': 20},
     'racketCount': 4,
     'teamCount': 4,
     'orientations': ['x', 'x', 'x', 'x'],
     'update': {
-        'racketPos': [438, 20, 1097, 20, 438, 1004, 1097, 1004],
+        'racketPos': [438, 20, 1097, 20, 438, 904, 1097, 904],
         "lastPonger": 0,
         'ballPos': [512, 512],
         'scores' : [0, 0, 0, 0],

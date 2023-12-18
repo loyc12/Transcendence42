@@ -4,6 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.exceptions import StopConsumer
 from asgiref.sync import sync_to_async
 from tournament.models import Tournament
+from game.apps import GameConfig as app
 # from game.MatchMaker import LobbyGame
 from NetworkGateway.consumers import GameConsumer
 import asyncio
@@ -26,11 +27,13 @@ class TournamentConnector:
         if not cls.__game_gateway:
             cls.__game_gateway = game_gateway
 
-    def __init__(self, sockID):
-        self.__sockID = sockID
+    def __init__(self, initLobby):
+        # self.__sockID: str = sockID
         self.__tourDB: Tournament = None# Database instance returned when creating game instance in database.
         self.__player_consumers: dict[int, GameConsumer] = dict()
+        self.__initLobby = initLobby
         self.__tour_lock = asyncio.Lock()
+        print('Creating TournamentConnector :: with sockID : ', self.sockID)
 
         # self.__tournament = 
         # self.lobby_game = None # Returned after connecting to MatchMaker
@@ -48,12 +51,13 @@ class TournamentConnector:
     @property
     def tournament(self):
         return self.__tourDB
-    @property
-    def tourID(self):
-        return self.__tourDB.id
+    # @property
+    # def tourID(self):
+    #     return self.__tourDB.id
     @property
     def sockID(self):
-        return self.__sockID
+        return self.__initLobby.tourID
+        # return self.__sockID
 
    # def set_lobby_game(self, lgame):
    #     if self.lobby_game and lgame != self.lobby_game:
@@ -67,17 +71,19 @@ class TournamentConnector:
 
 
     async def connect_player(self, user, consumer):
+        ''' Connects the player to the tournament socket. '''
+
         async with self.__tour_lock:
             if user.id in self.__player_consumers:
-                raise ValueError('Trying to add player to same game connector twice.')
+                raise ValueError('Trying to add player to same tournament connector twice.')
             self.__player_consumers[user.id] = consumer
 
         await self.__channel_layer.group_add(
-            self.__sockID,
+            self.sockID,
             consumer.channel_name
         )
         # asyncio.gather(
-        await self._send_brackets()
+        # await self.send_brackets()
         # )
 
 
@@ -91,8 +97,10 @@ class TournamentConnector:
             consumer = self.__player_consumers.pop(user.id)
 
         #await self.send_end_state(end_state);
+        
+        ### TODO: Manage early exit from game.
 
-        await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
+        await self.__channel_layer.group_discard(self.sockID, consumer.channel_name)
 
         print(f'GameConnector :: SWITCH')
         if self.game:
@@ -114,7 +122,7 @@ class TournamentConnector:
             'info': brackets_info
         })
         await self.__channel_layer.group_send(
-            self.__sockID,
+            self.sockID,
             {
                 'type': 'tour_new_connection_message',
                 'brackets': payload
@@ -213,18 +221,23 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         self.sockID = self.scope['url_route']['kwargs']['sock_id']
         print('tournament :::::: CONNECTING TO WEBSOCKET with id : ', self.sockID)
 
-        # if 'tournament' in self.scope:
-        #     print('scope DOES contain tournament. ')
-        #     # self.tournament = self.scope['tournament']
-        #     # self.tournamentID = self.tournament.id
-        #     print(self.tournament)
-        #     # print('tournament id : ', self.tournament.id)
-        # else:
-        #     raise TournamentConsumerError('A tournament tried to connect to a websocket without being logged in.')
+        self.netGateway = app.get_game_gateway()
+        if 'user' in self.scope:
+            print('scope DOES contain user. ')
+            self.user = self.scope['user']
+            self.userID = self.user.id
+            print(self.user)
+            print('user id : ', self.user.id)
+        else:
+            raise TournamentConsumerError('A tournament tried to connect to a websocket without being logged in.')
+        
         await self.accept()
+
+        self.tour = await self.netGateway.connect_to_tournament(self.user, self)
+
         await self.send(text_data=json.dumps({
             'ev': 'connect',
-            'msg': 'Let it bleed !'
+            'msg': 'Hello there buddy !'
         }))
 
 

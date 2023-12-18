@@ -12,7 +12,7 @@ let mock_player_list = [
 
 
 const default_lobby_template = document.getElementById('lobby').innerHTML;
-console.log(default_lobby_template)
+// console.log(default_lobby_template)
 
 
 let reset_default_lobby = function () {
@@ -54,34 +54,64 @@ let update_local_2p_info = function (player_info) {
   document.getElementById("namePlayer2").innerHTML = "Guest";
 }
 
+
 let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
   document.getElementById("startEngine").disabled = false;
 
-
-  hide_excess_player_profiles(currentGameInfo.racketCount);
+  if (isTournament)
+    hide_excess_player_profiles(4);
+  else
+    hide_excess_player_profiles(currentGameInfo.racketCount);
 
   console.log('currentGameType : ' + currentGameType)
   if (currentGameType === 'Local_1p')
     update_local_1p_info(player_info_list[0]);
   else if (currentGameType === 'Local_2p')
     update_local_2p_info(player_info_list[0]);
+
   else {
     console.log("update_player_info info CALLED.");
     let i = 0;
     for (ply of player_info_list) {
       imgElemID = `imgPlayer${++i}`;
       nameElemID = `namePlayer${i}`;
+      tourn1ElemID = `nameP${i}`;
+      tourn2ElemID = `nameWinner${i}`;
+      // scoreP1 = `ply.score${nameElemID}`;
+      // scoreP2 = `ply.score${nameElemID}`;
+      // scoreP3 = `ply.score${nameElemID}`;
+      // scoreP4 = `ply.score${nameElemID}`;
+
 
       login = ply.login;
       img = ply.img;
       ready = ply.ready;
+      score  = ply.score;
 
       // console.log('login : ' + login)
       // console.log('img : ' + img)
       // console.log('ready : ' + ready)
+      if (isTournament)
+      {
+        document.getElementById(tourn1ElemID).innerHTML = ` ${login}`;
+      }
+      // if (isGhostLobby)
+      // {
+      //   // //Score of ply.login at tourn1ElemID
+      //   // document.getElementById('scoreP1').innerHTML = ` ${score}`;
+      //   // //Score of ply.login at tourn1ElemID
+      //   // document.getElementById('scoreP2').innerHTML = ` ${score}`;
+      //   // //Score of ply.login at tourn1ElemID
+      //   // document.getElementById('scoreP3').innerHTML = ` ${score}`;
+      //   // //Score of ply.login at tourn1ElemID
+      //   // document.getElementById('scoreP4').innerHTML = ` ${score}`;
 
+      //   //Row 2 Match
+      //   document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
+      //   isTournament = False;
+      // }
       document.getElementById(imgElemID).src = img;
       document.getElementById(nameElemID).innerHTML = ` ${login}`;
       if (ready)
@@ -101,7 +131,6 @@ let on_click_update_players = function () {
 let signal_player_ready = function() {
   document.getElementById("startEngine").disabled = true;
   document.getElementById("startEngine").innerHTML = "READY!";
-  //document.getElementById("custom-spinner").style.alignItems = "center";
   document.getElementById("custom-spinner").style.display = "block";
   let payload = {
     'ev': 'ready'
@@ -109,11 +138,6 @@ let signal_player_ready = function() {
   console.log('Sending payload : ' + payload);
   gameWebSock.send(JSON.stringify(payload));
   console.log('Payload sent.');
-
-  /// DEBUG
-  // loadModule('game');
-
-  /// GREY out button
 }
 
 let reset_endgame_messages = function () {
@@ -125,9 +149,9 @@ let reset_endgame_messages = function () {
 let loadEndGame = function (data) {
   // console.log('end is: ' + getEndInfo().endState);
   // console.log('loadEndGame :: data : ' + data)
-  // console.log('loadEndGame :: data.winingTeam : ' + data.winingTeam)
   // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
-  reset_endgame_messages();
+  console.log('-=-= loadEndGame :: data.winingTeam : ' + data.winingTeam);
+  // reset_endgame_messages();
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
@@ -135,13 +159,16 @@ let loadEndGame = function (data) {
   let winner = data.playerInfo[winnerID];
   let user_is_winner = (winner.playerID == user_id);
 
+  console.log(" data.playerInfo : " +  data.playerInfo)
+  console.log("winnerID : " + winnerID)
+  console.log("winner : " + winner)
+  console.log("user_is_winner : " + user_is_winner)
   if (data.endState === 'crash' || winnerID == undefined){
     console.log('*****crash');
     document.getElementById("crash").style.display = "block";
   }
   else if (user_is_winner) {
-  // console.log('=== CALLED loadEndGame STATE:' + data.endState );
-  // if (data.endState === 'win'){
+
     console.log('**win');
     document.getElementById("winner").style.display = "block";
   }
@@ -151,32 +178,5 @@ let loadEndGame = function (data) {
   }
   disconnect_socket();
 }
-
-// { // getEndInfo()
-//   "gameType": "pong", //  random == doesn't matter( create random one if none are joinable )
-//   "gameMode": "solo", //  solo, dual, freeplay, tournament
-//   "endState": "win", //   win, quit, crash
-//   "winingTeam": 1, //     teamID
-//   "quitter": 2, //        playerID
-//   "scores": [
-//       "s1",
-//       "s2",
-//       "s3",
-//       "s4"
-//   ],
-//   "playerInfo": getPlayerInfo{}
-// }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -1,8 +1,31 @@
+import sys
+from game.MatchMaker import LobbyGame, LobbyPlayer
+from users.models import User
+from tournament.models import Tournament
+from tournament.consumers import TournamentConnector
+from asgiref.sync import sync_to_async
 
-from game.MatchMaker import LobbyGame
+
+def eprint(*args):
+    print(*args, file=sys.stderr)
+
+
+class LiveTournamentException(Exception):
+    pass
 
 class LiveTournament:
     __id_counter = 0
+    gameConnectorFactory: callable = None
+    gameManager: callable = None
+
+    @classmethod
+    def set_gameconnector_initializer(cls, gameConnectorClass):
+        if not cls.gameConnectorFactory:
+            cls.gameManager = gameConnectorClass
+    @classmethod
+    def set_gamemanager_initializer(cls, gameManagerRef):
+        if not cls.gameManager:
+            cls.gameManager = gameManagerRef
 
     def __init__(self, tconn, initLobbyGame: LobbyGame):
 
@@ -15,6 +38,8 @@ class LiveTournament:
         self._groupA: LobbyGame = None
         self._groupB: LobbyGame = None
         self._groupC: LobbyGame = None
+
+
 
     @classmethod
     def get_id(cls):
@@ -31,10 +56,85 @@ class LiveTournament:
     @property
     def is_second_stage(self):
         return self._groupC is not None
+    @property
+    def tournament(self):
+        return self.__tconn.tournament
 
     @property
     def connector(self):
         return self.__tconn
+
+    @property
+    def is_setup(self):
+        return self.__init_lobby and self._groupA and self._groupB
+    
+    # def add_member(self, user: User):
+    #     self.tournament.add_member(user)
+
+    @sync_to_async
+    def setup_game_lobbies_start(self):
+        if not self.__init_lobby:
+            raise ValueError('LiveTournament trying to setup_game_lobbies_start() while not initLobby exist')
+        formStage1 = {
+            'gameMode': 'Multiplayer',
+            'gameType': 'Pong',
+            'withAI': False,
+            'eventID': 0,
+        }
+        plys = self.__init_lobby.players
+
+        # if len(plys) != 2:
+        if len(plys) != 4:
+            raise ValueError(f'LiveTournament trying to setup_game_lobbies_start while missing players in init_lobby ({len(plys)}).')
+
+        eprint('setup_game_lobbies_start :: players : ', plys)
+        for ply in plys:
+            self.tournament.add_member(ply.user)
+
+        players = self.__init_lobby.players
+
+        eprint('GroupA players: ', players[:2])
+        eprint('GroupB players: ', players[2:])
+
+        # Do sophisticated Player Matching
+        self._groupA = LobbyGame(formStage1, players[:2])
+        self._groupB = LobbyGame(formStage1, players[2:])
+
+        ## ... Start both tournament games
+        self.tournament.addGroupAGame(self._groupA)
+        self.tournament.addGroupBGame(self._groupB)
+        self.tournament.declare_started()
+        return (self._groupA, self._groupB)
+
+
+
+    async def connect_player(self, user: User, consumer):
+
+        if self._groupA and user in self._groupA:
+            lgame = self._groupA
+            lply = LobbyPlayer(user, is_connected=True, is_ready=True)
+            self._groupA.add_player(lply)
+        elif self._groupB and user in self._groupB:
+            lgame = self._groupB
+        elif self._groupC and user in self._groupC:
+            lgame = self._groupC
+        else:
+            raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
+
+        sockID = lgame.sockID
+        if not lgame.game_connector:
+            gconn = self.gameConnectorFactory(sockID)
+            lgame.set_game_connector(gconn)
+            gconn.set_lobby_game(lgame)
+        else:
+            gconn = lgame.game_connector
+
+
+        await gconn.connect_player(consumer.user, consumer, is_tournament_stage1=True)
+        await gconn.send_init_state(self.gameManager.getInitInfo(lgame.gameType))
+
+
+
 
     def __get_bracket_template(self):
         return {
@@ -111,13 +211,13 @@ class LiveTournament:
                 brackets['groupC']['winner2']['won'] = True
 
         if len(plys_list) > 0:
-            brackets['groupA']['p1']['login'] = plys_list[0].user.login
+            brackets['groupA']['p1']['login'] = plys_list[0].login
         elif len(plys_list) > 1:
-            brackets['groupA']['p2']['login'] = plys_list[1].user.login
+            brackets['groupA']['p2']['login'] = plys_list[1].login
         elif len(plys_list) > 2:
-            brackets['groupB']['p3']['login'] = plys_list[2].user.login
+            brackets['groupB']['p3']['login'] = plys_list[2].login
         elif len(plys_list) > 3:
-            brackets['groupB']['p4']['login'] = plys_list[3].user.login
+            brackets['groupB']['p4']['login'] = plys_list[3].login
 
         return brackets
 

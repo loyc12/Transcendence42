@@ -2,25 +2,24 @@
 let mock_groupA = {
     p1: {
         login: 'Player1',
-        score: '1',
+        score: '---',
     },
     p2: {
         login: 'Player2',
-        score: '1',
+        score: '---',
     }
 }
 
 let mock_groupB = {
     p3: {
         login: 'Player3',
-        score: '1',
+        score: '---',
     },
     p4: {
         login: 'Player4',
-        score: '1',
+        score: '---',
     }
 }
-
 
 let update_tournament_brackets = function() {
     
@@ -40,9 +39,9 @@ let update_tournament_brackets = function() {
 
     //  GROUP C
     document.getElementById('nameWinner1').innerHTML = mock_groupA.p1.login;
-    document.getElementById('scoreWinner1').innerHTML = 1;
+    document.getElementById('scoreWinner1').innerHTML = '---';
     document.getElementById('nameWinner2').innerHTML = mock_groupB.p3.login;
-    document.getElementById('scoreWinner2').innerHTML = 2;
+    document.getElementById('scoreWinner2').innerHTML = '---';
 
     // WINNNER
 
@@ -58,3 +57,4 @@ let update_tournament_brackets = function() {
     // }
 
 }
+

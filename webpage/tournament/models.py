@@ -1,9 +1,14 @@
+import sys
 #from django.contrib.auth.models import AbstractBaseTournament
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, OperationalError, IntegrityError
+from game.MatchMaker import LobbyGame
 #from django.utils import timezone
 #from .manager import TournamentManager
 
+
+def eprint(*args):
+    print(*args, file=sys.stderr)
 
 # Create your models here.
 class TourMember(models.Model):
@@ -65,30 +70,33 @@ class Tournament(models.Model):
 
     @property
     def is_full(self):
+        eprint('Tournament model :: self.members : ', self.members)
+        eprint('Tournament model :: self.members.count() : ', self.members.count())
         return self.members.count() == 4
 
-    def addGroupAGame(self, game):
-        self.groupAGame = game
+    def addGroupAGame(self, game: LobbyGame):
+        self.groupAGame = game.game_connector.game
+        self.save()
+    def addGroupBGame(self, game: LobbyGame):
+        self.groupBGame = game.game_connector.game
+        self.save()
+    def addGroupCGame(self, game: LobbyGame):
+        self.groupCGame = game.game_connector.game
+        self.save()
 
-    def declare_started(self, save=True):
+    def declare_started(self):
         self.is_running = True
         self.is_broken = False
         self.is_over = False
-        if save:
-            self.save()
 
-    def declare_broken(self, save=True):
+    def declare_broken(self):
         self.is_running = False
         self.is_broken = True
         self.is_over = True
-        if save:
-            self.save()
 
-    def declare_over(self, save=True):
+    def declare_over(self):
         self.is_running = False
         self.is_over = True
-        if save:
-            self.save()
 
     def add_member(self, user, save: bool=True):
 

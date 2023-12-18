@@ -2,7 +2,7 @@
 // Variable to store selected options
 let selectedOptions = {};
 
-let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame', 'tournament']
+let full_game_page_states_list = ['gameMode', 'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame']
 // Function to load a module
 function loadModule(moduleName) {
 
@@ -12,7 +12,6 @@ function loadModule(moduleName) {
         console.log('Trying to hide ' + c + ' module display.')
         document.getElementById(c).style.display = 'none'
     }
-
     // Select desired submodule
     console.log('requested Module name : ' + moduleName)
     if (moduleName === 'gameMode') {
@@ -31,38 +30,36 @@ function loadModule(moduleName) {
     else if (moduleName === 'lobby') {
         console.log('Load lobby')
         document.getElementById('lobby').style.display = 'block';
+        if (isTournament)
+        {
+            console.log('Load tournament module')
+            document.getElementById('tournament').style.display = 'block';
+        }
+        else
+            document.getElementById('tournament').style.display = 'none';
     }
     else if (moduleName === 'game') {
         console.log('Load game')
         document.getElementById('game').style.display = 'block';
     }
-    else if (moduleName === 'aftergame') {
+    else if (moduleName === 'aftergame' ) {
         console.log('Load aftergame')
+        // if (isTournament)
+        // {
+        //     console.log('Load tournament after game ROUND1');
+        //     isGhostLobby = True;
+        //     document.getElementById('buttonGhostLobby').style.display = 'block';
+        // }
+        // else
+        // {
+        //     document.getElementById('buttonGhostLobby').style.display = 'none';
+        // }
         document.getElementById('aftergame').style.display = 'block';
     }
-    // else if (moduleName === 'tournament') {
-    //     console.log('Load tournament')
-    //     document.getElementById('tournament').style.display = 'block';
-    // }
     else {
         console.log('Make join game request.')
         request_join_game(moduleName)
     }
-        //case 'module1':
-        //    moduleContainer.innerHTML = `
-        //        <button onclick="loadSubModule('subModule1')">Game Local: SOLO [AI]</button>
-        //        <button onclick="loadSubModule('subModule2')">Game Local: 1 Vs 1 </button>
-        //    `;
-        //    break;
-        //case 'module2':
-        //    moduleContainer.innerHTML = `
-        //        <button onclick="loadSubModule('subModule3')">Game Online: Tournament </button>
-        //        <button onclick="loadSubModule('subModule4')">Game Online: MultiPlayer </button>
-        //    `;
-        //    break;
-        //default:
-        //    break;
-    //}
 }
 
 // Function to load a sub-module

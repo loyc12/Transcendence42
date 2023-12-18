@@ -75,6 +75,11 @@ class LobbyGame:
     def sockID(self):
         return "sock{:06d}".format(self.__id)
     @property
+    def tourID(self):
+        if not self.__tour_connector:
+            return None
+        return f'Tour_{self.sockID}'
+    @property
     def form(self):
         return self.__form
     @property
@@ -112,6 +117,7 @@ class LobbyGame:
     def is_full(self):
         if self.gameMode == 'Tournament':
             return (len(self.__players) == 4)
+            # return (len(self.__players) == 2)
         if (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0):
             return True
         return self.nb_players == self.__required_players
@@ -121,9 +127,6 @@ class LobbyGame:
     @property
     def is_tournament(self):
         return self.gameMode == 'Tournament'
-
-    #def set_is_started(self):
-    #    self.__is_started = True
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn
@@ -211,6 +214,11 @@ class MatchMaker:
         pass
     def has_player(self, user: User):
         return self.__find_player_in_lobby(user) is not None
+    
+    def get_tournament(self):
+        if not self._gameLobby['Tournament']:
+            return None
+        return self._gameLobby['Tournament'][0]
 
 
     # def is_game_full(self, gameType: str, lgame: LobbyGame):
@@ -269,6 +277,40 @@ class MatchMaker:
         #if not game_type or not game_type in self._gameLobby:
         #self._gameLobby[game_type].remove(lgame)
 
+    # @sync_to_async
+    # def __create_db_game(self, lgame: LobbyGame, gameType, maxPlayers):#, **kwargs):
+    #     game = Game.objects.create(
+    #         game_type=gameType,
+    #         max_players=maxPlayers#self._maxRacketCounts[gameType]
+    #     )
+    #     for lply in lgame.players:
+    #         game.add_player(lply.user)
+    #     game.declare_started()
+    #     return game
+
+    # async def __push_game_to_gamemanager(self, gameType: str, lgame: LobbyGame):
+    #     ''' When calling this function, the game should be validated ready to start. '''
+    #     game = await self.__create_db_game(lgame, gameType, self._maxRacketCounts[gameType])
+    #     #game = sync_to_async(Game.objects.create)()
+    #     #        game_type=gameType,
+    #     #        max_players=self._maxRacketCounts[gameType]
+    #     #    )
+    #     #)
+    #     print('game after sync_to_async db game creation : ', game)
+    #     gm_status = await self.gm.addGame(gameType, game.id)
+    #     if not gm_status:
+    #         raise MatchMakerException('Error occured while trying to create new game in game_manager.')
+
+
+    #     #tasks = [self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id) for lply in lgame.players]
+    #     #await asyncio.gather(tasks)
+    #     for lply in lgame.players:
+    #         await self.gm.addPlayerToGame(lply.user.id, lply.user.login, game.id)
+    #     await self.gm.startGame(game.id)
+    #     lgame.set_is_started()
+    #     self.__remove_lobby_game(lgame)
+    #     return lgame
+
     #COLLE
     # recois le form ici
     def join_lobby(self, user: User, form: GameCreationForm|dict):
@@ -282,14 +324,16 @@ class MatchMaker:
             raise ValueError('Missing one or more fields in form.')
         if gameMode not in self._gameLobby:
             raise ValueError(f"Game Mode {gameMode} does not exit.")
-
-
+        
         lgame = self.__find_existing_game_such_as(user, form)
 
         lply = LobbyPlayer(user=user, is_connected=False, is_ready=False)
         if lgame:
             if user in lgame:
                 raise MatchMakerWarning(f'User {user.login} tried to join a game twice. Stop that !')
+            if lgame.is_tournament and lgame.is_full:
+                raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
+
             # Game should be fully validated at this point
             lgame.add_player(lply)
             #lgame.players.append(lply)

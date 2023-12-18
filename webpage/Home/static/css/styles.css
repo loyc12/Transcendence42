@@ -216,7 +216,7 @@ body.skip-nav:focus {
 #tournament {
     background-color: #178ca8;
     color: #f0ffff;
-    height: 90vh;
+    height: 30vh;
 }
 
 .player, .score {
@@ -246,7 +246,7 @@ body.skip-nav:focus {
 }
 
 .player {
-    min-width: 225px; /*boxes for the same size*/
+    min-width: 233px; /*boxes for the same size*/
     border: 1px solid #AAA;
     padding-left: 15px;
     background: #4cbe96;
