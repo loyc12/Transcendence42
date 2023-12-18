@@ -275,7 +275,6 @@ class GameGateway(BaseGateway):
         #gconn = await self.__get_game_connector(sockID)
         #await gconn.add_player(consumer.user, consumer)
 
-        if 
         async with self.__gateway_lock:
             lobby_game = self.__match_maker.connect_player(consumer.user)
         if not lobby_game:
@@ -324,8 +323,8 @@ class GameGateway(BaseGateway):
         ''' Tournament lobby games from MatchMaker are pseudo lobbies to be overwritten by the LiveTournament
             instance. Only acts as initLobby to gather 4 players for the tournament using the regular player update
         events. This pseud lobby will be sent to LiveTournament object to organize the tournament with the currently
-        connected and ready players. 
-        
+        connected and ready players.
+
             At this point, it should be garanteed that there is only one tournament that can run at the same time.
         '''
 
