@@ -144,14 +144,15 @@ let reset_endgame_messages = function () {
   document.getElementById("winner").style.display = "none";
   document.getElementById("loser").style.display = "none";
   document.getElementById("crash").style.display = "none";
+  document.getElementById("finish").style.display = "none";
 }
 
 let loadEndGame = function (data) {
-  // console.log('end is: ' + getEndInfo().endState);
-  // console.log('loadEndGame :: data : ' + data)
-  // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
+  console.log('end is: ' + data.endState);
+  console.log('loadEndGame :: data : ' + data)
+  console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
   console.log('-=-= loadEndGame :: data.winingTeam : ' + data.winingTeam);
-  // reset_endgame_messages();
+  reset_endgame_messages();
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
@@ -163,14 +164,19 @@ let loadEndGame = function (data) {
   console.log("winnerID : " + winnerID)
   console.log("winner : " + winner)
   console.log("user_is_winner : " + user_is_winner)
+  // if (local.game && !== crash)
+  //    "C FINI!!!"
   if (data.endState === 'crash' || winnerID == undefined){
     console.log('*****crash');
     document.getElementById("crash").style.display = "block";
   }
-  else if (user_is_winner) {
-
+  else if (user_is_winner ) {
     console.log('**win');
     document.getElementById("winner").style.display = "block";
+  }
+  else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
+    console.log('LOCAL GAME');
+    document.getElementById("finish").style.display = "block";
   }
   else if (data.endState !== 'crash'){
     console.log('***lose', namePlayer1);
