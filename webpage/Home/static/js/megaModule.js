@@ -1,5 +1,6 @@
 
 var gameSockID = null;
+var gameEventID = null;
 var gameWebSockPath = null;
 var gameWebSock = null;
 
@@ -102,6 +103,7 @@ let _connect_to_game_socket = function (gameWebSockPath) {
     return sock;
 }
 
+
 let _prepare_websocket = function (ws) {
     console.log('PREPARING WEBSOCKET')
     gameWebSock = ws;
@@ -178,7 +180,12 @@ let loadMegaModule = function (gameType) {
             if (gameData.gameMode === 'Tournament')
             {
                 console.log('Tournament mode activated');
+                tourWebSockID = gameData.tourSockID;
+                tourWebSockPath = _build_tour_ws_path(tourWebSockID);
+                tournamentWebSock = _connect_to_tour_socket(tourWebSockPath)
+                _prepare_tour_websocket(tournamentWebSock);
                 isTournament = true;
+                update_tournament_brackets();
             }
             else {
                 isTournament = false;
@@ -190,7 +197,6 @@ let loadMegaModule = function (gameType) {
             loadModule('lobby');
 
             console.log('Before update_tournament_brackets()');
-            update_tournament_brackets();
             return _connect_to_game_socket(gameWebSockPath);
         })
         .then(function (gameWebSock) {

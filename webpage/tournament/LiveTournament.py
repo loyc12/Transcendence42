@@ -1,9 +1,10 @@
 import sys
-from game.MatchMaker import LobbyGame, LobbyPlayer
+from asgiref.sync import sync_to_async
+from game.MatchMaker import LobbyGame
 from users.models import User
 from tournament.models import Tournament
-from tournament.consumers import TournamentConnector
-from asgiref.sync import sync_to_async
+# from game.apps import GameConfig as app
+
 
 
 def eprint(*args):
@@ -21,14 +22,19 @@ class LiveTournament:
     @classmethod
     def set_gameconnector_initializer(cls, gameConnectorClass):
         if not cls.gameConnectorFactory:
-            cls.gameManager = gameConnectorClass
+            cls.gameConnectorFactory = gameConnectorClass
     @classmethod
     def set_gamemanager_initializer(cls, gameManagerRef):
         if not cls.gameManager:
             cls.gameManager = gameManagerRef
+    @classmethod
+    def get_id(cls):
+        cls.__id_counter += 1
+        return cls.__id_counter
 
-    def __init__(self, tconn, initLobbyGame: LobbyGame):
+    def __init__(self, tconn, initLobbyGame: LobbyGame, match_maker):
 
+        self.__match_maker = match_maker
         self.__id = self.get_id()
         self.__tconn = tconn
 
@@ -40,11 +46,8 @@ class LiveTournament:
         self._groupC: LobbyGame = None
 
 
-
-    @classmethod
-    def get_id(cls):
-        cls.__id_counter += 1
-        return cls.__id_counter
+    def __contains__(self, user: User):
+        return user in self.__init_lobby
 
     @property
     def init_lobby(self):
@@ -71,16 +74,21 @@ class LiveTournament:
     # def add_member(self, user: User):
     #     self.tournament.add_member(user)
 
+    def build_match_maker_form(self, eventID, groupID):
+        return {
+            'gameMode': 'Multiplayer',
+            'gameType': 'Pong',
+            'withAI': False,
+            'eventID': eventID + groupID,
+        }
+
     @sync_to_async
     def setup_game_lobbies_start(self):
         if not self.__init_lobby:
             raise ValueError('LiveTournament trying to setup_game_lobbies_start() while not initLobby exist')
-        formStage1 = {
-            'gameMode': 'Multiplayer',
-            'gameType': 'Pong',
-            'withAI': False,
-            'eventID': 0,
-        }
+        formStage1A = self.build_match_maker_form(self.__id, 'A')
+        formStage1B = self.build_match_maker_form(self.__id, 'B')
+
         plys = self.__init_lobby.players
 
         # if len(plys) != 2:
@@ -93,47 +101,62 @@ class LiveTournament:
 
         players = self.__init_lobby.players
 
+        for ply in players[:2]:
+            self._groupA = self.__match_maker.join_lobby(ply.user, formStage1A)
+        for ply in players[2:]:
+            self._groupB = self.__match_maker.join_lobby(ply.user, formStage1B)
+
         eprint('GroupA players: ', players[:2])
         eprint('GroupB players: ', players[2:])
 
-        # Do sophisticated Player Matching
-        self._groupA = LobbyGame(formStage1, players[:2])
-        self._groupB = LobbyGame(formStage1, players[2:])
-
         ## ... Start both tournament games
-        self.tournament.addGroupAGame(self._groupA)
-        self.tournament.addGroupBGame(self._groupB)
-        self.tournament.declare_started()
+        # self.tournament.addGroupAGame(self._groupA)
+        # self.tournament.addGroupBGame(self._groupB)
+        # self.tournament.declare_started()
+
+        # self.__tconn.send_connect_msg(self._groupA)
+        # self.__tconn.send_connect_msg(self._groupB)
+        
+        ### send_connect_msg() called just after return from this function on for both games.
         return (self._groupA, self._groupB)
 
-
-
-    async def connect_player(self, user: User, consumer):
+    def get_player_game(self, user: User):
+        lgame = None
 
         if self._groupA and user in self._groupA:
             lgame = self._groupA
-            lply = LobbyPlayer(user, is_connected=True, is_ready=True)
-            self._groupA.add_player(lply)
         elif self._groupB and user in self._groupB:
             lgame = self._groupB
         elif self._groupC and user in self._groupC:
             lgame = self._groupC
-        else:
-            raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
+        # else:
+        #     raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
+        return lgame
+    
 
-        sockID = lgame.sockID
-        if not lgame.game_connector:
-            gconn = self.gameConnectorFactory(sockID)
-            lgame.set_game_connector(gconn)
-            gconn.set_lobby_game(lgame)
-        else:
-            gconn = lgame.game_connector
+    # async def connect_player(self, user: User, consumer):
+
+    #     if self._groupA and user in self._groupA:
+    #         lgame = self._groupA
+    #     elif self._groupB and user in self._groupB:
+    #         lgame = self._groupB
+    #     elif self._groupC and user in self._groupC:
+    #         lgame = self._groupC
+    #     else:
+    #         raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
+
+    #     # if not lgame.game_connector:
+        #     gconn = self.gameConnectorFactory(lgame.sockID)
+        #     lgame.set_game_connector(gconn)
+        #     gconn.set_lobby_game(lgame)
+        # else:
+        #     gconn = lgame.game_connector
 
 
-        await gconn.connect_player(consumer.user, consumer, is_tournament_stage1=True)
-        await gconn.send_init_state(self.gameManager.getInitInfo(lgame.gameType))
+        # await gconn.connect_player(consumer.user, consumer, is_tournament_stage=True)
+        # await gconn.send_init_state(self.gameManager.getInitInfo(lgame.gameType))
 
-
+        # await self.__tconn.send_brackets(self.get_brackets_info())
 
 
     def __get_bracket_template(self):
