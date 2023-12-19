@@ -37,7 +37,7 @@ let _http_join_request = async function (payload) {
   console.log('csrftoken : ' + csrftoken)
   console.log('csrf from query selector : ' + document.querySelector('[name=csrfmiddlewaretoken]').value);
 
-  return fetch('http://' + window.location.host + '/game/join/', {
+  return fetch('https://' + window.location.host + '/game/join/', {
       method: "POST",
       body: JSON.stringify(payload),
       credentials: 'same-origin',

@@ -54,6 +54,7 @@ let update_local_2p_info = function (player_info) {
   document.getElementById("namePlayer2").innerHTML = "Guest";
 }
 
+
 let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
@@ -69,6 +70,7 @@ let update_player_info = function (player_info_list) {
     update_local_1p_info(player_info_list[0]);
   else if (currentGameType === 'Local_2p')
     update_local_2p_info(player_info_list[0]);
+
   else {
     console.log("update_player_info info CALLED.");
     let i = 0;
@@ -140,14 +142,15 @@ let reset_endgame_messages = function () {
   document.getElementById("winner").style.display = "none";
   document.getElementById("loser").style.display = "none";
   document.getElementById("crash").style.display = "none";
+  document.getElementById("finish").style.display = "none";
 }
 
 let loadEndGame = function (data) {
-  // console.log('end is: ' + getEndInfo().endState);
-  // console.log('loadEndGame :: data : ' + data)
-  // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
+  console.log('end is: ' + data.endState);
+  console.log('loadEndGame :: data : ' + data)
+  console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
   console.log('-=-= loadEndGame :: data.winingTeam : ' + data.winingTeam);
-  // reset_endgame_messages();
+  reset_endgame_messages();
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
@@ -159,20 +162,39 @@ let loadEndGame = function (data) {
   console.log("winnerID : " + winnerID)
   console.log("winner : " + winner)
   console.log("user_is_winner : " + user_is_winner)
+
   if (data.endState === 'crash' || winnerID == undefined){
     console.log('*****crash');
     document.getElementById("crash").style.display = "block";
   }
-  else if (user_is_winner) {
-
+  else if (user_is_winner ) {
     console.log('**win');
     document.getElementById("winner").style.display = "block";
+    if (isTournament){
+      console.log('** win - next game');
+      document.getElementById("gameButtonA").style.display = "block";
+    }
+
+  }
+  else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
+    console.log('LOCAL GAME');
+    document.getElementById("finish").style.display = "block";
   }
   else if (data.endState !== 'crash'){
     console.log('***lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
   }
   disconnect_socket();
+}
+
+let signal_final_game = function() {
+  // let payload = {
+  //   'ev': 'final'
+  // }
+  // console.log('Sending payload : ' + payload);
+  // gameWebSock.send(JSON.stringify(payload));
+  // console.log('Payload sent.');
+  console.log('load final game.');
 }
 
 

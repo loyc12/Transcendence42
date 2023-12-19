@@ -4,7 +4,7 @@ FROM python:3.10-alpine3.18
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual .build-deps \
     curl \
-    ca-certificates gcc \
+    gcc \
     postgresql-dev postgresql-client \
     linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev \
@@ -31,3 +31,4 @@ EXPOSE 3000
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
 CMD [ "pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:3000"]
+

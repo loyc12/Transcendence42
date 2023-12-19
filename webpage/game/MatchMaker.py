@@ -331,7 +331,7 @@ class MatchMaker:
         if lgame:
             if user in lgame:
                 raise MatchMakerWarning(f'User {user.login} tried to join a game twice. Stop that !')
-            if lgame.gameMode == 'Tournament' and lgame.is_full:
+            if lgame.is_tournament and lgame.is_full:
                 raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
 
             # Game should be fully validated at this point
