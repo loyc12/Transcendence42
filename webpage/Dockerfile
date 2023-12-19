@@ -4,14 +4,12 @@ FROM python:3.10-alpine3.18
 RUN apk update && apk upgrade
 RUN apk add --no-cache --virtual .build-deps \
     curl \
-    ca-certificates gcc \
+    gcc \
     postgresql-dev postgresql-client \
     linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev \
     g++\
-    redis\
-    openssl\
-    step-cli
+    redis
 
 WORKDIR /app
 
@@ -19,9 +17,6 @@ COPY Pipfile .
 
 RUN pip install --upgrade pip
 RUN pip3 install pipenv
-
-# CERT + KEY +  self-signed SSL certificate
-RUN openssl req -x509 -nodes -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=yourdomain.com"
 
 # installs all packages from Pipfile.lock
 RUN pipenv update

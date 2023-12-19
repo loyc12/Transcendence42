@@ -1,58 +1,78 @@
 version: '3.5'
 services:
 
-  django:
-    container_name: "django_backend"
+  nginx:
+    container_name: "nginx_proxy"
     restart:  on-failure
-    depends_on:
-      - postgres
-
     env_file:
       - .env
 
     build:
-      context: ./webpage
+      context: ./nginx
       dockerfile: ./Dockerfile
     ports:
-      - "3000:3000"
+      - "80:80"
+      - "443:443"
     networks:
       trans_net:
-        ipv4_address: 192.130.0.3
-    volumes:
-      - django_game_vol:/app/game
-      - django_home_vol:/app/Home
-      - django_gateway_vol:/app/NetworkGateway
+        ipv4_address: 192.130.0.5
+    # volumes:
+    #   - nginx_certs_vol:/etc/nginx/ssl
+
+#   django:
+#     container_name: "django_backend"
+#     restart:  on-failure
+#     depends_on:
+#       - postgres
+
+#     env_file:
+#       - .env
+
+#     build:
+#       context: ./webpage
+#       dockerfile: ./Dockerfile
+#     ports:
+#       - "3000:3000"
+#     networks:
+#       trans_net:
+#         ipv4_address: 192.130.0.3
+#     volumes:
+#       - django_game_vol:/app/game
+#       - django_home_vol:/app/Home
+#       - django_gateway_vol:/app/NetworkGateway
 
 
-  postgres:
-    container_name: "postgres_db"
-    image: postgres:alpine3.18
-    restart:  always
-    env_file:
-      - .env
-    environment:
-      - PGDATA=/var/lib/postgres/data
-#    ports: DO_NOT_REMOVE -> Pour exposition public (potentiel)
-#      - 5432:5432
-    volumes:
-      - postgres_volume:/var/lib/postgres
-    networks:
-      trans_net:
-        ipv4_address: 192.130.0.2
+#   postgres:
+#     container_name: "postgres_db"
+#     image: postgres:alpine3.18
+#     restart:  always
+#     env_file:
+#       - .env
+#     environment:
+#       - PGDATA=/var/lib/postgres/data
+# #    ports: DO_NOT_REMOVE -> Pour exposition public (potentiel)
+# #      - 5432:5432
+#     volumes:
+#       - postgres_volume:/var/lib/postgres
+#     networks:
+#       trans_net:
+#         ipv4_address: 192.130.0.2
 
-  redis:
-    container_name: "redis_cache"
-    build:
-      context: ./redis
-      dockerfile: ./Dockerfile
-    restart:  always
-    env_file:
-      - .env
-    #volumes:
-    #  - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
-    networks:
-      trans_net:
-        ipv4_address: 192.130.0.4
+#   redis:
+#     container_name: "redis_cache"
+#     build:
+#       context: ./redis
+#       dockerfile: ./Dockerfile
+#     restart:  always
+#     env_file:
+#       - .env
+#     #volumes:
+#     #  - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+#     networks:
+#       trans_net:
+#         ipv4_address: 192.130.0.4
+
+
 
   # nginx:
   # container_name: "nginx_proxy"
@@ -80,6 +100,12 @@ networks:
           gateway: 192.130.0.1
 
 volumes:
+  # nginx_certs_vol:
+  #   driver: local
+  #   driver_opts:
+  #     o: bind
+  #     type: none
+  #     device: "${PWD}/nginx/ssl"
   postgres_volume:
     driver: local
     driver_opts:
