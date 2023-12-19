@@ -164,8 +164,7 @@ let loadEndGame = function (data) {
   console.log("winnerID : " + winnerID)
   console.log("winner : " + winner)
   console.log("user_is_winner : " + user_is_winner)
-  // if (local.game && !== crash)
-  //    "C FINI!!!"
+
   if (data.endState === 'crash' || winnerID == undefined){
     console.log('*****crash');
     document.getElementById("crash").style.display = "block";
@@ -173,6 +172,11 @@ let loadEndGame = function (data) {
   else if (user_is_winner ) {
     console.log('**win');
     document.getElementById("winner").style.display = "block";
+    if (isTournament){
+      console.log('** win - next game');
+      document.getElementById("gameButtonA").style.display = "block";
+    }
+
   }
   else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
     console.log('LOCAL GAME');
@@ -183,6 +187,16 @@ let loadEndGame = function (data) {
     document.getElementById("loser").style.display = "block";
   }
   disconnect_socket();
+}
+
+let signal_final_game = function() {
+  // let payload = {
+  //   'ev': 'final'
+  // }
+  // console.log('Sending payload : ' + payload);
+  // gameWebSock.send(JSON.stringify(payload));
+  // console.log('Payload sent.');
+  console.log('load final game.');
 }
 
 
