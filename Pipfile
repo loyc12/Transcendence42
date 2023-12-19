@@ -3,13 +3,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-<<<<<<< HEAD
-=======
 [packages]
 django-oauth-toolkit = "*"
 django-cors-headers = "*"
 
->>>>>>> IM
 [dev-packages]
 
 [requires]
