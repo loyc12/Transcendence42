@@ -29,7 +29,7 @@ def game_join(request):
         the game_join() view.
     '''
     if request.method != 'POST':
-        return JsonResponse(_build_error_payload('A request to send a game requires a POST request with a properly fromated body.'), status=400)
+        return JsonResponse(_build_error_payload('A request to send a game requires a POST request with a properly formated body.'), status=400)
         #return HttpResponse('A request to send a game requires a POST request with a properly fromated body.', status=400)
     
     print('RECEIVED POST : ', request.POST)

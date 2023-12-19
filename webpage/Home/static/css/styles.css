@@ -82,11 +82,11 @@ body.skip-nav:focus {
 }
 
 /* maybe don't need it anymore */
-.main-canvas, .game-canvas {
+/* .main-canvas, .game-canvas {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+} */
 
 
 #lobby canvas {
@@ -153,6 +153,12 @@ body.skip-nav:focus {
     color: #f0ffff;
     height: 90vh;
 
+}
+
+.gameCanvas {
+    min-height: 800px;
+    min-width: 800px;
+    max-height: 1024px;
 }
 
 /* -- END -- GAME CSS -- */
