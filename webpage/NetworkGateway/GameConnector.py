@@ -27,7 +27,7 @@ class GameConnector:
         self.__player_consumers: dict[int, GameConsumer] = dict()
         self.__game_lock = asyncio.Lock()
         self.__events_lock = asyncio.Lock()
-        self.lobby_game = None # Returned after connecting to MatchMaker
+        self.__lobby_game = None # Returned after connecting to MatchMaker
         self.__events = asyncio.Queue()
         self.__scores: list = []
 
@@ -48,17 +48,17 @@ class GameConnector:
         return self.__gameDB.id
     @property
     def lobby_game(self):
-        return self.lobby_game
+        return self.__lobby_game
     @property
     def is_tournament_game(self):
-        return self.lobby_game.is_tournament_game
+        return self.__lobby_game.is_tournament_game
 
 
     #  SETTER  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     def set_lobby_game(self, lgame):
-        if self.lobby_game and lgame != self.lobby_game:
-            GameConnectorError('Trying to set game_connector.lobby_game to different game. lobby_game can only be set once.')
-        self.lobby_game = lgame
+        if self.__lobby_game and lgame != self.__lobby_game:
+            GameConnectorError('Trying to set game_connector.__lobby_game to different game. lobby_game can only be set once.')
+        self.__lobby_game = lgame
     def set_game_db_instance(self, game: Game):
         if not (game and isinstance(game, Game)):
             raise TypeError('Trying to set game instance to game connector, but object passed is not a Game model type.')
@@ -121,7 +121,8 @@ class GameConnector:
             )
     # CONNECTION//DECONNECTION EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # CONNECTION
-    async def connect_player(self, user, consumer, is_tournament_stage=False):
+    async def connect_player(self, user, consumer):
+        print("GameConnector :: entered connect_player()")
         async with self.__game_lock:
             if user.id in self.__player_consumers:
                 raise ValueError('Trying to add player to same game connector twice.')
@@ -130,13 +131,14 @@ class GameConnector:
             self.__sockID,
             consumer.channel_name
         )
-        if not is_tournament_stage:
-            await self._send_players_list()
+        #if not is_tournament_stage:
+        print("GameConnector :: trying to self.send_players_list()")
+        await self._send_players_list()
 
     # DECONNECTION
     async def disconnect_player(self, user):
         print(f'GameConnector :: ENTER disconnect player')
-        if not self.lobby_game:
+        if not self.__lobby_game:
             return None
         async with self.__game_lock:
             if user.id not in self.__player_consumers:
@@ -164,7 +166,7 @@ class GameConnector:
     async def _send_players_list(self):
         async with self.__game_lock:
             # Players list from lobby_game
-            players = self.lobby_game.players
+            players = self.__lobby_game.players
         # Payload to send to all players
         payload = [ { 'login': ply.user.login, 'img': ply.user.img_link, 'ready': ply.is_ready }
             for ply in players ]

@@ -61,6 +61,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
     #     await self.send(text_data=event['brackets'])
 
     async def tour_send_brackets(self, event):
+        print('TournamentConsumer :: tour_send_brackets entered' )
         await self.send(text_data=event['brackets'])
 
 

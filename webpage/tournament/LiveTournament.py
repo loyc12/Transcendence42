@@ -121,7 +121,7 @@ class LiveTournament:
         return (self._groupA, self._groupB)
 
     def get_player_game(self, user: User):
-        lgame = None
+        lgame = self.__init_lobby
 
         if self._groupA and user in self._groupA:
             lgame = self._groupA
@@ -234,13 +234,13 @@ class LiveTournament:
                 brackets['groupC']['winner2']['won'] = True
 
         if len(plys_list) > 0:
-            brackets['groupA']['p1']['login'] = plys_list[0].login
+            brackets['groupA']['p1']['login'] = plys_list[0].user.login
         elif len(plys_list) > 1:
-            brackets['groupA']['p2']['login'] = plys_list[1].login
+            brackets['groupA']['p2']['login'] = plys_list[1].user.login
         elif len(plys_list) > 2:
-            brackets['groupB']['p3']['login'] = plys_list[2].login
+            brackets['groupB']['p3']['login'] = plys_list[2].user.login
         elif len(plys_list) > 3:
-            brackets['groupB']['p4']['login'] = plys_list[3].login
+            brackets['groupB']['p4']['login'] = plys_list[3].user.login
 
         return brackets
 

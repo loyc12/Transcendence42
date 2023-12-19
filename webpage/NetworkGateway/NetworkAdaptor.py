@@ -82,23 +82,35 @@ class GameGateway(BaseGateway):
         return (True, lobby_game)
 
 
+
     async def connect_player(self, sockID, consumer):
         ''' Called by websocket consumer connect() method. '''
+
+        eprint('\n\n GameGateway :: connect_player() entered ')
         if not (self.__game_manager or self.__match_maker):
             raise ValueError('MatchMaker and GameManager must be set before accepting connections.')
 
         #gconn = await self.__get_game_connector(sockID)
         #await gconn.add_player(consumer.user, consumer)
+        eprint('\n\n GameGateway :: connect_player() before entering lock. ')
+
         is_tournament_stage = False
         async with self.__gateway_lock:
+            eprint('Entered lock')
             if self._live_tournament and consumer.user in self._live_tournament:
+                eprint('User is member of live tournament and live tournament exists.')
                 lobby_game = self._live_tournament.get_player_game(consumer.user)
                 is_tournament_stage = True
                 # await self._live_tournament.connect_player(consumer.user, consumer)
             else:
+                eprint('User is NOT member of live tournament.')
                 lobby_game = self.__match_maker.connect_player(consumer.user)
+            eprint('Exit lock')
         if not lobby_game:
             raise GameGatewayException(f'User {consumer.user} connection to game FAILED !')
+
+        eprint('GameGateway :: connect_player() :: self._live_tournament : ', self._live_tournament)
+
 
         ## Get or create game_connector
         if not lobby_game.game_connector:
@@ -108,17 +120,33 @@ class GameGateway(BaseGateway):
         else:
             gconn = lobby_game.game_connector
 
-        await gconn.connect_player(consumer.user, consumer, is_tournament_stage=is_tournament_stage)
+        eprint('GameGateway :: connect_player() :: gconn : ', gconn)
+        eprint('GameGateway :: connect_player() :: gconn.connect_player() and send_init_state()')
+
+        await gconn.connect_player(consumer.user, consumer)#, is_tournament_stage=is_tournament_stage)
         await gconn.send_init_state(self.__game_manager.getInitInfo(lobby_game.gameType))
 
         ## Get or Create tournament connector (if is tournament), and send brackets.
         if lobby_game.is_tournament:
-            if not lobby_game.tour_connector:
+
+            ## Init TournamentConnector
+            if lobby_game.tour_connector:
+                tconn = lobby_game.tour_connector
+            else:
                 tconn = TournamentConnector(lobby_game)
                 lobby_game.set_tour_connector(tconn)
-            else:
-                tconn = lobby_game.tour_connector
-            tconn.send_brackets()
+                eprint('connect_player : lobby_game tconn after setting it : ', lobby_game.tour_connector)
+                eprint('connect_player : INITIALIZING live_tournament with sockID : ', lobby_game.tourID)
+
+            ## Init LiveTournament
+            if lobby_game.is_full:
+                raise GameGatewayException('Cannot join the tournament. It it full.')
+            async with self.__gateway_lock:
+                if not self._live_tournament:
+                    self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
+
+                eprint('TRY SENDING BRACKETS INFO')
+                await tconn.send_brackets(self._live_tournament.get_brackets_info())
 
         return gconn
 
@@ -141,6 +169,7 @@ class GameGateway(BaseGateway):
             raise GameGatewayException('Trying to connect player to tournament but there is no tournament lobby open.')
         eprint('connect_player : lobby_game.is_tournament : YES ')
 
+        ## Init TournamentConnector
         if lobby_game.tour_connector:
             tconn = lobby_game.tour_connector
         else:
@@ -148,11 +177,24 @@ class GameGateway(BaseGateway):
             lobby_game.set_tour_connector(tconn)
             eprint('connect_player : INITIALIZING live_tournament with sockID : ', lobby_game.tourID)
 
+        ## Init LiveTournament
         async with self.__gateway_lock:
+            # if lobby_game.is_full:
+            #     raise GameGatewayException('Cannot join the tournament. It it full.')
             if not self._live_tournament:
-                self._live_tournament = LiveTournament(tconn, lobby_game)
-        if not self._live_tournament:
-            raise GameGatewayException('Trying to connect to tournament without active tournament running.')
+                self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
+            
+        # async with self.__gateway_lock:
+        #     if not self._live_tournament:
+        #         self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
+        
+        # async with self.__gateway_lock:
+        #     print('connect_to_tournament :: Current Lobby Game : ', self._live_tournament)
+        #     if not self._live_tournament:
+        #         raise GameGatewayException('Trying to connect to tournament without active tournament running.')
+        
+        tconn = self._live_tournament.connector
+
 
         eprint('LiveTournament after player connect : ', self._live_tournament)
         brackets = self._live_tournament.get_brackets_info()
@@ -364,7 +406,8 @@ class GameGateway(BaseGateway):
 
 
         # TODO: TOURNAMENT END GAME MANAGMENT
-        if gconn.is_tournament:
+        if gconn.is_tournament_game:
+            eprint('GameGateway :: managing end game while gconn.is_tournament_game is TRUE.')
             end_game_state['is_tournament'] = True
             
 

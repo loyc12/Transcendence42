@@ -76,8 +76,8 @@ class LobbyGame:
         return "sock{:06d}".format(self.__id)
     @property
     def tourID(self):
-        if not self.__tour_connector:
-            return None
+        # if not self.__tour_connector:
+        #     return None
         return f'Tour_{self.sockID}'
     @property
     def form(self):
@@ -132,7 +132,7 @@ class LobbyGame:
         return self.gameMode == 'Tournament'
     @property
     def is_tournament_game(self):
-        return bool(self.eventID)
+        return self.eventID != '0' 
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn

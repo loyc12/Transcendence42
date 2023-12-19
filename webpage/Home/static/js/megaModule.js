@@ -180,8 +180,10 @@ let loadMegaModule = function (gameType) {
             if (gameData.gameMode === 'Tournament')
             {
                 console.log('Tournament mode activated');
+                console.log('Tournament socket ID : ' + gameData.tourSockID);
                 tourWebSockID = gameData.tourSockID;
                 tourWebSockPath = _build_tour_ws_path(tourWebSockID);
+                console.log('Tournament socket path : ' + tourWebSockPath);
                 tournamentWebSock = _connect_to_tour_socket(tourWebSockPath)
                 _prepare_tour_websocket(tournamentWebSock);
                 isTournament = true;

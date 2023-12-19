@@ -104,10 +104,10 @@ class TournamentConnector:
 
 
     async def send_brackets(self, brackets_info):
-
+        print('TournamentConnector :: end_brackets() entered')
         payload = json.dumps({
             'ev': 'brackets',
-            'info': brackets_info
+            'brackets': brackets_info
         })
         await self.__channel_layer.group_send(
             self.sockID,

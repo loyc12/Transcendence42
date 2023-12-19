@@ -9,7 +9,7 @@ let _on_tour_event = function(event) {
     if (data.ev === 'connect') {
         console.log('User received message from server after websocket connection : ' + data.msg);
     }
-    elif (data.ev === 'game_connect') {
+    else if (data.ev === 'game_connect') {
         console.log('Client Received Game connection order from tournament socket')
         reset_default_lobby();
         gameType = data.form.gameType;
@@ -21,9 +21,13 @@ let _on_tour_event = function(event) {
         gameWebSock = _connect_to_game_socket(gameWebSockPath);
         _prepare_websocket(gameWebSock);
     }
+    else if (data.ev === 'brackets') {
+        console.log('WoOoW ! received tournament brackets info : ' + data.brackets)
+    }
 }
 
-let _build_tour_ws_path = function(sockID) {
+// let _build_tour_ws_path = function(sockID) {
+function _build_tour_ws_path(sockID) {
     return 'ws://' + window.location.host + '/tournament/ws/' + sockID + '/';
 }
 
@@ -43,12 +47,11 @@ let _connect_to_tour_socket = function (tourWebSockPath) {
 let _on_server_side_tour_disconnect = function(e) {
     console.error('The server disconnecter USER');
     console.log('Server closed USER websocket connection. Current socket readyState : ');
-    user_id = null;
+    // user_id = null;
 };
 
 let _prepare_tour_websocket = function (ws) {
     console.log('PREPARING WEBSOCKET')
-    userWebSock = ws;
     ws.onmessage = _on_tour_event;
     ws.onclose = _on_server_side_tour_disconnect;
     //... Might be more initialisation latter ...
