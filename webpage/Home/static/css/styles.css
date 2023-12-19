@@ -155,6 +155,11 @@ body.skip-nav:focus {
 
 }
 
+.gameCanvas {
+    min-height: 800px;
+    min-width: 800px;
+}
+
 /* -- END -- GAME CSS -- */
 
 
