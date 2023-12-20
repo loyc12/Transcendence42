@@ -54,8 +54,11 @@ class LiveTournament:
         return self.__init_lobby
 
     @property
+    def first_stage_started(self):
+        return self._groupA and self._groupB
+    @property
     def is_first_stage(self):
-        return self._groupC is None
+        return self.first_stage_started and self._groupC is None
     @property
     def is_second_stage(self):
         return self._groupC is not None
@@ -141,6 +144,15 @@ class LiveTournament:
         lply = lgame.get_player(user)
         lply.is_connected = True
         return lgame
+
+    def disconnect_player(self, user: User):
+        self.__match_maker.remove_player(user)
+        lgame = self.get_player_game(user)
+        if lgame:
+            lgame.remove_user(user)
+            if lgame.game_connector:
+                lgame.game_connector.disconnect_player(user)
+
 
     # async def connect_player(self, user: User, consumer):
 

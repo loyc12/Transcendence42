@@ -18,6 +18,6 @@ echo 'SUCCESSFULLY CONNECTED TO REDIS CACHE SERVER FROM DJANGO !!' >> db_conn.lo
 
 pipenv run python3 manage.py makemigrations
 pipenv run python3 manage.py migrate
-pipenv run python3 manage.py collectstatic
+pipenv run python3 manage.py collectstatic --noinput --clear
 
 exec $@

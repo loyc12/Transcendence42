@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import HttpResponse, render 
+from django.shortcuts import HttpResponse, render
 from game.models import Game, Player, User
 from game.forms import GameCreationForm
 from game.apps import GameConfig as app
@@ -25,13 +25,13 @@ def _build_error_payload(msg):
 def game_join(request):
     '''
         The game request process in the frontend should result in
-        a json struct sent as body to an endpoint landing on 
+        a json struct sent as body to an endpoint landing on
         the game_join() view.
     '''
     if request.method != 'POST':
         return JsonResponse(_build_error_payload('A request to send a game requires a POST request with a properly formated body.'), status=400)
         #return HttpResponse('A request to send a game requires a POST request with a properly fromated body.', status=400)
-    
+
     print('RECEIVED POST : ', request.POST)
     print('RECEIVED POST BODY : ', request.body)
     jsonform = json.loads(request.body)
@@ -42,8 +42,8 @@ def game_join(request):
 
 
     form = GameCreationForm(jsonform)
-    print('Form : \n', form)
-    print('Form Errors : \n', form.errors)
+    # print('Form : \n', form)
+    # print('Form Errors : \n', form.errors)
     if not form.is_valid():
         return JsonResponse(_build_error_payload('Trying to create a game, but either no game creation form was sent or is missing fields.'), status=400)
         #return HttpResponse('Trying to create a game, but either no game creation form was sent or is missing fields.', status=400)
@@ -63,7 +63,7 @@ def game_join(request):
     #     asyncio.set_event_loop(loop)
     #     res = loop.run_until_complete(game_gateway.join_game(request.user, form.cleaned_data))
     #     # res = asyncio.run(game_gateway.join_game(request.user, form.cleaned_data))
-        
+
     # if not res[0]:
     #   return JsonResponse(_build_error_payload(res[1]), status=400)
 
@@ -76,7 +76,7 @@ def game_join(request):
         lobby_game = mm.join_lobby(request.user, form.cleaned_data)
     except MatchMakerWarning as w:
         return JsonResponse(_build_error_payload(str(w)), status=400)
-    
+
     if not lobby_game:
         return JsonResponse(_build_error_payload('Joining game lobby failed.'), status=400)
         #return HttpResponse('Joining game lobby failed.', status=400)
@@ -93,6 +93,6 @@ def game_join(request):
     if lobby_game.is_tournament:
         print('game views :: lobby_game is tournament and tourSockID is : ', lobby_game.tourID)
         payload['tourSockID'] = lobby_game.tourID #'Tour_' + payload['sockID']
-    
+
     return JsonResponse(payload)
 
