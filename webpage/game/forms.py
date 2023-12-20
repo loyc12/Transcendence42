@@ -1,9 +1,5 @@
 from django import forms
 
-# Formulaire envoyer dans le frontend pour creer une game, prend les donnees json[]
-# Formulaire cree dans game/views
-# Pas a jour (IMGE comme ref)
-#COLLE
 class GameCreationForm(forms.Form):
 #    your_name = forms.CharField(label="Your name", max_length=100)
     gameMode = forms.CharField(label='gameMode', max_length=16, required=True)

@@ -193,12 +193,8 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-
-#REMOTE_DIR = Path(__file__).resolve().parent.parent
-
 # STATIC FILES SETTINGS
 STATIC_URL = "/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, "static_deploy")
 STATIC_ROOT = os.path.join(BASE_DIR, "ext/static_deploy")
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -210,7 +206,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ### SESSIONS SETTINGS
 SESSION_ENGINE = 'redis_sessions.session'
-#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 SESSION_REDIS = {
     'host': ENV_FILE['REDIS_HOST'],
@@ -244,7 +239,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-# COMPRESSOR SETTINGS NOT WORKING FOR NOW
 COMPRESS_ENABLED = False
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
@@ -253,12 +247,3 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.JSMinFilter',
 ]
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
