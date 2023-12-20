@@ -188,6 +188,10 @@ let loadEndGame = function (data) {
     console.log('***lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
   }
+  else if (data.endState === 'wallOfShame'){
+    console.log('***wallOfShame');
+    document.getElementById("wallofshame").style.display = "block";
+  }
   disconnect_socket();
 }
 
