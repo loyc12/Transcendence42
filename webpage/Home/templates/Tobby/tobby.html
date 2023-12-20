@@ -1,4 +1,4 @@
-{% block tobby %}
+{% block lobby %}
 	<div class="tobby"  id="tobby" style="display: none;">
 		<div class="row align-items-center">
 			<div class="col-xl-3 col-md-9 d-flex justify-content-center">
@@ -59,9 +59,9 @@
 			<!-- TOURNAMENT OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
             <!-- GAME A INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-            <div id="gameFinal" class="game" style="display: none;">
+            {% comment %} <div id="gameFinal" class="game" style="display: none;">
                     <button id="TournamentButtonA"  onclick="signal_final_game()" class="btn btn-primary">Game A</button>
-            </div>
+            </div> {% endcomment %}
 
 		</div>
 	</div>

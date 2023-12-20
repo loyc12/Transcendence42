@@ -87,6 +87,8 @@ let request_join_game = async function (gameType) {
     payload = _build_join_request_payload('Multiplayer', 'Ping', false);
   } else if (gameType === 'Online_4p') {
     payload = _build_join_request_payload('Online_4p', 'Pingest', true);
+  } else if (gameType === 'tobby') {
+    payload = _build_join_request_payload('tobby', 'Pong', false);
   } else {
     throw TypeError('Trying to request join game with unimplemented gameType: ' + gameType)
   }

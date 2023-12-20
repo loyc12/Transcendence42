@@ -174,10 +174,10 @@ let loadEndGame = function (data) {
   else if (user_is_winner ) {
     console.log('**win');
     document.getElementById("winner").style.display = "block";
-    // if (isTournament){
-    //   console.log('** win - next game');
-    //   document.getElementById("TournamentButtonA").style.display = "block";
-    // }
+    if (isTournament){
+      console.log('** win - next game');
+      document.getElementById("buttonGhostLobby").style.display = "block";
+    }
 
   }
   else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
@@ -199,6 +199,8 @@ let signal_final_game = function() {
   // gameWebSock.send(JSON.stringify(payload));
   // console.log('Payload sent.');
   console.log('load final game.');
+  isGhostLobby = true;
+  document.getElementById("buttonGhostLobby").style.display = "none";
+  document.getElementById("tobby").style.display = "block";
+  loadModule('tobby');
 }
-
-
