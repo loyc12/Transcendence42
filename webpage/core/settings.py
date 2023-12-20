@@ -111,7 +111,7 @@ CSRF_TRUSTED_ORIGINS = ['https://' + ENV_FILE['DJANGO_HOST']]
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 
 # PATHS BUILDING - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

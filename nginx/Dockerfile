@@ -5,7 +5,6 @@ RUN apk update && apk upgrade && apk --no-cache add \
     openssl
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./html/home.html /usr/share/nginx/html/home.html
 
 RUN mkdir -p /run/nginx
 RUN mkdir -p /ext
