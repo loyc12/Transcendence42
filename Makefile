@@ -75,10 +75,10 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 
 re: down all
 
-hard_re: down db_volume_reset update all
+hard_re: down db_volume_reset all
 
 
-#	Utility functions
+#	Utility functions 
 logs:
 	docker logs $(shell docker ps -aqf "name=^django_backend")
 db_logs:
@@ -88,15 +88,13 @@ connect:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh
 db_connect:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh /app/djg_connect_to_postgres.sh
-nginx_connect:
-	docker exec -it $(shell docker ps -aqf "name=^nginx_proxy") /bin/sh
 
 migrations:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py makemigrations
 migrate:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py migrate
 flush:
-	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py flush
+	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py flush 
 
 
 superuser:
@@ -111,20 +109,12 @@ db_volume_reset:
 	docker volume rm transcendence42_postgres_volume
 #	mkdir -p $(DATA)
 
-update:
-	@git submodule update -f --init --remote
-	@cd webpage/game/PingPongRebound && git checkout master && git pull -f
-
-update_debug:
-	@git submodule update -f --init --remote
-	@cd webpage/game/PingPongRebound && git checkout beta && git pull -f
-
 
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
 
 $(GAMEMANAGER):
-	@git submodule update --init --remote
+	git submodule update --init --recursive
 
 $(GAME_SUBPATH):	$(GAMEMANAGER)
 
