@@ -88,6 +88,8 @@ connect:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh
 db_connect:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") /bin/sh /app/djg_connect_to_postgres.sh
+nginx_connect:
+	docker exec -it $(shell docker ps -aqf "name=^nginx_proxy") /bin/sh
 
 migrations:
 	docker exec -it $(shell docker ps -aqf "name=^django_backend") pipenv run python manage.py makemigrations

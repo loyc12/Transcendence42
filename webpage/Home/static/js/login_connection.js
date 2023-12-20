@@ -17,7 +17,7 @@ let _on_close_disconnect = function (event) {
 
 
 let _build_user_ws_path = function(sockID) {
-    return 'ws://' + window.location.host + '/users/ws/' + sockID + '/';
+    return 'wss://' + window.location.host + '/users/ws/' + sockID + '/';
 }
 
 let _connect_to_user_socket = function (userWebSockPath) {

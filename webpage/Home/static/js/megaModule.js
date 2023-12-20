@@ -15,7 +15,7 @@ let _send_player_keyevent = function(key) {
 
 // WEBSOCKETS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 let _get_websocket_path = function(sockID) {
-    return 'ws://' + window.location.host + '/game/ws/' + sockID + '/';
+    return 'wss://' + window.location.host + '/game/ws/' + sockID + '/';
 }
 
 
