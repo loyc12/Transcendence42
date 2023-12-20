@@ -154,9 +154,13 @@ let loadEndGame = function (data) {
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
-
+  console.log('winnerID : ' + winnerID);
   let winner = data.playerInfo[winnerID];
+
+  console.log('winner : ' + winner);
+  console.log('user_id : ' + user_id);
   let user_is_winner = (winner.playerID == user_id);
+  console.log('winner.playerID : ' + winner.playerID);
 
   console.log(" data.playerInfo : " +  data.playerInfo)
   console.log("winnerID : " + winnerID)
@@ -170,10 +174,10 @@ let loadEndGame = function (data) {
   else if (user_is_winner ) {
     console.log('**win');
     document.getElementById("winner").style.display = "block";
-    if (isTournament){
-      console.log('** win - next game');
-      document.getElementById("TournamentButtonA").style.display = "block";
-    }
+    // if (isTournament){
+    //   console.log('** win - next game');
+    //   document.getElementById("TournamentButtonA").style.display = "block";
+    // }
 
   }
   else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
