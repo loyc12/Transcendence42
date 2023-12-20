@@ -72,7 +72,7 @@ let update_player_info = function (player_info_list) {
     update_local_2p_info(player_info_list[0]);
 
   else {
-    console.log("update_player_info info CALLED.");
+    console.log("update_player_info info CALLED for online game.");
     let i = 0;
     for (ply of player_info_list) {
       imgElemID = `imgPlayer${++i}`;
@@ -83,8 +83,6 @@ let update_player_info = function (player_info_list) {
       // scoreP2 = `ply.score${nameElemID}`;
       // scoreP3 = `ply.score${nameElemID}`;
       // scoreP4 = `ply.score${nameElemID}`;
-
-
       login = ply.login;
       img = ply.img;
       ready = ply.ready;
