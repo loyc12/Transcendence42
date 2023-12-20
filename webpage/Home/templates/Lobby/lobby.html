@@ -58,13 +58,12 @@
 			</div>
 			<!-- TOURNAMENT OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 			<div class="col-xl-9 col-md-3 d-flex justify-content-center" style="margin-bottom: 20px;">
-				<div id="tournament" class="tournament" style="display: none;">
+				<div id="tournament" class="tournament" style="display: block;">
 					{% include 'Tournament/tournament.html' %}
 					<!-- GAME A INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-						<div id="gameA" class="game">
-								<button id="gameButtonA"  onclick="signal_final_game()"style="display: none; class="btn btn-primary">Game A</button>
-						</div>
-					<!-- </div> -->
+					<div id="gameA" class="game">
+							<button class="btn align-items-center" type="button" id="TournamentButtonA" onclick="signal_final_game()" style="display: block; background-color: #0E4870; color: #F0FFFF; font-size: 120px; margin: 30px;" >GO TO FINALS</button>
+					</div>
 					<!-- GAME B INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 					<!-- GAME C INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 				</div>

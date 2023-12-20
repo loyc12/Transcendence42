@@ -172,7 +172,7 @@ let loadEndGame = function (data) {
     document.getElementById("winner").style.display = "block";
     if (isTournament){
       console.log('** win - next game');
-      document.getElementById("gameButtonA").style.display = "block";
+      document.getElementById("TournamentButtonA").style.display = "block";
     }
 
   }
