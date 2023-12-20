@@ -59,7 +59,7 @@ let update_player_info = function (player_info_list) {
 
   console.log('update_player_info CALLED : ' + player_info_list);
   document.getElementById("startEngine").disabled = false;
-
+  reset_default_lobby()
   if (isTournament)
     hide_excess_player_profiles(4);
   else

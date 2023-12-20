@@ -176,9 +176,10 @@ function parseInitData (init_data) {
         alert("ERROR: initData received is missing the 'update' struct.")
     const { width, height } = init_data.sizeInfo;
     currentGameInfo = init_data;
-
     canvas.width = width;
     canvas.height = height;
+    console.log('canvas.width : ' + canvas.width);
+    console.log('canvas.height : ' + canvas.height);
 
 
     // currentGameInfo.scores = [0,0];
