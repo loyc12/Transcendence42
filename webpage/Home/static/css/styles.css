@@ -225,8 +225,8 @@ body.skip-nav:focus {
     height: 30vh;
 }
 
-.player, .score {
-    font-size: 40px;
+.score {
+    font-size: 30px;
 }
 
 .score {
@@ -252,12 +252,21 @@ body.skip-nav:focus {
 }
 
 .player {
-    min-width: 233px; /*boxes for the same size*/
-    /* width: 240px; */
-    /* box-sizing: border-box; */ /* to try... not sure those 2 lines will work.. */
+    /* min-width: 233px; boxes for the same size */
+    width: 240px;
+    box-sizing: border-box; /* to try... not sure those 2 lines will work.. */
     border: 1px solid #AAA;
     padding-left: 15px;
     background: #4cbe96;
+}
+
+.player span {
+    /* display: block; */
+    max-width: 100%; /* Set maximum width for the name */
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Show ellipsis (...) for overflow text */
+    font-size: 16px; /* Set a base font size */
 }
 
 .player.top {
@@ -311,7 +320,7 @@ body.skip-nav:focus {
     position: relative;
     top: -13px;
     left: 70px;
-    width: 100px;
+    width: 60px;
     border: 1px solid #AAA;
 }
 
