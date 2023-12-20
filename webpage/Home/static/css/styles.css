@@ -149,6 +149,7 @@ body.skip-nav:focus {
 /* -- GAME in lobby CSS -- */
 
 #game {
+    padding-left: 10%;
     background-color: #178ca8;
     color: #f0ffff;
     height: 90vh;
@@ -158,10 +159,11 @@ body.skip-nav:focus {
 }
 
 .gameCanvas {
+
     min-height: 800px;
     min-width: 800px;
     max-height: 1024px;
-    /* max-width: 2084px; */
+    max-width: 2084px;
     height: 90%;
     width: 90%;
     /* overflow: none; */
