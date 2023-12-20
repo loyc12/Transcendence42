@@ -1,5 +1,6 @@
 
 var gameSockID = null;
+var gameEventID = null;
 var gameWebSockPath = null;
 var gameWebSock = null;
 
@@ -102,6 +103,7 @@ let _connect_to_game_socket = function (gameWebSockPath) {
     return sock;
 }
 
+
 let _prepare_websocket = function (ws) {
     console.log('PREPARING WEBSOCKET')
     gameWebSock = ws;
@@ -128,7 +130,8 @@ let disconnect_socket = function() {
 }
 
 let get_default_init_state = function(gameType) {
-    console.log(allInitGameStates);
+    console.log('get_default_init_state :: gameType : ' + gameType);
+    console.log('get_default_init_state :: allInitGameStates : ' + allInitGameStates);
     if (! gameType in allInitGameStates)
         alert(`gameType ${gameType} not found in allInitGameStates`);
     else
@@ -178,7 +181,14 @@ let loadMegaModule = function (gameType) {
             if (gameData.gameMode === 'Tournament')
             {
                 console.log('Tournament mode activated');
+                console.log('Tournament socket ID : ' + gameData.tourSockID);
+                tourWebSockID = gameData.tourSockID;
+                tourWebSockPath = _build_tour_ws_path(tourWebSockID);
+                console.log('Tournament socket path : ' + tourWebSockPath);
+                tournamentWebSock = _connect_to_tour_socket(tourWebSockPath)
+                _prepare_tour_websocket(tournamentWebSock);
                 isTournament = true;
+                update_tournament_brackets();
             }
             else {
                 isTournament = false;
@@ -190,7 +200,6 @@ let loadMegaModule = function (gameType) {
             loadModule('lobby');
 
             console.log('Before update_tournament_brackets()');
-            update_tournament_brackets();
             return _connect_to_game_socket(gameWebSockPath);
         })
         .then(function (gameWebSock) {

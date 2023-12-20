@@ -91,6 +91,7 @@ def game_join(request):
 
     ### TODO: CALL GameManager to create game according to request.
     if lobby_game.is_tournament:
+        print('game views :: lobby_game is tournament and tourSockID is : ', lobby_game.tourID)
         payload['tourSockID'] = lobby_game.tourID #'Tour_' + payload['sockID']
     
     return JsonResponse(payload)

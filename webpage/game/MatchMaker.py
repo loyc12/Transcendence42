@@ -76,8 +76,8 @@ class LobbyGame:
         return "sock{:06d}".format(self.__id)
     @property
     def tourID(self):
-        if not self.__tour_connector:
-            return None
+        # if not self.__tour_connector:
+        #     return None
         return f'Tour_{self.sockID}'
     @property
     def form(self):
@@ -88,6 +88,9 @@ class LobbyGame:
     @property
     def gameMode(self):
         return self.__form['gameMode']
+    @property
+    def eventID(self):
+        return self.__form['eventID']
     @property
     def withAI(self):
         return self.__form['withAI'] == 'True'
@@ -110,7 +113,7 @@ class LobbyGame:
     def is_ready(self) -> bool:
         print('-> Game Lobby is_ready check :')
         print('-> is_full : ', self.is_full)
-        print('-> Players connected and ready status : ', [lply.is_connected and lply.is_ready for lply in self.__players])
+        print('-> Players connected and ready status : ', [{'CONNECTED': lply.is_connected, 'READY': lply.is_ready} for lply in self.__players])
 
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
@@ -127,6 +130,9 @@ class LobbyGame:
     @property
     def is_tournament(self):
         return self.gameMode == 'Tournament'
+    @property
+    def is_tournament_game(self):
+        return self.eventID != '0' 
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn
@@ -147,6 +153,15 @@ class LobbyGame:
             raise MatchMakerWarning(f'Tryin to set user {user.login} as ready in game {self.lobbyID}, but this player is not in this game.')
         lply.is_ready = True
         return lply
+    
+    def set_event_id(self, eventID):
+        self.__form['eventID'] = eventID
+
+    def get_player(self, user: User):
+        cantidates = [lply for lply in self.__players if lply.user.id == user.id]
+        if not cantidates:
+            return None
+        return cantidates[0]
 
     def remove_user(self, user: User):
         for i, lply in enumerate(self.__players):
@@ -261,6 +276,17 @@ class MatchMaker:
 
         print('No Game found containing user : ', user.login)
         return None
+    
+    def __find_event_in_lobby(self, user: User, eventID: str) -> LobbyGame|None:
+        print('Trying __find_event_in_lobby with eventID : ', eventID)
+        for gameMode, typedGames in self._gameLobby.items():
+            for lgame in typedGames:
+                if lgame.eventID == eventID:
+                    print(f'Game {eventID} FOUND ')#: ', lgame)
+                    return (gameMode, lgame, lgame.get_player(user))
+
+        print('No Game found containing user : ', user.login)
+        return None
 
 
     def remove_lobby_game(self, lgame: LobbyGame):
@@ -345,11 +371,17 @@ class MatchMaker:
         return lgame
 
 
-    def connect_player(self, user: User):
+    def connect_player(self, user: User, eventID: str = None):
         ''' Called by websocked when player connects to the games websocker with lobbyID
             after having called join_lobby() first, but before the game has officialy
             been created. '''
-        finder_result = self.__find_player_in_lobby(user)
+        
+        print(f'MatchMaker :: connect_player :: Trying to connect user {user.login}. eventID: ', eventID)
+        
+        if eventID:
+            finder_result = self.__find_event_in_lobby(user)
+        else:
+            finder_result = self.__find_player_in_lobby(user)
         #print('finder_result : ', finder_result)
         if not finder_result:
             return None
@@ -397,15 +429,19 @@ class MatchMaker:
 
     def remove_player(self, user: User):
         #gameType, lgame, lply = self.__find_player_in_lobby(user)
+        print(f'\n MatchMaker :: remove_player :: removing user {user.login}')
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
             return None
+        print(f'MatchMaker :: remove_player :: FOUND USER')
+        
         gameMode, lgame, lply = finder_result
         if lgame.nb_players == 1:
+            print(f'MatchMaker :: remove_player :: last player gone. removing game from MatchMaker')
             self.remove_lobby_game(lgame)
             #self._maxRacketCounts[lgame.gameType].remove(lgame)
         else:
+            print(f'MatchMaker :: remove_player :: last player gone. removing player from lobby')
             lgame.remove_player(lply)
             #lgame.players.remove(lply)
         return (lgame, lply)
-
