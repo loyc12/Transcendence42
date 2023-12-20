@@ -42,7 +42,7 @@ print("DJANGO_DEBUG : ", DJANGO_DEBUG)
 
 # SECURITY WARNING  - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 #: keep the secret key used in production secret!
-DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ['*']
 
@@ -104,9 +104,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = False #Againts MIME sniffing
 # X-Frame-Options (Against Clickjacking)
 X_FRAME_OPTIONS = 'DENY' 
 # Secure session management
-#CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = False
-#SESSION_COOKIE_SECURE = True # Should be True
+SESSION_COOKIE_SECURE = True # Should be True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = ['https://' + ENV_FILE['DJANGO_HOST']]
 SESSION_COOKIE_HTTPONLY = True
