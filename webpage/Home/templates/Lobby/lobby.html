@@ -16,22 +16,22 @@
 							<td colspan="2" class="table-active">
 								<div class="lobbyProfile" >
 									<div class="infoLobby" id="lobbyProfile1">
-										<img src="../../static/img/Celine4.png" class="playerImg" alt="player1" width="60" style="border: 3px outset white;
+										<img src="img/Celine4.png" class="playerImg" alt="player1" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer1" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer1"> - - - </div>
 									</div>
 									<div class="infoLobby" id="lobbyProfile2">
-										<img src="../../static/img/Celine1.png" class="playerImg" alt="player2" width="60" style="border: 3px outset white;
+										<img src="img/Celine1.png" class="playerImg" alt="player2" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer2" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer2"> - - - </div>
 									</div>
 									<div class="infoLobby" id="lobbyProfile3">
-										<img src="../../static/img/Celine2.png" class="playerImg" alt="player3" width="60" style="border: 3px outset white;
+										<img src="img/Celine2.png" class="playerImg" alt="player3" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer3" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer3"> - - - </div>
 									</div>
 									<div class="infoLobby" id="lobbyProfile4">
-										<img src="../../static/img/Celine3.png" class="playerImg" alt="player4" width="60" style="border: 3px outset white;
+										<img src="img/Celine3.png" class="playerImg" alt="player4" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer4" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer4"> - - - </div>
 									</div>
@@ -61,12 +61,8 @@
 				<div id="tournament" class="tournament" style="display: none;">
 					{% include 'Tournament/tournament.html' %}
 					<!-- GAME A INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-					<!-- <div class="col-xl-9 col-md-3 d-flex justify-content-center" style="margin-bottom: 20px;"> -->
-						<div id="gameA" class="game" style="display: block;">
-							<div id="game-info-container">
+						<div id="gameA" class="game" style="display: none;">
 								<button id="gameButtonA"  onclick="signal_final_game()" class="btn btn-primary">Game A</button>
-								{% comment %}<canvas id="gameCanvas" class="flex-grow-1" style="background-color: #000000; width: 75%; height: 75%;"></canvas> {% endcomment %}
-							</div>
 						</div>
 					<!-- </div> -->
 					<!-- GAME B INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

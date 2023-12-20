@@ -16,6 +16,7 @@ let _send_player_keyevent = function(key) {
 
 // WEBSOCKETS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 let _get_websocket_path = function(sockID) {
+    console.log('_get_websocket_path :: called with undefined sockID !!')
     return 'wss://' + window.location.host + '/game/ws/' + sockID + '/';
 }
 
@@ -88,7 +89,18 @@ let _on_server_side_disconnect = function(e) {
     console.error('The server disconnecter you');
     console.log('Server closed websocket connection. Current socket readyState : ' + gameWebSock.readyState);
     gameWebSock = null;
-
+    gameSockID = null;
+    gameEventID = null;
+    gameWebSockPath = null;
+    if (isTournamentStage1 && !tournamentStage1Started) {
+        gameSockID = tourStage1GameData.sockID;
+        gameEventID = tourStage1GameData.form.eventID;
+        gameWebSockPath = _get_websocket_path(gameSockID);
+        console.log('User : ' + user_id + ' trying to connect to game websocket for  at path : ' + gameWebSockPath)
+        gameWebSock = _connect_to_game_socket(gameWebSockPath);
+        _prepare_websocket(gameWebSock);
+        tournamentStage1Started = true;
+    }
 };
 
 let _connect_to_game_socket = function (gameWebSockPath) {
