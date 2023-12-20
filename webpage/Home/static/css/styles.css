@@ -151,7 +151,7 @@ body.skip-nav:focus {
 #game {
     background-color: #178ca8;
     color: #f0ffff;
-    /* height: 90vh; */
+    height: 90vh;
     /* width: 90v; */
     /* width: 90vw; */
 
@@ -160,11 +160,11 @@ body.skip-nav:focus {
 .gameCanvas {
     min-height: 800px;
     min-width: 800px;
-    /* max-height: 1024px;
-    max-width: 2084px; */
-    /* height: 90%;
-    width: 90%; */
-    overflow: none;
+    max-height: 1024px;
+    /* max-width: 2084px; */
+    height: 90%;
+    width: 90%;
+    /* overflow: none; */
 }
 
 /* -- END -- GAME CSS -- */
