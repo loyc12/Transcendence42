@@ -99,7 +99,7 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 #XSS protection
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True #Againts MIME sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = False #Againts MIME sniffing
 #CSP_DEFAULT_SRC = ("'self'",) # CSP policies TODO: add CSP policies
 # X-Frame-Options (Against Clickjacking)
 X_FRAME_OPTIONS = 'DENY' 
@@ -194,9 +194,13 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
+
+#REMOTE_DIR = Path(__file__).resolve().parent.parent
+
 # STATIC FILES SETTINGS
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static_deploy")
+STATIC_URL = "/static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, "static_deploy")
+STATIC_ROOT = os.path.join(BASE_DIR, "ext/static_deploy")
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',

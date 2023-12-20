@@ -83,8 +83,6 @@ let update_player_info = function (player_info_list) {
       // scoreP2 = `ply.score${nameElemID}`;
       // scoreP3 = `ply.score${nameElemID}`;
       // scoreP4 = `ply.score${nameElemID}`;
-
-
       login = ply.login;
       img = ply.img;
       ready = ply.ready;

@@ -8,6 +8,7 @@ COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 COPY ./html/home.html /usr/share/nginx/html/home.html
 
 RUN mkdir -p /run/nginx
+RUN mkdir -p /ext
 RUN mkdir -p /etc/nginx/ssl
 
 RUN openssl req -x509 -noenc  \
