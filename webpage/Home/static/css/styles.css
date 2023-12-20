@@ -253,6 +253,8 @@ body.skip-nav:focus {
 
 .player {
     min-width: 233px; /*boxes for the same size*/
+    /* width: 240px; */
+    /* box-sizing: border-box; */ /* to try... not sure those 2 lines will work.. */
     border: 1px solid #AAA;
     padding-left: 15px;
     background: #4cbe96;
