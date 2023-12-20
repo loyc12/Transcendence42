@@ -16,8 +16,8 @@ services:
     networks:
       trans_net:
         ipv4_address: 192.130.0.5
-    # volumes:
-    #   - nginx_certs_vol:/etc/nginx/ssl
+    volumes:
+      - django_static_vol:/ext
 
   django:
     container_name: "django_backend"
@@ -37,6 +37,7 @@ services:
       trans_net:
         ipv4_address: 192.130.0.3
     volumes:
+      - django_static_vol:/app/ext
       - django_game_vol:/app/game
       - django_home_vol:/app/Home
       - django_gateway_vol:/app/NetworkGateway
@@ -112,12 +113,19 @@ volumes:
       o: bind
       type: none
       device: "${PWD}/postgres/volume"
+  django_static_vol:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: "${PWD}/webpage/ext"
   django_game_vol:
     driver: local
     driver_opts:
       o: bind
       type: none
       device: "${PWD}/webpage/game"
+    
   django_home_vol:
     driver: local
     driver_opts:

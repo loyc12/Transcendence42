@@ -154,6 +154,8 @@ class GameConnector:
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             # send updated player list to all players without the disconnected player
             await self._send_players_list()
+        elif self.__lobby_game.is_tournament:
+            print(f'GameConnector :: disconnect player {user.id} from tournament lobby.')
         else:
             print('WTF DUDE !! async def disconnect_player(self, user), other')
     # async def disconnect_all_players(self):

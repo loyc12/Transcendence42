@@ -1,4 +1,5 @@
-./webpage/Home
-./webpage/game
-./webpage/NetworkGateway
+./Home
+./game
+./NetworkGateway
+./ext/static_deploy
 Pipfile.lock

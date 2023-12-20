@@ -132,7 +132,7 @@ class LobbyGame:
         return self.gameMode == 'Tournament'
     @property
     def is_tournament_game(self):
-        return self.eventID != '0' 
+        return self.eventID != '0'
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn
@@ -148,12 +148,26 @@ class LobbyGame:
             raise MatchMakerException('Trying to add player to the same game twice.')
         self.__players.append(lply)
 
-    def set_player_ready(self, user: User):
-        if not (lply := (user in self)):
+    def set_player_connected(self, user: User):
+        for lply in self.__players:
+            if lply.user.id == user.id:
+                break
+        else:
             raise MatchMakerWarning(f'Tryin to set user {user.login} as ready in game {self.lobbyID}, but this player is not in this game.')
+        # if not (lply := (user in self)):
+        lply.is_connected = True
+        return lply
+
+    def set_player_ready(self, user: User):
+        for lply in self.__players:
+            if lply.user.id == user.id:
+                break
+        else:
+            raise MatchMakerWarning(f'Tryin to set user {user.login} as ready in game {self.lobbyID}, but this player is not in this game.')
+        # if not (lply := (user in self)):
         lply.is_ready = True
         return lply
-    
+
     def set_event_id(self, eventID):
         self.__form['eventID'] = eventID
 
@@ -229,7 +243,7 @@ class MatchMaker:
         pass
     def has_player(self, user: User):
         return self.__find_player_in_lobby(user) is not None
-    
+
     def get_tournament(self):
         if not self._gameLobby['Tournament']:
             return None
@@ -276,7 +290,7 @@ class MatchMaker:
 
         print('No Game found containing user : ', user.login)
         return None
-    
+
     def __find_event_in_lobby(self, user: User, eventID: str) -> LobbyGame|None:
         print('Trying __find_event_in_lobby with eventID : ', eventID)
         for gameMode, typedGames in self._gameLobby.items():
@@ -350,7 +364,7 @@ class MatchMaker:
             raise ValueError('Missing one or more fields in form.')
         if gameMode not in self._gameLobby:
             raise ValueError(f"Game Mode {gameMode} does not exit.")
-        
+
         lgame = self.__find_existing_game_such_as(user, form)
 
         lply = LobbyPlayer(user=user, is_connected=False, is_ready=False)
@@ -375,9 +389,9 @@ class MatchMaker:
         ''' Called by websocked when player connects to the games websocker with lobbyID
             after having called join_lobby() first, but before the game has officialy
             been created. '''
-        
+
         print(f'MatchMaker :: connect_player :: Trying to connect user {user.login}. eventID: ', eventID)
-        
+
         if eventID:
             finder_result = self.__find_event_in_lobby(user)
         else:
@@ -434,7 +448,7 @@ class MatchMaker:
         if not finder_result:
             return None
         print(f'MatchMaker :: remove_player :: FOUND USER')
-        
+
         gameMode, lgame, lply = finder_result
         if lgame.nb_players == 1:
             print(f'MatchMaker :: remove_player :: last player gone. removing game from MatchMaker')

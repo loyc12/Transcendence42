@@ -1,6 +1,12 @@
 
 let tourWebSockID = null;
 let tourWebSock = null;
+let tourStage1GameData = null;
+let tourStage2GameData = null;
+let isTournamentStage1 = false;
+let tournamentStage1Started = false;
+let isTournamentStage2 = false;
+let tournamentStage2Started = false;
 
 let _on_tour_event = function(event) {
     console.log('User received event from tournament websocket');
@@ -14,16 +20,17 @@ let _on_tour_event = function(event) {
         console.log('Game connect order received data : ' + data)
         reset_default_lobby();
         gameType = data.form.gameMode;
-        console.log('_on_tour_event :: data.form : ' + data.form)
-        console.log('_on_tour_event :: gameType received from data.form.gameType : ' + gameType)
+        console.log('_on_tour_event :: data.form.gameMode; : ' + data.form.gameMode);
+        console.log('_on_tour_event :: data.stage : ' + data.stage);
+        console.log('_on_tour_event :: data.sockID : ' + data.sockID);
+        console.log('_on_tour_event :: data.form : ' + data.form);
+        console.log('_on_tour_event :: gameType received from data.form.gameType : ' + gameType);
         parseInitData(get_default_init_state(gameType));
 
         disconnect_socket()
-        gameSockID = data.sockID;
-        gameEventID = data.form.eventID;
-        gameWebSockPath = _get_websocket_path();
-        gameWebSock = _connect_to_game_socket(gameWebSockPath);
-        _prepare_websocket(gameWebSock);
+
+        tourStage1GameData = data;
+        isTournamentStage1 = true;
     }
     else if (data.ev === 'brackets') {
         console.log('WoOoW ! received tournament brackets info : ' + data.brackets)
@@ -39,7 +46,7 @@ function _build_tour_ws_path(sockID) {
 let _connect_to_tour_socket = function (tourWebSockPath) {
     let sock;
 
-    console.log('Connecting to USER websocket at : ', tourWebSockPath)
+    console.log('Connecting to TOURNAMENT websocket at : ', tourWebSockPath)
     try {
         sock = new WebSocket(tourWebSockPath);
     } catch (err) {
@@ -57,6 +64,7 @@ let _on_server_side_tour_disconnect = function(e) {
 
 let _prepare_tour_websocket = function (ws) {
     console.log('PREPARING WEBSOCKET')
+    // ws.onopen = _on_open_;
     ws.onmessage = _on_tour_event;
     ws.onclose = _on_server_side_tour_disconnect;
     //... Might be more initialisation latter ...
