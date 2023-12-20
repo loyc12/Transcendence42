@@ -184,16 +184,16 @@ class GameGateway(BaseGateway):
             #     raise GameGatewayException('Cannot join the tournament. It it full.')
             if not self._live_tournament:
                 self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
-            
+
         # async with self.__gateway_lock:
         #     if not self._live_tournament:
         #         self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
-        
+
         # async with self.__gateway_lock:
         #     print('connect_to_tournament :: Current Lobby Game : ', self._live_tournament)
         #     if not self._live_tournament:
         #         raise GameGatewayException('Trying to connect to tournament without active tournament running.')
-        
+
         tconn = self._live_tournament.connector
 
 
@@ -314,9 +314,9 @@ class GameGateway(BaseGateway):
         tconn = initLobby.tour_connector
         gameA, gameB = await self._live_tournament.setup_game_lobbies_start()
 
-        eprint('GameGateway :: __setup_live_tournament :: Trying to send_stage1_initializer() to both game.')
-        await tconn.send_stage1_initializer(gameA)
-        await tconn.send_stage1_initializer(gameB)
+        eprint('GameGateway :: __setup_live_tournament :: Trying to send_stage_initializer() to both game of stage 1.')
+        await tconn.send_stage_initializer(gameA, 1)
+        await tconn.send_stage_initializer(gameB, 1)
         eprint('GameGateway :: __setup_live_tournament :: Both game init should be sent.')
         # await self.__push_game_to_gamemanager('Pong', gameA)
         # await self.__push_game_to_gamemanager('Pong', gameB)
@@ -416,7 +416,7 @@ class GameGateway(BaseGateway):
         if gconn.is_tournament_game:
             eprint('GameGateway :: managing end game while gconn.is_tournament_game is TRUE.')
             end_game_state['is_tournament'] = True
-            
+
 
             async with self.__gateway_lock:
                 if self._live_tournament.is_first_stage:
@@ -424,7 +424,7 @@ class GameGateway(BaseGateway):
                 elif self._live_tournament.is_second_stage:
                     pass
 
-        
+
 
         eprint('manage_end_game :: Trying to call gconn.send_end_state')
         eprint('end_game_state : ', end_game_state)

@@ -70,7 +70,7 @@ class LiveTournament:
     @property
     def is_setup(self):
         return self.__init_lobby and self._groupA and self._groupB
-    
+
     # def add_member(self, user: User):
     #     self.tournament.add_member(user)
 
@@ -118,7 +118,7 @@ class LiveTournament:
 
         # self.__tconn.send_connect_msg(self._groupA)
         # self.__tconn.send_connect_msg(self._groupB)
-        
+
         ### send_connect_msg() called just after return from this function on for both games.
         return (self._groupA, self._groupB)
 
@@ -134,7 +134,7 @@ class LiveTournament:
         # else:
         #     raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
         return lgame
-    
+
     def connect_player(self, user: User):
         lgame = self.get_player_game(user)
 
