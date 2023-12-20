@@ -55,6 +55,7 @@ let select_hero_content = function (key) {
             disconnect_socket()
         }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
+        console.log('previous content page : ' + key)
         if (current_content == key)
             return ;
         else
