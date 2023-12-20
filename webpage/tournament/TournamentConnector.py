@@ -88,7 +88,7 @@ class TournamentConnector:
             consumer = self.__player_consumers.pop(user.id)
 
         #await self.send_end_state(end_state);
-        
+
         ### TODO: Manage early exit from tournament.
 
         await self.__channel_layer.group_discard(self.sockID, consumer.channel_name)
@@ -98,7 +98,7 @@ class TournamentConnector:
         #     ## TODO: Disconnect player while in live game.
         #     print(f'TournamentConnector :: disconnect player {user.id} INGAME')
         #     await self.push_event(user.id, 'end_game') # send disconnect event to Game instance in game manager. Same place as keypress events.
-        
+
         # elif self.nb_connected > 0:
         #     print(f'TournamentConnector :: disconnect player {user.id} while IN LOBBY')
         #     await self._send_players_list()
@@ -120,11 +120,12 @@ class TournamentConnector:
             }
         )
 
-    async def send_stage1_initializer(self, lgame):
-        print(f'TCONN :: send_stage1_initializer starting game {lgame.sockID}')
+    async def send_stage_initializer(self, lgame, stage):
+        print(f'TCONN :: send_stage_initializer starting game {lgame.sockID}')
         payload = json.dumps({
             'ev': 'game_connect',
             'sockID': lgame.sockID,
+            'stage': stage,
             'form': lgame.form,
         })
         for lply in lgame.players:

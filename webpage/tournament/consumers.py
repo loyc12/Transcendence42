@@ -31,7 +31,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             print('user id : ', self.user.id)
         else:
             raise TournamentConsumerError('A tournament tried to connect to a websocket without being logged in.')
-        
+
         await self.accept()
 
         self.liveTour = await self.netGateway.connect_to_tournament(self.user, self)
@@ -55,6 +55,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         eprint('TournamentConsumer :: closing tournament websocket')
         # self.tournament.is_active = False
         # await sync_to_async(self.tournament.save)()
+        if self.liveTour:
+            self.liveTour.disconnect_player(self.user)
         raise StopConsumer
 
     # async def tour_new_connection_message(self, event):

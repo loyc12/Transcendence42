@@ -51,7 +51,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         # )
         #self.match_maker = app.get_match_maker()
         self.netGateway = app.get_game_gateway()
-        print('From cunsumer try connect player')
+        print('From consumer try connect player')
         # self.lobby_game = await self.match_maker.connect_player(self.user)
         # if self.lobby_game:
         #     print('Connected to game with SUCCESS ! LobbyGame : ', self.lobby_game)
@@ -100,7 +100,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         key = event['key'] if 'key' in event else None
 
         if event_type == 'ready':
-            print('\n\n READY SIGNAL RECEIVED SERVERSIDE !!')
+            print('\n\n GAME READY SIGNAL RECEIVED SERVERSIDE !!')
             await self.netGateway.set_player_ready(self.user)
         else:
             # await self.game_connector.push_event(event)
@@ -132,7 +132,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         ''' specifically for sending game state updates '''
         # print('game_send_state was here !')
         await self.send(text_data=event['game_state'])
-    
+
     async def game_send_end_state(self, event):
         ''' specifically for sending game state updates '''
         # print('game_send_state was here !')
