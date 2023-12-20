@@ -61,6 +61,9 @@ class TournamentConnector:
     async def connect_player(self, user, consumer):
         ''' Connects the player to the tournament socket. '''
 
+        if user.id in self.__player_consumers:
+            return
+
         async with self.__tour_lock:
             if user.id in self.__player_consumers:
                 raise ValueError('Trying to add player to same tournament connector twice.')
@@ -118,10 +121,10 @@ class TournamentConnector:
         )
 
     async def send_stage1_initializer(self, lgame):
-
+        print(f'TCONN :: send_stage1_initializer starting game {lgame.sockID}')
         payload = json.dumps({
             'ev': 'game_connect',
-            'sockID': lgame.sock_id,
+            'sockID': lgame.sockID,
             'form': lgame.form,
         })
         for lply in lgame.players:

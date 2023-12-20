@@ -79,15 +79,15 @@ class LiveTournament:
             'gameMode': 'Multiplayer',
             'gameType': 'Pong',
             'withAI': False,
-            'eventID': eventID + groupID,
+            'eventID': str(eventID) + str(groupID),
         }
 
     @sync_to_async
     def setup_game_lobbies_start(self):
         if not self.__init_lobby:
             raise ValueError('LiveTournament trying to setup_game_lobbies_start() while not initLobby exist')
-        formStage1A = self.build_match_maker_form(self.__id, 'A')
-        formStage1B = self.build_match_maker_form(self.__id, 'B')
+        formStage1A = self.build_match_maker_form(self.__init_lobby.sockID, 'A')
+        formStage1B = self.build_match_maker_form(self.__init_lobby.sockID, 'B')
 
         plys = self.__init_lobby.players
 
@@ -108,6 +108,8 @@ class LiveTournament:
 
         eprint('GroupA players: ', players[:2])
         eprint('GroupB players: ', players[2:])
+        eprint('GroupA players in lobby : ', self._groupA.players)
+        eprint('GroupB players in lobby : ', self._groupB.players)
 
         ## ... Start both tournament games
         # self.tournament.addGroupAGame(self._groupA)
@@ -133,6 +135,12 @@ class LiveTournament:
         #     raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
         return lgame
     
+    def connect_player(self, user: User):
+        lgame = self.get_player_game(user)
+
+        lply = lgame.get_player(user)
+        lply.is_connected = True
+        return lgame
 
     # async def connect_player(self, user: User, consumer):
 
@@ -203,6 +211,9 @@ class LiveTournament:
         brackets = self.__get_bracket_template()
         plys_list = self.__init_lobby.players
 
+        if not self._groupA or self._groupB or not self._groupA.game_connector or not self._groupB.game_connector:
+            return None
+
         if self._groupA:
             gconnA = self._groupA.game_connector
             gameA = gconnA.game
@@ -214,7 +225,7 @@ class LiveTournament:
                 brackets['groupA']['p2']['won'] = True
 
         if self._groupB:
-            gconnB = self._groupC.game_connector
+            gconnB = self._groupB.game_connector
             gameB = gconnB.game
             if gameB.winner == plys_list[2].id:
                 winnerB = plys_list[2]

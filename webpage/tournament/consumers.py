@@ -68,7 +68,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
     # async def tour_send_stage_connection_msg(self, lgame):
     #     payload = json.dumps({
     #         'ev': 'game_connect',
-    #         'sockID': lgame.sock_id
+    #         'sockID': lgame.sockID
     #     })
     #     self.group_send(
     #         lgame.

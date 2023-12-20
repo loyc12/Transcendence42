@@ -97,9 +97,10 @@ class GameGateway(BaseGateway):
         is_tournament_stage = False
         async with self.__gateway_lock:
             eprint('Entered lock')
+            eprint('current live tournament : ', self._live_tournament)
             if self._live_tournament and consumer.user in self._live_tournament:
                 eprint('User is member of live tournament and live tournament exists.')
-                lobby_game = self._live_tournament.get_player_game(consumer.user)
+                lobby_game = self._live_tournament.connect_player(consumer.user)
                 is_tournament_stage = True
                 # await self._live_tournament.connect_player(consumer.user, consumer)
             else:
@@ -139,8 +140,8 @@ class GameGateway(BaseGateway):
                 eprint('connect_player : INITIALIZING live_tournament with sockID : ', lobby_game.tourID)
 
             ## Init LiveTournament
-            if lobby_game.is_full:
-                raise GameGatewayException('Cannot join the tournament. It it full.')
+            # if lobby_game.is_full:
+            #     raise GameGatewayException('Cannot join the tournament. It it full.')
             async with self.__gateway_lock:
                 if not self._live_tournament:
                     self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
@@ -199,7 +200,8 @@ class GameGateway(BaseGateway):
         eprint('LiveTournament after player connect : ', self._live_tournament)
         brackets = self._live_tournament.get_brackets_info()
         print('connect_player :: Sending Tournament backets : ', brackets)
-        await tconn.send_brackets(brackets)
+        if brackets:
+            await tconn.send_brackets(brackets)
         await tconn.connect_player(user, consumer)
 
         return self._live_tournament
@@ -312,8 +314,10 @@ class GameGateway(BaseGateway):
         tconn = initLobby.tour_connector
         gameA, gameB = await self._live_tournament.setup_game_lobbies_start()
 
+        eprint('GameGateway :: __setup_live_tournament :: Trying to send_stage1_initializer() to both game.')
         await tconn.send_stage1_initializer(gameA)
         await tconn.send_stage1_initializer(gameB)
+        eprint('GameGateway :: __setup_live_tournament :: Both game init should be sent.')
         # await self.__push_game_to_gamemanager('Pong', gameA)
         # await self.__push_game_to_gamemanager('Pong', gameB)
 
@@ -330,6 +334,7 @@ class GameGateway(BaseGateway):
         await lgame.game_connector._send_players_list()
         print('Checking if game is ready ?')
         if lgame.is_ready:
+            eprint('lobby game IS ready.')
 
             if lgame.is_tournament:
                 await self.__setup_live_tournament(lgame)
@@ -339,6 +344,8 @@ class GameGateway(BaseGateway):
                 print('SENDING GAME TO MANAGER !!! ')
                 await self.__push_game_to_gamemanager(lgame.gameType, lgame)
                 print(f"Lobby Game send to game manager : ", {lgame})
+        else:
+            eprint('lobby game IS NOT ready.')
 
 
 
@@ -417,8 +424,7 @@ class GameGateway(BaseGateway):
                 elif self._live_tournament.is_second_stage:
                     pass
 
-
-
+        
 
         eprint('manage_end_game :: Trying to call gconn.send_end_state')
         eprint('end_game_state : ', end_game_state)

@@ -113,7 +113,7 @@ class LobbyGame:
     def is_ready(self) -> bool:
         print('-> Game Lobby is_ready check :')
         print('-> is_full : ', self.is_full)
-        print('-> Players connected and ready status : ', [lply.is_connected and lply.is_ready for lply in self.__players])
+        print('-> Players connected and ready status : ', [{'CONNECTED': lply.is_connected, 'READY': lply.is_ready} for lply in self.__players])
 
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
@@ -376,6 +376,8 @@ class MatchMaker:
             after having called join_lobby() first, but before the game has officialy
             been created. '''
         
+        print(f'MatchMaker :: connect_player :: Trying to connect user {user.login}. eventID: ', eventID)
+        
         if eventID:
             finder_result = self.__find_event_in_lobby(user)
         else:
@@ -427,15 +429,19 @@ class MatchMaker:
 
     def remove_player(self, user: User):
         #gameType, lgame, lply = self.__find_player_in_lobby(user)
+        print(f'\n MatchMaker :: remove_player :: removing user {user.login}')
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
             return None
+        print(f'MatchMaker :: remove_player :: FOUND USER')
+        
         gameMode, lgame, lply = finder_result
         if lgame.nb_players == 1:
+            print(f'MatchMaker :: remove_player :: last player gone. removing game from MatchMaker')
             self.remove_lobby_game(lgame)
             #self._maxRacketCounts[lgame.gameType].remove(lgame)
         else:
+            print(f'MatchMaker :: remove_player :: last player gone. removing player from lobby')
             lgame.remove_player(lply)
             #lgame.players.remove(lply)
         return (lgame, lply)
-

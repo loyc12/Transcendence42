@@ -3,21 +3,25 @@ let tourWebSockID = null;
 let tourWebSock = null;
 
 let _on_tour_event = function(event) {
-    console.log('User received event from user websocket');
+    console.log('User received event from tournament websocket');
     const data = JSON.parse(event.data);
 
     if (data.ev === 'connect') {
-        console.log('User received message from server after websocket connection : ' + data.msg);
+        console.log('User received message from server after tournament websocket connection : ' + data.msg);
     }
     else if (data.ev === 'game_connect') {
         console.log('Client Received Game connection order from tournament socket')
+        console.log('Game connect order received data : ' + data)
         reset_default_lobby();
-        gameType = data.form.gameType;
+        gameType = data.form.gameMode;
+        console.log('_on_tour_event :: data.form : ' + data.form)
+        console.log('_on_tour_event :: gameType received from data.form.gameType : ' + gameType)
         parseInitData(get_default_init_state(gameType));
 
+        disconnect_socket()
         gameSockID = data.sockID;
         gameEventID = data.form.eventID;
-        gameWebSockPath = _build_tour_ws_path();
+        gameWebSockPath = _get_websocket_path();
         gameWebSock = _connect_to_game_socket(gameWebSockPath);
         _prepare_websocket(gameWebSock);
     }
@@ -28,7 +32,7 @@ let _on_tour_event = function(event) {
 
 // let _build_tour_ws_path = function(sockID) {
 function _build_tour_ws_path(sockID) {
-    return 'ws://' + window.location.host + '/tournament/ws/' + sockID + '/';
+    return 'wss://' + window.location.host + '/tournament/ws/' + sockID + '/';
 }
 
 let _connect_to_tour_socket = function (tourWebSockPath) {
@@ -45,8 +49,8 @@ let _connect_to_tour_socket = function (tourWebSockPath) {
 
 
 let _on_server_side_tour_disconnect = function(e) {
-    console.error('The server disconnecter USER');
-    console.log('Server closed USER websocket connection. Current socket readyState : ');
+    console.error('The server disconnecter tournament');
+    console.log('Server closed tournament websocket connection. Current socket readyState : ');
     // user_id = null;
 };
 

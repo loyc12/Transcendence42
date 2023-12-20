@@ -130,7 +130,8 @@ let disconnect_socket = function() {
 }
 
 let get_default_init_state = function(gameType) {
-    console.log(allInitGameStates);
+    console.log('get_default_init_state :: gameType : ' + gameType);
+    console.log('get_default_init_state :: allInitGameStates : ' + allInitGameStates);
     if (! gameType in allInitGameStates)
         alert(`gameType ${gameType} not found in allInitGameStates`);
     else
