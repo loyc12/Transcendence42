@@ -79,6 +79,7 @@ let update_player_info = function (player_info_list) {
       nameElemID = `namePlayer${i}`;
       tourn1ElemID = `nameP${i}`;
       tourn2ElemID = `nameWinner${i}`;
+      tourn1ScoreElemID = `scoreP${i}`;
       // scoreP1 = `ply.score${nameElemID}`;
       // scoreP2 = `ply.score${nameElemID}`;
       // scoreP3 = `ply.score${nameElemID}`;
@@ -96,6 +97,11 @@ let update_player_info = function (player_info_list) {
       if (isTournament)
       {
         document.getElementById(tourn1ElemID).innerHTML = ` ${login}`;
+        if (isGhostLobby)
+        {
+          document.getElementById(tourn2ElemID).innerHTML = ` ${login}`;
+          document.getElementById(tourn1ScoreElemID).innerHTML = ` ${score}`;
+        }
       }
       // if (isGhostLobby)
       // {
@@ -189,8 +195,13 @@ let loadEndGame = function (data) {
     console.log('***lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
   }
+  else if (data.endState === 'wallOfShame'){
+    console.log('***wallOfShame');
+    document.getElementById("wallofshame").style.display = "block";
+  }
   // disconnect_socket();
 }
+
 
 let signal_final_game = function() {
   console.log('signal_final_game :: entered !')
@@ -214,5 +225,3 @@ let signal_final_game = function() {
   // document.getElementById("loser").style.display = "block";
 
 }
-
-

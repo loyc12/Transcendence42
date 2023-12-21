@@ -12,9 +12,31 @@
           <!-- CRASH -->
 			    <h1 class="crash" id="crash" style="display: block;"><i class="bi bi-exclamation-circle"></i> CRASH: quelqu'un a quitté le jeu.. <i class="bi bi-exclamation-circle"></i></h1>
           <!-- BUTTON WINNER TOURNAMENT TO GHOST LOBBY -->
-          <button type="button" class="btn" onclick="signal_final_game()" id="buttonGhostLobby" style="display: none; background-color: #0E4870; color: #F0FFFF" >FINALS HERE</button>
+           <button type="button" class="btn" onclick="signal_final_game()" id="buttonGhostLobby" style="display: none; background-color: #0e4870; color: #f0ffff" >FINALS HERE</button>
 		    </div>
+      </div>
+    </div>
+    <div class="row align-items-center" id="wallofshame" style="display: none;">
+      <div class="col d-flex justify-content-center mb-3">
+        <div class="custom-card mt-20">
+          <h1>SHAME!!!!!</h1>
+          <h1 class="quitter" id="quitter"><i class="bi bi-bell"></i> --- <i class="bi bi-bell"></i></h1>
+          <img src="img/Celine1.png" alt="the quitter" class="w-50 rounded-circle" loading="lazy">
+          <h1>SHAME!!!!!</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-center" id="victorious" style="display: none;">
+      <div class="col d-flex justify-content-center mb-3">
+        <div class="custom-card mt-20">
+          <h1>🐐🐐🐐</h1>
+          <h1 class="goat" id="goat"><i class="bi bi-bell"></i> --- <i class="bi bi-bell"></i></h1>
+          <img src="img/Celine1.png" alt="the goat" class="w-50 rounded-circle" loading="lazy">
+          <h1>🐐🐐🐐</h1>
+        </div>
       </div>
     </div>
   </div>
 {% endblock %}
+<!-- TODO: will need to be retweaked... -->
+<!-- fin de tournoi répéter Wall of Shame -->

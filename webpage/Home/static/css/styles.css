@@ -163,10 +163,9 @@ body.skip-nav:focus {
     min-height: 800px;
     min-width: 800px;
     max-height: 1024px;
-    max-width: 2084px;
     height: 90%;
     width: 90%;
-    /* overflow: none; */
+    
 }
 
 /* -- END -- GAME CSS -- */
@@ -302,7 +301,7 @@ body.skip-nav:focus {
 
 .connectors.finals .top-line {
     position: relative;
-    top: 76px;
+    top: 72px;
     width: 70px;
     border: 1px solid #AAA;
 

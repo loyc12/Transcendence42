@@ -55,6 +55,7 @@ let _on_tour_event = function(event) {
     }
     else if (data.ev === 'brackets') {
         console.log('WoOoW ! received tournament brackets info : ' + data.brackets)
+        // loadModule('lobby');
     }
 }
 
