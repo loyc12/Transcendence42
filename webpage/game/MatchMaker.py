@@ -58,6 +58,7 @@ class LobbyGame:
         self.__game_connector = None # Set by GameGateway after successfull join_game() call with instance of GameConnector object.
         self.__tour_connector = None # Set by GameGateway after successfull join_game() call with instance of TournamentConnector object. Only set if gameMode == 'Tournament'.
         # self.__tournament = None
+        self.__winnerID = None
 
 
     def __repr__(self):
@@ -133,6 +134,9 @@ class LobbyGame:
     @property
     def is_tournament_game(self):
         return self.eventID != '0'
+    @property
+    def is_running(self):
+        return self.game_connector and self.game_connector.game and self.game_connector.game.is_running
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn
@@ -153,7 +157,7 @@ class LobbyGame:
             if lply.user.id == user.id:
                 break
         else:
-            raise MatchMakerWarning(f'Tryin to set user {user.login} as ready in game {self.lobbyID}, but this player is not in this game.')
+            raise MatchMakerWarning(f'Tryin to set user {user.login} as connected in game {self.lobbyID}, but this player is not in this game.')
         # if not (lply := (user in self)):
         lply.is_connected = True
         return lply
@@ -173,6 +177,11 @@ class LobbyGame:
 
     def get_player(self, user: User):
         cantidates = [lply for lply in self.__players if lply.user.id == user.id]
+        if not cantidates:
+            return None
+        return cantidates[0]
+    def get_player_by_ID(self, userID: int):
+        cantidates = [lply for lply in self.__players if lply.user.id == userID]
         if not cantidates:
             return None
         return cantidates[0]

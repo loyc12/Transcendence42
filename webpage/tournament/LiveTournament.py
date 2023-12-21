@@ -45,6 +45,8 @@ class LiveTournament:
         self._groupB: LobbyGame = None
         self._groupC: LobbyGame = None
 
+        self._is_closing = False
+
 
     def __contains__(self, user: User):
         return user in self.__init_lobby
@@ -73,6 +75,12 @@ class LiveTournament:
     @property
     def is_setup(self):
         return self.__init_lobby and self._groupA and self._groupB
+    property
+    def is_finished(self):
+        return self._groupC\
+            and self._groupC.game_connector\
+            and self._groupC.game_connector.game\
+            and self._groupC.game_connector.game.winner
 
     # def add_member(self, user: User):
     #     self.tournament.add_member(user)
@@ -138,6 +146,25 @@ class LiveTournament:
         #     raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
         return lgame
 
+    def won_first_game(self, user: User) -> bool:
+        if user in self._groupA:
+            lgame = self._groupA
+        elif user in self._groupB:
+            lgame = self._groupB
+        else:
+            return False
+        if lgame and lgame.game_connector and lgame.game_connector.game:
+            return (lgame.game_connector.game.winner == user.id)
+        return False
+    def won_tournament(self, user: User) -> bool:
+        if not (user in self.__init_lobby):
+            return False
+        lgame = self._groupC
+        if lgame and lgame.game_connector and lgame.game_connector.game:
+            return (lgame.game_connector.game.winner == user.id)
+        return False
+
+
     def connect_player(self, user: User):
         lgame = self.get_player_game(user)
 
@@ -145,13 +172,59 @@ class LiveTournament:
         lply.is_connected = True
         return lgame
 
+
+    def _forced_disconnect_all(self, lgame: LobbyGame):
+        ### Called when a player leaves mid game.
+        self._is_closing = True
+        if lgame.game_connector:
+            for ply in lgame.players:
+                lgame.game_connector.disconnect_player(ply.user)
+
+
+    def _soft_disconnect(self, lgame: LobbyGame, user: User):
+        ### Called when player leaves either after losing first game or after tournament conclusion.
+
+        pass
+
+
+    # def __disconnect_was_early(self, user: User):
+    #     pass
+
     def disconnect_player(self, user: User):
-        self.__match_maker.remove_player(user)
-        lgame = self.get_player_game(user)
+
+        ## TODO: LOTS OF WORK TO DO ::: build switch with all disconnect scenarios.
+        if user in self.__init_lobby:
+            self.__init_lobby.remove_user(user)
+
+        lgame = self.get_player_game()
+
+        # if user in self._groupA:
+        #     lgame = self._groupA
+        #     self._groupA.remove_user(user)
+        # elif user in self._groupB:
+        #     lgame = self._groupB
+        #     self._groupB.remove_user(user)
+        # elif user in self._groupC:
+        #     lgame = self._groupC
+        #     self._groupC.remove_user(user)
+
         if lgame:
-            lgame.remove_user(user)
-            if lgame.game_connector:
-                lgame.game_connector.disconnect_player(user)
+            if lgame.is_running:
+                return self._forced_disconnect_all(lgame)
+            else:
+                return self._soft_disconnect(lgame, user)
+        #     lgame.remove_user(user)
+        #     if lgame.game_connector and lgame.game_connector.game.is_running:
+        #         lgame.game_connector.disconnect_player(user)
+
+        #     ### Return True if live tournament should be SHUTDOWN.
+        #     if lgame.is_empty:
+        #         ## shutdown tournament
+        #         return True
+        #     else:
+        #         return False
+        # else:
+        #     return True
 
 
     # async def connect_player(self, user: User, consumer):

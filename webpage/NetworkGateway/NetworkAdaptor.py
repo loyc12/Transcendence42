@@ -235,35 +235,39 @@ class GameGateway(BaseGateway):
 
 
     async def disconnect_player(self, user: User, consumer):
-        ''' This method should only be used to disconnect players while in lobby. '''
-
         print('GameGateway trying to disconnect player')
-
-        if user in self._live_tournament:
-            pass
-        else:
-            gconn = consumer.game_connector
-            if user in self.match_maker:
-                print('\nTry remove and disconnect player in Lobby inside MatchMaker.')
-                async with self.__gateway_lock:
-                    rem = self.match_maker.remove_player(user)
-                lgame, lply = rem
-                if not lgame.is_empty:
-                    await gconn.disconnect_player(user)
-
-            elif (gconn is not None):
-                print('\nTry remove and disconnect player IN GAME.')
+        gconn = consumer.game_connector
+        if user in self.match_maker:
+            print('\nTry remove and disconnect player in Lobby inside MatchMaker.')
+            async with self.__gateway_lock:
+                rem = self.match_maker.remove_player(user)
+            lgame, lply = rem
+            if not lgame.is_empty:
                 await gconn.disconnect_player(user)
-                consumer.user = None
-                consumer.game_connector = None
 
-            else:# Disconnect if in tournament
-                print('Trying to disconnect but GOT ELSED !')
+        elif (gconn is not None):
+            print('\nTry remove and disconnect player IN GAME.')
+            await gconn.disconnect_player(user)
+            consumer.user = None
+            consumer.game_connector = None
+
+        else:# Disconnect if in tournament
+            print('Trying to disconnect but GOT ELSED !')
 
     ### DEBUG VERSION :
     official_gameModes = {'Local_1p', 'Multiplayer', 'Tournament', 'Online_4p'}
     ### PRODUCTION VERSION :
     # official_gameModes = {'Multiplayer', 'Tournament', 'Online_4p'}
+
+    async def disconnect_tournament_member(self, user, consumer):
+
+        async with self.__gateway_lock:
+            if self._live_tournament and user in self._live_tournament:
+                tourShutdown = self._live_tournament.disconnect_player(user)
+                if tourShutdown:
+                    ### Do tournament shutdown procedure
+                    del self._live_tournament
+                    self._live_tournament = None
 
     def __is_official_gameMode(self, gameMode):
         return gameMode in self.official_gameModes
@@ -429,6 +433,7 @@ class GameGateway(BaseGateway):
 
         gconn = end_game_state.pop('gameConnector')
         game = gconn.game
+        lgame = gconn.lobby_game
 
         eprint('gameMode : ', gameMode)
         eprint('endState : ', endState)
@@ -436,6 +441,8 @@ class GameGateway(BaseGateway):
         if endState == 'quit':
             eprint('endState == quit indeed')
             quitter = end_game_state['quitter']
+            ply = lgame.get_player_by_id(quitter)
+            end_game_state['wall_of_shame'] = ply.user.img
             eprint('game was quit by playerID ', quitter)
             res = await game.stop_and_register_results(scores, quitter=quitter)
             eprint('db push res : ', res)

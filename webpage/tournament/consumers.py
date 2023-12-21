@@ -55,8 +55,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         eprint('TournamentConsumer :: closing tournament websocket')
         # self.tournament.is_active = False
         # await sync_to_async(self.tournament.save)()
-        if self.liveTour:
-            self.liveTour.disconnect_player(self.user)
+        self.netGateway.disconnect_tournament_member(self.user, self)
         raise StopConsumer
 
     # async def tour_new_connection_message(self, event):
