@@ -8,14 +8,14 @@ window.onpopstate = function (event) {
     }
 };
 
-// function navigateForward(newState) {
-//     console.log('THIS IS BROWSER EVENT STATE navigateForward: ', newState);
-//     history.forward();
-// }
+function navigateForward(newState) {
+    console.log('THIS IS BROWSER EVENT STATE navigateForward: ', newState);
+    history.forward();
+}
 
 function handleStateChange(newState) {
     console.log('Navigated to: ', newState);
-    if (newState === 'init' || newState === 'lobby' || newState === 'game' || newState === 'aftergame'|| newState === 'tournament') {
+    if (newState === 'lobby' || newState === 'game' || newState === 'aftergame'|| newState === 'tournament') {
         select_hero_content('init');
     }
     else if (newState === 'info')
@@ -27,5 +27,5 @@ function handleStateChange(newState) {
     else if (newState === 'gameTypeOnline')
         select_hero_content('gameOnline');
     else
-        console.log('Unknown state: ', newState);
+        select_hero_content('init');
 }
