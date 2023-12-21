@@ -13,7 +13,6 @@ import asyncio
 def game_home(request):
     print(request)
     return render(request, 'game/game_creation_form.html')
-    #return HttpResponse("Welcome to the game home page.")
 
 def _build_error_payload(msg):
     return {
@@ -30,7 +29,6 @@ def game_join(request):
     '''
     if request.method != 'POST':
         return JsonResponse(_build_error_payload('A request to send a game requires a POST request with a properly formated body.'), status=400)
-        #return HttpResponse('A request to send a game requires a POST request with a properly fromated body.', status=400)
 
     print('RECEIVED POST : ', request.POST)
     print('RECEIVED POST BODY : ', request.body)
@@ -38,15 +36,12 @@ def game_join(request):
     print('jsonform : ', jsonform)
     if not jsonform:
         return JsonResponse(_build_error_payload('Trying to create a game, but either no game creation form was sent or is malformed.'), status=400)
-        #return HttpResponse('Trying to create a game, but either no game creation form was sent or is malformed.', status=400)
-
 
     form = GameCreationForm(jsonform)
     # print('Form : \n', form)
     # print('Form Errors : \n', form.errors)
     if not form.is_valid():
         return JsonResponse(_build_error_payload('Trying to create a game, but either no game creation form was sent or is missing fields.'), status=400)
-        #return HttpResponse('Trying to create a game, but either no game creation form was sent or is missing fields.', status=400)
 
     # print('Created form gameMode: ', form.cleaned_data['gameMode'])
     # print('Created form gameType: ', form.cleaned_data['gameType'])
@@ -79,7 +74,6 @@ def game_join(request):
 
     if not lobby_game:
         return JsonResponse(_build_error_payload('Joining game lobby failed.'), status=400)
-        #return HttpResponse('Joining game lobby failed.', status=400)
 
     payload = {
         'status': 'success',

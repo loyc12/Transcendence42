@@ -26,6 +26,3 @@ application = ProtocolTypeRouter({
         )
     ),
 })
-# DOC
-# https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
-# https://asgi.readthedocs.io/en/latest/introduction.html
