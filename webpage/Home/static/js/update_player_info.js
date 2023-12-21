@@ -154,9 +154,13 @@ let loadEndGame = function (data) {
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
-
+  console.log('winnerID : ' + winnerID);
   let winner = data.playerInfo[winnerID];
+
+  console.log('winner : ' + winner);
+  console.log('user_id : ' + user_id);
   let user_is_winner = (winner.playerID == user_id);
+  console.log('winner.playerID : ' + winner.playerID);
 
   console.log(" data.playerInfo : " +  data.playerInfo)
   console.log("winnerID : " + winnerID)
@@ -172,7 +176,7 @@ let loadEndGame = function (data) {
     document.getElementById("winner").style.display = "block";
     if (isTournament){
       console.log('** win - next game');
-      document.getElementById("gameButtonA").style.display = "block";
+      document.getElementById("buttonGhostLobby").style.display = "block";
     }
 
   }
@@ -183,6 +187,10 @@ let loadEndGame = function (data) {
   else if (data.endState !== 'crash'){
     console.log('***lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
+  }
+  else if (data.endState === 'wallOfShame'){
+    console.log('***wallOfShame');
+    document.getElementById("wallofshame").style.display = "block";
   }
   disconnect_socket();
 }
@@ -195,6 +203,8 @@ let signal_final_game = function() {
   // gameWebSock.send(JSON.stringify(payload));
   // console.log('Payload sent.');
   console.log('load final game.');
+  isGhostLobby = true;
+  document.getElementById("buttonGhostLobby").style.display = "none";
+  document.getElementById("tobby").style.display = "block";
+  loadModule('tobby');
 }
-
-

@@ -1,5 +1,5 @@
 {% block lobby %}
-	<div class="lobby"  id="lobby">
+	<div class="tobby"  id="tobby" style="display: none;">
 		<div class="row align-items-center">
 			<div class="col-xl-3 col-md-9 d-flex justify-content-center">
 				<!-- sidebar: users connecting to get ready to play -->
@@ -16,32 +16,32 @@
 							<td colspan="2" class="table-active">
 								<div class="lobbyProfile" >
 									<div class="infoLobby" id="lobbyProfile1">
-										<img src="/img/Celine4.png" class="playerImg" alt="player1" width="60" style="border: 3px outset white;
+										<img src="../../static/img/Celine4.png" class="playerImg" alt="player1" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer1" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer1"> - - - </div>
 									</div>
 									<div class="infoLobby" id="lobbyProfile2">
-										<img src="/img/Celine1.png" class="playerImg" alt="player2" width="60" style="border: 3px outset white;
+										<img src="../../static/img/Celine1.png" class="playerImg" alt="player2" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer2" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer2"> - - - </div>
 									</div>
-									<div class="infoLobby" id="lobbyProfile3">
-										<img src="/img/Celine2.png" class="playerImg" alt="player3" width="60" style="border: 3px outset white;
+									<!-- <div class="infoLobby" id="lobbyProfile3">
+										<img src="../../static/img/Celine2.png" class="playerImg" alt="player3" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer3" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer3"> - - - </div>
 									</div>
 									<div class="infoLobby" id="lobbyProfile4">
-										<img src="/img/Celine3.png" class="playerImg" alt="player4" width="60" style="border: 3px outset white;
+										<img src="../../static/img/Celine3.png" class="playerImg" alt="player4" width="60" style="border: 3px outset white;
 										border-radius: 50%;" id="imgPlayer4" loading="lazy">
 										<div class="name" style="color: #f0ffff; font-size: 40px;" id="namePlayer4"> - - - </div>
-									</div>
+									</div> -->
 								</div>
 							</td>
 						</tr>
 						<!-- BOUTON  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 						<tr class="table-active">
 							<td colspan="2" class="table-active text-center">
-								<button type="button" onclick="signal_player_ready()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine" >READY?</button>
+								<button type="button" onclick="signal_semi_ready()" class="btn align-items-center" style="background-color: #0E4870; color: #F0FFFF; font-size: 60px; margin: 30px;" id="startEngine" >READY?</button>
 							</td>
 						</tr>
 						<!-- LOADING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -57,14 +57,12 @@
 				</table>
 			</div>
 			<!-- TOURNAMENT OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-			<div class="col-xl-9 col-md-3 d-flex justify-content-center" style="margin-bottom: 20px;">
-				<div id="tournament" class="tournament" style="display: block;">
-					{% include 'Tournament/tournament.html' %}
-						<!-- GAME A INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-						<!-- GAME B INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-						<!-- GAME C INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-				</div>
-			</div>
+
+            <!-- GAME A INFO OVERRIDING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            {% comment %} <div id="gameFinal" class="game" style="display: none;">
+                    <button id="TournamentButtonA"  onclick="signal_final_game()" class="btn btn-primary">Game A</button>
+            </div> {% endcomment %}
+
 		</div>
 	</div>
 {% endblock %}
