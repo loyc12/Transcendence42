@@ -137,6 +137,14 @@ class LobbyGame:
     @property
     def is_running(self):
         return self.game_connector and self.game_connector.game and self.game_connector.game.is_running
+    @property
+    def is_over(self):
+        return self.game_connector and self.game_connector.game and self.game_connector.game.is_over
+    @property
+    def winner(self):
+        if not (self.__game_connector and self.__game_connector.game and self.__game_connector.game.winner):
+            return None
+        return self.__game_connector.game.winner
 
     def set_game_connector(self, gconn):
         self.__game_connector = gconn
@@ -180,7 +188,7 @@ class LobbyGame:
         if not cantidates:
             return None
         return cantidates[0]
-    def get_player_by_ID(self, userID: int):
+    def get_player_by_id(self, userID: int):
         cantidates = [lply for lply in self.__players if lply.user.id == userID]
         if not cantidates:
             return None

@@ -44,10 +44,10 @@ function loadModule(moduleName) {
     }
     else if (moduleName === 'aftergame' ) {
         console.log('Load aftergame')
-        // if (isTournament)
+        if (isTournament)
+            isGhostLobby = true;
         // {
         //     console.log('Load tournament after game ROUND1');
-        //     isGhostLobby = True;
         //     document.getElementById('buttonGhostLobby').style.display = 'block';
         // }
         // else

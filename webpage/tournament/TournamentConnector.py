@@ -125,7 +125,7 @@ class TournamentConnector:
         payload = json.dumps({
             'ev': 'game_connect',
             'sockID': lgame.sockID,
-            'stage': stage,
+            'stage': str(stage),
             'form': lgame.form,
         })
         for lply in lgame.players:

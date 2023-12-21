@@ -56,10 +56,24 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         # self.tournament.is_active = False
         # await sync_to_async(self.tournament.save)()
         self.netGateway.disconnect_tournament_member(self.user, self)
-        raise StopConsumer
 
+        raise StopConsumer
     # async def tour_new_connection_message(self, event):
     #     await self.send(text_data=event['brackets'])
+
+    async def receive(self, text_data):
+        if not self.liveTour:
+            raise TournamentConsumerError('TourConsumer :: Receiving data while no self.liveTour exists')
+        event = json.loads(text_data)
+
+        # Clean up input struct.
+        event_type = event['ev']
+
+        if event_type == 'final':
+            self.liveTour.join_final_game(self.user)
+            await self.liveTour.connector.send_brackets(self.liveTour.get_brackets_info())
+
+
 
     async def tour_send_brackets(self, event):
         print('TournamentConsumer :: tour_send_brackets entered' )

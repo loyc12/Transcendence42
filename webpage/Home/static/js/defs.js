@@ -30,6 +30,16 @@ let currentGameInfo;
 let isTournament = false;
 let isGhostLobby = false;
 
+let tourWebSockID = null;
+let tourWebSock = null;
+let tourStage1GameData = null;
+let tourStage2GameData = null;
+let tourStage = null;
+let isTournamentStage1 = false;
+let tournamentStage1Started = false;
+let isTournamentStage2 = false;
+let tournamentStage2Started = false;
+
 const playerColors = ['#ffffff', '#ff10f0', '#23e301', '#04d9ff', '#ff6700'];// index 0 is default
 const playerShadowColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'];// To be determined. index 0 is default color (AI)
 

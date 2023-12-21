@@ -148,10 +148,10 @@ class GameConnector:
             consumer = self.__player_consumers.pop(user.id)
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
         print(f'GameConnector :: SWITCH')
-        if self.game and not self.__is_closing:
+        if self.game and self.game.is_running and not self.__is_closing:
             print(f'GameConnector :: disconnect player {user.id} INGAME')
              # send disconnect event to Game instance in game manager. Same place as keypress events.
-            self.__is_closing = True
+            # self.__is_closing = True
             await self.push_event(user.id, 'end_game')
         elif self.nb_connected > 0:
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')

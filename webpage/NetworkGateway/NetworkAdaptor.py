@@ -89,12 +89,12 @@ class GameGateway(BaseGateway):
             eprint('Entered lock')
             eprint('current live tournament : ', self._live_tournament)
             if self._live_tournament and user in self._live_tournament:
-                if self._live_tournament.first_stage_started:
-                    lobby_game = self._live_tournament.get_player_game(user)
-                    # is_tournament_stage = True
-                else:
-                    eprint('User is member of live tournament and live tournament exists.')
-                    lobby_game = self._live_tournament.connect_player(user)
+                # if self._live_tournament.first_stage_started:
+                #     lobby_game = self._live_tournament.get_player_game(user)
+                #     # is_tournament_stage = True
+                # else:
+                #     eprint('User is member of live tournament and live tournament exists.')
+                lobby_game = self._live_tournament.connect_player(user)
                     # is_tournament_stage = True
                     # await self._live_tournament.connect_player(user, consumer)
             else:
@@ -112,11 +112,18 @@ class GameGateway(BaseGateway):
         if not (self.__game_manager or self.__match_maker):
             raise ValueError('MatchMaker and GameManager must be set before accepting connections.')
 
+        user = consumer.user
+        async with self.__gateway_lock:
+            if self._live_tournament and user in self._live_tournament:
+                lobby_game = self._live_tournament.connect_player(user)
+            elif user in self.__match_maker:
+                lobby_game = self.__match_maker.connect_player(consumer.user)
+
         #gconn = await self.__get_game_connector(sockID)
         #await gconn.add_player(consumer.user, consumer)
         eprint('\n\n GameGateway :: connect_player() before entering lock. ')
 
-        lobby_game = await self.find_lobby_game_on_server(consumer.user)
+        # lobby_game = await self.find_lobby_game_on_server(consumer.user)
         # # is_tournament_stage = False
         # async with self.__gateway_lock:
         #     eprint('Entered lock')
@@ -138,7 +145,7 @@ class GameGateway(BaseGateway):
             raise GameGatewayException(f'User {consumer.user} connection to game FAILED !')
 
         eprint('GameGateway :: connect_player() :: self._live_tournament : ', self._live_tournament)
-        lobby_game.set_player_connected(consumer.user)
+        # lobby_game.set_player_connected(consumer.user)
 
         ## Get or create game_connector
         if not lobby_game.game_connector:
@@ -236,26 +243,32 @@ class GameGateway(BaseGateway):
 
     async def disconnect_player(self, user: User, consumer):
         print('GameGateway trying to disconnect player')
-        gconn = consumer.game_connector
-        if user in self.match_maker:
-            print('\nTry remove and disconnect player in Lobby inside MatchMaker.')
-            async with self.__gateway_lock:
+        async with self.__gateway_lock:
+            gconn = consumer.game_connector
+            if self._live_tournament and user in self._live_tournament:
+                await self._live_tournament.disconnect_player(user)
+                if self._live_tournament.is_empty:
+                    self._live_tournament = None
+
+            elif user in self.match_maker:
+                print('\nTry remove and disconnect player in Lobby inside MatchMaker.')
                 rem = self.match_maker.remove_player(user)
-            lgame, lply = rem
-            if not lgame.is_empty:
+                lgame, lply = rem
+                if not lgame.is_empty:
+                    await gconn.disconnect_player(user)
+
+            elif (gconn is not None):
+                print('\nTry remove and disconnect player IN GAME.')
                 await gconn.disconnect_player(user)
+                consumer.user = None
+                consumer.game_connector = None
 
-        elif (gconn is not None):
-            print('\nTry remove and disconnect player IN GAME.')
-            await gconn.disconnect_player(user)
-            consumer.user = None
-            consumer.game_connector = None
+            else:# Disconnect if in tournament
+                print('Trying to disconnect but GOT ELSED !')
 
-        else:# Disconnect if in tournament
-            print('Trying to disconnect but GOT ELSED !')
 
     ### DEBUG VERSION :
-    official_gameModes = {'Local_1p', 'Multiplayer', 'Tournament', 'Online_4p'}
+    official_gameModes = {'Multiplayer', 'Tournament', 'Online_4p'}
     ### PRODUCTION VERSION :
     # official_gameModes = {'Multiplayer', 'Tournament', 'Online_4p'}
 
@@ -263,7 +276,7 @@ class GameGateway(BaseGateway):
 
         async with self.__gateway_lock:
             if self._live_tournament and user in self._live_tournament:
-                tourShutdown = self._live_tournament.disconnect_player(user)
+                tourShutdown = await self._live_tournament.disconnect_player(user)
                 if tourShutdown:
                     ### Do tournament shutdown procedure
                     del self._live_tournament
@@ -356,6 +369,8 @@ class GameGateway(BaseGateway):
         # await self.__push_game_to_gamemanager('Pong', gameA)
         # await self.__push_game_to_gamemanager('Pong', gameB)
 
+
+    ### READY
     async def set_player_ready(self, user: User):
         ''' Called from a sync HTTP POST request, so no reference to lobby_game
         or game_connector unlike websocket messages with consumer. '''
@@ -442,7 +457,7 @@ class GameGateway(BaseGateway):
             eprint('endState == quit indeed')
             quitter = end_game_state['quitter']
             ply = lgame.get_player_by_id(quitter)
-            end_game_state['wall_of_shame'] = ply.user.img
+            end_game_state['wall_of_shame'] = ply.user.img_link
             eprint('game was quit by playerID ', quitter)
             res = await game.stop_and_register_results(scores, quitter=quitter)
             eprint('db push res : ', res)
