@@ -12,22 +12,20 @@ const players = [
 ];
 
 // Function to get the player's color based on their rank
+//  Use modulo operator to cycle through colors if there are more ranks than colors
 let getPlayerColor = function(rank) {
-    // Use modulo operator to cycle through colors if there are more ranks than colors
     const index = (rank + 1) % playerColors.length; //rank = playerID ; index = color
-    // console.log('index : ' + index + '  :: Player color:' + playerColors[index]);
     return playerColors[index];
 }
 
 let getPlayerShadowColor = function(rank) {
-    // Use modulo operator to cycle through colors if there are more ranks than colors
     const index = (rank + 1) % playerColors.length;
     return playerShadowColors[index];
 }
 
-
+// Clear the entire canvas
 let clearCanvas = function (ctx, w, h) {
-    ctx.clearRect(0, 0, w, h); // Clear the entire canvas
+    ctx.clearRect(0, 0, w, h); 
 }
 
 let renderCanvas = function (ctx, gameInfo) {
@@ -47,14 +45,6 @@ let renderCanvas = function (ctx, gameInfo) {
     ctx.fillRect(canvas.width / 2, 0, 1, canvas.height);
     ctx.fillStyle = "white";
 
-    // console.log('gameInfo.update.scores[0]  WIDTH: ' + canvas.width);
-    // console.log('gameInfo.update.scores[0]  HEIGHT: ' + canvas.height);
-    // console.log('gameInfo.update.scores[0]  POS: ' + scorePlayer1);
-    // console.log('gameInfo.update.scores[1]  POS: ' + scorePlayer2);
-    // if (gameInfo.racketCount > 2) {
-    //     console.log('gameInfo.update.scores[2]  POS: ' + scorePlayer3);
-    //     console.log('gameInfo.update.scores[3]  POS: ' + scorePlayer4);
-    // }
     ctx.fillText(gameInfo.update.scores[0], scorePlayer1[0], scorePlayer1[1]);
     ctx.fillText(gameInfo.update.scores[1], scorePlayer2[0], scorePlayer2[1]);
     if (gameInfo.gameType === 'Pingest') {
@@ -64,17 +54,12 @@ let renderCanvas = function (ctx, gameInfo) {
 }
 
 let renderBall = function (ctx, gameInfo, update) {
-    // console.log('gameInfo in renderBall : ' + gameInfo)
-
     const x = update.ballPos[0];
     const y = update.ballPos[1];
-    // console.log( '... last player touch color update: ' + update.lastPonger);
     let ballColorLast = getPlayerColor(update.lastPonger - 1);
     const shadow = getPlayerShadowColor(update.lastPonger - 1);
     ctx.beginPath();
     ctx.shadowBlur = 40;
-    // console.log(' ### update color player : ' + ballColorLast);
-    // console.log( '... Ball Color update: ' + ballColorLast);
     ctx.fillStyle = ballColorLast;// 'red' ballLastPlayerColor;
     ctx.shadowColor = shadow;
     ctx.arc(x, y, gameInfo.ballSize * 0.5, 0, 2 * Math.PI); // Assuming ballRadius is defined
@@ -90,11 +75,9 @@ let renderRackets = function(ctx, gameInfo, update) {
     for (let i = 0; i < racketCount; i++) {
         x = update.racketPos[2*i] + currentGameInfo.offsets[2*i];
         y = update.racketPos[2*i + 1] + currentGameInfo.offsets[2*i + 1];
-        // console.log('racketCheck : X >> '+ update.racketPos[2*i] + ' : Y >> ' + update.racketPos[2*i + 1] );
 
         // Set the color of the racket based on the player's rank
         color = getPlayerColor(i);
-        // console.log('- getter player color : ' + color);
         if (gameInfo.gameType === 'Pong' && i > 2) {
             color = '#ffffff';   }
         shadow = getPlayerShadowColor(i);
@@ -118,13 +101,9 @@ let renderRackets = function(ctx, gameInfo, update) {
 
 
 /// Should be the only function in the rendering chain to
-/// access global variables. Every downstream function call should take
-/// them as arguments.
+/// access global variables. Every downstream function call should take them as arguments.
 let updateCanvas = function (gameInfo) {
-
     // Update the canvas based on the new data
-    // Clear the canvas
     clearCanvas(ctx, canvas.width, canvas.height);
-    // Render the canvas with the new data
     renderCanvas(ctx, gameInfo);
 }
