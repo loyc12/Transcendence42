@@ -86,7 +86,7 @@ let request_join_game = async function (gameType) {
   } else if (gameType === 'Multiplayer') {
     payload = _build_join_request_payload('Multiplayer', 'Ping', false);
   } else if (gameType === 'Online_4p') {
-    payload = _build_join_request_payload('Online_4p', 'Pingest', true);
+    payload = _build_join_request_payload('Online_4p', 'Pingest', false);
   } else if (gameType === 'tobby') {
     payload = _build_join_request_payload('tobby', 'Pong', false);
   } else {

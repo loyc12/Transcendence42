@@ -239,7 +239,8 @@ class GameGateway(BaseGateway):
 
         print('GameGateway trying to disconnect player')
 
-        if user in self._live_tournament:
+        if self._live_tournament and user in self._live_tournament:
+        # if user in self._live_tournament:
             pass
         else:
             gconn = consumer.game_connector
