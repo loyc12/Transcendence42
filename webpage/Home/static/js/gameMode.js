@@ -35,8 +35,10 @@ function loadModule(moduleName) {
             console.log('Load tournament module')
             document.getElementById('tournament').style.display = 'block';
         }
-        else
-            document.getElementById('tournament').style.display = 'none';
+        else{
+            console.log('-=-=-> where is the fucking overwrite...');
+            document.getElementById('tournament').style.display = 'block';
+        }
     }
     else if (moduleName === 'game') {
         console.log('Load game')
