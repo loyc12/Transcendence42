@@ -34,6 +34,11 @@ function loadModule(moduleName) {
         {
             console.log('Load tournament module')
             document.getElementById('tournament').style.display = 'block';
+            if (isGhostLobby)
+            {
+                console.log('Load ghost lobby module')
+                document.getElementById('tournament').style.display = 'block';
+            }
         }
         else
             document.getElementById('tournament').style.display = 'none';

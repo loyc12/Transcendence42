@@ -17,7 +17,7 @@ let getPlayerColor = function(rank) {
     const index = (rank + 1) % playerColors.length; //rank = playerID ; index = color
     return playerColors[index];
 }
-ssd
+
 let getPlayerShadowColor = function(rank) {
     const index = (rank + 1) % playerColors.length;
     return playerShadowColors[index];

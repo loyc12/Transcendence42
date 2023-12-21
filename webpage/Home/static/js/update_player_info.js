@@ -79,6 +79,7 @@ let update_player_info = function (player_info_list) {
       nameElemID = `namePlayer${i}`;
       tourn1ElemID = `nameP${i}`;
       tourn2ElemID = `nameWinner${i}`;
+      tourn1ScoreElemID = `scoreP${i}`;
       // scoreP1 = `ply.score${nameElemID}`;
       // scoreP2 = `ply.score${nameElemID}`;
       // scoreP3 = `ply.score${nameElemID}`;
@@ -94,6 +95,11 @@ let update_player_info = function (player_info_list) {
       if (isTournament)
       {
         document.getElementById(tourn1ElemID).innerHTML = ` ${login}`;
+        if (isGhostLobby)
+        {
+          document.getElementById(tourn2ElemID).innerHTML = ` ${login}`;
+          document.getElementById(tourn1ScoreElemID).innerHTML = ` ${score}`;
+        }
       }
       // if (isGhostLobby)
       // {
@@ -205,6 +211,5 @@ let signal_final_game = function() {
   console.log('load final game.');
   isGhostLobby = true;
   document.getElementById("buttonGhostLobby").style.display = "none";
-  document.getElementById("tobby").style.display = "block";
-  loadModule('tobby');
+  loadModule('lobby');
 }
