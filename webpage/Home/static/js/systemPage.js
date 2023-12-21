@@ -60,7 +60,8 @@ let select_hero_content = function (key) {
             return ;
         else
         {
-            history.pushState(key, '', null);
+            history.pushState(current_content, '', null);
+            history.forward();
             console.log('pushState previous content page : : ' + key)
             hide_all_hero_content();
         }
