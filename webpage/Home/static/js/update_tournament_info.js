@@ -44,17 +44,5 @@ let update_tournament_brackets = function() {
     document.getElementById('scoreWinner2').innerHTML = '---';
 
     // WINNNER
-
-    // if (data.init.tournament.groupC)
-    // {
-    //     document.getElementById('scoreP1') = data.init.tournament.groupA.p1.score;
-    //     document.getElementById('scoreP2') = data.init.tournament.groupA.p2.score;
-    //     document.getElementById('scoreP3') = data.init.tournament.groupB.p3.score;
-    //     document.getElementById('scoreP4') = data.init.tournament.groupB.p4.score;
-        
-    //     document.getElementById('nameWinner1') = data.init.tournament.groupC.winner1.login;
-    //     document.getElementById('nameWinner2') = data.init.tournament.groupC.winner2.login;
-    // }
-
 }
 

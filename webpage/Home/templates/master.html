@@ -5,8 +5,8 @@
     <head>
         <!-- Browser Setup  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <meta charset="UTF-8">
-       <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!--meta tag to specify the version of Internet Explorer (IE):  X-UA-Compatible stands for "X User-Agent Compatible." The value "IE=edge" instructs IE to use the highest available mode of rendering,-->
-       <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--meta tag to specify how the browser should control the page's dimensions and scaling.- width=device-width: Sets the width of the viewport to the device width, ensuring that the content adapts to the screen size. initial-scale=1.0: Sets the initial zoom level when the page is loaded. A value of 1.0 means no zoom, and the content is displayed at its original size.-->
+       <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Onglet Tabulation  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
        <title>Ping Pang Pong</title>
        <!-- Stylesheet Dependency  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -82,7 +82,6 @@
                 {% endblock %}
                 </div>
             </div>
-            <!--added class="col-12 HeroDiv" to make it responsive when screen size changes-->
             <div class="row">
                 <div id="contentHome" class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mb-3 HeroDiv">
                     {% block HeroDiv %}
@@ -114,7 +113,7 @@
                     {% endblock %}
                 </div>
             </div>
-            <!-- Lobby: add aftergame and tournament in lobby. Have an if else to select aftergame or tournament - - - - -->
+            <!-- Lobby - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="lobby" class="lobby">
                     {% block lobby %}
