@@ -30,6 +30,7 @@ class GameConnector:
         self.__lobby_game = None # Returned after connecting to MatchMaker
         self.__events = asyncio.Queue()
         self.__scores: list = []
+        self.__is_closing = False
 
     @property
     def is_running(self):
@@ -135,10 +136,11 @@ class GameConnector:
         print("GameConnector :: trying to self.send_players_list()")
         await self._send_players_list()
 
+
     # DECONNECTION
     async def disconnect_player(self, user):
         print(f'GameConnector :: ENTER disconnect player')
-        if not self.__lobby_game:
+        if not self.__lobby_game or user.id not in self.__player_consumers:
             return None
         async with self.__game_lock:
             if user.id not in self.__player_consumers:
@@ -146,9 +148,10 @@ class GameConnector:
             consumer = self.__player_consumers.pop(user.id)
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
         print(f'GameConnector :: SWITCH')
-        if self.game:
+        if self.game and self.game.is_running and not self.__is_closing:
             print(f'GameConnector :: disconnect player {user.id} INGAME')
              # send disconnect event to Game instance in game manager. Same place as keypress events.
+            # self.__is_closing = True
             await self.push_event(user.id, 'end_game')
         elif self.nb_connected > 0:
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
@@ -158,6 +161,7 @@ class GameConnector:
             print(f'GameConnector :: disconnect player {user.id} from tournament lobby.')
         else:
             print('WTF DUDE !! async def disconnect_player(self, user), other')
+
     # async def disconnect_all_players(self):
     #     # async with self.__game_lock:
     #     #     for ply in self.__player_consumers:
