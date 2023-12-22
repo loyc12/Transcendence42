@@ -316,7 +316,7 @@ class LiveTournament:
                     # lgame.remove_user(user)
                     # if lgame.is_empty:
                         # self.__match_maker.remove_lobby_game(lgame)
-                    
+
         elif self.__player_is_winner_of_tournament(user):
             if user in self._groupC:
                 gconn = self._groupC.game_connector
@@ -417,7 +417,7 @@ class LiveTournament:
                 },
             }
         }
-    
+
     def update_brackets_info(self, group, lgame):
         players = lgame.players
         if group == 'groupA':
