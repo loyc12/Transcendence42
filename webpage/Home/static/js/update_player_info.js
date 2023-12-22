@@ -72,7 +72,7 @@ let update_player_info = function (player_info_list) {
     update_local_2p_info(player_info_list[0]);
 
   else {
-    console.log("update_player_info info CALLED for online game.");
+    console.log("update_player_info info CALLED.");
     let i = 0;
     for (ply of player_info_list) {
       imgElemID = `imgPlayer${++i}`;
@@ -84,6 +84,8 @@ let update_player_info = function (player_info_list) {
       // scoreP2 = `ply.score${nameElemID}`;
       // scoreP3 = `ply.score${nameElemID}`;
       // scoreP4 = `ply.score${nameElemID}`;
+
+
       login = ply.login;
       img = ply.img;
       ready = ply.ready;
@@ -112,9 +114,10 @@ let update_player_info = function (player_info_list) {
       //   // //Score of ply.login at tourn1ElemID
       //   // document.getElementById('scoreP4').innerHTML = ` ${score}`;
 
-      //   //Row 2 Match
-      //   document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
-      //   isTournament = False;
+        //Row 2 Match
+      if (isGhostLobby)
+        document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
+        // isTournament = False;
       // }
       document.getElementById(imgElemID).src = img;
       document.getElementById(nameElemID).innerHTML = ` ${login}`;
@@ -160,18 +163,16 @@ let loadEndGame = function (data) {
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
-  console.log('winnerID : ' + winnerID);
-  let winner = data.playerInfo[winnerID];
 
-  console.log('winner : ' + winner);
-  console.log('user_id : ' + user_id);
+  let winner = data.playerInfo[winnerID];
   let user_is_winner = (winner.playerID == user_id);
-  console.log('winner.playerID : ' + winner.playerID);
 
   console.log(" data.playerInfo : " +  data.playerInfo)
   console.log("winnerID : " + winnerID)
   console.log("winner : " + winner)
   console.log("user_is_winner : " + user_is_winner)
+  console.log("isTournament : " + isTournament)
+  document.getElementById("buttonGhostLobby").style.display = "none";
 
   if (data.endState === 'crash' || winnerID == undefined){
     console.log('*****crash');
@@ -198,18 +199,29 @@ let loadEndGame = function (data) {
     console.log('***wallOfShame');
     document.getElementById("wallofshame").style.display = "block";
   }
-  disconnect_socket();
+  // disconnect_socket();
 }
 
+
 let signal_final_game = function() {
-  // let payload = {
-  //   'ev': 'final'
-  // }
+  console.log('signal_final_game :: entered !')
+  console.log('signal_final_game :: tourWebSock :' + tourWebSock)
+
+  if (tourWebSock == null) {
+    console.error('Trying to signale join final game while no tournament socket exists.')
+    disconnect_socket();
+    disconnect_tour_socket();
+    return;
+  }
+  let payload = JSON.stringify({
+    'ev': 'final'
+  });
   // console.log('Sending payload : ' + payload);
   // gameWebSock.send(JSON.stringify(payload));
   // console.log('Payload sent.');
   console.log('load final game.');
-  isGhostLobby = true;
-  document.getElementById("buttonGhostLobby").style.display = "none";
   loadModule('lobby');
+  tourWebSock.send(payload);
+  // document.getElementById("loser").style.display = "block";
+
 }
