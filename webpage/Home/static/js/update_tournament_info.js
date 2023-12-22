@@ -21,7 +21,7 @@ let mock_groupB = {
     }
 }
 
-let update_tournament_brackets = function() {
+let update_tournament_brackets = function(bracket_info) {
     
     //  GROUP A
     document.getElementById('nameP1').innerHTML = mock_groupA.p1.login;
