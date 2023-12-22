@@ -163,6 +163,7 @@ class GameGateway(BaseGateway):
 
         ## Get or Create tournament connector (if is tournament), and send brackets.
         if lobby_game.is_tournament:
+            eprint('GameGateway :: lgame isTournament')
 
             ## Init TournamentConnector
             if lobby_game.tour_connector:

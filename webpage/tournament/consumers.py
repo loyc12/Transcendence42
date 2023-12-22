@@ -70,7 +70,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         event_type = event['ev']
 
         if event_type == 'final':
-            self.liveTour.join_final_game(self.user)
+            await self.liveTour.join_final_game(self.user)
             await self.liveTour.connector.send_brackets(self.liveTour.get_brackets_info())
 
 

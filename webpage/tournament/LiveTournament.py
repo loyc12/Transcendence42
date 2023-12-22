@@ -179,14 +179,14 @@ class LiveTournament:
             return (lgame.game_connector.game.winner == user.id)
         return False
 
-    def join_final_game(self, user: User):
+    async def join_final_game(self, user: User):
         eprint(f'LiveTournament :: join_final_game :: USER {user.login} TRYING TO JOIN FINAL GAME !!')
         if user in self._groupA:
             won_game = self._groupA
-            self._groupAWinner = user
+            self._groupAWinner = user.id
         elif user in self._groupB:
             won_game = self._groupB
-            self._groupBWinner = user
+            self._groupBWinner = user.id
 
         # if not won_game:
         #     raise LiveTournamentException(f"LiveTournament :: User {user.login} trying to join final game, but didn't win its first game.")
@@ -202,6 +202,8 @@ class LiveTournament:
         else:
             self.__match_maker.join_lobby(user, formStage1C)
 
+        await self.connector.send_stage_initializer_to_finale_user(self._groupC, user)
+
 
 
     def connect_player(self, user: User):
@@ -210,6 +212,7 @@ class LiveTournament:
         if not lgame:
             raise LiveTournamentException('LiveTournament :: Trying to connect player to tournament game, but player not in tournament.')
         lgame.set_player_connected(user)
+        eprint('LiveTournament :: connect_player :: lgame : ', lgame)
 
         # lply = lgame.get_player(user)
         # lply.is_connected = True
@@ -241,11 +244,17 @@ class LiveTournament:
         return lgame != self.__init_lobby and not self._groupC or not (user in self._groupC) and lgame.is_over and user.id != lgame.winner
 
     def __player_reached_end_game(self, user):
-        if not (self.groupC and user in self.groupC):
+        if not (self._groupC and user in self._groupC):
             return False
         gconn = self._groupC.game_connector
         game = gconn.game
+        if not game:
+            return False
         return game.is_over
+
+    def __player_is_winner_of_first_game(self, user):
+        return user.id == self._groupAWinner or user.id == self._groupBWinner
+
 
     async def disconnect_player(self, user: User):
 
@@ -285,6 +294,21 @@ class LiveTournament:
             await self.__tconn.disconnect_player(user)
             if lgame in user:
                 self.__match_maker.remove_player(user)
+        elif self.__player_is_winner_of_first_game(user):
+            eprint('LiveTournament :: __player_is_winner_of_first_game and disconnecting')
+            if user in self._groupA:
+                gconn = self._groupB.game_connector
+                if gconn:
+                    gconn.disconnect_player(user)
+            elif user in self._groupB:
+                gconn = self._groupB.game_connector
+                if gconn:
+                    gconn.disconnect_player(user)
+                # await gconn.disconnect_player(user)
+                # if lgame in user:
+                    # lgame.remove_user(user)
+                    # if lgame.is_empty:
+                        # self.__match_maker.remove_lobby_game(lgame)
         else:
             eprint('LiveTournament :: player disconnecting from tournament in an unforeseen manner.')
 
