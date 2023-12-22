@@ -1,48 +1,40 @@
 
-let mock_groupA = {
-    p1: {
-        login: 'Player1',
-        score: '---',
-    },
-    p2: {
-        login: 'Player2',
-        score: '---',
-    }
-}
-
-let mock_groupB = {
-    p3: {
-        login: 'Player3',
-        score: '---',
-    },
-    p4: {
-        login: 'Player4',
-        score: '---',
-    }
-}
-
 let update_tournament_brackets = function(bracket_info) {
     
-    //  GROUP A
-    document.getElementById('nameP1').innerHTML = mock_groupA.p1.login;
-    document.getElementById('scoreP1').innerHTML = mock_groupA.p1.score;
+    if (isTournament) {
+        player1Login = bracket_info[0].login;
+        player2Login = bracket_info[1].login;
+        player3Login = bracket_info[2].login;
+        player4Login = bracket_info[3].login;
 
-    document.getElementById('nameP2').innerHTML = mock_groupA.p2.login;
-    document.getElementById('scoreP2').innerHTML = mock_groupA.p2.score;
+        document.getElementById('nameP1').innerHTML = 'player1Login';
+        document.getElementById('nameP2').innerHTML = 'player2Login';
+        document.getElementById('nameP3').innerHTML = 'player3Login';
+        document.getElementById('nameP4').innerHTML = 'player4Login';
 
-    //  GROUP B
-    document.getElementById('nameP3').innerHTML = mock_groupB.p3.login;
-    document.getElementById('scoreP3').innerHTML =  mock_groupB.p3.score;
+        document.getElementById('scoreP1').innerHTML = '---';
+        document.getElementById('scoreP2').innerHTML = '---';
+        document.getElementById('scoreP3').innerHTML = '---';
+        document.getElementById('scoreP4').innerHTML = '---';
 
-    document.getElementById('nameP4').innerHTML = mock_groupB.p4.login;
-    document.getElementById('scoreP4').innerHTML = mock_groupB.p4.score;
+        if (isGhostLobby){
+            player1Winner = bracket_info[0].winner;
+            player2Winner = bracket_info[1].winner;
+            document.getElementById('nameWinner1').innerHTML = 'player1Winner';
+            document.getElementById('scoreWinner1').innerHTML = '---';
+            document.getElementById('nameWinner2').innerHTML = 'player2Winner';
+            document.getElementById('scoreWinner2').innerHTML = '---';
 
-    //  GROUP C
-    document.getElementById('nameWinner1').innerHTML = mock_groupA.p1.login;
-    document.getElementById('scoreWinner1').innerHTML = '---';
-    document.getElementById('nameWinner2').innerHTML = mock_groupB.p3.login;
-    document.getElementById('scoreWinner2').innerHTML = '---';
-
-    // WINNNER
+            player1Score1 = bracket_info[0].score;
+            player2Score1 = bracket_info[1].score;
+            player3Score1 = bracket_info[2].score;
+            player4Score1 = bracket_info[3].score;
+    
+            document.getElementById('scoreP1').innerHTML = 'player1Score1';
+            document.getElementById('scoreP2').innerHTML = 'player2Score1';
+            document.getElementById('scoreP3').innerHTML = 'player3Score1';
+            document.getElementById('scoreP4').innerHTML = 'player4Score1';
+        }
+    }
 }
 
