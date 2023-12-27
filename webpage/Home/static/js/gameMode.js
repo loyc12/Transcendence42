@@ -51,16 +51,16 @@ function loadModule(moduleName) {
     }
     else if (moduleName === 'aftergame' ) {
         console.log('Load aftergame')
-        // if (isTournament)
-        // {
-        //     console.log('Load tournament after game ROUND1');
-        //     isGhostLobby = True;
-        //     document.getElementById('buttonGhostLobby').style.display = 'block';
-        // }
-        // else
-        // {
-        //     document.getElementById('buttonGhostLobby').style.display = 'none';
-        // }
+        if (isTournament)
+        {
+            console.log('Load tournament after game ROUND1');
+            isGhostLobby = True;
+            document.getElementById('buttonGhostLobby').style.display = 'block';
+        }
+        else
+        {
+            document.getElementById('buttonGhostLobby').style.display = 'none';
+        }
         document.getElementById('aftergame').style.display = 'block';
     }
     else {

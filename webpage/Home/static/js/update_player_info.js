@@ -158,15 +158,15 @@ let reset_endgame_messages = function () {
 
 let loadEndGame = function (data) {
   console.log('end is: ' + data.endState);
-  console.log('loadEndGame :: data : ' + data)
-  console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
+  // console.log('loadEndGame :: data : ' + data)
+  // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
   console.log('-=-= loadEndGame :: data.winingTeam : ' + data.winingTeam);
   reset_endgame_messages();
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
   console.log('winnerID : ' + winnerID);
-  let winner = data.playerInfo[winnerID];
+  let winner = user_id; //data.playerInfo[winnerID];
 
   console.log('winner : ' + winner);
   console.log('user_id : ' + user_id);
@@ -192,16 +192,20 @@ let loadEndGame = function (data) {
 
   }
   else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
-    console.log('LOCAL GAME');
+    console.log('LOCAL GAME END');
     document.getElementById("finish").style.display = "block";
   }
   else if (data.endState !== 'crash'){
-    console.log('***lose', namePlayer1);
+    console.log('*** lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
   }
   else if (data.endState === 'wallOfShame'){
-    console.log('***wallOfShame');
+    console.log('*** wallOfShame');
     document.getElementById("wallofshame").style.display = "block";
+  }
+  else {
+    console.log('LOCAL GAME ALT-END');
+    document.getElementById("finish").style.display = "block";
   }
   disconnect_socket();
 }
