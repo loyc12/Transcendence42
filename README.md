@@ -93,62 +93,26 @@ TRANSCENDENCE42/
 
 ## Stay in touch
 
-
 ## License
 
 ### order command
 
-
-<!-- reminder for mega fonction ... 
-    ... after menu clicked 
-    ... request GameID  
-    http  POST: request gameType Form
-    ... set Game_State [0] AND set iconLoader -->
 <!--
-    ... build webSocket to path: 
-    Websocket path : 'ws://' + window.location.host + '/game/ws/' + game_id + '/';
-    ... when recieved web socket   
-    ... remove loader AND enable start click 
-    ... event websocket
-    ... countdown from async to sync and GO -->
-
-<!-- 
 - first: exode de script du html
 - then:  set initState struct (each of them , but solo first...)
-- console() init_status ... width, height, ratio, 
+- console() init_status ... width, height, ratio,
 - player.pos[x,y]:dir[0/1]...ball[bx,by],score[s1,s2],
+-->
 
---- {   
-        'gameType': 'Ping', 
-        'sizeInfo': {
-                    'width': 2048, 'height': 1024, 
-                    'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-                    'sRacket': 160, 'sBall': 20 },
-        'racketCount': 2, 
-        'racketInitPos': [682, 1004, 'x', 1365, 1004, 'x'], 
-        'ballInitPos': [1024, 682], 
-        'teamCount': 2 }
- -->
- <!-- 
---- {
-        'gameType': 'Pong', 
-        'sizeInfo': {
-            'width': 2048, 'height': 1024, 
-            'wRatio': 0.00048828125, 'hRatio': 0.0009765625, 
-            'sRacket': 160, 'sBall': 20}, 
-        'racketCount': 2, 
-        'racketInitPos': [20, 512, 'y', 2028, 512, 'y'], 
-        'ballInitPos': [512, 512], 
-        'teamCount': 2}
-
---- {
-        'gameType': 'Pingest', 
-        'sizeInfo': {
-            'width': 1536, 'height': 1024, 
-            'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625, 
-            'sRacket': 160, 'sBall': 20}, 
-        'racketCount': 4, 
-        'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'], 
-        'ballInitPos': [1152, 768],
-        'teamCount': 4}
-  -->
+<!--
+- new target: player's color on the lobby match game color
+- paddle orientation : y // x
+- setup *page and *button:  help!
+    - menu button: "Help"
+    - module 'page' to display game tuto!
+- test de "bouton de nav" ...
+    backward: to home (works!)
+    forward: get back from last position
+    refresh !?! ...
+- crash at some point ... on endGame!!!
+   -->

@@ -36,12 +36,15 @@ let hide_excess_player_profiles = function (nb_rackets) {
 
 let update_local_1p_info = function (player_info) {
 
-  console.log("update_local_2p_info info CALLED.");
+  console.log("update_local_1p_info info CALLED.");
   document.getElementById("imgPlayer1").src = player_info.img;
   document.getElementById("namePlayer1").innerHTML = player_info.login;
-  // document.getElementById("imgPlayer2").src = img;
-  document.getElementById("imgPlayer2").style.border = "3px outset #34eb34";
+  // document.getElementById("imgPlayer1").style.border = "3px outset";
+  document.getElementById("imgPlayer1").style.color = getPlayerColor(1);
+
   document.getElementById("namePlayer2").innerHTML = "Celine Incognito";
+  // document.getElementById("imgPlayer2").style.border = "3px outset";
+  document.getElementById("imgPlayer2").style.color = getPlayerColor(0);
 }
 
 let update_local_2p_info = function (player_info) {
@@ -136,6 +139,8 @@ let signal_player_ready = function() {
   document.getElementById("startEngine").disabled = true;
   document.getElementById("startEngine").innerHTML = "READY!";
   document.getElementById("custom-spinner").style.display = "block";
+  // document.getElementById("custom-spinner").style. = "block";
+
   let payload = {
     'ev': 'ready'
   }

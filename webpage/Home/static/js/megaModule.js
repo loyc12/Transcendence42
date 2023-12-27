@@ -28,7 +28,7 @@ let _on_game_event = function(event) {
     // console.log('Client RECEIVED event : ' + event)
     const data = JSON.parse(event.data);
 
-    console.log("_on_game_event:: JSON data content : ", data);
+    // console.log("_on_game_event:: JSON data content : ", data);
 
     if (data.ev === 'up') {
         // Called by websocket with event type 'up' for every update during a game.
