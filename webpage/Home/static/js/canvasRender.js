@@ -15,7 +15,7 @@ const players = [
 //  Use modulo operator to cycle through colors if there are more ranks than colors
 let getPlayerColor = function(rank) {
     const index = (rank + 1) % playerColors.length; //rank = playerID ; index = color
-    console.log('getPlayerColor :: rank  + 1 : ' + (rank + 1) + ' ; index : ' + index + ' ; playerColors[index] : ' + playerColors[index]);
+    // console.log('getPlayerColor :: rank  + 1 : ' + (rank + 1) + ' ; index : ' + index + ' ; playerColors[index] : ' + playerColors[index]);
     return playerColors[index];
 }
 

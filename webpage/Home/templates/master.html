@@ -66,6 +66,14 @@
                 {% endblock %}
                 </div>
             </div>
+            <!-- Navbar INFO - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="row">
+                <div id="NavBarHelp" div class="NavBar">
+                {% block navbar_help %}
+                        {% include 'Selector/help_navbar.html' %}
+                {% endblock %}
+                </div>
+            </div>
             <!-- Navbar GAME - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
             <div class="row">
                 <div id="NavBarGame" div class="NavBar">
@@ -95,6 +103,14 @@
                 <div id="contentInfo" class="module1">
                     {% block module1 %}
                         {% include 'Profile/profile.html' %}
+                    {% endblock %}
+                </div>
+            </div>
+             <!-- Help - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+             <div class="row">
+                <div id="contentHelp" class="module4">
+                    {% block module4 %}
+                        {% include 'Help/help.html' %}
                     {% endblock %}
                 </div>
             </div>

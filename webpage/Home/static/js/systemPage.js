@@ -1,8 +1,8 @@
 
 let current_content = null;
 
-let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin',
-                        'contentHome', 'contentInfo', 'contentGame', 'contentLogin',
+let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin', 'NavBarHelp',
+                        'contentHome', 'contentInfo', 'contentGame', 'contentLogin', 'contentHelp',
                         'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame', 'tournament']
 
 let all_hero_content2 = {
@@ -22,6 +22,10 @@ let all_hero_content2 = {
         'navBar': 'NavBarLogin',
         'heroDiv': 'contentLogin'
     },
+    'help': {
+        'navBar': 'NavBarHelp',
+        'heroDiv': 'contentHelp'
+    },
 }
 
 let hide_all_hero_content = function () {
@@ -40,6 +44,7 @@ let select_hero_content = function (key) {
     if (!contentElems)
         return;
     let navContentElem = document.getElementById(contentElems['navBar']);
+    console.log('select_hero_content after navContentElem' + navContentElem);
     let heroContentElem = document.getElementById(contentElems['heroDiv']);
     if (navContentElem)
         navContentElem.style.display = 'block';
@@ -53,6 +58,11 @@ let select_hero_content = function (key) {
             console.log('Special case contentGame loadModule(gameMode)')
             loadModule('gameMode')
             disconnect_socket()
+        }
+        if (contentElems['heroDiv'] === 'contentHelp') {
+            console.log('Special case contentHelp loadModule(Help)')
+            loadModule('help')
+            // disconnect_socket()
         }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
         console.log('previous content page : ' + key)
@@ -91,6 +101,8 @@ let buttonModule0 = document.getElementById('buttonModuleHome');
 let buttonModule1 = document.getElementById('buttonModuleInfo');
 let buttonModule2 = document.getElementById('buttonModuleGame');
 let buttonModule3 = document.getElementById('buttonModuleLogin');
+let buttonModule4 = document.getElementById('buttonModuleHelp');
+
 
 if (buttonModule0)
     buttonModule0.addEventListener('click', function () {select_hero_content('init');})
@@ -100,5 +112,7 @@ if (buttonModule2)
     buttonModule2.addEventListener('click', function () {select_hero_content('game');})
 if (buttonModule3)
     buttonModule3.addEventListener('click', function () { select_hero_content('login');})
+if (buttonModule4)
+    buttonModule4.addEventListener('click', function () { select_hero_content('help');})
 select_hero_content('init')
 
