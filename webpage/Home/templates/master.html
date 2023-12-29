@@ -156,12 +156,16 @@
     {% if request.session.user_id %}
         <script>
             const user_id = {{ request.session.user_id }};
+            const api_key = "{{ request.user.apiKey }}";
             console.log("user_id = " + user_id);
+            console.log("api_key = " + api_key);
         </script>
     {% else %}
         <script>
             const user_id = null;
+            const api_key = null;
             console.log("user_id is null");
+            console.log("api_key is null");
         </script>
     {% endif %}
     <script type="text/javascript" src="js/browserNav.js" defer></script>
@@ -177,5 +181,6 @@
     <script type="text/javascript" src="js/megaModule.js" defer></script>
     <script type="text/javascript" src="js/update_player_info.js" defer></script>
     <script type="text/javascript" src="js/update_tournament_info.js" defer></script>
+    <script type="text/javascript" src="js/api_controler.js" defer></script>
 {% endcompress %}
 </html>

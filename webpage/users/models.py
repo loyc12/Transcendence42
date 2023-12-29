@@ -1,3 +1,4 @@
+import hashlib
 from django.contrib.auth.models import AbstractBaseUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, OperationalError, IntegrityError
@@ -13,6 +14,7 @@ class User(AbstractBaseUser):
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
     is_active       = models.BooleanField (default=False) #status online/offline
+    # api_id          = models.CharField    (max_length=64, unique=True)
 
     USERNAME_FIELD = "login"
 
@@ -25,6 +27,12 @@ class User(AbstractBaseUser):
                 created_at: {self.created_at},\
                 updated_at: {self.updated_at}"
 
+    def get_apiID(self) -> str:
+        return hashlib.sha256(f'{self.id};{self.login};{self.created_at};{self.last_login}'.encode()).hexdigest()
+
+    @property
+    def apiKey(self):
+        return self.get_apiID()
 
     @property
     def current_game(self):

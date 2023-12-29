@@ -351,10 +351,25 @@ class MatchMaker:
         print(f'MatchMaker :: remove_player :: FOUND USER')
 
         gameMode, lgame, lply = finder_result
+
         if lgame.nb_players == 1:
             print(f'MatchMaker :: remove_player :: last player gone. removing game from MatchMaker')
             self.remove_lobby_game(lgame)
         else:
             print(f'MatchMaker :: remove_player :: last player gone. removing player from lobby')
             lgame.remove_player(lply)
+
+        if lgame.is_tournament or lgame.is_tournament_game:
+            ''' If removing player from tournament init lobby or tournament game,
+            try and cleanup both the tournament lobby and the game they are in. '''
+            return self.remove_player(user)
+
         return (lgame, lply)
+    
+    def remove_player_from(self, user: User, lgame: LobbyGame):
+        if not user in lgame:
+            return
+        lgame.remove_user(user)
+        if lgame.is_empty:
+            self.remove_lobby_game(lgame)
+

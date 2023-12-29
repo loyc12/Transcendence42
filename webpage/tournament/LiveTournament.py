@@ -222,12 +222,23 @@ class LiveTournament:
         return lgame
 
 
-    def _forced_disconnect_all(self, lgame: LobbyGame):
+    async def _forced_disconnect_all(self):#, lgame: LobbyGame):
         ### Called when a player leaves mid game.
-        self._is_closing = True
-        if lgame.game_connector:
-            for ply in lgame.players:
-                lgame.game_connector.disconnect_player(ply.user)
+        self._is_closing = True # important
+
+        if self.__init_lobby and self.__init_lobby.game_connector:
+            await self.__init_lobby.game_connector.disconnect_all_players()
+        elif self._groupA and self._groupA.game_connector:
+            await self._groupA.game_connector.disconnect_all_players()
+        elif self._groupB and self._groupB.game_connector:
+            await self._groupA.game_connector.disconnect_all_players()
+        elif self._groupC and self._groupC.game_connector:
+            await self._groupA.game_connector.disconnect_all_players()
+
+
+        # if lgame.game_connector:
+        #     for ply in lgame.players:
+        #         lgame.game_connector.disconnect_player(ply.user)
 
 
     def _soft_disconnect(self, lgame: LobbyGame, user: User):
@@ -240,9 +251,9 @@ class LiveTournament:
 
     def __player_is_looser_of_first_game(self, user: User):
         lgame = self.__init_lobby
-        if user in self._groupA:
+        if user in self._groupA and lgame.sockID == self.groupA.sockID:
             lgame = self._groupA
-        elif user in self._groupB:
+        elif user in self._groupB and lgame.sockID == self.groupB.sockID:
             lgame = self._groupB
         return lgame != self.__init_lobby and not self._groupC or not (user in self._groupC) and lgame.is_over and user.id != lgame.winner
 
@@ -262,68 +273,82 @@ class LiveTournament:
 
 
     async def disconnect_player(self, user: User):
+        ''' Returns True or False to signal if the tournament should be shutdown or not. '''
 
         ## TODO: LOTS OF WORK TO DO ::: build switch with all disconnect scenarios.
         eprint('LiveTournament :: disconnect_player :: Trying to disconnect ', user.login)
         eprint('LiveTournament :: disconnect_player :: user in self.__init_lobby : ', user in self.__init_lobby)
         eprint('LiveTournament :: disconnect_player :: first_stage_started : ', self.first_stage_started)
         if user in self.__init_lobby and not self.first_stage_started:
+            ''' Player disconnecting from tournament lobby. '''
             eprint('LiveTournament :: user in self.__init_lobby and not self.first_stage_started : TRUE')
             self.__match_maker.remove_player(user)
-            return
+            await self.__init_lobby.game_connector.disconnect_player(user)
+            return False
             # self.__init_lobby.remove_user(user)
 
         lgame = self.get_player_game(user)
         if not lgame.game_connector:
             eprint('LiveTournament :: lgame has no game connector')
-            return
+            return False
+        
+        gconn = lgame.game_connector
 
-        ### Manage regular routes first : loser diconnect from first game.
+        if gconn.game and gconn.game.is_running:
+            ''' If game is running, force disconnect all players from tournament.'''
+            self._forced_disconnect_all()
+            # lgame.game_connector.disconnect_player(user)
+            return True
+
+
+
+        ### Manage regular routes first : looser diconnect from first game.
         if self.__player_is_looser_of_first_game(user):
             eprint('LiveTournament :: __player_is_looser_of_first_game and disconnecting')
             eprint('LiveTournament :: lgame is init lobby : ', lgame == self.__init_lobby)
             eprint('LiveTournament :: lgame.is_over : ', lgame.is_over)
-            gconn = lgame.game_connector
-            if not gconn:
-                eprint('LiveTournament :: lgame has no game connector')
-                return
             await gconn.disconnect_player(user)
             await self.__tconn.disconnect_player(user)
             if user in lgame:
-                self.__match_maker.remove_player(user)
-        ### Manage regular routes first : winner/loser diconnect from final game.
+                self.__match_maker.remove_player_from(user, lgame)
+                self.__match_maker.remove_player_from(user, self.__init_lobby)
+            return False
+        ### Manage regular routes first : winner/looser diconnect from final game.
         elif self.__player_reached_end_game(user):
             eprint('LiveTournament :: __player_reached_end_game and disconnecting')
+            self._is_closing = True
             gconn = lgame.game_connector
             await gconn.disconnect_player(user)
             await self.__tconn.disconnect_player(user)
-            if lgame in user:
-                self.__match_maker.remove_player(user)
+            if user in lgame:
+                self.__match_maker.remove_player_from(user, lgame)
+                self.__match_maker.remove_player_from(user, self.__init_lobby)
+            return self.is_empty
+
         elif self.__player_is_winner_of_first_game(user):
             eprint('LiveTournament :: __player_is_winner_of_first_game and disconnecting')
             if user in self._groupA:
                 gconn = self._groupA.game_connector
                 if gconn:
                     self._update_brackets_info('groupA', self._groupA)
-                    gconn.disconnect_player(user)
+                    await gconn.disconnect_player(user)
+                    self.__match_maker.remove_player_from(user, self._groupA)
             elif user in self._groupB:
                 gconn = self._groupB.game_connector
                 if gconn:
                     self._update_brackets_info('groupB', self._groupB)
-                    gconn.disconnect_player(user)
-                # await gconn.disconnect_player(user)
-                # if lgame in user:
-                    # lgame.remove_user(user)
-                    # if lgame.is_empty:
-                        # self.__match_maker.remove_lobby_game(lgame)
+                    await gconn.disconnect_player(user)
+                    self.__match_maker.remove_player_from(user, self._groupA)
+            return False
 
-        elif self.__player_is_winner_of_tournament(user):
-            if user in self._groupC:
-                gconn = self._groupC.game_connector
-                if gconn:
-                    self._update_brackets_info('groupC', self._groupC)
-                    gconn.disconnect_player(user)
-            # return self.
+        # elif self.__player_is_winner_of_tournament(user):
+        #     if user in self._groupC:
+        #         gconn = self._groupC.game_connector
+        #         if gconn:
+        #             self._update_brackets_info('groupC', self._groupC)
+        #             await gconn.disconnect_player(user)
+        #         await self.__tconn.disconnect_player(user)
+        #     # return self.
 
         else:
             eprint('LiveTournament :: player disconnecting from tournament in an unforeseen manner.')
