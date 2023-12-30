@@ -1,10 +1,10 @@
 import sys
+import hashlib
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError, OperationalError
 from users.models import User
 from asgiref.sync import sync_to_async
-
 
 
 def eprint(*args):
@@ -31,11 +31,9 @@ class Game(models.Model):
     is_official =   models.BooleanField(default=False)
     is_running =    models.BooleanField(default=False)
     is_over =       models.BooleanField(default=False)
-    # is_tournament = models.BooleanField(default=False)
     is_broken =     models.BooleanField(default=False)
 
     winner =        models.ForeignKey('users.User', null=True, blank=True, on_delete=models.SET_NULL, related_name='game_winner')
-    #finale_scores = models.CharField(max_length=32)# scores in string, separated by ';' : "<player1>;<player2>;...;<playerN>"
     finale_scores = models.JSONField(max_length=150, default=dict)
 
 
@@ -52,6 +50,13 @@ class Game(models.Model):
 
     def __repr__(self):
         return (self.__str__())
+
+    def get_apiID(self) -> str:
+        return hashlib.sha256(f'{self.id};{self.created_at};{self.game_type}'.encode()).hexdigest()
+
+    @property
+    def apiKey(self):
+        return self.get_apiID()
 
     @classmethod
     def force_stop_all_games(cls):
@@ -71,20 +76,6 @@ class Game(models.Model):
     @property
     def is_full(self):
         return self.players.count() == self.max_players
-
-    # @property
-    # def is_tournament(self):
-    #     try:
-    #         print('Game Model :: is_tournament')
-    #         cur_tournament = Game.tournament_set.filter(groupAGame=self.id).values()\
-    #             | Game.tournament_set.filter(groupBGame=self.id).values()\
-    #             | Game.tournament_set.filter(groupCGame=self.id).values()
-    #     except ObjectDoesNotExist:
-    #         print('Tournament Model :: ObjectDoesNotExist')
-    #         return None
-    #     return cur_tournament is not None
-
-
 
     def can_join(self, user: User) -> bool:
         return (
@@ -108,9 +99,6 @@ class Game(models.Model):
         if self.is_full:
             raise OperationalError('Trying to add player when the game is already full.')
 
-        #if nb_players == 0;
-        #    self.host = user
-        #user.join_game(self)
         self.players.add(user)
 
         if save:
@@ -137,21 +125,6 @@ class Game(models.Model):
         if save:
             self.save()
 
-
-    ### Commented by Ian
-    # def __flush_all_players(self):
-    #     ''' Removes this game from each player's current_game variable back to NULL.
-    #      Does NOT remove the users from the game's players field since it is used to log
-    #      the games data long term for users to track their stats through games they played in.
-    #      This will allow players to join an other game in the future. This should only
-    #      be done when the it is time to cut ties with between the game and its players
-    #      to definitly in at runtime. '''
-
-    #     plys = self.players.all()
-    #     for ply in plys:
-    #         ply.leave_game(save=False)
-    #     User.objects.bulk_update(plys, ['current_game'])# batch updates to postgres rather then individual saves.
-
     def timestamp_start(self):
         self.started_at = datetime.now()
     def timestamp_end(self):
@@ -167,8 +140,6 @@ class Game(models.Model):
                 and be a dict with player id as key and score as value.
         '''
         eprint('CALLED stop_and_register_results')
-        # if not isinstance(scores, dict):
-        #     raise TypeError('scores param must be a dict.')
         if len(scores) != self.max_players:
             raise OperationalError(f"Wrong nb of player scores ({len(scores)}) in scores dict.")
         if not self.is_running:
@@ -209,6 +180,5 @@ class Game(models.Model):
 
         self.finale_scores = scores
 
-        #self.__flush_all_players()
         self.save()
         return ('wow')

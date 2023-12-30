@@ -16,6 +16,7 @@ done
 echo 'SUCCESSFULLY CONNECTED TO REDIS CACHE SERVER FROM DJANGO !!' >> db_conn.log
 #curl -X GET -fsSL -m 1 'https://ident.me' > 'public.ip'
 
+# git submodule update -f --init --remote
 pipenv run python3 manage.py makemigrations
 pipenv run python3 manage.py migrate
 pipenv run python3 manage.py collectstatic --noinput --clear

@@ -75,35 +75,68 @@ let update_player_info = function (player_info_list) {
     update_local_2p_info(player_info_list[0]);
 
   else {
-    console.log("update_player_info info CALLED for online game.");
+    console.log("update_player_info info CALLED.");
     let i = 0;
     for (ply of player_info_list) {
       imgElemID = `imgPlayer${++i}`;
       nameElemID = `namePlayer${i}`;
-      tourn1ElemID = `nameP${i}`;
-      tourn2ElemID = `nameWinner${i}`;
-      tourn1ScoreElemID = `scoreP${i}`;
-      // scoreP1 = `ply.score${nameElemID}`;
-      // scoreP2 = `ply.score${nameElemID}`;
-      // scoreP3 = `ply.score${nameElemID}`;
-      // scoreP4 = `ply.score${nameElemID}`;
       login = ply.login;
       img = ply.img;
       ready = ply.ready;
-      score  = ply.score;
 
-      // console.log('login : ' + login)
-      // console.log('img : ' + img)
-      // console.log('ready : ' + ready)
-      if (isTournament)
-      {
-        document.getElementById(tourn1ElemID).innerHTML = ` ${login}`;
-        if (isGhostLobby)
-        {
-          document.getElementById(tourn2ElemID).innerHTML = ` ${login}`;
-          document.getElementById(tourn1ScoreElemID).innerHTML = ` ${score}`;
-        }
-      }
+      // if (isTournament)
+      // {
+      //   if (player_info_list[0])
+      //   {
+      //     player1Login = player_info_list[0].login;
+      //     document.getElementById('nameP1').innerHTML = ` ${'player1Login'}`;
+      //   }
+      //   if (player_info_list[1])
+      //   {
+      //     player2Login = player_info_list[1].login;
+      //     document.getElementById('nameP2').innerHTML = ` ${'player2Login'}`;
+      //   }
+      //   if (player_info_list[2]) 
+      //   {
+      //     player3Login = player_info_list[2].login;
+      //     document.getElementById('nameP3').innerHTML = ` ${'player3Login'}`;  
+      //   }
+      //   if (player_info_list[3])
+      //   {
+      //     player4Login = player_info_list[3].login;
+      //     document.getElementById('nameP4').innerHTML = ` ${'player4Login'}`;
+      //   }  
+        
+      //   if (isGhostLobby)
+      //   {
+      //     player1Score1 = player_info_list[0].score;
+      //     player1Score2 = player_info_list[0].score;
+      //     player2Score1 = player_info_list[1].score;
+      //     player2Score2 = player_info_list[1].score;          
+      //     player3Score1 = player_info_list[2].score;
+      //     player3Score2 = player_info_list[2].score;
+      //     player4Score1 = player_info_list[3].score;
+      //     player4Score2 = player_info_list[3].score;
+
+      //     if (player_info_list[0].score > player_info_list[1].score) {
+      //       document.getElementById('nameWinner1').innerHTML = `${'player1Login'}`;
+      //     }
+      //     else {
+      //       document.getElementById('nameWinner1').innerHTML = `${'player2Login'}`;
+      //     }
+
+      //     if (player_info_list[2].score > player_info_list[3].score) {
+      //       document.getElementById('nameWinner2').innerHTML = `${'player2Login'}`;
+      //     }
+      //     else
+      //       document.getElementById('nameWinner2').innerHTML = ` $player3Login`;
+
+      //     document.getElementById('scoreP1').innerHTML = ` ${'player1Score1'}`;
+      //     document.getElementById('scoreP2').innerHTML = ` ${'player2Score1'}`;
+      //     document.getElementById('scoreP3').innerHTML = ` ${'player3Score1'}`;
+      //     document.getElementById('scoreP4').innerHTML = ` ${'player4Score1'}`;
+      //   }
+      // }
       // if (isGhostLobby)
       // {
       //   // //Score of ply.login at tourn1ElemID
@@ -115,9 +148,10 @@ let update_player_info = function (player_info_list) {
       //   // //Score of ply.login at tourn1ElemID
       //   // document.getElementById('scoreP4').innerHTML = ` ${score}`;
 
-      //   //Row 2 Match
-      //   document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
-      //   isTournament = False;
+        //Row 2 Match
+      if (isGhostLobby)
+        document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
+        // isTournament = False;
       // }
       document.getElementById(imgElemID).src = img;
       document.getElementById(nameElemID).innerHTML = ` ${login}`;
@@ -165,18 +199,16 @@ let loadEndGame = function (data) {
   loadModule('aftergame');
 
   let winnerID = data.winingTeam;
-  console.log('winnerID : ' + winnerID);
-  let winner = user_id; //data.playerInfo[winnerID];
 
-  console.log('winner : ' + winner);
-  console.log('user_id : ' + user_id);
+  let winner = data.playerInfo[winnerID];
   let user_is_winner = (winner.playerID == user_id);
-  console.log('winner.playerID : ' + winner.playerID);
 
   console.log(" data.playerInfo : " +  data.playerInfo)
   console.log("winnerID : " + winnerID)
   console.log("winner : " + winner)
   console.log("user_is_winner : " + user_is_winner)
+  console.log("isTournament : " + isTournament)
+  document.getElementById("buttonGhostLobby").style.display = "none";
 
   if (data.endState === 'crash' || winnerID == undefined){
     console.log('*****crash');
@@ -203,22 +235,29 @@ let loadEndGame = function (data) {
     console.log('*** wallOfShame');
     document.getElementById("wallofshame").style.display = "block";
   }
-  else {
-    console.log('LOCAL GAME ALT-END');
-    document.getElementById("finish").style.display = "block";
-  }
-  disconnect_socket();
+  // disconnect_socket();
 }
 
+
 let signal_final_game = function() {
-  // let payload = {
-  //   'ev': 'final'
-  // }
+  console.log('signal_final_game :: entered !')
+  console.log('signal_final_game :: tourWebSock :' + tourWebSock)
+
+  if (tourWebSock == null) {
+    console.error('Trying to signale join final game while no tournament socket exists.')
+    disconnect_socket();
+    disconnect_tour_socket();
+    return;
+  }
+  let payload = JSON.stringify({
+    'ev': 'final'
+  });
   // console.log('Sending payload : ' + payload);
   // gameWebSock.send(JSON.stringify(payload));
   // console.log('Payload sent.');
   console.log('load final game.');
-  isGhostLobby = true;
-  document.getElementById("buttonGhostLobby").style.display = "none";
   loadModule('lobby');
+  tourWebSock.send(payload);
+  // document.getElementById("loser").style.display = "block";
+
 }

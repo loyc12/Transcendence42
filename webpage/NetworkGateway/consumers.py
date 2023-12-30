@@ -1,3 +1,4 @@
+import sys
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.exceptions import StopConsumer
 #import asyncio
@@ -6,6 +7,10 @@ import time
 
 from game.apps import GameConfig as app
 
+
+
+def eprint(*args):
+    print(*args, file=sys.stderr)
 
 # class IDConsumer(AsyncWebsocketConsumer):
 #     async def connect(self):
@@ -71,8 +76,9 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, event):
         ### REWORK NEEDED
-        print('Websocket disconnecting !')
+        eprint(f'GameConsumer disconnecting !')
         await self.netGateway.disconnect_player(self.user, self)
+        eprint(f'GameConsumer finished disconnecting !')
             # self.game_connector.disconnect_player(self.user)
             #if self.game_connector.game:
             #else:
