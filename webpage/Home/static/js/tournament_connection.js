@@ -29,7 +29,7 @@ let _on_tour_event = function(event) {
         console.log('_on_tour_event :: data.form : ' + data.form);
         console.log('_on_tour_event :: data.stage : ' + data.stage);
         console.log('_on_tour_event :: gameType received from data.form.gameType : ' + gameType);
-        parseInitData(get_default_init_state(gameType));
+        parseInitData(get_default_init_state('Tournament'));
 
         disconnect_socket()
 
