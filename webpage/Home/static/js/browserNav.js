@@ -8,10 +8,16 @@ window.onpopstate = function (event) {
     }
 };
 
+window.onload = function (event) {
+    console.log('THIS IS BROWSER EVENT STATE onload: ', event);
+    select_hero_content('init');
+};
+
 function navigateForward(newState) {
     console.log('THIS IS BROWSER EVENT STATE navigateForward: ', newState);
     history.forward();
 }
+
 
 function handleStateChange(newState) {
     console.log('Navigated to: ', newState);

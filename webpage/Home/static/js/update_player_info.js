@@ -99,7 +99,7 @@ let loadEndGame = function (data) {
   if (data.endState === 'crash' || winnerID == undefined){
     document.getElementById("crash").style.display = "block";
   }
-  else if (data.currentGameType === 'Local_1p' || data.currentGameType === 'Local_2p' ) {
+  else if (data.currentGameType === 'Local_1p' || data.currentGameType === 'Local_2p' ) { 
     document.getElementById("finish").style.display = "block";
   }
   else if (user_is_winner ) {
