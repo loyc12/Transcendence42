@@ -2,6 +2,7 @@
 body {
     font-family: 'Nunito';
     font-size: 20px;
+    color: #f0ffff;
 }
 
 body.skip-nav {
@@ -410,6 +411,30 @@ body.skip-nav:focus {
     border: 0px solid #178ca8;
     /* border-radius: 5px; */
     /* cursor: pointer; */
+}
+
+
+.module4 #contentHelp {
+    background-color: #178ca8;
+    color: #f0ffff;
+    font-size: 30px;
+    height: 90vh;
+}
+
+.module4 .playerOne {
+    color: #FF10F0;
+}
+
+.module4 .playerTwo {
+    color: #23e301;
+}
+
+.module4 .playerThree {
+    color: #04d9ff;
+}
+
+.module4 .playerFour {
+    color: #FF6700;
 }
 
 footer {
