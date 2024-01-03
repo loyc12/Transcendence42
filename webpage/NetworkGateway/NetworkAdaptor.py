@@ -266,7 +266,7 @@ class GameGateway(BaseGateway):
 
             else:# Disconnect if in tournament
                 print('Trying to disconnect player but GOT ELSED !')
-            
+
             userApiKey = user.apiKey
             if userApiKey in self.__game_connectors:
                 _ = self.__game_connectors.pop(userApiKey)
@@ -444,12 +444,12 @@ class GameGateway(BaseGateway):
                 raise GameAPIException(f'API :: User sent event to API, but is not currently in a game.')
             gconn = self.__game_connectors[userApiKey]
             eprint(f'FOUND game connector associated to apiKey {userApiKey} !')
-        
+
         user = await gconn.find_user_with_api_key(userApiKey)
         eprint(f'FOUND USER associated to apiKey {userApiKey} : login {user.login} !')
         if not user:
             raise GameAPIException(f'API :: User tried to execute action through API, but provided wrong API ID.')
-        
+
         eprint(f'API call pushing event {key} to game event queue')
         await gconn.push_event(user.id, eventType, key)
 
@@ -457,8 +457,8 @@ class GameGateway(BaseGateway):
 
     async def manage_end_game(self, end_game_state: dict):
         ''' Will deal with either individual games or tournament games. Called by GameManager at the end of a game. '''
-        print('\n\n !!!! WOWOW MANAGING END GAME !!!\n\n')
-        print('END GAME : ', end_game_state)
+        eprint('\n\n !!!! WOWOW MANAGING END GAME !!!\n\n')
+        eprint('END GAME : ', end_game_state)
 
         if not end_game_state:
             raise GameGatewayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
@@ -487,8 +487,8 @@ class GameGateway(BaseGateway):
             eprint('endState == win indeed')
             res = await game.stop_and_register_results(scores)
             eprint('db push res : ', res)
-        elif endState == 'crash':
-            eprint('endState == crash indeed')
+        elif endState == 'abort':
+            eprint('endState == abort indeed')
         else:
             eprint("WTF DUDE !!! ")
 
@@ -499,11 +499,11 @@ class GameGateway(BaseGateway):
             end_game_state['is_tournament'] = True
 
 
-            async with self.__gateway_lock:
-                if self._live_tournament.is_first_stage:
-                    pass
-                elif self._live_tournament.is_second_stage:
-                    pass
+            # async with self.__gateway_lock:
+            #     if self._live_tournament.is_first_stage:
+            #         pass
+            #     elif self._live_tournament.is_second_stage:
+            #         pass
 
 
 
@@ -513,7 +513,7 @@ class GameGateway(BaseGateway):
         eprint('manage_end_game :: post send_end_state')
 
         # stop_and_register_results
-        eprint('EXITING manage_end_game()')
+        eprint('EXITING manage_end_game()\n')
 
 
 '''

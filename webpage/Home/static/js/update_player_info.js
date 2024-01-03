@@ -93,23 +93,23 @@ let update_player_info = function (player_info_list) {
       //     player2Login = player_info_list[1].login;
       //     document.getElementById('nameP2').innerHTML = ` ${'player2Login'}`;
       //   }
-      //   if (player_info_list[2]) 
+      //   if (player_info_list[2])
       //   {
       //     player3Login = player_info_list[2].login;
-      //     document.getElementById('nameP3').innerHTML = ` ${'player3Login'}`;  
+      //     document.getElementById('nameP3').innerHTML = ` ${'player3Login'}`;
       //   }
       //   if (player_info_list[3])
       //   {
       //     player4Login = player_info_list[3].login;
       //     document.getElementById('nameP4').innerHTML = ` ${'player4Login'}`;
-      //   }  
-        
+      //   }
+
       //   if (isGhostLobby)
       //   {
       //     player1Score1 = player_info_list[0].score;
       //     player1Score2 = player_info_list[0].score;
       //     player2Score1 = player_info_list[1].score;
-      //     player2Score2 = player_info_list[1].score;          
+      //     player2Score2 = player_info_list[1].score;
       //     player3Score1 = player_info_list[2].score;
       //     player3Score2 = player_info_list[2].score;
       //     player4Score1 = player_info_list[3].score;
@@ -146,8 +146,8 @@ let update_player_info = function (player_info_list) {
       //   // document.getElementById('scoreP4').innerHTML = ` ${score}`;
 
         //Row 2 Match
-      if (isGhostLobby)
-        document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
+      // if (isGhostLobby)
+      //   document.getElementById(tourn2ElemID).innerHTML =  `${login}`;
         // isTournament = False;
       // }
       document.getElementById(imgElemID).src = img;
@@ -155,7 +155,8 @@ let update_player_info = function (player_info_list) {
       if (ready)
       {
         console.log(`Player ${i} is ready`);
-        document.getElementById(imgElemID).style.border = "3px outset #34eb34";
+        // document.getElementById(imgElemID).style.border = "3px outset #34eb34";
+        document.getElementById(imgElemID).style.border = "3px outset " + playerColors[i];
       }
     }
   }
@@ -185,6 +186,18 @@ let reset_endgame_messages = function () {
   document.getElementById("crash").style.display = "none";
   document.getElementById("finish").style.display = "none";
   document.getElementById("wallofshame").style.display = "none";
+  document.getElementById("buttonGhostLobby").style.display = "none";
+}
+
+let find_quitter_info = function (playerInfo, quitterID) {
+  for (const [key, value] of Object.entries(playerInfo)) {
+    console.log('find_quitter_info :: key ' + key);
+    console.log('find_quitter_info :: value ' + value);
+    console.log('find_quitter_info :: value.name ' + value.name);
+    if (value.playerID == quitterID)
+      return value;
+  }
+  return undefined;
 }
 
 let loadEndGame = function (data) {
@@ -195,51 +208,71 @@ let loadEndGame = function (data) {
   reset_endgame_messages();
   loadModule('aftergame');
 
-  let winnerID = data.winingTeam;
-
-  let winner = data.playerInfo[winnerID];
-  let quitter_img = data.playerInfo['wallofshame'];
-  let user_is_winner = (parseInt(winner.playerID) == user_id);
-
   console.log(" data.playerInfo : " +  data.playerInfo)
-  console.log("winnerID : " + winnerID)
-  console.log("winner : " + winner)
-  console.log("user_is_winner : " + user_is_winner)
   console.log("isTournament : " + isTournament)
-  document.getElementById("buttonGhostLobby").style.display = "none";
+  // document.getElementById("buttonGhostLobby").style.display = "none";
 
-  if (quitter_img !== undefined){
+  if (data.endState === 'quit'){
     console.log('***wallOfShame');
+    console.log("winnerID : " + data.winingTeam);
+    console.log("quitterID : " + data.quitter);
+    let quitterID = data.quitter;
+    let quitter_info = find_quitter_info(data.playerInfo, quitterID);
+    console.log("quitter_info : " + quitter_info);
+    let quitter_name = quitter_info.name;
+    let quitter_img = data.wallofshame;
+    console.log("loadEndGame :: quitterIMG : " + quitter_img);
+    console.log("loadEndGame :: shameVictim : " + quitter_name);
+
     document.getElementById("wallofshame").style.display = "block";
-    document.getElementById("quitterIMG").src = quitter_img;
+    document.getElementById("quiiterIMG").src = quitter_img;
+    document.getElementById("shameVictim").innerHTML = quitter_name;
   }
-  else if (data.endState === 'crash' || winnerID == undefined){
+  else if (data.endState === 'abort'){
     console.log('*****crash');
     document.getElementById("crash").style.display = "block";
   }
-  else if (user_is_winner) {
-    console.log('**win');
-    document.getElementById("winner").style.display = "block";
-    if (isTournament) {// && !isTournamentStage2){
-      if (isTournamentStage2) {
-        console.log('** win - next game');
-        document.getElementById("winnerMsg").innerHTML = "YOU WON THE TOURNAMENT !!!";
-      } else {
-        document.getElementById("winnerMsg").innerHTML = "WINNER !";
-        document.getElementById("buttonGhostLobby").style.display = "block";
-      }
-    }
+  else if (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) {
+    console.log('LOCAL GAME');
+    document.getElementById("finish").style.display = "block";
   }
-  else {
-    if (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) {
-      console.log('LOCAL GAME');
-      document.getElementById("finish").style.display = "block";
+  else if (data.endState === 'win') {
+    let winnerID = data.winingTeam;
+    let winner = data.playerInfo[winnerID];
+    let user_is_winner = (parseInt(winner.playerID) == user_id);
+
+    console.log("winnerID : " + winnerID)
+    console.log("winner : " + winner)
+    console.log("user_is_winner : " + user_is_winner)
+
+    if (user_is_winner) {
+      console.log('**win');
+      document.getElementById("winner").style.display = "block";
+      if (isTournament) {// && !isTournamentStage2){
+        if (isTournamentStage2) {
+          console.log('** win - next game');
+          document.getElementById("winnerMsg").innerHTML = "YOU WON THE TOURNAMENT !!!";
+        } else {
+          // document.getElementById("winnerMsg").innerHTML = "WINNER !";
+          document.getElementById("buttonGhostLobby").style.display = "block";
+        }
+      }
     }
     else {
       console.log('***lose', namePlayer1);
       document.getElementById("loser").style.display = "block";
     }
   }
+  // else {
+  //   if (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) {
+  //     console.log('LOCAL GAME');
+  //     document.getElementById("finish").style.display = "block";
+  //   }
+  //   else {
+  //     console.log('***lose', namePlayer1);
+  //     document.getElementById("loser").style.display = "block";
+  //   }
+  // }
   // else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
   //   console.log('LOCAL GAME');
   //   document.getElementById("finish").style.display = "block";
@@ -248,7 +281,7 @@ let loadEndGame = function (data) {
   //   console.log('***lose', namePlayer1);
   //   document.getElementById("loser").style.display = "block";
   // }
-  
+
   // disconnect_socket();
 }
 

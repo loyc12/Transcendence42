@@ -144,6 +144,7 @@ class GameConnector:
     async def disconnect_player(self, user):
         print(f'GameConnector :: ENTER disconnect player')
         if not self.__lobby_game or user.id not in self.__player_consumers:
+            print(f'GameConnector :: disconnect player :: user.id {user.id} not in player consumers.')
             return None
         async with self.__game_lock:
             if user.id not in self.__player_consumers:
@@ -151,8 +152,10 @@ class GameConnector:
             consumer = self.__player_consumers.pop(user.id)
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
         print(f'GameConnector :: SWITCH')
+        print(f'GameConnector :: game : ', self.game)
         if self.game and self.game.is_running:
             print(f'GameConnector :: disconnect player {user.id} INGAME')
+            print(f'GameConnector :: game.is_running : ', self.game.is_running)
             if self.__is_closing:
                 return
              # send disconnect event to Game instance in game manager. Same place as keypress events.
@@ -169,8 +172,11 @@ class GameConnector:
             print('WTF DUDE !! async def disconnect_player(self, user), other')
 
     async def disconnect_all_players(self):
-        for ply in self.__player_consumers:
-            await self.disconnect_player(ply.user)
+        print(f'GameConnector :: ENTER disconnect_all_players')
+        player_list = list(self.__player_consumers.keys())
+        for playerID in player_list:
+            if playerID in self.__player_consumers:
+                await self.disconnect_player(self.__player_consumers[playerID].user)
 
     async def find_user_with_api_key(self, userApiKey):
         async with self.__game_lock:
@@ -179,7 +185,7 @@ class GameConnector:
                     print(f'User {cons.user.login} is in fact associated with apiKey : {userApiKey}.')
                     return cons.user
         return None
-            
+
 
     # INFORMATION SENDING EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Get all players as a list
