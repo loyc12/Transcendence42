@@ -341,10 +341,10 @@ let _build_join_request_payload = function (gameMode, gameType, withAI=false, ev
         'eventID': eventID
     }
   }
-  
+
   let _http_join_request = async function (payload) {
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  
+
     return fetch('https://' + window.location.host + '/game/join/', {
         method: "POST",
         body: JSON.stringify(payload),
@@ -364,7 +364,7 @@ let _build_join_request_payload = function (gameMode, gameType, withAI=false, ev
       }
     })
   }
-  
+
   let request_join_game = async function (gameType) {
     currentGameType = gameType
     if (gameType === 'Local_1p') {
@@ -437,15 +437,15 @@ function loadSubModule(subModuleName) {
 let get_text_from_readable_stream = async function(stream) {
     const reader = stream.getReader();
     const { value, done } = await reader.read();
-    return 
+    return
   }
-  
+
   let fetch_user_profile = function () {
-  
+
       fetch('https://' + window.location.host + '/users/profile/get')
       .then (data => {
         elem = document.getElementById('profile');
-        
+
         data.text().then(text => {
             if (elem)
                 elem.innerHTML = text;
@@ -600,7 +600,7 @@ let getPlayerShadowColor = function(rank) {
 };
 
 let clearCanvas = function (ctx, w, h) {
-    ctx.clearRect(0, 0, w, h); 
+    ctx.clearRect(0, 0, w, h);
 };
 
 let renderCanvas = function (ctx, gameInfo) {
@@ -901,18 +901,18 @@ let loadEndGame = function (data) {
   reset_endgame_messages();
   loadModule('aftergame');
   console.log('data : ' +  data)
-  console.log('winnerID : ' +  data.winingTeam)
-  console.log('data.winingTeam : ' + data.winingTeam)
+  console.log('winnerID : ' +  data.winningTeam)
+  console.log('data.winningTeam : ' + data.winningTeam)
   console.log('data.playerInfo : ' + data.playerInfo)
-  
-  let winnerID = data.winingTeam;
-  console.log('data.winingTeam : ' + data.winingTeam)
+
+  let winnerID = data.winningTeam;
+  console.log('data.winningTeam : ' + data.winningTeam) //	NOTE (LL) : if winningTeam == 0, no winner
   let winner = data.playerInfo[winnerID];
   console.log('data.winner : ' + data.winner)
   let user_is_winner = (parseInt(winner.playerID) == user_id);
   console.log('user_is_winner : ' + user_is_winner)
   //   let user_is_winner = data.playerInfo[winnerID];
-  
+
 
   document.getElementById("buttonGhostLobby").style.display = "none";
 
