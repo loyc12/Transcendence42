@@ -479,7 +479,7 @@ class GameGateway(BaseGateway):
             eprint('endState == quit indeed')
             quitter = end_game_state['quitter']
             ply = lgame.get_player_by_id(quitter)
-            end_game_state['wall_of_shame'] = ply.user.img_link
+            end_game_state['wallofshame'] = ply.user.img_link
             eprint('game was quit by playerID ', quitter)
             res = await game.stop_and_register_results(scores, quitter=quitter)
             eprint('db push res : ', res)
