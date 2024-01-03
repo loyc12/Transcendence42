@@ -437,6 +437,19 @@ body.skip-nav:focus {
     color: #FF6700;
 }
 
+.module4 .playersColours {
+    padding-top: 10px;
+}
+
+.module4 h1 {
+    padding-top: 10px;
+
+}
+.module4 h2 {
+    padding-top: 10px;
+    text-decoration: underline;
+}
+
 footer {
     color: #f0ffff;
     font-family: 'Nunito';
