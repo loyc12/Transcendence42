@@ -15,6 +15,7 @@ const players = [
 //  Use modulo operator to cycle through colors if there are more ranks than colors
 let getPlayerColor = function(rank) {
     const index = (rank + 1) % playerColors.length; //rank = playerID ; index = color
+    // console.log('getPlayerColor :: rank  + 1 : ' + (rank + 1) + ' ; index : ' + index + ' ; playerColors[index] : ' + playerColors[index]);
     return playerColors[index];
 }
 
@@ -78,9 +79,12 @@ let renderRackets = function(ctx, gameInfo, update) {
 
         // Set the color of the racket based on the player's rank
         color = getPlayerColor(i);
-        if (gameInfo.gameType === 'Pong' && i > 2) {
-            color = '#ffffff';   }
         shadow = getPlayerShadowColor(i);
+        if (gameInfo.gameType === 'Pong' && i > 1) {
+            color = '#ffffff'; 
+            shadow = '#ffffff';  }
+        // console.log('getPlayerShadow :: ; i : ' + i + ' ; shadow : ' + shadow + ' ; playerShadowColors[i] : ' + playerShadowColors[i]);
+
 
         // Check if the position of the racket is 'x'
         if (orientations[i] === 'x') {
@@ -98,7 +102,6 @@ let renderRackets = function(ctx, gameInfo, update) {
         ctx.fillRect(x, y, w, h);
     }
 }
-
 
 /// Should be the only function in the rendering chain to
 /// access global variables. Every downstream function call should take them as arguments.

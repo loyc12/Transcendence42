@@ -7,5 +7,14 @@
 					<canvas id="gameCanvas" style="background-color: #000000; height: 75%; width: 75%; "></canvas>
 				</div>
 			</div>
+			<a href="javascript:copy_api_key_to_clipboard();" style="color: white;">Copy API key</a>
+			<div class="arrow-cluster" id="api_controler">
+				<button class="arrow-placeholder"></button> <!-- Placeholder for an empty button in the center column -->
+				<button class="arrow-button" onclick="api_controler('w')">&#8593</button>
+				<button class="arrow-placeholder"></button> <!-- Placeholder for an empty button in the center column -->
+				<button class="arrow-button" onclick="api_controler('a')">&#8592</button>
+				<button class="arrow-button" onclick="api_controler('s')">&#8595</button>
+				<button class="arrow-button" onclick="api_controler('d')">&#8594</button>
+			</div>
 		</div>
 {% endblock %}

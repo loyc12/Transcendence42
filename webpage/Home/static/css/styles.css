@@ -378,6 +378,40 @@ body.skip-nav:focus {
     text-align: center;
 }
 
+.arrow-cluster {
+    width: 90px;
+    height: 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+    margin-top: 15px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+}
+
+.arrow-button {
+    width: 30px;
+    height: 30px;
+    background-color: #3498db;
+    border: 2px solid #0a1822;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Center the button within its grid cell */
+}
+
+.arrow-placeholder {
+    width: 0px;
+    height: 0px;
+    background-color: #178ca8;
+    border: 0px solid #178ca8;
+    /* border-radius: 5px; */
+    /* cursor: pointer; */
+}
+
 footer {
     color: #f0ffff;
     font-family: 'Nunito';

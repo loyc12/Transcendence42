@@ -170,6 +170,8 @@ function parseInitData (init_data) {
     canvas.height = height;
     console.log('canvas.width : ' + canvas.width);
     console.log('canvas.height : ' + canvas.height);
+    console.log('currentGameInfo  nbPlayer: ' + currentGameInfo.racketCount);
+    console.log('>>> Player Color: ' + getPlayerColor(1)); //currentGameInfo.playerColor);
 
 
     // currentGameInfo.scores = [0,0];

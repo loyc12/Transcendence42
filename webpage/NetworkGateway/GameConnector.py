@@ -32,6 +32,9 @@ class GameConnector:
         self.__scores: list = []
         self.__is_closing = False
 
+    def __contains__(self, user):
+        return user.id in self.__player_consumers
+
     @property
     def is_running(self):
         return self.__gameDB is not None
@@ -148,12 +151,15 @@ class GameConnector:
             consumer = self.__player_consumers.pop(user.id)
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
         print(f'GameConnector :: SWITCH')
-        if self.game and self.game.is_running and not self.__is_closing:
+        if self.game and self.game.is_running:
             print(f'GameConnector :: disconnect player {user.id} INGAME')
+            if self.__is_closing:
+                return
              # send disconnect event to Game instance in game manager. Same place as keypress events.
-            # self.__is_closing = True
+            self.__is_closing = True
             await self.push_event(user.id, 'end_game')
         elif self.nb_connected > 0:
+            ''' Player disconnects in game lobby '''
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             # send updated player list to all players without the disconnected player
             await self._send_players_list()
@@ -162,10 +168,18 @@ class GameConnector:
         else:
             print('WTF DUDE !! async def disconnect_player(self, user), other')
 
-    # async def disconnect_all_players(self):
-    #     # async with self.__game_lock:
-    #     #     for ply in self.__player_consumers:
-    #     pass
+    async def disconnect_all_players(self):
+        for ply in self.__player_consumers:
+            await self.disconnect_player(ply.user)
+
+    async def find_user_with_api_key(self, userApiKey):
+        async with self.__game_lock:
+            for cons in self.__player_consumers.values():
+                if cons.user.apiKey == userApiKey:
+                    print(f'User {cons.user.login} is in fact associated with apiKey : {userApiKey}.')
+                    return cons.user
+        return None
+            
 
     # INFORMATION SENDING EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Get all players as a list

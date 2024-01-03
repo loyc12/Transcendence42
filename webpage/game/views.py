@@ -1,18 +1,18 @@
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import HttpResponse, render
-from game.models import Game, Player, User
+# from django.shortcuts import HttpResponse, render
+# from game.models import Game, Player, User
 from game.forms import GameCreationForm
 from game.apps import GameConfig as app
 from game.MatchMaker import MatchMakerWarning
-from tournament.models import Tournament
+# from tournament.models import Tournament
 import json
-import asyncio
+# import asyncio
 
 # Create your views here.
-def game_home(request):
-    print(request)
-    return render(request, 'game/game_creation_form.html')
+# def game_home(request):
+#     print(request)
+#     return render(request, 'game/game_creation_form.html')
 
 def _build_error_payload(msg):
     return {
@@ -66,4 +66,3 @@ def game_join(request):
         payload['tourSockID'] = lobby_game.tourID #'Tour_' + payload['sockID']
 
     return JsonResponse(payload)
-

@@ -1,10 +1,10 @@
 import sys
+import hashlib
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, IntegrityError, OperationalError
 from users.models import User
 from asgiref.sync import sync_to_async
-
 
 
 def eprint(*args):
@@ -50,6 +50,13 @@ class Game(models.Model):
 
     def __repr__(self):
         return (self.__str__())
+
+    def get_apiID(self) -> str:
+        return hashlib.sha256(f'{self.id};{self.created_at};{self.game_type}'.encode()).hexdigest()
+
+    @property
+    def apiKey(self):
+        return self.get_apiID()
 
     @classmethod
     def force_stop_all_games(cls):

@@ -41,7 +41,7 @@ let isTournamentStage2 = false;
 let tournamentStage2Started = false;
 
 const playerColors = ['#ffffff', '#ff10f0', '#23e301', '#04d9ff', '#ff6700'];// index 0 is default
-const playerShadowColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'];// To be determined. index 0 is default color (AI)
+const playerShadowColors = ['#ffffff', '#ff10f0', '#23e301', '#04d9ff', '#ff6700'];// To be determined. index 0 is default color (AI)
 
 // both bottom
 const initPingParam = {

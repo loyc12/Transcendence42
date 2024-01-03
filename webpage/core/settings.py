@@ -42,7 +42,7 @@ print("DJANGO_DEBUG : ", DJANGO_DEBUG)
 
 # SECURITY WARNING  - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 #: keep the secret key used in production secret!
-DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ['*']
 
