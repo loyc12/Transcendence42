@@ -42,7 +42,7 @@ print("DJANGO_DEBUG : ", DJANGO_DEBUG)
 
 # SECURITY WARNING  - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 #: keep the secret key used in production secret!
-DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ['*']
 
@@ -104,15 +104,14 @@ SECURE_CONTENT_TYPE_NOSNIFF = False #Againts MIME sniffing
 # X-Frame-Options (Against Clickjacking)
 X_FRAME_OPTIONS = 'DENY' 
 # Secure session management
-#CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = False
-#SESSION_COOKIE_SECURE = True # Should be True
+SESSION_COOKIE_SECURE = True # Should be True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = ['https://' + ENV_FILE['DJANGO_HOST']]
 SESSION_COOKIE_HTTPONLY = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-#SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 
 # PATHS BUILDING - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -194,12 +193,8 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-
-#REMOTE_DIR = Path(__file__).resolve().parent.parent
-
 # STATIC FILES SETTINGS
 STATIC_URL = "/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, "static_deploy")
 STATIC_ROOT = os.path.join(BASE_DIR, "ext/static_deploy")
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -211,7 +206,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 ### SESSIONS SETTINGS
 SESSION_ENGINE = 'redis_sessions.session'
-#SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 SESSION_REDIS = {
     'host': ENV_FILE['REDIS_HOST'],
@@ -245,7 +239,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-# COMPRESSOR SETTINGS NOT WORKING FOR NOW
 COMPRESS_ENABLED = False
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
@@ -254,12 +247,3 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.JSMinFilter',
 ]
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

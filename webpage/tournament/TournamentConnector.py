@@ -125,7 +125,7 @@ class TournamentConnector:
         payload = json.dumps({
             'ev': 'game_connect',
             'sockID': lgame.sockID,
-            'stage': stage,
+            'stage': str(stage),
             'form': lgame.form,
         })
         for lply in lgame.players:
@@ -139,3 +139,14 @@ class TournamentConnector:
         #         'brackets': payload
         #     }
         # )
+    async def send_stage_initializer_to_finale_user(self, lgame, user):
+        print(f'TCONN :: send_stage_initializer starting game {lgame.sockID}')
+        payload = json.dumps({
+            'ev': 'game_connect',
+            'sockID': lgame.sockID,
+            'stage': 2,
+            'form': lgame.form,
+        })
+        # for lply in lgame.players:
+        consumer = self.__player_consumers[user.id]
+        await consumer.send(text_data=payload)

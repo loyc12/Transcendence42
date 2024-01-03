@@ -34,9 +34,16 @@ function loadModule(moduleName) {
         {
             console.log('Load tournament module')
             document.getElementById('tournament').style.display = 'block';
+            if (isGhostLobby)
+            {
+                console.log('Load ghost lobby module')
+                document.getElementById('tournament').style.display = 'block';
+            }
         }
-        else
-            document.getElementById('tournament').style.display = 'none';
+        else{
+            console.log('-=-=-> where is the fucking overwrite...');
+            document.getElementById('tournament').style.display = 'block';
+        }
     }
     else if (moduleName === 'game') {
         console.log('Load game')
@@ -44,10 +51,10 @@ function loadModule(moduleName) {
     }
     else if (moduleName === 'aftergame' ) {
         console.log('Load aftergame')
-        // if (isTournament)
+        if (isTournament)
+            isGhostLobby = true;
         // {
         //     console.log('Load tournament after game ROUND1');
-        //     isGhostLobby = True;
         //     document.getElementById('buttonGhostLobby').style.display = 'block';
         // }
         // else

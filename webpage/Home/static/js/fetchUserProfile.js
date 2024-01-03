@@ -28,5 +28,4 @@ let fetch_user_profile = function () {
       console.log('fetch of user profil failed !');
       console.log(err);
     })
-        //    .catch(err => console.log(err));
 }

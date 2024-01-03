@@ -33,7 +33,7 @@ class LiveTournament:
         return cls.__id_counter
 
     def __init__(self, tconn, initLobbyGame: LobbyGame, match_maker):
-
+        eprint('LiveTournament :: initializing tournament.')
         self.__match_maker = match_maker
         self.__id = self.get_id()
         self.__tconn = tconn
@@ -44,6 +44,14 @@ class LiveTournament:
         self._groupA: LobbyGame = None
         self._groupB: LobbyGame = None
         self._groupC: LobbyGame = None
+
+        self._groupAWinner = None
+        self._groupBWinner = None
+        self._groupCWinner = None
+
+        self._is_closing = False
+
+        self.__brackets = self.__get_bracket_template()
 
 
     def __contains__(self, user: User):
@@ -65,6 +73,9 @@ class LiveTournament:
     @property
     def tournament(self):
         return self.__tconn.tournament
+    @property
+    def is_empty(self):
+        return self.__init_lobby.is_empty
 
     @property
     def connector(self):
@@ -73,6 +84,12 @@ class LiveTournament:
     @property
     def is_setup(self):
         return self.__init_lobby and self._groupA and self._groupB
+    property
+    def is_finished(self):
+        return self._groupC\
+            and self._groupC.game_connector\
+            and self._groupC.game_connector.game\
+            and self._groupC.game_connector.game.winner
 
     # def add_member(self, user: User):
     #     self.tournament.add_member(user)
@@ -128,30 +145,212 @@ class LiveTournament:
     def get_player_game(self, user: User):
         lgame = self.__init_lobby
 
-        if self._groupA and user in self._groupA:
+        if self._groupC and user in self._groupC:
+            lgame = self._groupC
+        elif self._groupA and user in self._groupA:
             lgame = self._groupA
         elif self._groupB and user in self._groupB:
             lgame = self._groupB
-        elif self._groupC and user in self._groupC:
-            lgame = self._groupC
         # else:
         #     raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
         return lgame
 
-    def connect_player(self, user: User):
-        lgame = self.get_player_game(user)
+    def won_first_game(self, user: User) -> bool:
+        eprint('LiveTournament :: check if won_first_game ')
+        eprint(f'LiveTournament :: {user.login} is in groupA ', user in self._groupA)
+        eprint(f'LiveTournament :: {user.login} is in groupB ', user in self._groupB)
+        eprint(f'LiveTournament :: groupA : ', self._groupA)
+        eprint(f'LiveTournament :: groupB : ', self._groupB)
 
-        lply = lgame.get_player(user)
-        lply.is_connected = True
+        if user in self._groupA:
+            lgame = self._groupA
+        elif user in self._groupB:
+            lgame = self._groupB
+        else:
+            return None
+
+
+        if lgame and lgame.game_connector and lgame.game_connector.game and (lgame.game_connector.game.winner == user.id):
+            return lgame
+        return None
+
+    def won_tournament(self, user: User) -> bool:
+        if not (user in self.__init_lobby):
+            return False
+        lgame = self._groupC
+        if lgame and lgame.game_connector and lgame.game_connector.game:
+            return (lgame.game_connector.game.winner == user.id)
+        return False
+
+    async def join_final_game(self, user: User):
+        eprint(f'LiveTournament :: join_final_game :: USER {user.login} TRYING TO JOIN FINAL GAME !!')
+        if user in self._groupA:
+            won_game = self._groupA
+            self._groupAWinner = user.id
+        elif user in self._groupB:
+            won_game = self._groupB
+            self._groupBWinner = user.id
+
+        # if not won_game:
+        #     raise LiveTournamentException(f"LiveTournament :: User {user.login} trying to join final game, but didn't win its first game.")
+
+        eprint(f'LiveTournament :: join_final_game :: USER {user.login} won first game : won_game : ', won_game)
+
+        formStage1C = self.build_match_maker_form(self.__init_lobby.sockID, 'C')
+        if not self._groupC:
+            eprint(f'LiveTournament :: join_final_game :: Creating groupC game.')
+            # won_game.remove_user(user)
+            # self.__match_maker.remove_player(user)
+            self._groupC = self.__match_maker.join_lobby(user, formStage1C)
+        else:
+            self.__match_maker.join_lobby(user, formStage1C)
+
+        await self.connector.send_stage_initializer_to_finale_user(self._groupC, user)
+
+
+
+    def connect_player(self, user: User):
+        eprint('LiveTournament :: trying to connect_player to tournament.')
+        lgame = self.get_player_game(user)
+        if not lgame:
+            raise LiveTournamentException('LiveTournament :: Trying to connect player to tournament game, but player not in tournament.')
+        lgame.set_player_connected(user)
+        eprint('LiveTournament :: connect_player :: lgame : ', lgame)
+
+        # lply = lgame.get_player(user)
+        # lply.is_connected = True
         return lgame
 
-    def disconnect_player(self, user: User):
-        self.__match_maker.remove_player(user)
+
+    def _forced_disconnect_all(self, lgame: LobbyGame):
+        ### Called when a player leaves mid game.
+        self._is_closing = True
+        if lgame.game_connector:
+            for ply in lgame.players:
+                lgame.game_connector.disconnect_player(ply.user)
+
+
+    def _soft_disconnect(self, lgame: LobbyGame, user: User):
+        ### Called when player leaves either after losing first game or after tournament conclusion.
+        pass
+
+
+    # def __disconnect_was_early(self, user: User):
+    #     pass
+
+    def __player_is_looser_of_first_game(self, user: User):
+        lgame = self.__init_lobby
+        if user in self._groupA:
+            lgame = self._groupA
+        elif user in self._groupB:
+            lgame = self._groupB
+        return lgame != self.__init_lobby and not self._groupC or not (user in self._groupC) and lgame.is_over and user.id != lgame.winner
+
+    def __player_reached_end_game(self, user):
+        if not (self._groupC and user in self._groupC):
+            return False
+        gconn = self._groupC.game_connector
+        game = gconn.game
+        if not game:
+            return False
+        return game.is_over
+
+    def __player_is_winner_of_first_game(self, user):
+        return user.id == self._groupAWinner or user.id == self._groupBWinner
+    def __player_is_winner_of_tournament(self, user):
+        return user.id == self._groupCWinner
+
+
+    async def disconnect_player(self, user: User):
+
+        ## TODO: LOTS OF WORK TO DO ::: build switch with all disconnect scenarios.
+        eprint('LiveTournament :: disconnect_player :: Trying to disconnect ', user.login)
+        eprint('LiveTournament :: disconnect_player :: user in self.__init_lobby : ', user in self.__init_lobby)
+        eprint('LiveTournament :: disconnect_player :: first_stage_started : ', self.first_stage_started)
+        if user in self.__init_lobby and not self.first_stage_started:
+            eprint('LiveTournament :: user in self.__init_lobby and not self.first_stage_started : TRUE')
+            self.__match_maker.remove_player(user)
+            return
+            # self.__init_lobby.remove_user(user)
+
         lgame = self.get_player_game(user)
-        if lgame:
-            lgame.remove_user(user)
-            if lgame.game_connector:
-                lgame.game_connector.disconnect_player(user)
+        if not lgame.game_connector:
+            eprint('LiveTournament :: lgame has no game connector')
+            return
+
+        ### Manage regular routes first : loser diconnect from first game.
+        if self.__player_is_looser_of_first_game(user):
+            eprint('LiveTournament :: __player_is_looser_of_first_game and disconnecting')
+            eprint('LiveTournament :: lgame is init lobby : ', lgame == self.__init_lobby)
+            eprint('LiveTournament :: lgame.is_over : ', lgame.is_over)
+            gconn = lgame.game_connector
+            if not gconn:
+                eprint('LiveTournament :: lgame has no game connector')
+                return
+            await gconn.disconnect_player(user)
+            await self.__tconn.disconnect_player(user)
+            if user in lgame:
+                self.__match_maker.remove_player(user)
+        ### Manage regular routes first : winner/loser diconnect from final game.
+        elif self.__player_reached_end_game(user):
+            eprint('LiveTournament :: __player_reached_end_game and disconnecting')
+            gconn = lgame.game_connector
+            await gconn.disconnect_player(user)
+            await self.__tconn.disconnect_player(user)
+            if lgame in user:
+                self.__match_maker.remove_player(user)
+        elif self.__player_is_winner_of_first_game(user):
+            eprint('LiveTournament :: __player_is_winner_of_first_game and disconnecting')
+            if user in self._groupA:
+                gconn = self._groupA.game_connector
+                if gconn:
+                    self._update_brackets_info('groupA', self._groupA)
+                    gconn.disconnect_player(user)
+            elif user in self._groupB:
+                gconn = self._groupB.game_connector
+                if gconn:
+                    self._update_brackets_info('groupB', self._groupB)
+                    gconn.disconnect_player(user)
+                # await gconn.disconnect_player(user)
+                # if lgame in user:
+                    # lgame.remove_user(user)
+                    # if lgame.is_empty:
+                        # self.__match_maker.remove_lobby_game(lgame)
+
+        elif self.__player_is_winner_of_tournament(user):
+            if user in self._groupC:
+                gconn = self._groupC.game_connector
+                if gconn:
+                    self._update_brackets_info('groupC', self._groupC)
+                    gconn.disconnect_player(user)
+            # return self.
+
+        else:
+            eprint('LiveTournament :: player disconnecting from tournament in an unforeseen manner.')
+
+        return False
+        # if lgame:
+        #     if lgame.is_running:
+        #         return self._forced_disconnect_all(lgame)
+        #     elif lgame.winner == user.id:
+        #         return self._forced_disconnect_all(lgame)
+        #     else:
+        #         return self._soft_disconnect(lgame, user)
+
+
+
+        #     lgame.remove_user(user)
+        #     if lgame.game_connector and lgame.game_connector.game.is_running:
+        #         lgame.game_connector.disconnect_player(user)
+
+        #     ### Return True if live tournament should be SHUTDOWN.
+        #     if lgame.is_empty:
+        #         ## shutdown tournament
+        #         return True
+        #     else:
+        #         return False
+        # else:
+        #     return True
 
 
     # async def connect_player(self, user: User, consumer):
@@ -211,7 +410,7 @@ class LiveTournament:
                     'score': '-',
                     'won': False
                 },
-                'winner1': {
+                'winner2': {
                     'login': None,
                     'score': '-',
                     'won': False
@@ -219,53 +418,76 @@ class LiveTournament:
             }
         }
 
+    def update_brackets_info(self, group, lgame):
+        players = lgame.players
+        if group == 'groupA':
+            self.__brackets['p1']['login'] = players[0].user.login
+            self.__brackets['p2']['login'] = players[1].user.login
+            self.__brackets['p1']['won'] = (players[0].user.id == self._groupAWinner)
+            self.__brackets['p2']['won'] = (players[1].user.id == self._groupAWinner)
+        elif group == 'groupB':
+            self.__brackets['p3']['login'] = players[0].user.login
+            self.__brackets['p4']['login'] = players[1].user.login
+            self.__brackets['p3']['won'] = (players[0].user.id == self._groupBWinner)
+            self.__brackets['p4']['won'] = (players[1].user.id == self._groupBWinner)
+            pass
+        elif group == 'groupC':
+            self.__brackets['p1']['login'] = players[0].user.login
+            self.__brackets['p2']['login'] = players[1].user.login
+            self.__brackets['p1']['won'] = (players[0].user.id == self._groupAWinner)
+            self.__brackets['p2']['won'] = (players[1].user.id == self._groupAWinner)
+
+        # self.__tconn.send_brackets(self.__brackets)
+
+
     def get_brackets_info(self):
-        brackets = self.__get_bracket_template()
-        plys_list = self.__init_lobby.players
+        return self.__brackets
+        # brackets = self.__get_bracket_template()
+        # plys_list = self.__init_lobby.players
 
-        if not self._groupA or self._groupB or not self._groupA.game_connector or not self._groupB.game_connector:
-            return None
+        # if not self._groupA or self._groupB or not self._groupA.game_connector or not self._groupB.game_connector:
+        #     return None
 
-        if self._groupA:
-            gconnA = self._groupA.game_connector
-            gameA = gconnA.game
-            if gameA.winner == plys_list[0].id:
-                winnerA = plys_list[0]
-                brackets['groupA']['p1']['won'] = True
-            elif gameA.winner == plys_list[1].id:
-                winnerA = plys_list[1]
-                brackets['groupA']['p2']['won'] = True
+        # if self._groupA:
+        #     gconnA = self._groupA.game_connector
+        #     gameA = gconnA.game
+        #     if gameA.winner == plys_list[0].id:
+        #         winnerA = plys_list[0]
+        #         brackets['groupA']['p1']['won'] = True
+        #     elif gameA.winner == plys_list[1].id:
+        #         winnerA = plys_list[1]
+        #         brackets['groupA']['p2']['won'] = True
 
-        if self._groupB:
-            gconnB = self._groupB.game_connector
-            gameB = gconnB.game
-            if gameB.winner == plys_list[2].id:
-                winnerB = plys_list[2]
-                brackets['groupB']['p3']['won'] = True
-            elif gameB.winner == plys_list[3].id:
-                winnerB = plys_list[3]
-                brackets['groupB']['p4']['won'] = True
+        # if self._groupB:
+        #     gconnB = self._groupB.game_connector
+        #     gameB = gconnB.game
+        #     if gameB.winner == plys_list[2].id:
+        #         winnerB = plys_list[2]
+        #         brackets['groupB']['p3']['won'] = True
+        #     elif gameB.winner == plys_list[3].id:
+        #         winnerB = plys_list[3]
+        #         brackets['groupB']['p4']['won'] = True
 
-        if self._groupC:
-            gconnC = self._groupC.game_connector
-            gameC = gconnC.game
-            if gameC.winner == winnerA.id:
-                winnerC = winnerA
-                brackets['groupC']['winner1']['won'] = True
-            elif gameC.winner == winnerB.id:
-                winnerC = winnerB
-                brackets['groupC']['winner2']['won'] = True
+        # if self._groupC:
+        #     gconnC = self._groupC.game_connector
+        #     gameC = gconnC.game
+        #     if gameC.winner == winnerA.id:
+        #         winnerC = winnerA
+        #         brackets['groupC']['winner1']['won'] = True
+        #     elif gameC.winner == winnerB.id:
+        #         winnerC = winnerB
+        #         brackets['groupC']['winner2']['won'] = True
 
-        if len(plys_list) > 0:
-            brackets['groupA']['p1']['login'] = plys_list[0].user.login
-        elif len(plys_list) > 1:
-            brackets['groupA']['p2']['login'] = plys_list[1].user.login
-        elif len(plys_list) > 2:
-            brackets['groupB']['p3']['login'] = plys_list[2].user.login
-        elif len(plys_list) > 3:
-            brackets['groupB']['p4']['login'] = plys_list[3].user.login
+        # if len(plys_list) > 0:
+        #     brackets['groupA']['p1']['login'] = plys_list[0].user.login
+        # elif len(plys_list) > 1:
+        #     brackets['groupA']['p2']['login'] = plys_list[1].user.login
+        # elif len(plys_list) > 2:
+        #     brackets['groupB']['p3']['login'] = plys_list[2].user.login
+        # elif len(plys_list) > 3:
+        #     brackets['groupB']['p4']['login'] = plys_list[3].user.login
 
-        return brackets
+        # return brackets
 
 
 

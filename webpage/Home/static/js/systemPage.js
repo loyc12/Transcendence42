@@ -56,10 +56,15 @@ let select_hero_content = function (key) {
         }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
         console.log('previous content page : ' + key)
+
         if (current_content == key)
             return ;
         else
+        {
+            history.pushState(key, '', null);
+            console.log('pushState previous content page : : ' + key)
             hide_all_hero_content();
+        }
 
         if (navContentElem)
             navContentElem.style.display = 'block';

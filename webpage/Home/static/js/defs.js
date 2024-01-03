@@ -30,9 +30,18 @@ let currentGameInfo;
 let isTournament = false;
 let isGhostLobby = false;
 
+let tourWebSockID = null;
+let tourWebSock = null;
+let tourStage1GameData = null;
+let tourStage2GameData = null;
+let tourStage = null;
+let isTournamentStage1 = false;
+let tournamentStage1Started = false;
+let isTournamentStage2 = false;
+let tournamentStage2Started = false;
+
 const playerColors = ['#ffffff', '#ff10f0', '#23e301', '#04d9ff', '#ff6700'];// index 0 is default
 const playerShadowColors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff'];// To be determined. index 0 is default color (AI)
-
 
 // both bottom
 const initPingParam = {
@@ -51,8 +60,6 @@ const initPingParam = {
         'ballPos': [1024, 682],
         'scores' : [0, 0],
     }
-    // 'racketInitPos': [682, 1004, 'x', 1365, 1004, 'x'],
-    // 'ballInitPos': [1024, 682],
 };
 
 // in front of each other
@@ -72,8 +79,6 @@ const initPongParam = {
         'ballPos': [1014, 512],
         'scores' : [0, 0],
     }
-    // 'racketInitPos': [20, 512, 'y', 2028, 512, 'y'],
-    // 'ballInitPos': [512, 512],
 };
 
 // 4 players
@@ -92,8 +97,6 @@ const initPingestParam = {
         'ballPos': [512, 512],
         'scores' : [0, 0, 0, 0],
     }
-    // 'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'],
-    // 'ballInitPos': [1152, 768],
 }
 
 const allInitGameStates = new Map();
@@ -102,40 +105,5 @@ allInitGameStates.set('Local_2p', initPongParam);
 allInitGameStates.set('Tournament', initPongParam);
 allInitGameStates.set('Multiplayer', initPingParam);
 allInitGameStates.set('Online_4p', initPingestParam);
-// {'Pong': initPongParam, 'Ping': initPingParam, 'Pingest': initPingestParam};
 
 currentGameInfo = initPongParam;
-
-
-// const tournament_struct_template = {
-//     'groupA': {
-//         'p1': {
-//             'login': 'player1 login',// or null
-//             'score': ''
-//         },
-//         'p2': {
-//             'login': 'player2 login',// or null
-//             'score': ''
-//         }
-//     },
-//     'groupB': {
-//         'p3': {
-//             'player3': 'player3 login',// or null
-//             'score': '',
-//         },
-//         'p4': {
-//             'player4': 'player4 login',// or null
-//             'score': '',
-//         }
-//     },
-//     'groupC': {
-//         'winner1': {
-//             'login': 'winner1 login',// or null
-//             'score': '',
-//         },
-//         'winner2': {
-//             'login': 'winner2 login',// or null
-//             'score': '',
-//         }
-//     }
-// };

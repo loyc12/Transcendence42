@@ -28,7 +28,7 @@ let _on_game_event = function(event) {
     // console.log('Client RECEIVED event : ' + event)
     const data = JSON.parse(event.data);
 
-    console.log("_on_game_event:: JSON data content : ", data);
+    // console.log("_on_game_event:: JSON data content : ", data);
 
     if (data.ev === 'up') {
         // Called by websocket with event type 'up' for every update during a game.
@@ -93,6 +93,7 @@ let _on_server_side_disconnect = function(e) {
     gameEventID = null;
     gameWebSockPath = null;
     if (isTournamentStage1 && !tournamentStage1Started) {
+        console.log('_on_server_side_disconnect :: Game Socket disconnected :: isTournamentStage1 :: && !tournamentStage1Started')
         gameSockID = tourStage1GameData.sockID;
         gameEventID = tourStage1GameData.form.eventID;
         gameWebSockPath = _get_websocket_path(gameSockID);
@@ -100,6 +101,23 @@ let _on_server_side_disconnect = function(e) {
         gameWebSock = _connect_to_game_socket(gameWebSockPath);
         _prepare_websocket(gameWebSock);
         tournamentStage1Started = true;
+    }
+    else if (isTournamentStage2 && !tournamentStage2Started) {
+        console.log('_on_server_side_disconnect :: Game Socket disconnected :: isTournamentStage2 :: && !tournamentStage2Started')
+        gameSockID = tourStage2GameData.sockID;
+        gameEventID = tourStage2GameData.form.eventID;
+        gameWebSockPath = _get_websocket_path(gameSockID);
+        console.log('User : ' + user_id + ' trying to connect to game websocket for  at path : ' + gameWebSockPath)
+        gameWebSock = _connect_to_game_socket(gameWebSockPath);
+        _prepare_websocket(gameWebSock);
+        tournamentStage2Started = true;
+    }
+    else {
+        console.log('_on_server_side_disconnect :: Game Socket disconnected regular game ?!');
+        console.log('_on_server_side_disconnect :: Game Socket disconnected :: isTournamentStage1 : ' + isTournamentStage1)
+        console.log('_on_server_side_disconnect :: Game Socket disconnected :: isTournamentStage2 : ' + isTournamentStage2)
+        console.log('_on_server_side_disconnect :: Game Socket disconnected :: tournamentStage1Started : ' + tournamentStage1Started)
+        console.log('_on_server_side_disconnect :: Game Socket disconnected :: tournamentStage2Started : ' + tournamentStage2Started)
     }
 };
 
@@ -192,20 +210,20 @@ let loadMegaModule = function (gameType) {
             // Setting global var isTournament
             if (gameData.gameMode === 'Tournament')
             {
+                console.log('request_join_game :: in tournament mode');
                 console.log('Tournament mode activated');
                 console.log('Tournament socket ID : ' + gameData.tourSockID);
                 tourWebSockID = gameData.tourSockID;
                 tourWebSockPath = _build_tour_ws_path(tourWebSockID);
                 console.log('Tournament socket path : ' + tourWebSockPath);
-                tournamentWebSock = _connect_to_tour_socket(tourWebSockPath)
-                _prepare_tour_websocket(tournamentWebSock);
+                tourWebSock = _connect_to_tour_socket(tourWebSockPath)
+                _prepare_tour_websocket(tourWebSock);
                 isTournament = true;
-                update_tournament_brackets();
+                // update_tournament_brackets();
             }
-            else {
-                isTournament = false;
-                tournamentWebSock = null;
-                tournamentWebSockID = null;
+            else if (!isTournament){
+                console.log('request_join_game :: is NOT Tournament');
+                wipe_tournament_data();
             }
 
             // Load the lobby page.
