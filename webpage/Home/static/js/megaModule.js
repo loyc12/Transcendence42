@@ -37,6 +37,7 @@ let _on_game_event = function(event) {
     else if (data.ev === "init") {
         // Sent ONCE at the begining of lobby phase with data required to render a game.
         // See PingPongRebound/json-template.json, section : getInitInfo()
+        console.log('data.init.orientation[0] + ' + data.init.orientations[0]);
         parseInitData(data.init)
         console.log('- - - Received INIT : ' + data.init);
         if (isTournament) {

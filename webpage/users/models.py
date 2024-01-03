@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, OperationalError, IntegrityError
 #from django.utils import timezone
+from asgiref.sync import sync_to_async
+
 from .manager import UserManager
 
 
@@ -20,6 +22,13 @@ class User(AbstractBaseUser):
 
     # Method that return a string with the information of the user
     objects = UserManager()
+
+    @classmethod
+    @sync_to_async
+    def get_user(cls, userID: int):
+        try:        user = cls.objects.get(id=userID)
+        except ObjectDoesNotExist: return None
+        return user
 
     def __str__(self):
         return f"User: {self.login},\

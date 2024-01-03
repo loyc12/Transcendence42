@@ -141,7 +141,7 @@ class GameConnector:
 
 
     # DECONNECTION
-    async def disconnect_player(self, user):
+    async def disconnect_player(self, user, quitter=None):
         print(f'GameConnector :: ENTER disconnect player')
         if not self.__lobby_game or user.id not in self.__player_consumers:
             print(f'GameConnector :: disconnect player :: user.id {user.id} not in player consumers.')
@@ -151,6 +151,7 @@ class GameConnector:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
         await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
+
         print(f'GameConnector :: SWITCH')
         print(f'GameConnector :: game : ', self.game)
         if self.game and self.game.is_running:
@@ -159,24 +160,34 @@ class GameConnector:
             if self.__is_closing:
                 return
              # send disconnect event to Game instance in game manager. Same place as keypress events.
+
             self.__is_closing = True
-            await self.push_event(user.id, 'end_game')
+            if quitter:
+                await self.push_event(user.id, 'end_game')
+            else:
+                await self.push_event(quitter, 'end_game')
+
+            print(f'GameConnector :: eng_game event pushed to game : ', self.game.is_running)
+
         elif self.nb_connected > 0:
             ''' Player disconnects in game lobby '''
             print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             # send updated player list to all players without the disconnected player
             await self._send_players_list()
+
         elif self.__lobby_game.is_tournament:
             print(f'GameConnector :: disconnect player {user.id} from tournament lobby.')
+
         else:
             print('WTF DUDE !! async def disconnect_player(self, user), other')
 
-    async def disconnect_all_players(self):
+
+    async def disconnect_all_players(self, quitter=None):
         print(f'GameConnector :: ENTER disconnect_all_players')
         player_list = list(self.__player_consumers.keys())
         for playerID in player_list:
             if playerID in self.__player_consumers:
-                await self.disconnect_player(self.__player_consumers[playerID].user)
+                await self.disconnect_player(self.__player_consumers[playerID].user, quitter)
 
     async def find_user_with_api_key(self, userApiKey):
         async with self.__game_lock:

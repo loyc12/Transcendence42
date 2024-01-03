@@ -76,7 +76,7 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, event):
         ### REWORK NEEDED
-        eprint(f'GameConsumer disconnecting !')
+        eprint(f'GameConsumer disconnecting ! user : ', self.user.login)
         await self.netGateway.disconnect_player(self.user, self)
         eprint(f'GameConsumer finished disconnecting !')
             # self.game_connector.disconnect_player(self.user)

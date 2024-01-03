@@ -25,7 +25,7 @@ let getPlayerShadowColor = function(rank) {
 
 // Clear the entire canvas
 let clearCanvas = function (ctx, w, h) {
-    ctx.clearRect(0, 0, w, h); 
+    ctx.clearRect(0, 0, w, h);
 }
 
 let renderCanvas = function (ctx, gameInfo) {
@@ -82,15 +82,26 @@ let renderRackets = function(ctx, gameInfo, update) {
             color = '#ffffff';   }
         shadow = getPlayerShadowColor(i);
 
-        // Check if the position of the racket is 'x'
-        if (orientations[i] === 'x') {
-            w = gameInfo.racketSize;
-            h = gameInfo.ballSize;
-        }
-        else if (orientations[i] === 'y') {
+
+        if (orientations[i] === 'y' || gameInfo.gameType === 'Pong') {
             w = gameInfo.ballSize;
             h = gameInfo.racketSize;
         }
+        else if (orientations[i] === 'x') {
+            w = gameInfo.racketSize;
+            h = gameInfo.ballSize;
+        }
+        // console.log('[orientation] : (x,y) & (w,h)' + orientations[i] + ' : (' + x + ',' + y + ') & (' + w + ',' + h + ')' );
+
+        // // Check if the position of the racket is 'x'
+        // if (orientations[i] === 'x') {
+        //     w = gameInfo.racketSize;
+        //     h = gameInfo.ballSize;
+        // }
+        // else if (orientations[i] === 'y') {
+        //     w = gameInfo.ballSize;
+        //     h = gameInfo.racketSize;
+        // }
 
         ctx.fillStyle = color;
         ctx.shadowBlur = 40;

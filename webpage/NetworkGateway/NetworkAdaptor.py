@@ -243,8 +243,11 @@ class GameGateway(BaseGateway):
         print('GameGateway trying to disconnect player')
         async with self.__gateway_lock:
             gconn = consumer.game_connector
+            eprint('GameGateway :: disconnect_player :: self._live_tournament : ', self._live_tournament)
+            eprint('GameGateway :: disconnect_player :: user in self._live_tournament : ', user in self._live_tournament)
             if self._live_tournament and user in self._live_tournament:
                 shutdown = await self._live_tournament.disconnect_player(user)
+                eprint('GameGateway :: disconnect_player :: disconnected player from live_tournament :: should shutdown ? ', shutdown)
                 if shutdown:
                     self._live_tournament = None
 
@@ -478,8 +481,11 @@ class GameGateway(BaseGateway):
         if endState == 'quit':
             eprint('endState == quit indeed')
             quitter = end_game_state['quitter']
-            ply = lgame.get_player_by_id(quitter)
-            end_game_state['wallofshame'] = ply.user.img_link
+            user = await User.get_user(quitter)
+            if not user:
+                raise GameGatewayException('GameGateway :: quitter id does not exist.')
+            # ply = lgame.get_player_by_id(quitter)
+            end_game_state['wallofshame'] = user.img_link
             eprint('game was quit by playerID ', quitter)
             res = await game.stop_and_register_results(scores, quitter=quitter)
             eprint('db push res : ', res)
