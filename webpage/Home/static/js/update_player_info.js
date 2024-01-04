@@ -17,9 +17,13 @@ let hide_excess_player_profiles = function (nb_rackets) {
 }
 
 let update_local_1p_info = function (player_info) {
+
+  console.log("update_local_1p_info info CALLED.");
   document.getElementById("imgPlayer1").src = player_info.img;
   document.getElementById("namePlayer1").innerHTML = player_info.login;
-  document.getElementById("imgPlayer2").style.border = "3px outset #34eb34";
+  // document.getElementById("imgPlayer1").style.border = "3px outset";
+  document.getElementById("imgPlayer1").style.color = getPlayerColor(1);
+
   document.getElementById("namePlayer2").innerHTML = "Celine Incognito";
   // document.getElementById("imgPlayer2").style.border = "3px outset";
   document.getElementById("imgPlayer2").style.color = getPlayerColor(0);
@@ -91,6 +95,10 @@ let reset_endgame_messages = function () {
 }
 
 let loadEndGame = function (data) {
+  console.log('end is: ' + data.endState);
+  // console.log('loadEndGame :: data : ' + data)
+  // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
+  console.log('-=-= loadEndGame :: data.winingTeam : ' + data.winingTeam);
   reset_endgame_messages();
   loadModule('aftergame');
 
@@ -111,11 +119,18 @@ let loadEndGame = function (data) {
     if (isTournament){
       document.getElementById("buttonGhostLobby").style.display = "block";
     }
+
+  }
+  else if (data.endState !== 'crash' && (currentGameType === 'Local_1p' || currentGameType === 'Local_2p' ) ){
+    console.log('LOCAL GAME END');
+    document.getElementById("finish").style.display = "block";
   }
   else if (data.endState !== 'crash'){
+    console.log('*** lose', namePlayer1);
     document.getElementById("loser").style.display = "block";
   }
   else if (data.endState === 'wallOfShame'){
+    console.log('*** wallOfShame');
     document.getElementById("wallofshame").style.display = "block";
   }
 };
