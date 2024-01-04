@@ -32,8 +32,10 @@ class LiveTournament:
         cls.__id_counter += 1
         return cls.__id_counter
 
-    def __init__(self, tconn, initLobbyGame: LobbyGame, match_maker):
+    def __init__(self, tconn, initLobbyGame: LobbyGame, match_maker, game_manager):
         eprint('LiveTournament :: initializing tournament.')
+        self.set_gamemanager_initializer(game_manager)
+
         self.__match_maker = match_maker
         self.__id = self.get_id()
         self.__tconn = tconn
@@ -134,7 +136,8 @@ class LiveTournament:
         ## ... Start both tournament games
         # self.tournament.addGroupAGame(self._groupA)
         # self.tournament.addGroupBGame(self._groupB)
-        # self.tournament.declare_started()
+        self.tournament.declare_started()
+        self.tournament.save()
 
         # self.__tconn.send_connect_msg(self._groupA)
         # self.__tconn.send_connect_msg(self._groupB)
@@ -282,7 +285,7 @@ class LiveTournament:
         ''' Returns True or False to signal if the tournament should be shutdown or not. '''
 
         ## TODO: LOTS OF WORK TO DO ::: build switch with all disconnect scenarios.
-        eprint('LiveTournament :: disconnect_player :: Trying to disconnect ', user.login)
+        eprint('\nLiveTournament :: disconnect_player :: Trying to disconnect ', user.login)
         eprint('LiveTournament :: disconnect_player :: user in self.__init_lobby : ', user in self.__init_lobby)
         eprint('LiveTournament :: disconnect_player :: first_stage_started : ', self.first_stage_started)
         if user in self.__init_lobby and not self.first_stage_started:
@@ -290,7 +293,8 @@ class LiveTournament:
             eprint('LiveTournament :: user in self.__init_lobby and not self.first_stage_started : TRUE')
             self.__match_maker.remove_player(user)
             await self.__init_lobby.game_connector.disconnect_player(user)
-            return False
+            await self.__tconn.disconnect_player(user)
+            return self.is_empty
             # self.__init_lobby.remove_user(user)
 
         lgame = self.get_player_game(user)
@@ -305,17 +309,25 @@ class LiveTournament:
             # eprint('LiveTournament :: force_disconnect_all_player :: init_lobby : ', self.__init_lobby)
             # await self._forced_disconnect_all(user.id)
             if user in lgame:
-                eprint('LiveTournament :: Sending quitter signal through tournament Websocket.')
+                eprint('LiveTournament :: disconnect_player :: is tournament DB running : ', self.__tconn.tournament.is_running)
+
+                if self.__tconn.tournament.is_running:
+                    eprint('LiveTournament :: Sending quitter signal through tournament Websocket.')
+                    await self.__tconn.send_quitter_signal(user) # Displays SHAME screen frontend with user as quitter.
+                    await self.__tconn.tournament.force_shutdown()
+
                 await self.__tconn.disconnect_player(user)
-                await self.__tconn.send_quitter_signal(user)
+                eprint('LiveTournament :: disconnect_player :: gconn.disconnect_player')
+                await gconn.disconnect_player(user)# Woaw!
 
-                await self.__tconn.tournament.force_shutdown()
-                await gconn.disconnect_player(user)
-
-                # await gconn.disconnect_player(user, user.id)
-                eprint('LiveTournament :: force_disconnect_all_player :: flushing user from match_maker.')
+                eprint('LiveTournament :: disconnect_player :: flushing user from match_maker.')
                 self.__match_maker.remove_player_from(user, lgame)
                 self.__match_maker.remove_player_from(user, self.__init_lobby)
+
+                eprint('\n LiveTournament :: disconnect_player :: Try self.gameManager.closeGame.')
+                await self.gameManager.closeGame(gconn.game.id)
+
+                # await gconn.disconnect_player(user, user.id)
             # lgame.game_connector.disconnect_player(user)
             return self.is_empty
 

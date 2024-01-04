@@ -182,3 +182,7 @@ class Game(models.Model):
 
         self.save()
         return ('wow')
+
+    @sync_to_async
+    def stop_and_register_force_close(self):
+        self.declare_broken(save=True)

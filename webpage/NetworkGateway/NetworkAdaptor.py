@@ -177,7 +177,7 @@ class GameGateway(BaseGateway):
             #     raise GameGatewayException('Cannot join the tournament. It it full.')
             async with self.__gateway_lock:
                 if not self._live_tournament:
-                    self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
+                    self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker(), self.__game_manager)
 
                 eprint('TRY SENDING BRACKETS INFO')
                 await tconn.send_brackets(self._live_tournament.get_brackets_info())
@@ -216,7 +216,7 @@ class GameGateway(BaseGateway):
             # if lobby_game.is_full:
             #     raise GameGatewayException('Cannot join the tournament. It it full.')
             if not self._live_tournament:
-                self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker())
+                self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker(), self.__game_manager)
 
         # async with self.__gateway_lock:
         #     if not self._live_tournament:
@@ -249,6 +249,7 @@ class GameGateway(BaseGateway):
                 shutdown = await self._live_tournament.disconnect_player(user)
                 eprint('GameGateway :: disconnect_player :: disconnected player from live_tournament :: should shutdown ? ', shutdown)
                 if shutdown:
+                    del self._live_tournament
                     self._live_tournament = None
 
             elif user in self.match_maker:
@@ -479,16 +480,20 @@ class GameGateway(BaseGateway):
         eprint('endState : ', endState)
 
         if endState == 'quit':
-            eprint('endState == quit indeed')
             quitter = end_game_state['quitter']
+            eprint('endState == quit indeed. quitterID : ', quitter)
             user = await User.get_user(quitter)
-            if not user:
-                raise GameGatewayException('GameGateway :: quitter id does not exist.')
-            # ply = lgame.get_player_by_id(quitter)
-            end_game_state['wallofshame'] = user.img_link
-            eprint('game was quit by playerID ', quitter)
-            res = await game.stop_and_register_results(scores, quitter=quitter)
-            eprint('db push res : ', res)
+            if user:
+                # ply = lgame.get_player_by_id(quitter)
+                end_game_state['wallofshame'] = user.img_link
+                eprint('game was quit by playerID ', quitter)
+                res = await game.stop_and_register_results(scores, quitter=quitter)
+                eprint('db push res : ', res)
+            else:
+                await game.stop_and_register_force_close()
+                return
+                # raise GameGatewayException('GameGateway :: quitter id does not exist.')
+
         elif endState == 'win':
             eprint('endState == win indeed')
             res = await game.stop_and_register_results(scores)

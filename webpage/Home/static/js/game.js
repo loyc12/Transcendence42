@@ -74,7 +74,7 @@ let request_join_game = async function (gameType) {
 
   //console.log('request_join_game temporarly deactivated. Come back again later.')
 
-  console.log('request_join_game temporarly deactivated. Come back again later.')
+  // console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
   currentGameType = gameType
   if (gameType === 'Local_1p') {
