@@ -58,6 +58,7 @@ let select_hero_content = function (key) {
             console.log('Special case contentGame loadModule(gameMode)')
             loadModule('gameMode')
             disconnect_socket()
+            disconnect_tour_socket()
         }
         if (contentElems['heroDiv'] === 'contentHelp') {
             console.log('Special case contentHelp loadModule(Help)')
@@ -96,6 +97,7 @@ let select_hero_content = function (key) {
         }
         try {
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
+            disconnect_tour_socket()
         } catch {}
     }
     else

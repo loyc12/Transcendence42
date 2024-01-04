@@ -37,7 +37,6 @@ let _on_server_side_user_disconnect = function(e) {
     console.error('The server disconnecter USER');
     console.log('Server closed USER websocket connection. Current socket readyState : ');
     user_id = null;
-    
 };
 
 let _prepare_user_websocket = function (ws) {
@@ -53,7 +52,7 @@ if (user_id != null) {
     // build websocket path
     userWebSockID = ('USOCK' + user_id);
     let sockPath = _build_user_ws_path(userWebSockID);
-    
+
     // connect to websocket
     userWebSock = _connect_to_user_socket(sockPath);
 

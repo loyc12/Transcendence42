@@ -6,26 +6,27 @@
           <!-- FINISH -->
 			    <h1 class="finish" id="finish" style="display: none;"><i class="bi bi-exclamation-circle"></i> FINAL: Maman, c'est fini!!!!! <i class="bi bi-exclamation-circle"></i></h1>
           <!-- WINNER -->
-			    <h1 class="winner" id="winner" style="display: none;"><i class="bi bi-trophy"></i> WINNER! <i class="bi bi-trophy"></i></h1>
+			    <h1 class="winner" id="winner" style="display: none;"><i class="bi bi-trophy"></i><span id="winnerMsg">WINNER!</span><i class="bi bi-trophy"></i></h1>
           <!-- LOSER -->
 			    <h1 class="loser" id="loser" style="display: none;"><i class="bi bi-cloud-lightning-rain"></i> MEILLEURE CHANCE LA PROCHAINE FOIS! <i class="bi bi-cloud-lightning-rain"></i></h1>
           <!-- CRASH -->
 			    <h1 class="crash" id="crash" style="display: none;"><i class="bi bi-exclamation-circle"></i> CRASH: quelqu'un a quitté le jeu.. <i class="bi bi-exclamation-circle"></i></h1>
+          <div id="wallofshame">
+            <h1>SHAME!!!!!</h1>
+            <h1 class="quitter" id="quitter"><i class="bi bi-bell"></i> <span id="shameVictim"> --- </span> <i class="bi bi-bell"></i></h1>
+              <img id="quiiterIMG" src="img/Celine1.png" alt="the quitter" class="w-50 rounded-circle" loading="lazy">
+            <h1>SHAME!!!!!</h1>
+          </div>
           <!-- BUTTON WINNER TOURNAMENT TO GHOST LOBBY -->
-           <button type="button" class="btn" onclick="signal_final_game()" id="buttonGhostLobby" style="display: none; background-color: #0e4870; color: #f0ffff" >FINALS HERE</button>
+          <button type="button" class="btn" onclick="signal_final_game()" id="buttonGhostLobby" style="display: none; background-color: #0e4870; color: #f0ffff" >FINALS HERE</button>
 		    </div>
       </div>
     </div>
-    <div class="row align-items-center" id="wallofshame" style="display: none;">
+    <!-- <div class="row align-items-center" id="wallofshame" style="display: none;">
       <div class="col d-flex justify-content-center mb-3">
-        <div class="custom-card mt-20">
-          <h1>SHAME!!!!!</h1>
-          <h1 class="quitter" id="quitter"><i class="bi bi-bell"></i> --- <i class="bi bi-bell"></i></h1>
-          <img src="img/Celine1.png" alt="the quitter" class="w-50 rounded-circle" loading="lazy">
-          <h1>SHAME!!!!!</h1>
-        </div>
+
       </div>
-    </div>
+    </div> -->
     <div class="row align-items-center" id="victorious" style="display: none;">
       <div class="col d-flex justify-content-center mb-3">
         <div class="custom-card mt-20">

@@ -273,7 +273,8 @@ class MatchMaker:
         game_mode = lgame.gameMode
         modeGames = self._gameLobby[game_mode]
         if lgame not in modeGames:
-            raise MatchMakerException(f"Trying to remove game {lgame} from the lobby but this game does not exist in MatchMaker.")
+            return
+            # raise MatchMakerException(f"Trying to remove game {lgame} from the lobby but this game does not exist in MatchMaker.")
 
         modeGames.remove(lgame)
 
@@ -365,7 +366,7 @@ class MatchMaker:
             return self.remove_player(user)
 
         return (lgame, lply)
-    
+
     def remove_player_from(self, user: User, lgame: LobbyGame):
         if not user in lgame:
             return

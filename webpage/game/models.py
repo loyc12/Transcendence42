@@ -163,7 +163,7 @@ class Game(models.Model):
                     raise IntegrityError('\n\n NO PLAYER FOUND with quitter id : ', quitter)
                 ply.gave_up = True
 
-            else:
+            elif plys.count() > 1:
                 # Find winner
                 eprint('Trying to set game winner in DB')
                 o_plys = plys.order_by('-score')

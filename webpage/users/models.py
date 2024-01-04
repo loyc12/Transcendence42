@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, OperationalError, IntegrityError
 #from django.utils import timezone
+from asgiref.sync import sync_to_async
+
 from .manager import UserManager
 
 
@@ -20,6 +22,13 @@ class User(AbstractBaseUser):
 
     # Method that return a string with the information of the user
     objects = UserManager()
+
+    @classmethod
+    @sync_to_async
+    def get_user(cls, userID: int):
+        try:        user = cls.objects.get(id=userID)
+        except ObjectDoesNotExist: return None
+        return user
 
     def __str__(self):
         return f"User: {self.login},\
@@ -56,23 +65,32 @@ class User(AbstractBaseUser):
         except ObjectDoesNotExist: return 0
 
     @property
+    def nb_official_games_played(self):
+        # try:    return self.player_set.filter(user=self.id, is_official=True).count()
+        try:    return self.player_set.filter(user=self.id, game__is_official=True).count()
+        except ObjectDoesNotExist: return 0
+
+    @property
     def nb_wins(self):
-        try:    return self.game_set.filter(winner=self.id).count()
+        try:    return self.game_set.filter(winner=self.id, is_official=True).count()
         except ObjectDoesNotExist: return 0
 
     @property
     def nb_losses(self):
-        try:    return self.nb_games_played - self.nb_wins - self.nb_given_up
+        print("Game :: nb_losses :: nb_official_games_played : ", self.nb_official_games_played)
+        print("Game :: nb_losses :: nb_wins : ", self.nb_wins)
+        print("Game :: nb_losses :: nb_given_up : ", self.nb_given_up)
+        try:    return self.nb_official_games_played - self.nb_wins - self.nb_given_up
         except ObjectDoesNotExist: return 0
 
     @property
     def nb_given_up(self):
-        try:    return self.player_set.filter(user=self.id, gave_up=True).count()
+        try:    return self.player_set.filter(user=self.id, game__is_official=True, gave_up=True).count()
         except ObjectDoesNotExist: return 0
 
     @property
     def win_loss_ratio(self):
-        nb_played = self.nb_games_played
+        nb_played = self.nb_official_games_played
         nb_wins = self.nb_wins
         print('player win_loss_ratio :: nb_played : ', nb_played)
         if nb_wins == 0:

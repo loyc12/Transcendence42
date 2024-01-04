@@ -243,8 +243,11 @@ class GameGateway(BaseGateway):
         print('GameGateway trying to disconnect player')
         async with self.__gateway_lock:
             gconn = consumer.game_connector
+            eprint('GameGateway :: disconnect_player :: self._live_tournament : ', self._live_tournament)
+            eprint('GameGateway :: disconnect_player :: user in self._live_tournament : ', user in self._live_tournament)
             if self._live_tournament and user in self._live_tournament:
                 shutdown = await self._live_tournament.disconnect_player(user)
+                eprint('GameGateway :: disconnect_player :: disconnected player from live_tournament :: should shutdown ? ', shutdown)
                 if shutdown:
                     self._live_tournament = None
 
@@ -266,7 +269,7 @@ class GameGateway(BaseGateway):
 
             else:# Disconnect if in tournament
                 print('Trying to disconnect player but GOT ELSED !')
-            
+
             userApiKey = user.apiKey
             if userApiKey in self.__game_connectors:
                 _ = self.__game_connectors.pop(userApiKey)
@@ -444,12 +447,12 @@ class GameGateway(BaseGateway):
                 raise GameAPIException(f'API :: User sent event to API, but is not currently in a game.')
             gconn = self.__game_connectors[userApiKey]
             eprint(f'FOUND game connector associated to apiKey {userApiKey} !')
-        
+
         user = await gconn.find_user_with_api_key(userApiKey)
         eprint(f'FOUND USER associated to apiKey {userApiKey} : login {user.login} !')
         if not user:
             raise GameAPIException(f'API :: User tried to execute action through API, but provided wrong API ID.')
-        
+
         eprint(f'API call pushing event {key} to game event queue')
         await gconn.push_event(user.id, eventType, key)
 
@@ -457,8 +460,8 @@ class GameGateway(BaseGateway):
 
     async def manage_end_game(self, end_game_state: dict):
         ''' Will deal with either individual games or tournament games. Called by GameManager at the end of a game. '''
-        print('\n\n !!!! WOWOW MANAGING END GAME !!!\n\n')
-        print('END GAME : ', end_game_state)
+        eprint('\n\n !!!! WOWOW MANAGING END GAME !!!\n\n')
+        eprint('END GAME : ', end_game_state)
 
         if not end_game_state:
             raise GameGatewayException("GameManager didn't give a propper end_game_state state struct to manage end game.")
@@ -478,8 +481,11 @@ class GameGateway(BaseGateway):
         if endState == 'quit':
             eprint('endState == quit indeed')
             quitter = end_game_state['quitter']
-            ply = lgame.get_player_by_id(quitter)
-            end_game_state['wall_of_shame'] = ply.user.img_link
+            user = await User.get_user(quitter)
+            if not user:
+                raise GameGatewayException('GameGateway :: quitter id does not exist.')
+            # ply = lgame.get_player_by_id(quitter)
+            end_game_state['wallofshame'] = user.img_link
             eprint('game was quit by playerID ', quitter)
             res = await game.stop_and_register_results(scores, quitter=quitter)
             eprint('db push res : ', res)
@@ -487,8 +493,8 @@ class GameGateway(BaseGateway):
             eprint('endState == win indeed')
             res = await game.stop_and_register_results(scores)
             eprint('db push res : ', res)
-        elif endState == 'crash':
-            eprint('endState == crash indeed')
+        elif endState == 'abort':
+            eprint('endState == abort indeed')
         else:
             eprint("WTF DUDE !!! ")
 
@@ -499,11 +505,11 @@ class GameGateway(BaseGateway):
             end_game_state['is_tournament'] = True
 
 
-            async with self.__gateway_lock:
-                if self._live_tournament.is_first_stage:
-                    pass
-                elif self._live_tournament.is_second_stage:
-                    pass
+            # async with self.__gateway_lock:
+            #     if self._live_tournament.is_first_stage:
+            #         pass
+            #     elif self._live_tournament.is_second_stage:
+            #         pass
 
 
 
@@ -513,7 +519,7 @@ class GameGateway(BaseGateway):
         eprint('manage_end_game :: post send_end_state')
 
         # stop_and_register_results
-        eprint('EXITING manage_end_game()')
+        eprint('EXITING manage_end_game()\n')
 
 
 '''

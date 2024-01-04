@@ -5,6 +5,7 @@ from django.db import models, OperationalError, IntegrityError
 from game.MatchMaker import LobbyGame
 #from django.utils import timezone
 #from .manager import TournamentManager
+from asgiref.sync import sync_to_async
 
 
 def eprint(*args):
@@ -97,6 +98,12 @@ class Tournament(models.Model):
     def declare_over(self):
         self.is_running = False
         self.is_over = True
+
+    @sync_to_async
+    def force_shutdown(self):
+        self.declare_started()
+        self.save()
+
 
     def add_member(self, user, save: bool=True):
 

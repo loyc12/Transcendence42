@@ -198,6 +198,7 @@ function parseInitData (init_data) {
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
         }
+        console.log('GS : [orientation] : (x,y) & (w,h) :: ' + ori + ')' );
     }
 }
 

@@ -63,10 +63,10 @@ class LiveTournament:
 
     @property
     def first_stage_started(self):
-        return self._groupA and self._groupB
+        return self._groupA is not None and self._groupB is not None
     @property
     def is_first_stage(self):
-        return self.first_stage_started and self._groupC is None
+        return self.first_stage_started is not None and self._groupC is None
     @property
     def is_second_stage(self):
         return self._groupC is not None
@@ -222,19 +222,23 @@ class LiveTournament:
         return lgame
 
 
-    async def _forced_disconnect_all(self):#, lgame: LobbyGame):
+    async def _forced_disconnect_all(self, quitter=None):#, lgame: LobbyGame):
         ### Called when a player leaves mid game.
+        eprint('LiveTournament :: trying to _forced_disconnect_all() players from tournament.')
         self._is_closing = True # important
 
         if self.__init_lobby and self.__init_lobby.game_connector:
-            await self.__init_lobby.game_connector.disconnect_all_players()
-        elif self._groupA and self._groupA.game_connector:
-            await self._groupA.game_connector.disconnect_all_players()
-        elif self._groupB and self._groupB.game_connector:
-            await self._groupA.game_connector.disconnect_all_players()
-        elif self._groupC and self._groupC.game_connector:
-            await self._groupA.game_connector.disconnect_all_players()
-
+            eprint('LiveTournament :: trying to disconnect_all_players() players from __init_lobby.')
+            await self.__init_lobby.game_connector.disconnect_all_players(quitter=quitter)
+        if self._groupA and self._groupA.game_connector:
+            eprint('LiveTournament :: trying to disconnect_all_players() players from groupA.')
+            await self._groupA.game_connector.disconnect_all_players(quitter=quitter)
+        if self._groupB and self._groupB.game_connector:
+            eprint('LiveTournament :: trying to disconnect_all_players() players from groupB.')
+            await self._groupB.game_connector.disconnect_all_players(quitter=quitter)
+        if self._groupC and self._groupC.game_connector:
+            eprint('LiveTournament :: trying to disconnect_all_players() players from groupC.')
+            await self._groupC.game_connector.disconnect_all_players(quitter=quitter)
 
         # if lgame.game_connector:
         #     for ply in lgame.players:
@@ -250,10 +254,12 @@ class LiveTournament:
     #     pass
 
     def __player_is_looser_of_first_game(self, user: User):
+        if not self._groupA or self._groupB:
+            return False
         lgame = self.__init_lobby
-        if user in self._groupA and lgame.sockID == self.groupA.sockID:
+        if user in self._groupA and lgame.sockID == self._groupA.sockID:
             lgame = self._groupA
-        elif user in self._groupB and lgame.sockID == self.groupB.sockID:
+        elif user in self._groupB and lgame.sockID == self._groupB.sockID:
             lgame = self._groupB
         return lgame != self.__init_lobby and not self._groupC or not (user in self._groupC) and lgame.is_over and user.id != lgame.winner
 
@@ -291,14 +297,27 @@ class LiveTournament:
         if not lgame.game_connector:
             eprint('LiveTournament :: lgame has no game connector')
             return False
-        
+
         gconn = lgame.game_connector
 
         if gconn.game and gconn.game.is_running:
             ''' If game is running, force disconnect all players from tournament.'''
-            self._forced_disconnect_all()
+            # eprint('LiveTournament :: force_disconnect_all_player :: init_lobby : ', self.__init_lobby)
+            # await self._forced_disconnect_all(user.id)
+            if user in lgame:
+                eprint('LiveTournament :: Sending quitter signal through tournament Websocket.')
+                await self.__tconn.disconnect_player(user)
+                await self.__tconn.send_quitter_signal(user)
+
+                await self.__tconn.tournament.force_shutdown()
+                await gconn.disconnect_player(user)
+
+                # await gconn.disconnect_player(user, user.id)
+                eprint('LiveTournament :: force_disconnect_all_player :: flushing user from match_maker.')
+                self.__match_maker.remove_player_from(user, lgame)
+                self.__match_maker.remove_player_from(user, self.__init_lobby)
             # lgame.game_connector.disconnect_player(user)
-            return True
+            return self.is_empty
 
 
 

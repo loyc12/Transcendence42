@@ -31,16 +31,18 @@ def import_data(api_data, request):
 @login_required
 def get_profile(request):
 
-    user = request.user
+    # user = request.user
 
     nb_played = request.user.nb_games_played
+    nb_officials_played = request.user.nb_official_games_played
     nb_wins = request.user.nb_wins
     nb_given_up = request.user.nb_given_up
-    nb_losses = nb_played - nb_wins - nb_given_up
+    nb_losses = request.user.nb_losses
 
     return render(request, 'users/profile.html', context={
         'user': request.user,
         'nb_played': nb_played,
+        'nb_officials_played': nb_officials_played,
         'nb_wins': nb_wins,
         'nb_losses': nb_losses,
         'nb_given_up': nb_given_up,
