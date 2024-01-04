@@ -24,6 +24,8 @@ class TournamentConnector:
         self.__tour_lock = asyncio.Lock()
         print('Creating TournamentConnector :: with sockID : ', self.sockID)
 
+        self._is_closing = False
+
         # self.lobby_game = None # Returned after connecting to MatchMaker
 
 
@@ -117,6 +119,24 @@ class TournamentConnector:
             {
                 'type': 'tour_send_brackets',
                 'brackets': payload
+            }
+        )
+
+    async def send_quitter_signal(self, quitterUser):
+        print('TournamentConnector :: end_brackets() entered')
+        if self._is_closing:
+            return
+        self._is_closing = True
+        payload = json.dumps({
+            'ev': 'quitter',
+            'name': quitterUser.login,
+            'img': quitterUser.img_link,
+        })
+        await self.__channel_layer.group_send(
+            self.sockID,
+            {
+                'type': 'tour_send_quitter_signal',
+                'signal': payload
             }
         )
 

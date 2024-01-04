@@ -63,10 +63,10 @@ class LiveTournament:
 
     @property
     def first_stage_started(self):
-        return self._groupA and self._groupB
+        return self._groupA is not None and self._groupB is not None
     @property
     def is_first_stage(self):
-        return self.first_stage_started and self._groupC is None
+        return self.first_stage_started is not None and self._groupC is None
     @property
     def is_second_stage(self):
         return self._groupC is not None
@@ -302,9 +302,17 @@ class LiveTournament:
 
         if gconn.game and gconn.game.is_running:
             ''' If game is running, force disconnect all players from tournament.'''
-            eprint('LiveTournament :: force_disconnect_all_player :: init_lobby : ', self.__init_lobby)
-            await self._forced_disconnect_all(user.id)
+            # eprint('LiveTournament :: force_disconnect_all_player :: init_lobby : ', self.__init_lobby)
+            # await self._forced_disconnect_all(user.id)
             if user in lgame:
+                eprint('LiveTournament :: Sending quitter signal through tournament Websocket.')
+                await self.__tconn.disconnect_player(user)
+                await self.__tconn.send_quitter_signal(user)
+
+                await self.__tconn.tournament.force_shutdown()
+                await gconn.disconnect_player(user)
+
+                # await gconn.disconnect_player(user, user.id)
                 eprint('LiveTournament :: force_disconnect_all_player :: flushing user from match_maker.')
                 self.__match_maker.remove_player_from(user, lgame)
                 self.__match_maker.remove_player_from(user, self.__init_lobby)

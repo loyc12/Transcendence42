@@ -53,6 +53,7 @@ let select_hero_content = function (key) {
             console.log('Special case contentGame loadModule(gameMode)')
             loadModule('gameMode')
             disconnect_socket()
+            disconnect_tour_socket()
         }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
         console.log('previous content page : ' + key)
@@ -86,6 +87,7 @@ let select_hero_content = function (key) {
         }
         try {
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
+            disconnect_tour_socket()
         } catch {}
     }
     else

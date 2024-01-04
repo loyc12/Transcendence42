@@ -57,6 +57,10 @@ let _on_tour_event = function(event) {
         console.log('WoOoW ! received tournament brackets info : ' + data.brackets)
         // loadModule('lobby');
     }
+    else if (data.ev === 'quitter') {
+        console.log('FRONTEND RECEIVED QUITTER SIGNAL !!')
+        loadTournamentQuitterEnding(data);
+    }
 }
 
 // let _build_tour_ws_path = function(sockID) {

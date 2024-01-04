@@ -150,7 +150,9 @@ class GameConnector:
             if user.id not in self.__player_consumers:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
-        await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
+
+        if not quitter:
+            await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
 
         print(f'GameConnector :: SWITCH')
         print(f'GameConnector :: game : ', self.game)

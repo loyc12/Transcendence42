@@ -79,6 +79,12 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         print('TournamentConsumer :: tour_send_brackets entered' )
         await self.send(text_data=event['brackets'])
 
+    async def tour_send_quitter_signal(self, event):
+        print('TournamentConsumer :: tour_send_quitter_signal entered' )
+        print("event['signal'] : ", event['signal'])
+        await self.send(text_data=event['signal'])
+
+
 
     # async def tour_send_stage_connection_msg(self, lgame):
     #     payload = json.dumps({

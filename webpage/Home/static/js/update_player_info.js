@@ -285,6 +285,24 @@ let loadEndGame = function (data) {
   // disconnect_socket();
 }
 
+let loadTournamentQuitterEnding = function (quitterData) {
+  console.log('QuitterData received : ' + quitterData);
+  reset_endgame_messages();
+  loadModule('aftergame');
+
+  let quitter_name = quitterData.name;
+  let quitter_img = quitterData.img;
+  document.getElementById("wallofshame").style.display = "block";
+  document.getElementById("quiiterIMG").src = quitter_img;
+  document.getElementById("shameVictim").innerHTML = quitter_name;
+
+  console.log('Disconnecting game socket and tournament socket ...');
+  disconnect_socket();
+  disconnect_tour_socket();
+  console.log('All sockets closed !');
+}
+
+
 
 let signal_final_game = function() {
   console.log('signal_final_game :: entered !')
