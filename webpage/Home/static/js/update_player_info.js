@@ -90,7 +90,7 @@ let loadEndGame = function (data) {
   reset_endgame_messages();
   loadModule('aftergame');
 
-  let winnerID = data.winingTeam;
+  let winnerID = data.winningTeam;
   let winner = data.playerInfo[winnerID];
   let user_is_winner = (parseInt(winner.playerID) == user_id);
 
