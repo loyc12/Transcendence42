@@ -1,18 +1,19 @@
 {% block module4 %}
-<div class="module4" id="contentHelp">
-    <div class="row align-items-center">
+<div class="module4 custom-scroll" id="contentHelp">
+    <div class="row align-items-center ps-2 pe-2">
+        <div class="col-12">
             <h1>RÈGLES et INSTRUCTIONS</h1>
             <table class="table-responsive" style="color: #F0FFFF; background-color: #178CA8; border: 5px solid #F0FFFF;">
                 <thead>
                 <tr>
-                    <th scope="col">Mode de jeux</th>
-                    <th scope="col">Instructions</th>
+                    <th scope="col" class="headTable">Mode de jeux</th>
+                    <th scope="col" class="headTable">Instructions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th scope="row">Local (SoloAI et 1v1)</th>
-                    <td>Local offre le Pong original, autant pour le SoloAI et 1v1. Les touches pour jouer: ⬆️ et ⬇️ ou W et S. Ou encore, utilise les flèches disponible, sous l'écran du jeu, en utilisant la souris. Si tu utilises le clavier, appuie une fois pour faire partir la palette. Appuie une autre fois, dans la même direction pour la faire accélérer. Appuie dans la direction opposée une fois ou sur la barre d'espace pour l'arrêter. Pour les jeux en local, les victoires et les défaites ne sont pas comptabilisées dans les stats du profil. </td>
+                    <td>Local offre le Pong original, autant pour le SoloAI et 1v1. Les touches pour jouer: ⬆️ et ⬇️ ou W et S. Ou encore, utilise les flèches disponible, sous l'écran du jeu, en utilisant la souris. Si tu utilises le clavier, appuie une fois pour faire partir la palette. Appuie une autre fois, dans la même direction pour la faire accélérer. Appuie dans la direction opposée une fois ou sur la barre d'espace pour l'arrêter. Pour le jeu 1v1, le zéro (près des flèches) peut être utilisé comme la barre d'espace. Pour les jeux en local, les victoires et les défaites ne sont pas comptabilisées dans les stats du profil. </td>
                 </tr>
                 <tr>
                     <th scope="row">Online (Tournoi, Multiplayers 2 et Multiplayers 4)</th>
@@ -26,6 +27,8 @@
             <div class="playerTwo">Couleur du 2e joueur</div>
             <div class="playerThree">Couleur du 3e joueur</div>
             <div class="playerFour">Couleur du 4e joueur</div>
+            <div class="ballColor">Une balle blanche qui n'a pas été touchée par un joueur ne donne pas de point. C'est lorsqu'elle est frappée, elle prend la couleur du dernier joueur qui l'a frappée.</div>
+        </div>
     </div>
 </div>
 {% endblock %}
