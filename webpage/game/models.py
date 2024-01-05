@@ -139,20 +139,23 @@ class Game(models.Model):
                 - scores: should have len == max_players for the game type
                 and be a dict with player id as key and score as value.
         '''
-        eprint('CALLED stop_and_register_results')
+        eprint('Game DB model :: CALLED stop_and_register_results')
+        eprint('Game DB model :: scores : ', scores)
+        eprint('Game DB model :: scores type : ', type(scores))
         if len(scores) != self.max_players:
             raise OperationalError(f"Wrong nb of player scores ({len(scores)}) in scores dict.")
         if not self.is_running:
             raise OperationalError("Trying to register results and end a game, when the game hasn't started yet.")
 
         plys = Player.objects.filter(game=self)
+        eprint('Game DB model :: players : ', plys)
 
         if self.is_official:
             # Set score for individual players in game
             # if not self.is_local2p and len(plys) != self.max_players:
             #     raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
-            winner_score = -1
-            winner = None
+            # winner_score = -1
+            # winner = None
             for ply, s in zip(plys, scores):
                 ply.score = s
                 eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
@@ -168,12 +171,13 @@ class Game(models.Model):
             elif plys.count() > 1:
                 # Find winner
                 eprint('Trying to set game winner in DB')
-                o_plys = plys.order_by('-score')
-                self.winner = o_plys.first().user
+                # o_plys = plys.order_by('-score')
+                winner = plys[scores.index(max(scores))]
+                self.winner = winner.user  #o_plys.first().user
                 eprint(f'game id {self.id} Winner set as : ', self.winner)
 
             plys.bulk_update(plys, ['score', 'gave_up'])# batch updates to postgres rather then individual saves.
-
+#
 
         # Set end of game state
         self.is_running = False
