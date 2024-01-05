@@ -142,7 +142,7 @@ class GameConnector:
 
     # DECONNECTION
     async def disconnect_player(self, user, quitter=None):
-        print(f'GameConnector :: ENTER disconnect player')
+        print(f'GameConnector :: ENTER disconnect player ', user.login)
         if not self.__lobby_game or user.id not in self.__player_consumers:
             print(f'GameConnector :: disconnect player :: user.id {user.id} not in player consumers.')
             return None
@@ -157,7 +157,7 @@ class GameConnector:
         print(f'GameConnector :: SWITCH')
         print(f'GameConnector :: game : ', self.game)
         if self.game and self.game.is_running:
-            print(f'GameConnector :: disconnect player {user.id} INGAME')
+            print(f'GameConnector :: disconnect player {user.login} INGAME')
             print(f'GameConnector :: game.is_running : ', self.game.is_running)
             if self.__is_closing:
                 return

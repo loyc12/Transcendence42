@@ -396,7 +396,8 @@ class GameGateway(BaseGateway):
         # if not lgame:
         #     raise GameGatewayException(f"Trying to set user {user.login} as ready, but wasn't found in lobby.")
 
-        await lgame.game_connector._send_players_list()
+        if lgame.game_connector:
+            await lgame.game_connector._send_players_list()
         print('Checking if game is ready ?')
         if lgame.is_ready:
             eprint('lobby game IS ready.')
