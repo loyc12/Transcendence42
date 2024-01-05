@@ -63,6 +63,10 @@ function loadModule(moduleName) {
         // }
         document.getElementById('aftergame').style.display = 'block';
     }
+    else if (moduleName == 'help')
+    {
+        console.log('WARNING : unimplemented call to loadModule for help')
+    }
     else {
         console.log('Make join game request.')
         request_join_game(moduleName)

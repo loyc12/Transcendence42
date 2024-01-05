@@ -39,12 +39,12 @@ class Game(models.Model):
 
     def __str__(self):
         return f"<--------Game id {str(self.id)}--------->" +\
-                "\n<-| game type :     " + self.game_type +\
-                "\n<-| nb players :    " + str(self.max_players) +\
-                "\n<-| is running :    " + str(self.is_running) +\
-                "\n<-| is over :       " + str(self.is_over) +\
-                "\n<-| winner :        " + (self.winner.login if self.winner else 'None') +\
-                "\n<-| final score :   " + (self.finale_scores if self.finale_scores else 'None') +\
+                f"\n<-| game type :     {self.game_type}" +\
+                f"\n<-| nb players :    {self.max_players}" +\
+                f"\n<-| is running :    {self.is_running}" +\
+                f"\n<-| is over :       {self.is_over}" +\
+                f"\n<-| winner :        {self.winner.login if self.winner else 'None'}" +\
+                f"\n<-| final score :   {self.finale_scores if self.finale_scores else 'None'}" +\
                 "\n<---------------------------------->"
                 # "\n<-| is tournament : " + str(self.is_tournament) +
 
@@ -151,6 +151,8 @@ class Game(models.Model):
             # Set score for individual players in game
             # if not self.is_local2p and len(plys) != self.max_players:
             #     raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
+            winner_score = -1
+            winner = None
             for ply, s in zip(plys, scores):
                 ply.score = s
                 eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
@@ -168,6 +170,7 @@ class Game(models.Model):
                 eprint('Trying to set game winner in DB')
                 o_plys = plys.order_by('-score')
                 self.winner = o_plys.first().user
+                eprint(f'game id {self.id} Winner set as : ', self.winner)
 
             plys.bulk_update(plys, ['score', 'gave_up'])# batch updates to postgres rather then individual saves.
 

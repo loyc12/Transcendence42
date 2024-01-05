@@ -34,6 +34,7 @@ let _on_tour_event = function(event) {
         console.log('_on_tour_event :: gameType received from data.form.gameType : ' + gameType);
         parseInitData(get_default_init_state('Tournament'));
 
+        console.log('_on_tour_event :: disconnecting socket ');
         disconnect_socket()
 
         let stageNB = data.stage;
@@ -89,6 +90,7 @@ let _on_server_side_tour_disconnect = function(e) {
     console.error('The server disconnecter tournament');
     console.log('Server closed tournament websocket connection.');
     // user_id = null;
+    console.log('_on_server_side_tour_disconnect :: disconnecting socket ');
     disconnect_socket();
     wipe_tournament_data();
 };

@@ -179,8 +179,8 @@ class GameGateway(BaseGateway):
                 if not self._live_tournament:
                     self._live_tournament = LiveTournament(tconn, lobby_game, app.get_match_maker(), self.__game_manager)
 
-                eprint('TRY SENDING BRACKETS INFO')
-                await tconn.send_brackets(self._live_tournament.get_brackets_info())
+                # eprint('TRY SENDING BRACKETS INFO')
+                # await tconn.send_brackets(self._live_tournament.get_brackets_info())
 
         return gconn
 
@@ -240,11 +240,11 @@ class GameGateway(BaseGateway):
 
 
     async def disconnect_player(self, user: User, consumer):
-        print('GameGateway trying to disconnect player')
+        eprint('GameGateway trying to disconnect player : ', user.login)
         async with self.__gateway_lock:
             gconn = consumer.game_connector
             eprint('GameGateway :: disconnect_player :: self._live_tournament : ', self._live_tournament)
-            eprint('GameGateway :: disconnect_player :: user in self._live_tournament : ', user in self._live_tournament)
+            # eprint('GameGateway :: disconnect_player :: user in self._live_tournament : ', user in self._live_tournament)
             if self._live_tournament and user in self._live_tournament:
                 shutdown = await self._live_tournament.disconnect_player(user)
                 eprint('GameGateway :: disconnect_player :: disconnected player from live_tournament :: should shutdown ? ', shutdown)
