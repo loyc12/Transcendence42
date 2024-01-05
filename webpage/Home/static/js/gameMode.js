@@ -41,7 +41,6 @@ function loadModule(moduleName) {
             }
         }
         else{
-            console.log('-=-=-> where is the fucking overwrite...');
             document.getElementById('tournament').style.display = 'block';
         }
     }
