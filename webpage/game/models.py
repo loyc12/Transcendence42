@@ -164,9 +164,10 @@ class Game(models.Model):
                 for ply in plys:
                     if ply.user.id == quitter:
                         break
-                else:
-                    raise IntegrityError('\n\n NO PLAYER FOUND with quitter id : ', quitter)
-                ply.gave_up = True
+                # else:
+                    # raise IntegrityError('\n\n NO PLAYER FOUND with quitter id : ', quitter)
+                if ply.user.id == quitter:
+                    ply.gave_up = True
 
             elif plys.count() > 1:
                 # Find winner
