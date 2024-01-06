@@ -341,7 +341,7 @@ class LiveTournament:
     def __player_is_transitioning_to_finale(self, user):
         eprint('\nLiveTournament :: __player_is_transitioning_to_finale ::  entered.')
 
-        if self._groupC is None:
+        if self._groupC is None:# Woaw !
             return False
 
         if self._groupC.game:
@@ -362,6 +362,7 @@ class LiveTournament:
             eprint('LiveTournament :: __player_is_transitioning_to_finale :: user in self._groupB : ', user in self._groupB)
             if self._groupB.game_connector is not None:
                 eprint('LiveTournament :: __player_is_transitioning_to_finale :: user in self._groupB.game_connector : ', user in self._groupB.game_connector)
+
 
         lgame = None
         if (self._groupA is not None and user in self._groupA):
@@ -434,6 +435,8 @@ class LiveTournament:
 
 
         lgame = self.get_player_game(user)
+        eprint('LiveTournament :: disconnect_player :: lgame : ', lgame)
+
         if not lgame.game_connector:
             eprint('LiveTournament :: lgame has no game connector')
             return False

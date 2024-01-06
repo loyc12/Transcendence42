@@ -151,7 +151,7 @@ class GameConnector:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
 
-        if not quitter:
+        if quitter is None:
             await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
 
         print(f'GameConnector :: SWITCH')
@@ -164,7 +164,7 @@ class GameConnector:
              # send disconnect event to Game instance in game manager. Same place as keypress events.
 
             self.__is_closing = True
-            if quitter:
+            if quitter is None:
                 await self.push_event(user.id, 'end_game')
             else:
                 await self.push_event(quitter, 'end_game')
