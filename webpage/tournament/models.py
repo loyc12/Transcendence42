@@ -35,9 +35,12 @@ class Tournament(models.Model):
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
 
+    winner          = models.ForeignKey   ('users.User', null=True, blank=True, on_delete=models.SET_NULL, related_name='tour_winner')
+
     is_over         = models.BooleanField (default=False)
     is_running      = models.BooleanField (default=False)
     is_broken       = models.BooleanField (default=False)
+    is_abandoned    = models.BooleanField (default=False)
 
     # TournamentNAME_FIELD = "id"
 
@@ -63,11 +66,11 @@ class Tournament(models.Model):
         else:
             return cur_tournaments.first()
 
-    @property
-    def winner(self):
-        if not self.groupCGame:
-            return None
-        return self.groupCGame.winner
+    # @property
+    # def winner(self):
+    #     if not self.groupCGame:
+    #         return None
+    #     return self.groupCGame.winner
 
     @property
     def is_full(self):
@@ -95,13 +98,22 @@ class Tournament(models.Model):
         self.is_broken = True
         self.is_over = True
 
+    def declare_abandoned(self):
+        self.is_running = False
+        self.is_broken = True
+        self.is_abandoned = True
+        self.is_over = True
+
     def declare_over(self):
         self.is_running = False
         self.is_over = True
 
     @sync_to_async
-    def force_shutdown(self):
-        self.declare_broken()
+    def force_shutdown(self, is_abandoned=False):
+        if is_abandoned:
+            self.declare_abandoned()
+        else:
+            self.declare_broken()
         self.save()
 
 

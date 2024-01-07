@@ -32,6 +32,7 @@ class Game(models.Model):
     is_running =    models.BooleanField(default=False)
     is_over =       models.BooleanField(default=False)
     is_broken =     models.BooleanField(default=False)
+    is_abandoned =  models.BooleanField(default=False)
 
     winner =        models.ForeignKey('users.User', null=True, blank=True, on_delete=models.SET_NULL, related_name='game_winner')
     finale_scores = models.JSONField(max_length=150, default=dict)
@@ -168,6 +169,8 @@ class Game(models.Model):
                     # raise IntegrityError('\n\n NO PLAYER FOUND with quitter id : ', quitter)
                 if ply.user.id == quitter:
                     ply.gave_up = True
+
+                self.is_abandoned = True
 
             elif plys.count() > 1:
                 # Find winner
