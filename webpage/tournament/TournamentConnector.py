@@ -94,6 +94,7 @@ class TournamentConnector:
         ### TODO: Manage early exit from tournament.
 
         await self.__channel_layer.group_discard(self.sockID, consumer.channel_name)
+        # await consumer.disconnect()
 
         # print(f'TournamentConnector :: SWITCH')
         # if self.game:

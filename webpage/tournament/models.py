@@ -101,7 +101,7 @@ class Tournament(models.Model):
 
     @sync_to_async
     def force_shutdown(self):
-        self.declare_started()
+        self.declare_broken()
         self.save()
 
 
