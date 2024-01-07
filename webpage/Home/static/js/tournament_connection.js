@@ -35,7 +35,7 @@ let _on_tour_event = function(event) {
         parseInitData(get_default_init_state('Tournament'));
 
         console.log('_on_tour_event :: disconnecting socket ');
-        disconnect_socket()
+        disconnect_socket();
 
         let stageNB = data.stage;
         if (stageNB == '1') {

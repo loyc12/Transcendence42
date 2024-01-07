@@ -235,6 +235,10 @@ let loadEndGame = function (data) {
         } else {
           // document.getElementById("winnerMsg").innerHTML = "WINNER !";
           document.getElementById("buttonGhostLobby").style.display = "block";
+
+          /// C'est chaud
+          // console.log('Player won tournament stage1 :: trying to disconnect game socket.');
+          // disconnect_socket();
         }
       }
     }

@@ -37,6 +37,8 @@ def get_profile(request):
     nb_officials_played = request.user.nb_official_games_played
     nb_wins = request.user.nb_wins
     nb_given_up = request.user.nb_given_up
+    nb_rug_pulled = request.user.nb_rug_pulled
+    nb_tournaments_won = request.user.nb_tournaments_won
     nb_losses = request.user.nb_losses
 
     return render(request, 'users/profile.html', context={
@@ -46,5 +48,7 @@ def get_profile(request):
         'nb_wins': nb_wins,
         'nb_losses': nb_losses,
         'nb_given_up': nb_given_up,
+        'nb_rug_pulled': nb_rug_pulled,
+        'nb_tournaments_won': nb_tournaments_won,
         'win_loss_ratio': f'{(request.user.win_loss_ratio):.2%}'#.format(request.user.win_loss_ratio * 100)
         })

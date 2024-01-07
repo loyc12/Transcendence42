@@ -246,7 +246,7 @@ class GameGateway(BaseGateway):
             eprint('GameGateway :: disconnect_player :: self._live_tournament : ', self._live_tournament)
             # eprint('GameGateway :: disconnect_player :: user in self._live_tournament : ', user in self._live_tournament)
             if self._live_tournament and user in self._live_tournament:
-                shutdown = await self._live_tournament.disconnect_player(user)
+                shutdown = await self._live_tournament.disconnect_player(user)#, consumer.game_connector.lobby_game if consumer.game_connector else None)
                 eprint('GameGateway :: disconnect_player :: disconnected player from live_tournament :: should shutdown ? ', shutdown)
                 if shutdown:
                     del self._live_tournament
@@ -396,7 +396,8 @@ class GameGateway(BaseGateway):
         # if not lgame:
         #     raise GameGatewayException(f"Trying to set user {user.login} as ready, but wasn't found in lobby.")
 
-        await lgame.game_connector._send_players_list()
+        if lgame.game_connector:
+            await lgame.game_connector._send_players_list()
         print('Checking if game is ready ?')
         if lgame.is_ready:
             eprint('lobby game IS ready.')

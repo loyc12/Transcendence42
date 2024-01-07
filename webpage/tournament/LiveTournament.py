@@ -59,6 +59,10 @@ class LiveTournament:
 
     def __contains__(self, user: User):
         return user in self.__init_lobby
+    
+    def __del__(self):
+        self.tournament.is_over()
+        self.tournament.save()
 
     @property
     def init_lobby(self):
@@ -129,10 +133,10 @@ class LiveTournament:
         for ply in players[2:]:
             self._groupB = self.__match_maker.join_lobby(ply.user, formStage1B)
 
-        eprint('GroupA players: ', players[:2])
-        eprint('GroupB players: ', players[2:])
-        eprint('GroupA players in lobby : ', self._groupA.players)
-        eprint('GroupB players in lobby : ', self._groupB.players)
+        # eprint('GroupA players: ', players[:2])
+        # eprint('GroupB players: ', players[2:])
+        # eprint('GroupA players in lobby : ', self._groupA.players)
+        # eprint('GroupB players in lobby : ', self._groupB.players)
 
         ## ... Start both tournament games
         # self.tournament.addGroupAGame(self._groupA)
@@ -147,24 +151,32 @@ class LiveTournament:
         return (self._groupA, self._groupB)
 
     def get_player_game(self, user: User):
+        eprint('LiveTournament :: get_player_game :: find current player game')
+
         lgame = self.__init_lobby
 
         if self._groupC and user in self._groupC:
+            eprint('LiveTournament :: get_player_game :: player in groupC')
             lgame = self._groupC
         elif self._groupA and user in self._groupA:
+            eprint('LiveTournament :: get_player_game :: player in groupA')
             lgame = self._groupA
         elif self._groupB and user in self._groupB:
+            eprint('LiveTournament :: get_player_game :: player in groupB')
             lgame = self._groupB
+        else:
+            eprint('LiveTournament :: get_player_game :: player in init lobby.')
+
         # else:
         #     raise LiveTournamentException("Trying to connect_player to LiveTournament, but either the tournament hasn't been setup properly or The player isn't a member of any toiurnament game.")
         return lgame
 
     def won_first_game(self, user: User) -> bool:
         eprint('LiveTournament :: check if won_first_game ')
-        eprint(f'LiveTournament :: {user.login} is in groupA ', user in self._groupA)
-        eprint(f'LiveTournament :: {user.login} is in groupB ', user in self._groupB)
-        eprint(f'LiveTournament :: groupA : ', self._groupA)
-        eprint(f'LiveTournament :: groupB : ', self._groupB)
+        # eprint(f'LiveTournament :: {user.login} is in groupA ', user in self._groupA)
+        # eprint(f'LiveTournament :: {user.login} is in groupB ', user in self._groupB)
+        # eprint(f'LiveTournament :: groupA : ', self._groupA)
+        # eprint(f'LiveTournament :: groupB : ', self._groupB)
 
         if user in self._groupA:
             lgame = self._groupA
@@ -182,32 +194,46 @@ class LiveTournament:
         if not (user in self.__init_lobby):
             return False
         lgame = self._groupC
-        if lgame and lgame.game_connector and lgame.game_connector.game:
-            return (lgame.game_connector.game.winner == user.id)
+        if lgame and lgame.winner is not None:
+            return (lgame.winner.id == user.id)
         return False
 
+
     async def join_final_game(self, user: User):
-        eprint(f'LiveTournament :: join_final_game :: USER {user.login} TRYING TO JOIN FINAL GAME !!')
+        eprint(f'\n\n\n\nLiveTournament :: join_final_game :: USER {user.login} TRYING TO JOIN FINAL GAME !!')
+
+        # if self._groupA is not None and self._groupA.winner == user:
         if user in self._groupA:
             won_game = self._groupA
             self._groupAWinner = user.id
+            self.tournament.addGroupAGame(self._groupA)
         elif user in self._groupB:
+        # elif self._groupB is not None and self._groupB.winner == user:
             won_game = self._groupB
             self._groupBWinner = user.id
+            self.tournament.addGroupBGame(self._groupB)
 
+        self.tournament.save()
         # if not won_game:
         #     raise LiveTournamentException(f"LiveTournament :: User {user.login} trying to join final game, but didn't win its first game.")
 
         eprint(f'LiveTournament :: join_final_game :: USER {user.login} won first game : won_game : ', won_game)
 
         formStage1C = self.build_match_maker_form(self.__init_lobby.sockID, 'C')
-        if not self._groupC:
-            eprint(f'LiveTournament :: join_final_game :: Creating groupC game.')
+        if self._groupC is None:
+            eprint(f'\nLiveTournament :: join_final_game :: CREATING GROUP C GAME !!\n')
             # won_game.remove_user(user)
             # self.__match_maker.remove_player(user)
             self._groupC = self.__match_maker.join_lobby(user, formStage1C)
+            # gconn = GameConnector(sockID)
+            gconn = self.gameConnectorFactory(self._groupC.sockID)
+            self._groupC.set_game_connector(gconn)
+            gconn.set_lobby_game(self._groupC)
         else:
+            eprint(f'\nLiveTournament :: join_final_game :: JOINING GROUP C GAME !!\n')
             self.__match_maker.join_lobby(user, formStage1C)
+
+        eprint(f'\nLiveTournament :: join_final_game :: send_stage_initializer_to_finale_user !!\n')
 
         await self.connector.send_stage_initializer_to_finale_user(self._groupC, user)
 
@@ -226,23 +252,23 @@ class LiveTournament:
         return lgame
 
 
-    async def _forced_disconnect_all(self, quitter=None):#, lgame: LobbyGame):
-        ### Called when a player leaves mid game.
-        eprint('LiveTournament :: trying to _forced_disconnect_all() players from tournament.')
-        self._is_closing = True # important
+    # async def _forced_disconnect_all(self, quitter=None):#, lgame: LobbyGame):
+    #     ### Called when a player leaves mid game.
+    #     eprint('LiveTournament :: trying to _forced_disconnect_all() players from tournament.')
+    #     self._is_closing = True # important
 
-        if self.__init_lobby and self.__init_lobby.game_connector:
-            eprint('LiveTournament :: trying to disconnect_all_players() players from __init_lobby.')
-            await self.__init_lobby.game_connector.disconnect_all_players(quitter=quitter)
-        if self._groupA and self._groupA.game_connector:
-            eprint('LiveTournament :: trying to disconnect_all_players() players from groupA.')
-            await self._groupA.game_connector.disconnect_all_players(quitter=quitter)
-        if self._groupB and self._groupB.game_connector:
-            eprint('LiveTournament :: trying to disconnect_all_players() players from groupB.')
-            await self._groupB.game_connector.disconnect_all_players(quitter=quitter)
-        if self._groupC and self._groupC.game_connector:
-            eprint('LiveTournament :: trying to disconnect_all_players() players from groupC.')
-            await self._groupC.game_connector.disconnect_all_players(quitter=quitter)
+    #     if self.__init_lobby and self.__init_lobby.game_connector:
+    #         eprint('LiveTournament :: trying to disconnect_all_players() players from __init_lobby.')
+    #         await self.__init_lobby.game_connector.disconnect_all_players(quitter=quitter)
+    #     if self._groupA and self._groupA.game_connector:
+    #         eprint('LiveTournament :: trying to disconnect_all_players() players from groupA.')
+    #         await self._groupA.game_connector.disconnect_all_players(quitter=quitter)
+    #     if self._groupB and self._groupB.game_connector:
+    #         eprint('LiveTournament :: trying to disconnect_all_players() players from groupB.')
+    #         await self._groupB.game_connector.disconnect_all_players(quitter=quitter)
+    #     if self._groupC and self._groupC.game_connector:
+    #         eprint('LiveTournament :: trying to disconnect_all_players() players from groupC.')
+    #         await self._groupC.game_connector.disconnect_all_players(quitter=quitter)
 
         # if lgame.game_connector:
         #     for ply in lgame.players:
@@ -296,18 +322,46 @@ class LiveTournament:
             return False
         return game.is_over
 
-    def __player_is_winner_of_first_game(self, user):
-        return user.id == self._groupAWinner or user.id == self._groupBWinner
+    def __player_is_winner_of_first_game(self, user, lgame):
+        if user is None or lgame is None or lgame.winner is None:
+            return False
+        return user.id == lgame.winner.id
+        # return user.id == self._groupAWinner or user.id == self._groupBWinner
 
     def __player_is_in_groupC_lobby(self, user):
-        if self._groupC is None:
+        eprint('LiveTournament :: __player_is_in_groupC_lobby :: groupC : ', self._groupC)
+        if self._groupC is None or user not in self._groupC:
             return False
-        return user in self._groupC and not (self._groupC.is_running or self._groupC.is_over)
+        lply = self._groupC.get_player(user)
+        if lply is None:
+            return False
 
-    def __player_is_transitioning_to_finale(self, user):
+        eprint('LiveTournament :: __player_is_in_groupC_lobby :: user in self._groupC ? ', user in self._groupC)
+        eprint('LiveTournament :: __player_is_in_groupC_lobby :: lply.is_connected ? ', lply.is_connected)
+        eprint('LiveTournament :: __player_is_in_groupC_lobby :: self._groupC.is_running ? ', self._groupC.is_running)
+        eprint('LiveTournament :: __player_is_in_groupC_lobby :: self._groupC.is_over ? ', self._groupC.is_over)
+        eprint('LiveTournament :: __player_is_in_groupC_lobby :: user in groupC LOBBY ? ', user in self._groupC and not (self._groupC.is_running or self._groupC.is_over))
+
+        if self._groupC.is_running or self._groupC.is_over or not lply.is_connected:
+            return False
+        return True
+        # return user in self._groupC and not (self._groupC.is_running or self._groupC.is_over)
+
+
+
+    def __player_is_transitioning_to_finale(self, user, lgame):
         eprint('\nLiveTournament :: __player_is_transitioning_to_finale ::  entered.')
 
-        if self._groupC and self._groupC.game:
+        if self._groupC is None:# Woaw !
+            return False
+
+
+        if lgame is not None and lgame.winner is not None and user.id == lgame.winner.id and self.__lgame_is_stage1(lgame):
+            return False
+        # if user in self._groupC and (user in self._groupA or user in self._groupB):
+        #     return False
+
+        if self._groupC.game:
             eprint('LiveTournament :: __player_is_transitioning_to_finale :: self._groupC : ', self._groupC)
             # eprint('LiveTournament :: __player_is_transitioning_to_finale :: self._groupC.game.is_running : ', self._groupC.game.is_running)
             # eprint('LiveTournament :: __player_is_transitioning_to_finale :: self._groupC.game.is_over : ', self._groupC.game.is_over)
@@ -315,8 +369,8 @@ class LiveTournament:
                 return False
 
 
-        eprint('LiveTournament :: __player_is_transitioning_to_finale :: self._groupA : ', self._groupA)
-        eprint('LiveTournament :: __player_is_transitioning_to_finale :: self._groupB : ', self._groupB)
+        # eprint('LiveTournament :: __player_is_transitioning_to_finale :: self._groupA : ', self._groupA)
+        # eprint('LiveTournament :: __player_is_transitioning_to_finale :: self._groupB : ', self._groupB)
         if self._groupA is not None:
             eprint('LiveTournament :: __player_is_transitioning_to_finale :: user in self._groupA : ', user in self._groupA)
             if self._groupA.game_connector is not None:
@@ -327,21 +381,31 @@ class LiveTournament:
                 eprint('LiveTournament :: __player_is_transitioning_to_finale :: user in self._groupB.game_connector : ', user in self._groupB.game_connector)
 
 
-
+        lgame = None
         if (self._groupA is not None and user in self._groupA):
+            lgame = self._groupA
             if self.__player_is_in_groupC_lobby(user):
-                eprint('LiveTournament :: __player_is_transitioning_to_finale :: user IS in groupA BUT IS in groupC')
-            return False
-        if (self._groupB is not None and user in self._groupB) and not self.__player_is_in_groupC_lobby(user):
+                # eprint('LiveTournament :: __player_is_transitioning_to_finale :: user IS in groupA BUT IS in groupC lobby')
+                # eprint('LiveTournament :: __player_is_transitioning_to_finale :: groupC : ', self._groupC)
+                return False
+        if (self._groupB is not None and user in self._groupB):
+            lgame = self._groupB
             if self.__player_is_in_groupC_lobby(user):
-                eprint('LiveTournament :: __player_is_transitioning_to_finale :: user IS in groupB BUT IS in groupC')
-            return False
+                # eprint('LiveTournament :: __player_is_transitioning_to_finale :: user IS in groupB BUT IS in groupC lobby')
+                # eprint('LiveTournament :: __player_is_transitioning_to_finale :: groupC : ', self._groupC)
+                return False
 
-        return self.__player_is_winner_of_first_game(user)
+        eprint(f'LiveTournament :: __player_is_transitioning_to_finale :: is user {user.login} winner of first game ? ', self.__player_is_winner_of_first_game(user, lgame))
+
+        if lgame is None:
+            return False
+        return self.__player_is_winner_of_first_game(user, lgame)
         # return user.id == self._groupAWinner or user.id == self._groupBWinner
 
-    def __player_is_winner_of_tournament(self, user):
-        return user.id == self._groupCWinner
+
+
+    # def __player_is_winner_of_tournament(self, user):
+    #     return user.id == self._groupCWinner
 
     def __player_finished_final_game(self, user):
         if not user or not self._groupC or not self._groupC.game:
@@ -356,10 +420,12 @@ class LiveTournament:
         return self.__player_is_looser_of_first_game(user)\
             or self.__player_finished_final_game(user)
 
+    def __lgame_is_stage1(self, lgame):
+        if lgame == self._groupA or lgame == self._groupB:
+            return True
+        return False
 
-
-
-    async def disconnect_player(self, user: User):
+    async def disconnect_player(self, user: User, lgame: LobbyGame = None):
         ''' Returns True or False to signal if the tournament should be shutdown or not. '''
 
 
@@ -372,36 +438,59 @@ class LiveTournament:
             eprint('LiveTournament :: user in self.__init_lobby and not self.first_stage_started : TRUE')
             await self.__init_lobby.game_connector.disconnect_player(user)
             await self.__tconn.disconnect_player(user)
-            eprint('LiveTournament :: disconnect_player :: flushing user from match_maker.')
+            # eprint('LiveTournament :: disconnect_player :: flushing user from match_maker.')
             self.__match_maker.remove_player_from(user, self.__init_lobby)
-            eprint('LiveTournament :: disconnect_player :: init lobby after remove_player_from : ', self.__init_lobby)
-            eprint('LiveTournament :: disconnect_player :: livetournament is_empty : ', self.is_empty)
+            # eprint('LiveTournament :: disconnect_player :: init lobby after remove_player_from : ', self.__init_lobby)
+            # eprint('LiveTournament :: disconnect_player :: livetournament is_empty : ', self.is_empty)
             await self.__init_lobby.game_connector._send_players_list()
             return self.is_empty
             # self.__init_lobby.remove_user(user)
 
 
+        # if not lgame:
+        #     eprint('LiveTournament :: disconnect_player :: ENTERED WITHOUT LGAME !!')
+        #     return
 
-        eprint('LiveTournament :: disconnect_player :: groupeA game : ', self._groupA.game)
-        eprint('LiveTournament :: disconnect_player :: groupeB game : ', self._groupB.game)
+        # if self.__lgame_is_stage1(lgame):
+        #     eprint('LiveTournament :: disconnect_player :: lgame received is in STAGE 1 !')
+        # else:
+        #     eprint('LiveTournament :: disconnect_player :: lgame received is in STAGE 2 !')
+
+
+        # eprint('LiveTournament :: disconnect_player :: groupeA game : ', self._groupA.game)
+        # eprint('LiveTournament :: disconnect_player :: groupeB game : ', self._groupB.game)
 
 
 
         lgame = self.get_player_game(user)
+        # eprint('LiveTournament :: disconnect_player :: lgame : ', lgame)
+
         if not lgame.game_connector:
             eprint('LiveTournament :: lgame has no game connector')
             return False
 
 
-        if lgame == self._groupA:
-            eprint('LiveTournament :: disconnect_player :: Trying to disconnect from game : groupA')
-        elif lgame == self._groupB:
-            eprint('LiveTournament :: disconnect_player :: Trying to disconnect from game : groupB')
+        # if lgame == self._groupA:
+        #     eprint('LiveTournament :: disconnect_player :: Trying to disconnect from game : groupA')
+        # elif lgame == self._groupB:
+        #     eprint('LiveTournament :: disconnect_player :: Trying to disconnect from game : groupB')
 
         gconn = lgame.game_connector
 
+        if self.won_tournament(user):
+            self.tournament.addGroupCGame = self._groupC
+            self.tournament.winner = user
+            self.tournament.declare_over()
+            self.tournament.save()
 
-        if self.__player_is_transitioning_to_finale(user):
+            gconn = lgame.game_connector
+            await gconn.disconnect_player(user)
+            await self.__tconn.disconnect_player(user)
+            self.__match_maker.remove_player_from(user, lgame)
+            self.__match_maker.remove_player_from(user, self.__init_lobby)
+            return self.is_empty
+
+        elif self.__player_is_transitioning_to_finale(user, lgame):
             eprint(f'LiveTournament :: user {user.login} IS TRANSITIONING !')
             if user in self._groupA:
                 lgame = self._groupA
@@ -417,7 +506,7 @@ class LiveTournament:
 
 
         elif self.__player_is_looser_of_first_game(user):
-            eprint(f'LiveTournament :: user {user.login} IS STAGE 1 LOOSER !')
+            eprint(f'LiveTournament :: user {user.login} IS STAGE 1 LOOSER !\n\n\n\n\n')
             # lgame = self.get_player_game(user)
             # if not lgame:
             #     raise LiveTournamentException(f'User {user.login} is not in any game.')
@@ -438,24 +527,26 @@ class LiveTournament:
             if user in lgame:
                 eprint('LiveTournament :: disconnect_player :: is tournament DB running : ', self.__tconn.tournament.is_running)
 
-                if self.__tconn.tournament.is_running:
-                    eprint('LiveTournament :: Sending quitter signal through tournament Websocket.')
+                if self.tournament.is_running:
+                    # eprint('LiveTournament :: Sending quitter signal through tournament Websocket.')
                     await self.__tconn.send_quitter_signal(user) # Displays SHAME screen frontend with user as quitter.
-                    await self.__tconn.tournament.force_shutdown()
+                    await self.__tconn.tournament.force_shutdown(is_abandoned=True)
                     self._quitter = user
 
                 await self.__tconn.disconnect_player(user)
-                eprint('LiveTournament :: disconnect_player :: gconn.disconnect_player')
+                # eprint('LiveTournament :: disconnect_player :: gconn.disconnect_player')
                 if self._quitter:
                     await gconn.disconnect_player(user, quitter=self._quitter.id)# Woaw!
                 else:
                     await gconn.disconnect_player(user, quitter=user.id)# Woaw!
 
-                eprint('LiveTournament :: disconnect_player :: flushing user from match_maker.')
+
+
+                # eprint('LiveTournament :: disconnect_player :: flushing user from match_maker.')
                 self.__match_maker.remove_player_from(user, lgame)
                 self.__match_maker.remove_player_from(user, self.__init_lobby)
 
-                eprint('\n LiveTournament :: disconnect_player :: Try self.gameManager.closeGame.')
+                # eprint('\n LiveTournament :: disconnect_player :: Try self.gameManager.closeGame.')
                 # await self.gameManager.closeGame(gconn.game.id)
 
                 # await gconn.disconnect_player(user, user.id)

@@ -71,16 +71,23 @@ class User(AbstractBaseUser):
         except ObjectDoesNotExist: return 0
 
     @property
+    def nb_official_games_finished(self):
+        # try:    return self.player_set.filter(user=self.id, is_official=True).count()
+        try:    return self.player_set.filter(user=self.id, game__is_official=True, game__is_abandoned=False, game__is_over=True).count()
+        except ObjectDoesNotExist: return 0
+
+    @property
     def nb_wins(self):
         try:    return self.game_set.filter(winner=self.id, is_official=True).count()
         except ObjectDoesNotExist: return 0
 
     @property
     def nb_losses(self):
-        print("Game :: nb_losses :: nb_official_games_played : ", self.nb_official_games_played)
-        print("Game :: nb_losses :: nb_wins : ", self.nb_wins)
-        print("Game :: nb_losses :: nb_given_up : ", self.nb_given_up)
-        try:    return self.nb_official_games_played - self.nb_wins - self.nb_given_up
+        # print("Game :: nb_losses :: nb_official_games_played : ", self.nb_official_games_played)
+        # print("Game :: nb_losses :: nb_wins : ", self.nb_wins)
+        # print("Game :: nb_losses :: nb_given_up : ", self.nb_given_up)
+        # try:    return self.nb_official_games_played - self.nb_wins - self.nb_given_up
+        try:    return self.player_set.filter(user=self.id, game__is_official=True, game__is_abandoned=False).exclude(game__winner=self.id).count()
         except ObjectDoesNotExist: return 0
 
     @property
@@ -89,8 +96,13 @@ class User(AbstractBaseUser):
         except ObjectDoesNotExist: return 0
 
     @property
+    def nb_rug_pulled(self):
+        try:    return self.player_set.filter(user=self.id, game__is_official=True, game__is_abandoned=True, gave_up=False).count()
+        except ObjectDoesNotExist: return 0
+
+    @property
     def win_loss_ratio(self):
-        nb_played = self.nb_official_games_played
+        nb_played = self.nb_official_games_finished
         nb_wins = self.nb_wins
         print('player win_loss_ratio :: nb_played : ', nb_played)
         if nb_wins == 0:
@@ -98,6 +110,11 @@ class User(AbstractBaseUser):
         if nb_played == nb_wins:
             return 1.0
         return nb_wins / nb_played
+    
+    @property
+    def nb_tournaments_won(self):
+        try:    return self.tournament_set.filter(winner=self.id).count()
+        except ObjectDoesNotExist: return 0
 
     def join_game(self, game):
         cur_game = self.current_game
