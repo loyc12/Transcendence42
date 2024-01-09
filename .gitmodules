@@ -1,4 +1,0 @@
-[submodule "webpage/game/PingPongRebound"]
-	path = webpage/game/PingPongRebound
-	url = git@github.com:loyc12/PingPongRebound.git
-	branch = master
