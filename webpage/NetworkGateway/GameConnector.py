@@ -142,7 +142,7 @@ class GameConnector:
 
     # DECONNECTION
     async def disconnect_player(self, user, quitter=None):
-        print(f'GameConnector :: ENTER disconnect player')
+        print(f'GameConnector :: ENTER disconnect player ', user.login)
         if not self.__lobby_game or user.id not in self.__player_consumers:
             print(f'GameConnector :: disconnect player :: user.id {user.id} not in player consumers.')
             return None
@@ -151,20 +151,20 @@ class GameConnector:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
 
-        if not quitter:
+        if quitter is None:
             await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
 
         print(f'GameConnector :: SWITCH')
         print(f'GameConnector :: game : ', self.game)
         if self.game and self.game.is_running:
-            print(f'GameConnector :: disconnect player {user.id} INGAME')
+            print(f'GameConnector :: disconnect player {user.login} INGAME')
             print(f'GameConnector :: game.is_running : ', self.game.is_running)
             if self.__is_closing:
                 return
              # send disconnect event to Game instance in game manager. Same place as keypress events.
 
             self.__is_closing = True
-            if quitter:
+            if quitter is None:
                 await self.push_event(user.id, 'end_game')
             else:
                 await self.push_event(quitter, 'end_game')

@@ -414,7 +414,15 @@ body.skip-nav:focus {
     /* cursor: pointer; */
 }
 
+.custom-scroll {
+    overflow-y: auto;
+    max-width: 100%;
 
+}
+
+.headTable {
+    text-decoration: underline;
+}
 .module4 #contentHelp {
     background-color: #178ca8;
     color: #f0ffff;
@@ -447,7 +455,7 @@ body.skip-nav:focus {
 
 }
 .module4 h2 {
-    padding-top: 10px;
+    padding-top: 20px;
     text-decoration: underline;
 }
 

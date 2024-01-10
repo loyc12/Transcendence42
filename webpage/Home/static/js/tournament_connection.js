@@ -5,10 +5,13 @@ let wipe_tournament_data = function () {
     tourStage1GameData = null;
     tourStage2GameData = null;
     tourStage = null;
+    isTournament = null;
     isTournamentStage1 = false;
     tournamentStage1Started = false;
     isTournamentStage2 = false;
-    tournamentStage2Started = false
+    tournamentStage2Started = false;
+    isGhostLobby = false;
+
 }
 
 let _on_tour_event = function(event) {
@@ -31,7 +34,8 @@ let _on_tour_event = function(event) {
         console.log('_on_tour_event :: gameType received from data.form.gameType : ' + gameType);
         parseInitData(get_default_init_state('Tournament'));
 
-        disconnect_socket()
+        console.log('_on_tour_event :: disconnecting socket ');
+        disconnect_socket();
 
         let stageNB = data.stage;
         if (stageNB == '1') {
@@ -84,10 +88,11 @@ let _connect_to_tour_socket = function (tourWebSockPath) {
 
 let _on_server_side_tour_disconnect = function(e) {
     console.error('The server disconnecter tournament');
-    console.log('Server closed tournament websocket connection. Current socket readyState : ');
+    console.log('Server closed tournament websocket connection.');
     // user_id = null;
+    console.log('_on_server_side_tour_disconnect :: disconnecting socket ');
     disconnect_socket();
-    wipe_tournament_data()
+    wipe_tournament_data();
 };
 
 let _prepare_tour_websocket = function (ws) {
@@ -101,7 +106,7 @@ let _prepare_tour_websocket = function (ws) {
 let disconnect_tour_socket = function() {
     console.log('disconnect_tour_socket CALLED !')
     if (tourWebSock)
-        tourWebSock.close()
+        tourWebSock.close();
     tourWebSockID = null;
     tourWebSock = null;
 }

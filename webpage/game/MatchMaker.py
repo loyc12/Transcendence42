@@ -94,6 +94,11 @@ class LobbyGame:
     def game_connector(self):
         return self.__game_connector
     @property
+    def game(self):
+        if self.__game_connector:
+            return self.__game_connector.game
+        return False
+    @property
     def tour_connector(self):
         return self.__tour_connector
     @property
@@ -121,14 +126,17 @@ class LobbyGame:
     def is_tournament_game(self):
         return self.eventID != '0'
     @property
+    def is_live_tournament(self):
+        return self.is_tournament and self.tour_connector and self.tour_connector.is_running
+    @property
     def is_running(self):
-        return self.game_connector and self.game_connector.game and self.game_connector.game.is_running
+        return self.game_connector is not None and self.game_connector.game is not None and self.game_connector.game.is_running
     @property
     def is_over(self):
-        return self.game_connector and self.game_connector.game and self.game_connector.game.is_over
+        return self.game_connector is not None and self.game_connector.game is not None and self.game_connector.game.is_over
     @property
     def winner(self):
-        if not (self.__game_connector and self.__game_connector.game and self.__game_connector.game.winner):
+        if not (self.__game_connector is not None and self.__game_connector.game is not None and self.__game_connector.game.winner):
             return None
         return self.__game_connector.game.winner
 
@@ -297,7 +305,7 @@ class MatchMaker:
         if lgame:
             if user in lgame:
                 raise MatchMakerWarning(f'User {user.login} tried to join a game twice. Stop that !')
-            if lgame.is_tournament and lgame.is_full:
+            if (lgame.is_tournament and lgame.is_full) or lgame.is_live_tournament:
                 raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
 
             # Game should be fully validated at this point

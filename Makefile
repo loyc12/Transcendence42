@@ -109,20 +109,10 @@ db_volume_reset:
 	docker volume rm transcendence42_postgres_volume
 #	mkdir -p $(DATA)
 
-update:
-	@git submodule update -f --init --remote
-	@cd webpage/game/PingPongRebound && git checkout master && git pull -f
-
-update_debug:
-	@git submodule update -f --init --remote
-	@cd webpage/game/PingPongRebound && git checkout beta && git pull -f
-
 
 ### DEPENDENCY INSTALLS START >>>
 install: _install_python_pipenv	$(CERT_CRT)
 
-$(GAMEMANAGER):
-	git submodule update --init --recursive
 
 $(GAME_SUBPATH):	$(GAMEMANAGER)
 

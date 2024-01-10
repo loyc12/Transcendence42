@@ -168,9 +168,9 @@ let reset_endgame_messages = function () {
 
 let find_quitter_info = function (playerInfo, quitterID) {
   for (const [key, value] of Object.entries(playerInfo)) {
-    console.log('find_quitter_info :: key ' + key);
-    console.log('find_quitter_info :: value ' + value);
-    console.log('find_quitter_info :: value.name ' + value.name);
+    // console.log('find_quitter_info :: key ' + key);
+    // console.log('find_quitter_info :: value ' + value);
+    // console.log('find_quitter_info :: value.name ' + value.name);
     if (value.playerID == quitterID)
       return value;
   }
@@ -229,15 +229,27 @@ let loadEndGame = function (data) {
         if (isTournamentStage2) {
           console.log('** win - next game');
           document.getElementById("winnerMsg").innerHTML = "YOU WON THE TOURNAMENT !!!";
+          console.log('loadEndGame :: 1 :: winner + isTour2 :: disconnected sockets ');
+          disconnect_socket();
+          disconnect_tour_socket();
         } else {
           // document.getElementById("winnerMsg").innerHTML = "WINNER !";
           document.getElementById("buttonGhostLobby").style.display = "block";
+
+          /// C'est chaud
+          // console.log('Player won tournament stage1 :: trying to disconnect game socket.');
+          // disconnect_socket();
         }
       }
     }
     else {
       console.log('***lose', namePlayer1);
       document.getElementById("loser").style.display = "block";
+      if (isTournament) {
+        console.log('loadEndGame :: 2 :: loser + isTour :: disconnecting sockets ');
+        disconnect_socket();
+        disconnect_tour_socket();
+      }
     }
   }
   // else {
@@ -259,6 +271,7 @@ let loadEndGame = function (data) {
   //   document.getElementById("loser").style.display = "block";
   // }
 
+  //console.log('loadEndGame :: 3 :: disconnected socket ');
   // disconnect_socket();
 }
 
@@ -273,7 +286,7 @@ let loadTournamentQuitterEnding = function (quitterData) {
   document.getElementById("quiiterIMG").src = quitter_img;
   document.getElementById("shameVictim").innerHTML = quitter_name;
 
-  console.log('Disconnecting game socket and tournament socket ...');
+  console.log('loadTournamentQuitterEnding :: disconnecting sockets ');
   disconnect_socket();
   disconnect_tour_socket();
   console.log('All sockets closed !');
@@ -282,14 +295,20 @@ let loadTournamentQuitterEnding = function (quitterData) {
 
 
 let signal_final_game = function() {
+  console.log("Trigger signal_final_game (buttonGhostLobby)");
   if (tourWebSock == null) {
+    console.log("in signal_final_game tourWebSock is NULL, will trigger diesconnect socket + tour");
+    console.log('signal_final_game :: disconnecting sockets ');
     disconnect_socket();
     disconnect_tour_socket();
     return;
   }
+  console.log("Make the payload for the final");
   let payload = JSON.stringify({
     'ev': 'final'
   });
+  console.log("Load Lobby");
   loadModule('lobby');
+  console.log("TourWebSock send payload");
   tourWebSock.send(payload);
 };

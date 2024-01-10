@@ -49,9 +49,10 @@ let _http_join_request = async function (payload) {
     return response.json()
   })
   .then (function(data) {
-    if (data.status === 'failure')
+    if (data.status === 'failure') {
       alert('Join game request failed because : \n\t - ' + data.reason)
-      //throw new reportError('Join game request failed because : ' + data.reason)
+      throw new reportError('Join game request failed because : ' + data.reason)
+    }
     if (data.sockID) {
       console.log('Returned data from game join request : ' + data);
       console.log('response status : ', data.status);
@@ -64,17 +65,17 @@ let _http_join_request = async function (payload) {
       //if (data.has('sockID'))
       return data;
     } else {
-      console.error('_http_join_request call did not return sockID :: data.sockID : ' + data.sockID);
+      // console.error('_http_join_request call did not return sockID :: data.sockID : ' + data.sockID);
     }
   })
-  //.catch(err => console.log(err));
+  .catch(err => console.log(err));
 }
 
 let request_join_game = async function (gameType) {
 
   //console.log('request_join_game temporarly deactivated. Come back again later.')
 
-  console.log('request_join_game temporarly deactivated. Come back again later.')
+  // console.log('request_join_game temporarly deactivated. Come back again later.')
   //return ;
   currentGameType = gameType
   if (gameType === 'Local_1p') {

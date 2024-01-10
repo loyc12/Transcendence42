@@ -16,7 +16,7 @@ let _send_player_keyevent = function(key) {
 
 // WEBSOCKETS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 let _get_websocket_path = function(sockID) {
-    console.log('_get_websocket_path :: called with undefined sockID !!')
+    // console.log('_get_websocket_path :: called with undefined sockID !!')
     return 'wss://' + window.location.host + '/game/ws/' + sockID + '/';
 }
 

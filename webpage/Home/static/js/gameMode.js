@@ -41,7 +41,6 @@ function loadModule(moduleName) {
             }
         }
         else{
-            console.log('-=-=-> where is the fucking overwrite...');
             document.getElementById('tournament').style.display = 'block';
         }
     }
@@ -62,6 +61,10 @@ function loadModule(moduleName) {
         //     document.getElementById('buttonGhostLobby').style.display = 'none';
         // }
         document.getElementById('aftergame').style.display = 'block';
+    }
+    else if (moduleName == 'help')
+    {
+        console.log('WARNING : unimplemented call to loadModule for help')
     }
     else {
         console.log('Make join game request.')

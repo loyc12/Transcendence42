@@ -57,12 +57,14 @@ let select_hero_content = function (key) {
         if (contentElems['heroDiv'] === 'contentGame') {
             console.log('Special case contentGame loadModule(gameMode)')
             loadModule('gameMode')
+            console.log('select_hero_content :: 1 :: disconnecting sockets ');
             disconnect_socket()
             disconnect_tour_socket()
         }
         if (contentElems['heroDiv'] === 'contentHelp') {
             console.log('Special case contentHelp loadModule(Help)')
             loadModule('help')
+            // console.log('select_hero_content :: 2 :: disconnecting socket ');
             // disconnect_socket()
         }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
@@ -96,9 +98,13 @@ let select_hero_content = function (key) {
 
         }
         try {
+            console.log('select_hero_content :: 3 :: disconnecting sockets ');
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
             disconnect_tour_socket()
-        } catch {}
+        }
+        catch (err) {
+            console.log('ERROR : failed to disconnect sockets : ' + err);
+        }
     }
     else
         console.log('heroContentElem NOT FOUND ...')
