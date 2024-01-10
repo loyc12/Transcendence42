@@ -662,7 +662,7 @@ class Game:
 			score = self.scores[ i ]
 
 			if score >= df.WIN_SCORE:
-				self.winnerID = teamID 
+				self.winnerID = i + 1
 
 				if cfg.PRINT_STATES:
 					print( f"{self.gameID} )  {self.type}  \t: game has been won by team #{ self.winnerID }" )
