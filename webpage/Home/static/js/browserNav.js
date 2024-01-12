@@ -8,9 +8,16 @@ window.onpopstate = function (event) {
     }
 };
 
+function setupBeforeUnload() {
+    window.onbeforeunload = function() {
+        return "Are you sure you want to leave?";
+    };
+}
+
 window.onload = function (event) {
     console.log('THIS IS BROWSER EVENT STATE onload: ', event);
     select_hero_content('init');
+    setupBeforeUnload();
 };
 
 function navigateForward(newState) {
