@@ -1,4 +1,4 @@
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 # from django.shortcuts import HttpResponse, render
 # from game.models import Game, Player, User
@@ -20,7 +20,7 @@ def _build_error_payload(msg):
         'reason': msg
     }
 
-# @login_required
+@login_required
 def game_join(request):
     '''
         The game request process in the frontend should result in

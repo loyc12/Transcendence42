@@ -15,9 +15,14 @@ def eprint(*args):
 #http://127.0.0.1:3000/
 def home_view(request):
     """ This function is used to render the home page. """
-    
+
     eprint('User on Home_View load : ', request.user)
+    eprint('User is None : ', request.user is None)
+    eprint('User id : ', request.user.id)
+    eprint('User is_anonymous : ', request.user.is_anonymous)
+    eprint('User.__dir__() : ', request.user.__dir__())
     authorization_code = request.GET.get('code', None)
+    eprint('authorization_code : ', authorization_code)
     if (authorization_code):
         token = get_access_token(authorization_code)
         #This request is to separate the access token from the response
@@ -38,5 +43,5 @@ def home_view(request):
             request.session.save()
             #This redirect is to remove the code from the url
             return redirect(updated_url)
-    
+
     return render(request, 'master.html')

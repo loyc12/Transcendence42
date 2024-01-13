@@ -44,7 +44,7 @@ class UserConsumer(AsyncWebsocketConsumer):
             eprint('Disconnecting AnonymousUser')
             raise StopConsumer
 
-        session_data.save()
+        # session_data.save()
         print('\n\nUser Websocket disconnecting !\n\n')
         eprint('UserConsumer :: disconnecting and wipping sessions data')
         session_data.delete()

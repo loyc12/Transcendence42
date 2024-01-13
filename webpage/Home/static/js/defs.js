@@ -19,6 +19,9 @@ let ESCAPE = null;
 let RETURN = null;
 
 // Global vars declarations
+
+let userDisconnectedSocket = false;
+
 let gameData;/// struct returned from request_join_game()
 
 let currentWidth;// = canvas.width;

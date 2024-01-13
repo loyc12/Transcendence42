@@ -12,6 +12,10 @@ let _on_user_event = function(event) {
 
 let _on_close_disconnect = function (event) {
     console.error('Server disconnected user websocket');
+    fetch_user_logout()
+    // display_unsubscribed_html();
+    userDisconnectedSocket = true;
+    // location.reload(true)
 }
 
 
@@ -32,8 +36,30 @@ let _connect_to_user_socket = function (userWebSockPath) {
     return sock;
 }
 
+
+let fetch_user_logout = function () {
+
+    console.log('Inside fetch_user_logout()')
+    fetch('https://' + window.location.host + '/users/profile/logout')
+    .then (data => {
+    //   elem = document.getElementById('profile');
+
+      data.text().then(text => {
+          // console.log('fetch date.text() profile : ' + text);
+        //   if (elem)
+        //       elem.innerHTML = text;
+            console.log('Force logout status returned : ' + text)
+        })
+    })
+    .catch(function (err) {
+      console.log('fetch of user logout failed !');
+      console.log(err);
+    })
+}
+
 let disconnect_user_socket = function() {
 
+    fetch_user_logout()
     if (userWebSock != null) {
         console.log('Trying to close userWebSock connection')
         userWebSock.close()
@@ -43,12 +69,15 @@ let disconnect_user_socket = function() {
         userWebSock = null;
         userWebSockID = null;
     }
+    userDisconnectedSocket = true;
 }
 
 let _on_server_side_user_disconnect = function(e) {
     console.error('The server disconnecter USER');
     console.log('Server closed USER websocket connection. Current socket readyState : ');
     user_id = null;
+
+    // fetch_user_logout()
 };
 
 let _prepare_user_websocket = function (ws) {
@@ -59,9 +88,15 @@ let _prepare_user_websocket = function (ws) {
     //... Might be more initialisation latter ...
 }
 
+// let display_unsubscribed_html = function() {
+//     if (default_home_template)
+//         document.getElementById('BODY') = default_home_template;
+// }
 
 if (user_id != null) {
     // build websocket path
+    // const default_home_template = document.getElementById('BODY').innerHTML;
+
     userWebSockID = ('USOCK' + user_id);
     let sockPath = _build_user_ws_path(userWebSockID);
 

@@ -101,6 +101,12 @@ let select_hero_content = function (key) {
             console.log('select_hero_content :: 3 :: disconnecting sockets ');
             disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
             disconnect_tour_socket()
+            if (userDisconnectedSocket) {
+                disconnect_user_socket();
+                fetch_user_logout();
+                display_unsubscribed_html();
+                userDisconnectedSocket = false;
+            }
         }
         catch (err) {
             console.log('ERROR : failed to disconnect sockets : ' + err);

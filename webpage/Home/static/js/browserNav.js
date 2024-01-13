@@ -10,6 +10,7 @@ window.onpopstate = function (event) {
 
 function setupBeforeUnload() {
     window.onbeforeunload = function() {
+        fetch_user_logout()
         disconnect_socket();
         disconnect_tour_socket();
         wipe_tournament_data();

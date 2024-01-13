@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "bootstrap5",
-    
+
     "compressor",
 
     "Home",
@@ -82,7 +82,7 @@ if not DJANGO_DEBUG:
     MIDDLEWARE += [
         "corsheaders.middleware.CorsMiddleware",
     ]
-    
+
 MIDDLEWARE += [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -92,6 +92,7 @@ MIDDLEWARE += [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "Home.middleware.NoCacheMiddleware"
 ]
 
 # HTTPS config/protection
@@ -103,7 +104,7 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = False #Againts MIME sniffing
 #CSP_DEFAULT_SRC = ("'self'",) # CSP policies TODO: add CSP policies
 # X-Frame-Options (Against Clickjacking)
-X_FRAME_OPTIONS = 'DENY' 
+X_FRAME_OPTIONS = 'DENY'
 # Secure session management
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = True # Should be True
