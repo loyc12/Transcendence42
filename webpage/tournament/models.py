@@ -78,35 +78,48 @@ class Tournament(models.Model):
         eprint('Tournament model :: self.members.count() : ', self.members.count())
         return self.members.count() == 4
 
+    @sync_to_async
     def addGroupAGame(self, game: LobbyGame):
         self.groupAGame = game.game_connector.game
         self.save()
+
+    @sync_to_async
     def addGroupBGame(self, game: LobbyGame):
         self.groupBGame = game.game_connector.game
         self.save()
+
+    @sync_to_async
     def addGroupCGame(self, game: LobbyGame):
         self.groupCGame = game.game_connector.game
         self.save()
 
+    @sync_to_async
     def declare_started(self):
         self.is_running = True
         self.is_broken = False
         self.is_over = False
+        self.save()
 
+    @sync_to_async
     def declare_broken(self):
         self.is_running = False
         self.is_broken = True
         self.is_over = True
+        self.save()
 
+    @sync_to_async
     def declare_abandoned(self):
         self.is_running = False
         self.is_broken = True
         self.is_abandoned = True
         self.is_over = True
+        self.save()
 
+    @sync_to_async
     def declare_over(self):
         self.is_running = False
         self.is_over = True
+        self.save()
 
     @sync_to_async
     def force_shutdown(self, is_abandoned=False):
@@ -117,6 +130,7 @@ class Tournament(models.Model):
         self.save()
 
 
+    @sync_to_async
     def add_member(self, user, save: bool=True):
 
         if self.is_running or self.is_over or self.is_broken:
