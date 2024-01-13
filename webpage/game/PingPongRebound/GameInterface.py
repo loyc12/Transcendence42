@@ -660,13 +660,8 @@ class Game:
 	def checkWin( self, teamID ):
 		score = self.scores[ teamID - 1 ]
 
-<<<<<<< HEAD
 		if score >= df.WIN_SCORE:
 			self.winnerID = teamID #			NOTE : this is a scores[] index ( same as teamID ) ( 0 == null)
-=======
-			if score >= df.WIN_SCORE:
-				self.winnerID = i + 1
->>>>>>> DEV
 
 			if cfg.PRINT_STATES:
 				print( f"{self.gameID} )  {self.type}  \t: game has been won by team #{ self.winnerID }" )
