@@ -181,7 +181,7 @@ let loadEndGame = function (data) {
   console.log('end is: ' + data.endState);
   // console.log('loadEndGame :: data : ' + data)
   // console.log('loadEndGame :: data.playerInfo : ' + data.playerInfo)
-  console.log('-=-= loadEndGame :: data.winingTeam : ' + data.winingTeam);
+  console.log('-=-= loadEndGame :: data.winnerID : ' + data.winnerID);
   reset_endgame_messages();
   loadModule('aftergame');
 
@@ -191,7 +191,7 @@ let loadEndGame = function (data) {
 
   if (data.endState === 'quit'){
     console.log('***wallOfShame');
-    console.log("winnerID : " + data.winingTeam);
+    console.log("winnerID : " + data.winnerID);
     console.log("quitterID : " + data.quitter);
     let quitterID = data.quitter;
     let quitter_info = find_quitter_info(data.playerInfo, quitterID);
@@ -214,7 +214,7 @@ let loadEndGame = function (data) {
     document.getElementById("finish").style.display = "block";
   }
   else if (data.endState === 'win') {
-    let winnerID = data.winingTeam;
+    let winnerID = data.winnerID;
     let winner = data.playerInfo[winnerID];
     let user_is_winner = (parseInt(winner.playerID) == user_id);
 

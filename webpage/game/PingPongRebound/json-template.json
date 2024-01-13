@@ -103,7 +103,7 @@
 	"gameType": "pong", //	random == doesn't matter( create random one if none are joinable )
 	"gameMode": "solo", //	solo, dual, freeplay, tournament
 	"endState": "win", //	win, quit, abort
-	"winningTeam": 0, //	teamID
+	"winnerID": 0, //	teamID
 	"quitter": 2, //		playerID
 	"scores": [
 		"s1",
