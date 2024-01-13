@@ -59,10 +59,11 @@ class LiveTournament:
 
     def __contains__(self, user: User):
         return user in self.__init_lobby
-    
-    def __del__(self):
-        self.tournament.is_over()
-        self.tournament.save()
+
+    # def __del__(self):
+    #     tour = self.tournament
+    #     if tour is not None:
+    #         tour.declare_over()
 
     @property
     def init_lobby(self):
@@ -79,6 +80,8 @@ class LiveTournament:
         return self._groupC is not None
     @property
     def tournament(self):
+        if self.__tconn is None:
+            return None
         return self.__tconn.tournament
     @property
     def is_empty(self):
@@ -109,8 +112,7 @@ class LiveTournament:
             'eventID': str(eventID) + str(groupID),
         }
 
-    @sync_to_async
-    def setup_game_lobbies_start(self):
+    async def setup_game_lobbies_start(self):
         if not self.__init_lobby:
             raise ValueError('LiveTournament trying to setup_game_lobbies_start() while not initLobby exist')
         formStage1A = self.build_match_maker_form(self.__init_lobby.sockID, 'A')
@@ -124,7 +126,7 @@ class LiveTournament:
 
         eprint('setup_game_lobbies_start :: players : ', plys)
         for ply in plys:
-            self.tournament.add_member(ply.user)
+            await self.tournament.add_member(ply.user)
 
         players = self.__init_lobby.players
 
@@ -141,8 +143,7 @@ class LiveTournament:
         ## ... Start both tournament games
         # self.tournament.addGroupAGame(self._groupA)
         # self.tournament.addGroupBGame(self._groupB)
-        self.tournament.declare_started()
-        self.tournament.save()
+        await self.tournament.declare_started()
 
         # self.__tconn.send_connect_msg(self._groupA)
         # self.__tconn.send_connect_msg(self._groupB)
@@ -206,14 +207,13 @@ class LiveTournament:
         if user in self._groupA:
             won_game = self._groupA
             self._groupAWinner = user.id
-            self.tournament.addGroupAGame(self._groupA)
+            await self.tournament.addGroupAGame(self._groupA)
         elif user in self._groupB:
         # elif self._groupB is not None and self._groupB.winner == user:
             won_game = self._groupB
             self._groupBWinner = user.id
-            self.tournament.addGroupBGame(self._groupB)
+            await self.tournament.addGroupBGame(self._groupB)
 
-        self.tournament.save()
         # if not won_game:
         #     raise LiveTournamentException(f"LiveTournament :: User {user.login} trying to join final game, but didn't win its first game.")
 
@@ -478,10 +478,9 @@ class LiveTournament:
         gconn = lgame.game_connector
 
         if self.won_tournament(user):
-            self.tournament.addGroupCGame = self._groupC
+            await self.tournament.addGroupCGame(self._groupC)
             self.tournament.winner = user
-            self.tournament.declare_over()
-            self.tournament.save()
+            await self.tournament.declare_over()
 
             gconn = lgame.game_connector
             await gconn.disconnect_player(user)
