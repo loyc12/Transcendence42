@@ -32,6 +32,18 @@ let _connect_to_user_socket = function (userWebSockPath) {
     return sock;
 }
 
+let disconnect_user_socket = function() {
+
+    if (userWebSock != null) {
+        console.log('Trying to close userWebSock connection')
+        userWebSock.close()
+        console.log('userWebSock.readyState : ' + userWebSock.readyState)
+        //console.log('Maybe closed websocket ? is closed ?' + gameWebSock.CLOSED);
+
+        userWebSock = null;
+        userWebSockID = null;
+    }
+}
 
 let _on_server_side_user_disconnect = function(e) {
     console.error('The server disconnecter USER');

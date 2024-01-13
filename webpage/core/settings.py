@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     "tournament",
 ]
 
+LOGIN_URL = 'https://' + ENV_FILE['DJANGO_HOST']
 
 # MIDDLEWARE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
 MIDDLEWARE = []

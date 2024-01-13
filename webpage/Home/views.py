@@ -1,4 +1,5 @@
 """ This file is used to render the home page. """
+import sys
 import requests
 # from core.settings import ENV_FILE
 
@@ -8,10 +9,14 @@ from login.views import get_access_token, get_api_data
 from users.views import import_data
 from users.models import User
 
+def eprint(*args):
+    print(*args, file=sys.stderr)
+
 #http://127.0.0.1:3000/
 def home_view(request):
     """ This function is used to render the home page. """
     
+    eprint('User on Home_View load : ', request.user)
     authorization_code = request.GET.get('code', None)
     if (authorization_code):
         token = get_access_token(authorization_code)

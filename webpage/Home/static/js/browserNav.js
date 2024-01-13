@@ -10,15 +10,23 @@ window.onpopstate = function (event) {
 
 function setupBeforeUnload() {
     window.onbeforeunload = function() {
-        return "Are you sure you want to leave?";
+        disconnect_socket();
+        disconnect_tour_socket();
+        wipe_tournament_data();
+        disconnect_user_socket();
+        // return "Are you sure you want to leave?";
     };
 }
 
 window.onload = function (event) {
     console.log('THIS IS BROWSER EVENT STATE onload: ', event);
-    select_hero_content('init');
-    setupBeforeUnload();
+    // select_hero_content('login');
+    setupBeforeUnload()
 };
+
+addEventListener("beforeunload", (event) => {});
+onbeforeunload = (event) => {};
+
 
 function navigateForward(newState) {
     console.log('THIS IS BROWSER EVENT STATE navigateForward: ', newState);
