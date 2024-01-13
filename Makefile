@@ -75,6 +75,9 @@ https:	_deactivate_db_mode $(DOTENV) $(CERT_CRT) $(CERT_KEY)
 
 re: down all
 
+db_re:
+	rm -rf $(DATA)
+
 hard_re: down db_volume_reset all
 
 
