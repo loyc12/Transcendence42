@@ -61,8 +61,10 @@ class LiveTournament:
         return user in self.__init_lobby
     
     def __del__(self):
-        self.tournament.is_over()
-        self.tournament.save()
+        tour = self.tournament
+        if tour is not None:
+            tour.declare_over()
+            tour.save()
 
     @property
     def init_lobby(self):
