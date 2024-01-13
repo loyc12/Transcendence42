@@ -173,15 +173,15 @@
         <script>
             const user_id = {{ request.session.user_id }};
             const api_key = "{{ request.user.apiKey }}";
-            console.log("user_id = " + user_id);
-            console.log("api_key = " + api_key);
+            console.log("request.session.user_id OK user_id = " + user_id);
+            console.log("request.session.user_id OK api_key = " + api_key);
         </script>
     {% else %}
         <script>
             const user_id = null;
             const api_key = null;
-            console.log("user_id is null");
-            console.log("api_key is null");
+            console.log("session user CACA user_id is null");
+            console.log("session user CACA api_key is null");
         </script>
     {% endif %}
     <script type="text/javascript" src="js/browserNav.js" defer></script>
