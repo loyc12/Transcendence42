@@ -45,8 +45,8 @@ body.skip-nav:focus {
 }
 
 .profile .row.align-items-center {
-    max-height: 80vh; /* Adjust the value based on your design */
-    overflow-y: auto; /* Add scrollbar if content exceeds max height */
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .info {
@@ -84,8 +84,8 @@ body.skip-nav:focus {
 }
 
 .lobby .row.align-items-center {
-    max-height: 80vh; /* Adjust the value based on your design */
-    overflow-y: auto; /* Add scrollbar if content exceeds max height */
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 #lobby table.table-primary tbody .infoLobby {
@@ -412,7 +412,7 @@ body.skip-nav:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto; /* Center the button within its grid cell */
+    margin: 0 auto;
 }
 
 .arrow-placeholder {
@@ -420,8 +420,6 @@ body.skip-nav:focus {
     height: 0px;
     background-color: #178ca8;
     border: 0px solid #178ca8;
-    /* border-radius: 5px; */
-    /* cursor: pointer; */
 }
 
 .custom-scroll {
