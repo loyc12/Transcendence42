@@ -13,9 +13,7 @@ let _on_user_event = function(event) {
 let _on_close_disconnect = function (event) {
     console.error('Server disconnected user websocket');
     fetch_user_logout()
-    // display_unsubscribed_html();
     userDisconnectedSocket = true;
-    // location.reload(true)
 }
 
 
@@ -42,12 +40,8 @@ let fetch_user_logout = function () {
     console.log('Inside fetch_user_logout()')
     fetch('https://' + window.location.host + '/users/profile/logout')
     .then (data => {
-    //   elem = document.getElementById('profile');
 
       data.text().then(text => {
-          // console.log('fetch date.text() profile : ' + text);
-        //   if (elem)
-        //       elem.innerHTML = text;
             console.log('Force logout status returned : ' + text)
         })
     })
@@ -64,7 +58,6 @@ let disconnect_user_socket = function() {
         console.log('Trying to close userWebSock connection')
         userWebSock.close()
         console.log('userWebSock.readyState : ' + userWebSock.readyState)
-        //console.log('Maybe closed websocket ? is closed ?' + gameWebSock.CLOSED);
 
         userWebSock = null;
         userWebSockID = null;
@@ -77,7 +70,6 @@ let _on_server_side_user_disconnect = function(e) {
     console.log('Server closed USER websocket connection. Current socket readyState : ');
     user_id = null;
 
-    // fetch_user_logout()
 };
 
 let _prepare_user_websocket = function (ws) {
@@ -85,17 +77,11 @@ let _prepare_user_websocket = function (ws) {
     userWebSock = ws;
     ws.onmessage = _on_user_event;
     ws.onclose = _on_close_disconnect;
-    //... Might be more initialisation latter ...
 }
 
-// let display_unsubscribed_html = function() {
-//     if (default_home_template)
-//         document.getElementById('BODY') = default_home_template;
-// }
 
 if (user_id != null) {
     // build websocket path
-    // const default_home_template = document.getElementById('BODY').innerHTML;
 
     userWebSockID = ('USOCK' + user_id);
     let sockPath = _build_user_ws_path(userWebSockID);
