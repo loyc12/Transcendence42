@@ -56,6 +56,5 @@ def get_profile(request):
         })
 
 def force_logout(request):
-    eprint('<<<<<<<<<<<<<<<<<<<<------------------\n\n\n\n WTF DUDE !! DISCONNECT MOTHERFUCKER !!! \n\n\n\n ----------------------->>>>>>>>>>>>>>>>>>')
     logout(request)
     return JsonResponse({'status': "success"})
