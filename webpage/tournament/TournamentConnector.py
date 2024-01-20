@@ -17,16 +17,13 @@ class TournamentConnector:
             cls.__game_gateway = game_gateway
 
     def __init__(self, initLobby):
-        # self.__sockID: str = sockID
         self.__tourDB: Tournament = None# Database instance returned when creating game instance in database.
         self.__player_consumers: dict[int, GameConsumer] = dict()
         self.__initLobby = initLobby
         self.__tour_lock = asyncio.Lock()
-        print('Creating TournamentConnector :: with sockID : ', self.sockID)
 
         self._is_closing = False
 
-        # self.lobby_game = None # Returned after connecting to MatchMaker
 
 
     @property
@@ -35,24 +32,12 @@ class TournamentConnector:
     @property
     def nb_connected(self):
         return len(self.__player_consumers)
-    #@property
-    #def match_maker(self):
-    #    return self.__game_gateway.match_maker
     @property
     def tournament(self):
         return self.__tourDB
-    # @property
-    # def tourID(self):
-    #     return self.__tourDB.id
     @property
     def sockID(self):
         return self.__initLobby.tourID
-        # return self.__sockID
-
-   # def set_lobby_game(self, lgame):
-   #     if self.lobby_game and lgame != self.lobby_game:
-   #         GameGatwayException('Trying to set game_connector.lobby_game to different game. lobby_game can only be set once.')
-   #     self.lobby_game = lgame
 
     def set_tour_db_instance(self, tour: Tournament):
         if not (tour and isinstance(tour, Tournament)):
@@ -75,9 +60,6 @@ class TournamentConnector:
             self.sockID,
             consumer.channel_name
         )
-        # asyncio.gather(
-        # await self.send_brackets()
-        # )
 
 
     async def disconnect_player(self, user):
@@ -89,28 +71,10 @@ class TournamentConnector:
                 raise ValueError(f"Trying to disconnect user {user.login} from a game they don't belong to.")
             consumer = self.__player_consumers.pop(user.id)
 
-        #await self.send_end_state(end_state);
-
-        ### TODO: Manage early exit from tournament.
-
         await self.__channel_layer.group_discard(self.sockID, consumer.channel_name)
-        # await consumer.disconnect()
-
-        # print(f'TournamentConnector :: SWITCH')
-        # if self.game:
-        #     ## TODO: Disconnect player while in live game.
-        #     print(f'TournamentConnector :: disconnect player {user.id} INGAME')
-        #     await self.push_event(user.id, 'end_game') # send disconnect event to Game instance in game manager. Same place as keypress events.
-
-        # elif self.nb_connected > 0:
-        #     print(f'TournamentConnector :: disconnect player {user.id} while IN LOBBY')
-        #     await self._send_players_list()
-        # else:
-        #     print('WTF DUDE !!')
 
 
     async def send_brackets(self, brackets_info):
-        print('TournamentConnector :: end_brackets() entered')
         payload = json.dumps({
             'ev': 'brackets',
             'brackets': brackets_info
@@ -124,7 +88,6 @@ class TournamentConnector:
         )
 
     async def send_quitter_signal(self, quitterUser):
-        print('TournamentConnector :: end_brackets() entered')
         if self._is_closing:
             return
         self._is_closing = True
@@ -142,7 +105,6 @@ class TournamentConnector:
         )
 
     async def send_stage_initializer(self, lgame, stage):
-        print(f'TCONN :: send_stage_initializer starting game {lgame.sockID}')
         payload = json.dumps({
             'ev': 'game_connect',
             'sockID': lgame.sockID,
@@ -153,21 +115,12 @@ class TournamentConnector:
             consumer = self.__player_consumers[lply.user.id]
             await consumer.send(text_data=payload)
 
-        # await self.__channel_layer.group_send(
-        #     self.sockID,
-        #     {
-        #         'type': 'tour_new_connection_message',
-        #         'brackets': payload
-        #     }
-        # )
     async def send_stage_initializer_to_finale_user(self, lgame, user):
-        print(f'TCONN :: send_stage_initializer starting game {lgame.sockID}')
         payload = json.dumps({
             'ev': 'game_connect',
             'sockID': lgame.sockID,
             'stage': 2,
             'form': lgame.form,
         })
-        # for lply in lgame.players:
         consumer = self.__player_consumers[user.id]
         await consumer.send(text_data=payload)

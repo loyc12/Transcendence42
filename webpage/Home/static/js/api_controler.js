@@ -8,7 +8,6 @@ let _https_api_request = async function (api_path) {
         method: "POST",
         credentials: 'same-origin',
         headers: {
-            // "X-CSRFToken": csrftoken,
             "apiKey": api_key,
         }
     })
@@ -18,7 +17,6 @@ let _https_api_request = async function (api_path) {
       .then (function(data) {
         if (data.status === 'failure')
           alert('API request failed because : \n\t - ' + data.reason)
-          //throw new reportError('Join game request failed because : ' + data.reason)
         if (data.status === 'success') {
           console.log('Returned data from API request : ' + data);
           console.log('response status : ', data.status);
@@ -37,7 +35,6 @@ let _api_request_move = async function (api_path) {
     api_resp = await _https_api_request(api_path);
     console.log('api_resp : ' + api_resp);
   
-    //console.log('sockID at request_join_game() end : ' + sockID)
     return api_resp;
   }
   

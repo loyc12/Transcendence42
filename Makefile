@@ -49,7 +49,6 @@ RED			= '\033[1;91m'
 DEFCOL		= '\033[0m'
 
 # DOCKER COMPOSE - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - |
-# all:	_activate_db_mode $(DOTENV) $(GAME_SUBPATH)
 all:	$(DOTENV) $(GAME_SUBPATH)
 	@if [ ! -d $(DATA) ]; then\
 		mkdir -p $(DATA);\

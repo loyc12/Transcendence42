@@ -1,10 +1,7 @@
 import sys
-#from django.contrib.auth.models import AbstractBaseTournament
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, OperationalError, IntegrityError
 from game.MatchMaker import LobbyGame
-#from django.utils import timezone
-#from .manager import TournamentManager
 from asgiref.sync import sync_to_async
 
 
@@ -17,7 +14,6 @@ class TourMember(models.Model):
     Tournament =    models.ForeignKey('Tournament', on_delete=models.CASCADE)
     joined_at =     models.DateTimeField(auto_now_add=True)
     gave_up =       models.BooleanField(default=False)
-    #default_win =   models.BooleanField(default=False)
 
 class Tournament(models.Model):
     # Fields of table Tournaments_Tournament
@@ -26,7 +22,6 @@ class Tournament(models.Model):
     group_size      = models.IntegerField (default=2)
 
     members         = models.ManyToManyField('users.User', through=TourMember)
-    # players =       models.ManyToManyField('users.User', through=Player)# should be ordered according to joined_at parameter of Player model.
 
     groupAGame      = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupAGame', null=True, blank=True)#Round1
     groupBGame      = models.ForeignKey   ('game.Game', on_delete=models.CASCADE, related_name='groupBGame', null=True, blank=True)#Round1
@@ -42,11 +37,6 @@ class Tournament(models.Model):
     is_broken       = models.BooleanField (default=False)
     is_abandoned    = models.BooleanField (default=False)
 
-    # TournamentNAME_FIELD = "id"
-
-    # Method that return a string with the information of the Tournament
-    # objects = TournamentManager()
-
     def __str__(self):
         return f"Tournament {self.id} : {self.max_players} players, {self.group_size} players per group."
 
@@ -54,23 +44,14 @@ class Tournament(models.Model):
     @property
     def current_tournament(self):
         try:
-            print('Tournament Model :: current_tournament')
             cur_tournaments = self.tournament_set.filter(is_active=True)
         except ObjectDoesNotExist:
-            print('Tournament Model :: ObjectDoesNotExist')
             return None
 
-        print('Tournament Model :: cur_tournaments.count() : ', cur_tournaments.count())
         if cur_tournaments.count() > 1:
             raise IntegrityError('Tournament should not be referenced in multiple running tournaments.')
         else:
             return cur_tournaments.first()
-
-    # @property
-    # def winner(self):
-    #     if not self.groupCGame:
-    #         return None
-    #     return self.groupCGame.winner
 
     @property
     def is_full(self):
@@ -145,38 +126,10 @@ class Tournament(models.Model):
         if self.is_full:
             raise OperationalError('Trying to add player when the game is already full.')
 
-        #if nb_players == 0;
-        #    self.host = user
-        #user.join_game(self)
         self.members.add(user)
 
         if save:
             self.save()
-
-
-    # @property
-    # def is_intournament(self):
-    #     return (self.current_tournament is not None)
-
-    # @property
-    # def round_tracking(self):
-    #     try:    return self.tournament_set.filter(Tournament=self.id).count()
-    #     except ObjectDoesNotExist: return 0
-
-    # @property
-    # def define_winners(self):
-    #     try:    return self.tournament_set.filter(winner=self.id).count()
-    #     except ObjectDoesNotExist: return 0
-
-    # @property
-    # def nb_losses(self):
-    #     try:    return self.round_tracking - self.define_winners - self.nb_given_up
-    #     except ObjectDoesNotExist: return 0
-
-    # @property
-    # def nb_given_up(self):
-    #     try:    return self.tournament_set.filter(Tournament=self.id, gave_up=True).count()
-    #     except ObjectDoesNotExist: return 0
 
     def join_tournament(self, tournament):
         cur_tournament = self.current_tournament

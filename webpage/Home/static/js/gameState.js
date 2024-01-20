@@ -1,5 +1,4 @@
-// const canvas = document.getElementById('canvas');
-// const ctx = canvas.getContext('2d');
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -23,19 +22,6 @@ const initParam = {
     'ballInitPos': [512, 512],
     'teamCount': 2
 };
-
-// 4 players
-// const initParam = {
-//     'gameType': 'Pingest',
-//     'sizeInfo': {
-//         'width': 1536, 'height': 1024,
-//         'wRatio': 0.0006510416666666666, 'hRatio': 0.0009765625,
-//         'sRacket': 160, 'sBall': 20},
-//     'racketCount': 4,
-//     'racketInitPos': [438, 20, 'x', 1097, 20, 'x', 438, 1004, 'x', 1097, 1004, 'x'],
-//     'ballInitPos': [1152, 768],
-//     'teamCount': 4
-// }
 
 // Afficher les valeurs dans la console
 function printCurrentParam (currentGameInfo) {
@@ -159,9 +145,6 @@ let deactivatePlayerControler = function () {
 /// SETUP currentGameInfo GLOBAL VARIABLE defined in defs.js
 function parseInitData (init_data) {
 
-    // console.log('- - - parseInitData CALLED : ' + init_data);
-
-    //curentData = init_data;
     if (! 'update' in init_data)
         alert("ERROR: initData received is missing the 'update' struct.")
     const { width, height } = init_data.sizeInfo;
@@ -171,16 +154,7 @@ function parseInitData (init_data) {
     console.log('canvas.width : ' + canvas.width);
     console.log('canvas.height : ' + canvas.height);
     console.log('currentGameInfo  nbPlayer: ' + currentGameInfo.racketCount);
-    console.log('>>> Player Color: ' + getPlayerColor(1)); //currentGameInfo.playerColor);
-
-
-    // currentGameInfo.scores = [0,0];
-    //  // Display scores
-    // for (let i = 0; i < currentGameInfo.scores.length; i++) {
-    //     const scoreElement = document.createElement('div');
-    //     scoreElement.textContent = `Player ${i + 1} Score: ${currentGameInfo.scores[i]}`;
-    //     gameInfoContainer.appendChild(scoreElement);
-    // }
+    console.log('>>> Player Color: ' + getPlayerColor(1));
 
     /// Pre calculations used in rendering functions
     currentGameInfo.racketSize = init_data.sizeInfo.sRacket;
@@ -198,7 +172,6 @@ function parseInitData (init_data) {
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sBall * 0.5));
             currentGameInfo.offsets.push(-(init_data.sizeInfo.sRacket * 0.5));
         }
-        // console.log('GS : [orientation] : (x,y) & (w,h) :: ' + ori + ')' );
     }
 }
 
@@ -213,21 +186,4 @@ let parseUpdateData = function (update) {
 // function called by
 let parsePlayersInfo = function(info) {
     console.log('** Players info : ', info);
-    /// TODO: Deal with players info ...
 }
-
-// function updateGameState(updatedGameState) {
-    //     // Update game state based on the received data
-    //     gameState.gameID = updatedGameState.gameID;
-    //     gameState.racketPos = updatedGameState.racketPos;
-    //     gameState.ballPos = updatedGameState.ballPos;
-    //     gameState.score = updatedGameState.score;
-    // }
-
-    //     // Display scores
-    //     for (let i = 0; i < gameState.score.length; i++) {
-    //         const scoreElement = document.createElement('div');
-    //         scoreElement.textContent = `Player ${i + 1} Score: ${gameState.score[i]}`;
-    //         gameInfoContainer.appendChild(scoreElement);
-    //     }
-    // }
