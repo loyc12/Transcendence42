@@ -1,3 +1,4 @@
+*.whl
 **/.env
 **/*.crt
 **/*.key
@@ -5,6 +6,7 @@
 postgres/volume/data
 webpage/game/migrations/00*
 webpage/ext/static_deploy/*
+*.whl
 
 
 **/*.lock
