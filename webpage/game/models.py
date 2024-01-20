@@ -47,7 +47,6 @@ class Game(models.Model):
                 f"\n<-| winner :        {self.winner.login if self.winner else 'None'}" +\
                 f"\n<-| final score :   {self.finale_scores if self.finale_scores else 'None'}" +\
                 "\n<---------------------------------->"
-                # "\n<-| is tournament : " + str(self.is_tournament) +
 
     def __repr__(self):
         return (self.__str__())
@@ -153,10 +152,6 @@ class Game(models.Model):
 
         if self.is_official:
             # Set score for individual players in game
-            # if not self.is_local2p and len(plys) != self.max_players:
-            #     raise IntegrityError(f"Nb of players ({len(plys)}) registered to the game does not fit the number required ({self.max_players}) for this game type.")
-            # winner_score = -1
-            # winner = None
             for ply, s in zip(plys, scores):
                 ply.score = s
                 eprint(f'Player ({ply.user.login}) score set to {ply.score} in game {self.id}')
@@ -165,8 +160,6 @@ class Game(models.Model):
                 for ply in plys:
                     if ply.user.id == quitter:
                         break
-                # else:
-                    # raise IntegrityError('\n\n NO PLAYER FOUND with quitter id : ', quitter)
                 if ply.user.id == quitter:
                     ply.gave_up = True
 
@@ -180,7 +173,7 @@ class Game(models.Model):
                 self.winner = winner.user  #o_plys.first().user
                 eprint(f'game id {self.id} Winner set as : ', self.winner)
 
-            plys.bulk_update(plys, ['score', 'gave_up'])# batch updates to postgres rather then individual saves.
+            plys.bulk_update(plys, ['score', 'gave_up'])
 #
 
         # Set end of game state
@@ -188,9 +181,7 @@ class Game(models.Model):
         self.is_over = True
 
         self.timestamp_end()
-
         self.finale_scores = scores
-
         self.save()
         return ('wow')
 
