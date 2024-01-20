@@ -14,14 +14,12 @@ def eprint(*args):
 def import_data(api_data, request):
 
     target_id = api_data.json()['login']
-    # Check if user exists and get it
     if (User.objects.filter(login=target_id).exists()):
         User.objects.filter(login=target_id).update(
             is_active = 1,
         )
         u = User.objects.get(login=target_id)
 
-    # If not, create it
     else:
         u = User.objects.create_user(
             login           = target_id,
@@ -29,14 +27,12 @@ def import_data(api_data, request):
             img_link        = api_data.json()['image']['link'],
             is_active       = 1,
         )
-    # Update session
     u.save()
     return u
 
 @login_required
 def get_profile(request):
 
-    # user = request.user
     eprint('get_profile :: user is_authenticated : ', request.user.is_authenticated)
 
     nb_played = request.user.nb_games_played
