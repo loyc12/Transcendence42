@@ -13,8 +13,4 @@ class NetworkgatewayConfig(AppConfig):
 
     def ready(self):
         ''' Network Gatway initializer code. '''
-        #from NetworkAdaptor import GameGateway
-#
-        #gateway = GameGateway()
-        #self.__set_game_gateway(gateway)
         pass

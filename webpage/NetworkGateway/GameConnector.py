@@ -91,10 +91,8 @@ class GameConnector:
    #  PUSH_EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     async def push_event(self, playerID, evType, key=None):
         event = GameEvent(playerID, evType, key)
-        print("push_event: ", event)
         async with self.__events_lock:
             await self.__events.put(event)
-            print('event queue length : ', self.__events.qsize())
 
    #  STATE_EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    # INIT_STATE
@@ -115,7 +113,6 @@ class GameConnector:
     async def send_end_state(self, state):
         if not state:
             raise TypeError('send_end_state :: No state was provided.')
-        print('CALLED send_end_state()')
         payload = json.dumps({ 'ev': 'end', 'end_state': state })
         await self.__channel_layer.group_send(self.__sockID,
                 {
@@ -126,7 +123,6 @@ class GameConnector:
     # CONNECTION//DECONNECTION EVENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # CONNECTION
     async def connect_player(self, user, consumer):
-        print("GameConnector :: entered connect_player()")
         async with self.__game_lock:
             if user.id in self.__player_consumers:
                 raise ValueError('Trying to add player to same game connector twice.')
@@ -135,16 +131,12 @@ class GameConnector:
             self.__sockID,
             consumer.channel_name
         )
-        #if not is_tournament_stage:
-        print("GameConnector :: trying to self.send_players_list()")
         await self._send_players_list()
 
 
     # DECONNECTION
     async def disconnect_player(self, user, quitter=None):
-        print(f'GameConnector :: ENTER disconnect player ', user.login)
         if not self.__lobby_game or user.id not in self.__player_consumers:
-            print(f'GameConnector :: disconnect player :: user.id {user.id} not in player consumers.')
             return None
         async with self.__game_lock:
             if user.id not in self.__player_consumers:
@@ -153,12 +145,7 @@ class GameConnector:
 
         if quitter is None:
             await self.__channel_layer.group_discard(self.__sockID, consumer.channel_name)
-
-        print(f'GameConnector :: SWITCH')
-        print(f'GameConnector :: game : ', self.game)
         if self.game and self.game.is_running:
-            print(f'GameConnector :: disconnect player {user.login} INGAME')
-            print(f'GameConnector :: game.is_running : ', self.game.is_running)
             if self.__is_closing:
                 return
              # send disconnect event to Game instance in game manager. Same place as keypress events.
@@ -169,11 +156,8 @@ class GameConnector:
             else:
                 await self.push_event(quitter, 'end_game')
 
-            print(f'GameConnector :: eng_game event pushed to game : ', self.game.is_running)
-
         elif self.nb_connected > 0:
             ''' Player disconnects in game lobby '''
-            print(f'GameConnector :: disconnect player {user.id} while IN LOBBY')
             # send updated player list to all players without the disconnected player
             await self._send_players_list()
 
@@ -185,7 +169,6 @@ class GameConnector:
 
 
     async def disconnect_all_players(self, quitter=None):
-        print(f'GameConnector :: ENTER disconnect_all_players')
         player_list = list(self.__player_consumers.keys())
         for playerID in player_list:
             if playerID in self.__player_consumers:
@@ -195,7 +178,6 @@ class GameConnector:
         async with self.__game_lock:
             for cons in self.__player_consumers.values():
                 if cons.user.apiKey == userApiKey:
-                    print(f'User {cons.user.login} is in fact associated with apiKey : {userApiKey}.')
                     return cons.user
         return None
 
@@ -209,7 +191,6 @@ class GameConnector:
         # Payload to send to all players
         payload = [ { 'login': ply.user.login, 'img': ply.user.img_link, 'ready': ply.is_ready }
             for ply in players ]
-        print('send player info payload : ', payload)
         await self.__channel_layer.group_send(
             self.__sockID,
             {
@@ -219,7 +200,6 @@ class GameConnector:
         )
     # Send start signal to SOCKID
     async def send_start_signal(self):
-        print('<<< SENDING START SIGNAL !! >>>')
         payload = json.dumps({ 'ev': 'start' })
         await self.__channel_layer.group_send(self.__sockID,
                 {
