@@ -2,7 +2,6 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-#SESSION_AV
 from importlib import import_module
 from django.conf import settings
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
@@ -35,14 +34,9 @@ if ('DJG_WITH_DB' in ENV_FILE):
     "len : ", len(ENV_FILE["DJG_WITH_DB"]))
 
 
-# DJANGO_DEBUG = not ('DJG_WITH_DB' in ENV_FILE and ENV_FILE["DJG_WITH_DB"])
-print("Environment acquired !")
-print("DJANGO_DEBUG : ", DJANGO_DEBUG)
-
-
 # SECURITY WARNING  - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - |
 #: keep the secret key used in production secret!
-DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False # SECURITY WARNING: don't run with debug turned on in production!
 SECRET_KEY = ENV_FILE["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = ['*']
 
@@ -102,7 +96,6 @@ SECURE_HSTS_PRELOAD = True
 #XSS protection
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = False #Againts MIME sniffing
-#CSP_DEFAULT_SRC = ("'self'",) # CSP policies TODO: add CSP policies
 # X-Frame-Options (Against Clickjacking)
 X_FRAME_OPTIONS = 'DENY'
 # Secure session management
@@ -145,7 +138,6 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = "users.User"
 ROOT_URLCONF    = "core.urls"
-#WSGI_APPLICATION   = "core.wsgi.application"
 ASGI_APPLICATION    = "core.asgi.application"
 
 # DATABASE  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -|
