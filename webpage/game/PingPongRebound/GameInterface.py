@@ -291,9 +291,15 @@ class Game:
 	# --------------------------------------------------------------
 
 
-	def hasPlayer( self, username ):
+	def hasPlayerName( self, username ):
 		for i in range( len( self.controlers )):
 			if( self.controlers[ i ].username == username ):
+				return( True )
+		return( False )
+
+	def hasPlayerID( self, id ):
+		for i in range( len( self.controlers )):
+			if( self.controlers[ i ].playerID == id ):
 				return( True )
 		return( False )
 
