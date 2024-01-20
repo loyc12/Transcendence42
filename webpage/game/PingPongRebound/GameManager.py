@@ -166,13 +166,19 @@ class GameManager:
 			return
 
 		async with game.gameLock:
-			if not game.hasPlayer( playerID ):
+			if not game.hasPlayerID( playerID ):
 				print( "player #" + str( playerID ) + " is absent from game #" + str( gameID ))
 				print( "could not remove player #" + str( playerID ) + " from game #" + str( gameID ))
 				return
 
 			game.removePlayer( playerID )
 
+	async def hasPlayer( self, playerName ):
+		async with game.gameLock:
+			for game in self.gameDict.values():
+				if game.hasPlayerName( playerName ):
+					return True
+		return False
 
 
 	# -------------------------------------------- CORE CMDS --------------------------------------------- #
