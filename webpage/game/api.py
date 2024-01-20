@@ -35,18 +35,8 @@ def __process_api_request(request, key_pressed):
     if not event_loop or not event_loop.is_running():
         return JsonResponse(_build_error_payload('Received API request, player is not in game.'), status=400)
 
-    # try:
-    #     event_loop = asyncio.get_event_loop()
-    # except RuntimeError as exc:
-    #     return JsonResponse(_build_error_payload('Received API request, player is not in game.'), status=400)
-
-
     coro = game_gateway.api_handle_event(apiKey, 'key_press', key_pressed)
     result: asyncio.Task = asyncio.ensure_future(coro, loop=event_loop)
-    # if event_loop and event_loop.is_running():
-    #     result = asyncio.ensure_future(coro)
-    # else:
-    #     result = event_loop.run_until_complete(coro)
     result.add_done_callback(__done_callback_for_push_event_call)
 
 
