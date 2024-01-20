@@ -19,7 +19,6 @@ let fetch_user_profile = function () {
       elem = document.getElementById('profile');
       
       data.text().then(text => {
-          // console.log('fetch date.text() profile : ' + text);
           if (elem)
               elem.innerHTML = text;
         })

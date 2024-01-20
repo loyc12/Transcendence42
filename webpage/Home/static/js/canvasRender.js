@@ -14,8 +14,7 @@ const players = [
 // Function to get the player's color based on their rank
 //  Use modulo operator to cycle through colors if there are more ranks than colors
 let getPlayerColor = function(rank) {
-    const index = (rank + 1) % playerColors.length; //rank = playerID ; index = color
-    // console.log('getPlayerColor :: rank  + 1 : ' + (rank + 1) + ' ; index : ' + index + ' ; playerColors[index] : ' + playerColors[index]);
+    const index = (rank + 1) % playerColors.length;
     return playerColors[index];
 }
 
@@ -61,7 +60,7 @@ let renderBall = function (ctx, gameInfo, update) {
     const shadow = getPlayerShadowColor(update.lastPonger - 1);
     ctx.beginPath();
     ctx.shadowBlur = 40;
-    ctx.fillStyle = ballColorLast;// 'red' ballLastPlayerColor;
+    ctx.fillStyle = ballColorLast;
     ctx.shadowColor = shadow;
     ctx.arc(x, y, gameInfo.ballSize * 0.5, 0, 2 * Math.PI); // Assuming ballRadius is defined
     ctx.fill();
@@ -83,9 +82,6 @@ let renderRackets = function(ctx, gameInfo, update) {
         if (gameInfo.gameType === 'Pong' && i > 1) {
             color = '#ffffff'; 
             shadow = '#ffffff';  }
-        // console.log('getPlayerShadow :: ; i : ' + i + ' ; shadow : ' + shadow + ' ; playerShadowColors[i] : ' + playerShadowColors[i]);
-
-
 
         if (orientations[i] === 'y' || gameInfo.gameType === 'Pong') {
             w = gameInfo.ballSize;
@@ -95,17 +91,6 @@ let renderRackets = function(ctx, gameInfo, update) {
             w = gameInfo.racketSize;
             h = gameInfo.ballSize;
         }
-        // console.log('[orientation] : (x,y) & (w,h)' + orientations[i] + ' : (' + x + ',' + y + ') & (' + w + ',' + h + ')' );
-
-        // // Check if the position of the racket is 'x'
-        // if (orientations[i] === 'x') {
-        //     w = gameInfo.racketSize;
-        //     h = gameInfo.ballSize;
-        // }
-        // else if (orientations[i] === 'y') {
-        //     w = gameInfo.ballSize;
-        //     h = gameInfo.racketSize;
-        // }
 
         ctx.fillStyle = color;
         ctx.shadowBlur = 40;

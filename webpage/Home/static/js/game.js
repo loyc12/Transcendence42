@@ -10,7 +10,6 @@ function getCookie(name) {
       const cookies = document.cookie.split(';');
       for (let i = 0; i < cookies.length; i++) {
           const cookie = cookies[i].trim();
-          // Does this cookie string begin with the name we want?
           if (cookie.substring(0, name.length + 1) === (name + '=')) {
               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
               break;
@@ -32,7 +31,6 @@ let _build_join_request_payload = function (gameMode, gameType, withAI=false, ev
 let _http_join_request = async function (payload) {
 
   console.log('request join game path : ' + 'https://' + window.location.host + '/game/join/')
-  //const csrftoken = getCookie('csrftoken')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   console.log('csrftoken : ' + csrftoken)
   console.log('csrf from query selector : ' + document.querySelector('[name=csrfmiddlewaretoken]').value);
@@ -62,21 +60,14 @@ let _http_join_request = async function (payload) {
       console.log('response gameMode : ', data.gameMode);
       console.log('response withAI : ', data.withAI);
       console.log('response eventID : ', data.eventID);
-      //if (data.has('sockID'))
       return data;
-    } else {
-      // console.error('_http_join_request call did not return sockID :: data.sockID : ' + data.sockID);
-    }
+    } 
   })
   .catch(err => console.log(err));
 }
 
 let request_join_game = async function (gameType) {
 
-  //console.log('request_join_game temporarly deactivated. Come back again later.')
-
-  // console.log('request_join_game temporarly deactivated. Come back again later.')
-  //return ;
   currentGameType = gameType
   if (gameType === 'Local_1p') {
     payload = _build_join_request_payload('Local_1p', 'Pong', true);
@@ -95,6 +86,5 @@ let request_join_game = async function (gameType) {
   gameData = await _http_join_request(payload)
   console.log('gameData : ' + gameData)
 
-  //console.log('sockID at request_join_game() end : ' + sockID)
   return gameData;
 }

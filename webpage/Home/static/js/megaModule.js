@@ -16,7 +16,6 @@ let _send_player_keyevent = function(key) {
 
 // WEBSOCKETS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 let _get_websocket_path = function(sockID) {
-    // console.log('_get_websocket_path :: called with undefined sockID !!')
     return 'wss://' + window.location.host + '/game/ws/' + sockID + '/';
 }
 
@@ -25,10 +24,7 @@ let _get_websocket_path = function(sockID) {
 // THROUGH THE WEBSOCKET FOR THIS CLIENT.
 let _on_game_event = function(event) {
 
-    // console.log('Client RECEIVED event : ' + event)
     const data = JSON.parse(event.data);
-
-    // console.log("_on_game_event:: JSON data content : ", data);
 
     if (data.ev === 'up') {
         // Called by websocket with event type 'up' for every update during a game.
@@ -36,19 +32,16 @@ let _on_game_event = function(event) {
     }
     else if (data.ev === "init") {
         // Sent ONCE at the begining of lobby phase with data required to render a game.
-        // See PingPongRebound/json-template.json, section : getInitInfo()
         console.log('data.init.orientation[0] + ' + data.init.orientations[0]);
         parseInitData(data.init)
         console.log('- - - Received INIT : ' + data.init);
         if (isTournament) {
             console.log('Tournament mode activated');
-            //update_tournament_brackets(data.init.tournament);//function to update brackets
         }
     }
     else if (data.ev === 'connection') {
         /// Triggered in lobby phase when either the current user gets connected to a game socket
         /// or another user has connected to the same game.
-        // TODO: Should trigger a function to update the players list and infos in lobby phase
         console.log('Websocket connection event.')
         let players = data.player_list;
         let i = 0
@@ -59,18 +52,9 @@ let _on_game_event = function(event) {
             console.log(`Player ${i} :: img : ` + p.img)
             console.log(`Player ${i} :: ready : ` + p.ready)
         }
-        //...
         console.log("Trying to update_player_info()");
         update_player_info(data.player_list)
     }
-
-
-    // else if (data.ev === "player_info") {
-    //     // Sent ONCE after lobby phase at the begining of a game, when all players have declared themselves ready,
-    //     // with data describing active players.
-    //     // console.log('Received PLAYR INFO : ' + data.info);
-    //     parsePlayersInfo(data.info);
-    // }
 
 
     else if (data.ev === "start") {
@@ -140,7 +124,6 @@ let _prepare_websocket = function (ws) {
     gameWebSock = ws;
     ws.onmessage = _on_game_event;
     ws.onclose = _on_server_side_disconnect;
-    //... Might be more initialisation latter ...
 }
 
 let disconnect_socket = function() {
@@ -150,12 +133,9 @@ let disconnect_socket = function() {
         console.log('Trying to close websocket connection')
         gameWebSock.close()
         console.log('WebSocket.readyState : ' + gameWebSock.readyState)
-        //console.log('Maybe closed websocket ? is closed ?' + gameWebSock.CLOSED);
 
         gameSockID = null;
         gameWebSockPath = null;
-        // gameWebSock = null;
-        /// TODO: Potentially wait for socket to close and do something ...
     }
     deactivatePlayerControler()
 }
@@ -186,7 +166,6 @@ let loadMegaModule = function (gameType) {
 
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
-    // console.log(`--- init state for gameType ${gameType} : `);
     console.log(get_default_init_state(gameType));
     parseInitData(get_default_init_state(gameType));
 
@@ -220,7 +199,6 @@ let loadMegaModule = function (gameType) {
                 tourWebSock = _connect_to_tour_socket(tourWebSockPath)
                 _prepare_tour_websocket(tourWebSock);
                 isTournament = true;
-                // update_tournament_brackets();
             }
             else if (!isTournament){
                 console.log('request_join_game :: is NOT Tournament');
@@ -239,20 +217,14 @@ let loadMegaModule = function (gameType) {
             console.log('Connection to websocket SUCCESSFUL !')
         })
         .catch(e => {
-            //alert('You failed to join a game for the following reason : ' + e)
             console.error('Exeption while requesting to join game : ' + e)
         })
 
-    /// Enable player keypress handler
-    // TODO: SHOULD WAIT UNTIL GAME START SIGNAL IS SENT BY WEBSOCKET.
-    // activatePlayerControler()
 }
 
 let loadGame = function() {
     console.log('Load loadGame')
     loadModule('game');
     activatePlayerControler();
-
-    // document.getElementById('lobby').style.display = 'block';
 
 }

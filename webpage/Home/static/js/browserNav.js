@@ -15,13 +15,11 @@ function setupBeforeUnload() {
         disconnect_tour_socket();
         wipe_tournament_data();
         disconnect_user_socket();
-        // return "Are you sure you want to leave?";
     };
 }
 
 window.onload = function (event) {
     console.log('THIS IS BROWSER EVENT STATE onload: ', event);
-    // select_hero_content('login');
     setupBeforeUnload()
 };
 

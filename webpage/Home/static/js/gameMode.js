@@ -52,14 +52,6 @@ function loadModule(moduleName) {
         console.log('Load aftergame')
         if (isTournament)
             isGhostLobby = true;
-        // {
-        //     console.log('Load tournament after game ROUND1');
-        //     document.getElementById('buttonGhostLobby').style.display = 'block';
-        // }
-        // else
-        // {
-        //     document.getElementById('buttonGhostLobby').style.display = 'none';
-        // }
         document.getElementById('aftergame').style.display = 'block';
     }
     else if (moduleName == 'help')

@@ -38,7 +38,7 @@ let hide_all_hero_content = function () {
 }
 
 let select_hero_content = function (key) {
-    //hide_all_hero_content();
+
     console.log('select_hero_content after hide')
     let contentElems = all_hero_content2[key];
     if (!contentElems)
@@ -64,8 +64,6 @@ let select_hero_content = function (key) {
         if (contentElems['heroDiv'] === 'contentHelp') {
             console.log('Special case contentHelp loadModule(Help)')
             loadModule('help')
-            // console.log('select_hero_content :: 2 :: disconnecting socket ');
-            // disconnect_socket()
         }
         console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
         console.log('previous content page : ' + key)

@@ -59,7 +59,6 @@ let _on_tour_event = function(event) {
     }
     else if (data.ev === 'brackets') {
         console.log('WoOoW ! received tournament brackets info : ' + data.brackets)
-        // loadModule('lobby');
     }
     else if (data.ev === 'quitter') {
         console.log('FRONTEND RECEIVED QUITTER SIGNAL !!')
@@ -67,7 +66,6 @@ let _on_tour_event = function(event) {
     }
 }
 
-// let _build_tour_ws_path = function(sockID) {
 function _build_tour_ws_path(sockID) {
     return 'wss://' + window.location.host + '/tournament/ws/' + sockID + '/';
 }
@@ -89,7 +87,6 @@ let _connect_to_tour_socket = function (tourWebSockPath) {
 let _on_server_side_tour_disconnect = function(e) {
     console.error('The server disconnecter tournament');
     console.log('Server closed tournament websocket connection.');
-    // user_id = null;
     console.log('_on_server_side_tour_disconnect :: disconnecting socket ');
     disconnect_socket();
     wipe_tournament_data();
@@ -97,10 +94,8 @@ let _on_server_side_tour_disconnect = function(e) {
 
 let _prepare_tour_websocket = function (ws) {
     console.log('PREPARING WEBSOCKET')
-    // ws.onopen = _on_open_;
     ws.onmessage = _on_tour_event;
     ws.onclose = _on_server_side_tour_disconnect;
-    //... Might be more initialisation latter ...
 }
 
 let disconnect_tour_socket = function() {
