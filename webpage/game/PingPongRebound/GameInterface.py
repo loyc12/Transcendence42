@@ -278,7 +278,7 @@ class Game:
 
 	def getPlayerControler( self, username ):
 		for i in range( len( self.controlers )):
-			if( self.controlers[ i ].username == username ):
+			if( self.controlers[ i ].name == username ):
 				return( self.controlers[ i ] )
 		return None
 
@@ -293,7 +293,7 @@ class Game:
 
 	def hasPlayerName( self, username ):
 		for i in range( len( self.controlers )):
-			if( self.controlers[ i ].username == username ):
+			if( self.controlers[ i ].name == username ):
 				return( True )
 		return( False )
 

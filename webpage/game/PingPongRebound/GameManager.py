@@ -174,8 +174,9 @@ class GameManager:
 			game.removePlayer( playerID )
 
 	async def hasPlayer( self, playerName ):
-		async with game.gameLock:
-			for game in self.gameDict.values():
+
+		for game in self.gameDict.values():
+			async with game.gameLock:
 				if game.hasPlayerName( playerName ):
 					return True
 		return False
