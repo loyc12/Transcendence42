@@ -11,7 +11,6 @@ import json
 def eprint(*args):
     print(*args, file=sys.stderr)
 
-# Collect data from API and save it in the database, start session
 def import_data(api_data, request):
 
     target_id = api_data.json()['login']

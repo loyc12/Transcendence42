@@ -16,7 +16,6 @@ class User(AbstractBaseUser):
     created_at      = models.DateTimeField(auto_now_add=True)
     updated_at      = models.DateTimeField(auto_now=True)
     is_active       = models.BooleanField (default=False) #status online/offline
-    # api_id          = models.CharField    (max_length=64, unique=True)
 
     USERNAME_FIELD = "login"
 
@@ -49,7 +48,6 @@ class User(AbstractBaseUser):
             cur_games = self.game_set.filter(is_running=True)
         except ObjectDoesNotExist:
             return None
-        print('User Model :: cur_games.count() : ', cur_games.count())
         if cur_games.count() > 1:
             raise IntegrityError('User should not be referenced in multiple running games.')
         else:
@@ -66,13 +64,11 @@ class User(AbstractBaseUser):
 
     @property
     def nb_official_games_played(self):
-        # try:    return self.player_set.filter(user=self.id, is_official=True).count()
         try:    return self.player_set.filter(user=self.id, game__is_official=True).count()
         except ObjectDoesNotExist: return 0
 
     @property
     def nb_official_games_finished(self):
-        # try:    return self.player_set.filter(user=self.id, is_official=True).count()
         try:    return self.player_set.filter(user=self.id, game__is_official=True, game__is_abandoned=False, game__is_over=True).count()
         except ObjectDoesNotExist: return 0
 
@@ -83,10 +79,6 @@ class User(AbstractBaseUser):
 
     @property
     def nb_losses(self):
-        # print("Game :: nb_losses :: nb_official_games_played : ", self.nb_official_games_played)
-        # print("Game :: nb_losses :: nb_wins : ", self.nb_wins)
-        # print("Game :: nb_losses :: nb_given_up : ", self.nb_given_up)
-        # try:    return self.nb_official_games_played - self.nb_wins - self.nb_given_up
         try:    return self.player_set.filter(user=self.id, game__is_official=True, game__is_abandoned=False).exclude(game__winner=self.id).count()
         except ObjectDoesNotExist: return 0
 
@@ -104,7 +96,6 @@ class User(AbstractBaseUser):
     def win_loss_ratio(self):
         nb_played = self.nb_official_games_finished
         nb_wins = self.nb_wins
-        print('player win_loss_ratio :: nb_played : ', nb_played)
         if nb_wins == 0:
             return 0
         if nb_played == nb_wins:

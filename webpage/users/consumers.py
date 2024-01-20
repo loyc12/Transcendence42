@@ -18,7 +18,6 @@ class UserConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.sockID = self.scope['url_route']['kwargs']['sock_id']
-        print('USER :::::: CONNECTING TO WEBSOCKET with id : ', self.sockID)
 
         if 'user' in self.scope:
             print('scope DOES contain user. ')
@@ -44,11 +43,8 @@ class UserConsumer(AsyncWebsocketConsumer):
             eprint('Disconnecting AnonymousUser')
             raise StopConsumer
 
-        # session_data.save()
-        print('\n\nUser Websocket disconnecting !\n\n')
         eprint('UserConsumer :: disconnecting and wipping sessions data')
         session_data.delete()
-        #Save deletes the session data and the session key, and it deletes the session from the database.
         session_data.save()
         eprint('UserConsumer :: closing user websocket')
         self.user.is_active = False
