@@ -150,19 +150,21 @@ let get_default_init_state = function(gameType) {
     return allInitGameStates.get(gameType);
 }
 
+let is_requesting_join_game = false;
 let loadMegaModule = function (gameType) {
 
+    if (is_requesting_join_game)
+        return;
     console.log('LOAD MEGA MODULE STARTING GAME JOIN PROCESS !')
     // Send HTTP POST request to get matched to a game in the MatchMaker or create a new one
     if (gameWebSock != null) {
         alert("You can't connect to a game while already connected to another.")
         throw new EvalError("You can't connect to a game while already connected to another.");
     }
+    is_requesting_join_game = true;
 
     // Resets lobby state
     reset_default_lobby();
-
-
 
     /// Find the default init game state from defs.js based on gameType given,
     // set it as global currentGameInfo and render it in canvas (even if canvas is hidden).
@@ -219,7 +221,7 @@ let loadMegaModule = function (gameType) {
         .catch(e => {
             console.error('Exeption while requesting to join game : ' + e)
         })
-
+    is_requesting_join_game = false;
 }
 
 let loadGame = function() {

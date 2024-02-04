@@ -45,10 +45,10 @@ let fetch_user_logout = function () {
             console.log('Force logout status returned : ' + text)
         })
     })
-    .catch(function (err) {
-      console.log('fetch of user logout failed !');
-      console.log(err);
-    })
+    // .catch(function (err) {
+    //   console.log('fetch of user logout failed !');
+    //   console.log(err);
+    // })
 }
 
 let disconnect_user_socket = function() {
@@ -77,6 +77,19 @@ let _prepare_user_websocket = function (ws) {
     userWebSock = ws;
     ws.onmessage = _on_user_event;
     ws.onclose = _on_close_disconnect;
+}
+
+let login_click_disabled = false;
+let initiate_42_login = function (login_addr) {
+    
+    if (login_click_disabled) {
+        console.log('LOGIN CLICK BLOCKED !! Your welcome.');
+        return;
+    }
+    console.log('Trying to redirect to : ' + login_addr + ' while login_click_disabled is ' + login_click_disabled);
+    login_click_disabled = true;
+    console.log('Starting login request.');
+    window.location.replace(login_addr);
 }
 
 

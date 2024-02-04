@@ -43,6 +43,7 @@ class LobbyGame:
         self.__required_players: int = self.__maxPlayerCounts[self.gameType]
         self.__game_connector = None # Set by GameGateway after successfull join_game() call with instance of GameConnector object.
         self.__tour_connector = None # Set by GameGateway after successfull join_game() call with instance of TournamentConnector object. Only set if gameMode == 'Tournament'.
+        # self.__tournament = None
         self.__winnerID = None
 
 
@@ -51,6 +52,8 @@ class LobbyGame:
 
     def __contains__(self, user: User):
         return next((lply for lply in self.__players if user == lply.user), None)
+        #return next(filter(lambda lply: user == lply.user, self.__players), None)
+        #return any(user == lply.user for lply in self.__players)
 
     @property
     def lobbyID(self):
@@ -60,6 +63,8 @@ class LobbyGame:
         return "sock{:06d}".format(self.__id)
     @property
     def tourID(self):
+        # if not self.__tour_connector:
+        #     return None
         return f'Tour_{self.sockID}'
     @property
     def form(self):
@@ -98,11 +103,16 @@ class LobbyGame:
         return self.__tour_connector
     @property
     def is_ready(self) -> bool:
+        print('-> Game Lobby is_ready check :')
+        print('-> is_full : ', self.is_full)
+        print('-> Players connected and ready status : ', [{'CONNECTED': lply.is_connected, 'READY': lply.is_ready} for lply in self.__players])
+
         return self.is_full and all(lply.is_connected and lply.is_ready for lply in self.__players)
     @property
     def is_full(self):
         if self.gameMode == 'Tournament':
             return (len(self.__players) == 4)
+            # return (len(self.__players) == 2)
         if (self.withAI or (self.gameMode == 'Local_2p')) and (len(self.__players) > 0):
             return True
         return self.nb_players == self.__required_players
@@ -150,6 +160,7 @@ class LobbyGame:
                 break
         else:
             raise MatchMakerWarning(f'Tryin to set user {user.login} as connected in game {self.lobbyID}, but this player is not in this game.')
+        # if not (lply := (user in self)):
         lply.is_connected = True
         return lply
 
@@ -159,6 +170,7 @@ class LobbyGame:
                 break
         else:
             raise MatchMakerWarning(f'Tryin to set user {user.login} as ready in game {self.lobbyID}, but this player is not in this game.')
+        # if not (lply := (user in self)):
         lply.is_ready = True
         return lply
 
@@ -192,6 +204,8 @@ class LobbyGame:
         else:
             return None
         return self.__players.pop(i)
+
+
 
 class MatchMaker:
 
@@ -237,18 +251,26 @@ class MatchMaker:
         return None
 
     def __find_player_in_lobby(self, user: User) -> LobbyGame|None:
+        print('Trying __find_player_in_lobby with user : ', user.login)
         for gameMode, typedGames in self._gameLobby.items():
             for lgame in typedGames:
                 for lply in lgame.players:
                     if user == lply.user:
+                        print(f'Game containing user {user.login} FOUND ')
                         return (gameMode, lgame, lply)
+
+        print('No Game found containing user : ', user.login)
         return None
 
     def __find_event_in_lobby(self, user: User, eventID: str) -> LobbyGame|None:
+        print('Trying __find_event_in_lobby with eventID : ', eventID)
         for gameMode, typedGames in self._gameLobby.items():
             for lgame in typedGames:
                 if lgame.eventID == eventID:
+                    print(f'Game {eventID} FOUND ')#: ', lgame)
                     return (gameMode, lgame, lgame.get_player(user))
+
+        print('No Game found containing user : ', user.login)
         return None
 
 
@@ -260,13 +282,14 @@ class MatchMaker:
         modeGames = self._gameLobby[game_mode]
         if lgame not in modeGames:
             return
+            # raise MatchMakerException(f"Trying to remove game {lgame} from the lobby but this game does not exist in MatchMaker.")
 
         modeGames.remove(lgame)
 
+    # recois le form ici
     def join_lobby(self, user: User, form: GameCreationForm|dict):
         ''' Can accept either GameCreationForm.cleaned_data objects or
-        popperly formated dict with valid entries for "gameMode" and "gameType".
-        Then, if valid, instanciates the game in the database and puts  '''
+        popperly formated dict with valid entries for "gameMode" and "gameType". '''
 
         gameMode = form.get('gameMode')
         gameType = form.get('gameType')
@@ -274,6 +297,9 @@ class MatchMaker:
             raise ValueError('Missing one or more fields in form.')
         if gameMode not in self._gameLobby:
             raise ValueError(f"Game Mode {gameMode} does not exit.")
+        
+        if gameType == 'Tournament' and (lgame := self.get_tournament()) is not None and  lgame.is_full:
+            raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
 
         lgame = self.__find_existing_game_such_as(user, form)
 
@@ -281,14 +307,16 @@ class MatchMaker:
         if lgame:
             if user in lgame:
                 raise MatchMakerWarning(f'User {user.login} tried to join a game twice. Stop that !')
-            if (lgame.is_tournament and lgame.is_full) or lgame.is_live_tournament:
+            if lgame.is_live_tournament:
                 raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
 
             # Game should be fully validated at this point
             lgame.add_player(lply)
+            #lgame.players.append(lply)
         else:
             lgame = LobbyGame(form=form, players=[lply])
             self._gameLobby[gameMode].append(lgame)
+            print("Match Maker Game Lobby : ", self._gameLobby)
 
         return lgame
 
@@ -298,34 +326,48 @@ class MatchMaker:
             after having called join_lobby() first, but before the game has officialy
             been created. '''
 
+        print(f'MatchMaker :: connect_player :: Trying to connect user {user.login}. eventID: ', eventID)
+
         if eventID:
             finder_result = self.__find_event_in_lobby(user)
         else:
             finder_result = self.__find_player_in_lobby(user)
+        #print('finder_result : ', finder_result)
         if not finder_result:
             return None
         gameMode, lgame, lply = finder_result
         lply.is_connected = True
+
+        print('gameMode, gameType, lgame, lply: ', gameMode, lgame.gameType, lgame, lply)
+
+        print(f'User {user.login} was SUCCESSFULLY connected !')
         return lgame
 
     def set_ready(self, user: User):
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
+            print('Player not in lobby while setting ready.')
             return None
         gameMode, lgame, lply = finder_result
         lply.is_ready = True
         return lgame
 
+
+
     def remove_player(self, user: User):
+        print(f'\n MatchMaker :: remove_player :: removing user {user.login}')
         finder_result = self.__find_player_in_lobby(user)
         if not finder_result:
             return None
+        print(f'MatchMaker :: remove_player :: FOUND USER')
 
         gameMode, lgame, lply = finder_result
 
         if lgame.nb_players == 1:
+            print(f'MatchMaker :: remove_player :: last player gone. removing game from MatchMaker')
             self.remove_lobby_game(lgame)
         else:
+            print(f'MatchMaker :: remove_player :: last player gone. removing player from lobby')
             lgame.remove_player(lply)
 
         if lgame.is_tournament or lgame.is_tournament_game:
