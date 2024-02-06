@@ -1,8 +1,18 @@
 
 const default_lobby_template = document.getElementById('lobby').innerHTML;
+let player_is_ready = false;
 
 let reset_default_lobby = function () {
   document.getElementById('lobby').innerHTML = default_lobby_template;
+  if (player_is_ready)
+  {
+    console.log("reset_default_lobby :: player_is_ready : " + player_is_ready);
+    document.getElementById("startEngine").innerHTML = "READY!";
+    document.getElementById("startEngine").disabled = true;
+    //document.getElementById("custom-spinner").style.display = "block";
+  }
+  else
+    console.log("reset_default_lobby :: player_is_ready : " + player_is_ready);
 }
 
 let hide_excess_player_profiles = function (nb_rackets) {
@@ -36,8 +46,10 @@ let update_local_2p_info = function (player_info) {
 
 
 let update_player_info = function (player_info_list) {
-  document.getElementById("startEngine").disabled = false;
+  //document.getElementById("startEngine").disabled = false;
+  console.log("signal_player_ready :: ENTERED ! player_is_ready : " + player_is_ready);
   reset_default_lobby()
+  console.log("signal_player_ready :: After reset_default_lobby ! player_is_ready : " + player_is_ready);
   if (isTournament && !isTournamentStage1 && !isTournamentStage2)
     hide_excess_player_profiles(4);
   else
@@ -73,14 +85,29 @@ let on_click_update_players = function () {
 };
 
 let signal_player_ready = function() {
-  document.getElementById("startEngine").disabled = true;
+    console.log("\n\nsignal_player_ready :: ENTERED ! player_is_ready : ", player_is_ready);
+    if (player_is_ready) {
+    console.log("signal_player_ready :: STOP ! Ready is already set as READY !");
+    return;
+  }
+  console.log("signal_player_ready :: Sending ready signal ");
   document.getElementById("startEngine").innerHTML = "READY!";
+  console.log("signal_player_ready :: startEngine elem : " + document.getElementById("startEngine"));
+  console.log("signal_player_ready :: startEngine elem set to READY ! ");
+  document.getElementById("startEngine").disabled = true;
+  console.log("signal_player_ready :: startEngine elem set to disabled ");
   document.getElementById("custom-spinner").style.display = "block";
+  console.log("signal_player_ready :: custom-spinner elem set to visible ");
+
+  player_is_ready = true;
+  console.log("signal_player_ready :: player_is_ready set to : ", player_is_ready);
+
 
   let payload = {
     'ev': 'ready'
   }
   gameWebSock.send(JSON.stringify(payload));
+  console.log("signal_player_ready :: Ready signal sent.");
 }
 
 let reset_endgame_messages = function () {
