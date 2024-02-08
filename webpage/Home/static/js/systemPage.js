@@ -44,7 +44,7 @@ let select_hero_content = function (key) {
     if (!contentElems)
         return;
     let navContentElem = document.getElementById(contentElems['navBar']);
-    console.log('select_hero_content after navContentElem' + navContentElem);
+    console.log('>>> select_hero_content after navContentElem' + navContentElem + ' :  KEY >> ' + key );
     let heroContentElem = document.getElementById(contentElems['heroDiv']);
     if (navContentElem)
         navContentElem.style.display = 'block';
