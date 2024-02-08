@@ -72,9 +72,14 @@ let select_hero_content = function (key) {
             return ;
         else
         {
-            history.pushState(key, '', null);
+            // Should be null because we haven't modified the history stack yet
+            console.log("--** History.state before pushState: ", history.state);
+            console.log('** before pushState history len == ' + history.length)
+            
+            history.pushState(key, '');
             console.log('** pushState history ADD content page : : ' + key)
-            console.log('** pushState history len == ' + history.length)
+            console.log('** after pushState history len == ' + history.length)
+            console.log("==** History.state after pushState: ", history.state);
             hide_all_hero_content();
         }
 
