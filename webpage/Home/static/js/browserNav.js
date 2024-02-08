@@ -3,7 +3,7 @@ let currrentState = 'init';
 
 window.onpopstate = function (event) {
     if (event.state) {
-        console.log('THIS IS BROWSER EVENT STATE onpopstate: ', event.state);
+        console.log('[***] THIS IS BROWSER EVENT STATE onpopstate: ', event.state);
         handleStateChange(event.state);
     }
 };
@@ -19,7 +19,7 @@ function setupBeforeUnload() {
 }
 
 window.onload = function (event) {
-    console.log('THIS IS BROWSER EVENT STATE onload: ', event);
+    console.log('{***} THIS IS BROWSER EVENT STATE onload: ', event);
     setupBeforeUnload()
 };
 
@@ -28,7 +28,7 @@ onbeforeunload = (event) => {};
 
 
 function navigateForward(newState) {
-    console.log('THIS IS BROWSER EVENT STATE navigateForward: ', newState);
+    console.log('*** THIS IS BROWSER EVENT STATE navigateForward: ', newState);
     history.forward();
 }
 
