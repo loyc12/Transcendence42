@@ -275,7 +275,7 @@ class MatchMaker:
 
 
     def remove_lobby_game(self, lgame: LobbyGame):
-        ''' Begore removing game from lobby prior to adding game in GameManager,
+        ''' Before removing game from lobby prior to adding game in GameManager,
         make sure to keep a ref outside to extract its GameConnector instance to
         pass to GameManager. '''
         game_mode = lgame.gameMode

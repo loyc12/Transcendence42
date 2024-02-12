@@ -10,6 +10,7 @@ def api_view(request):
                 '?client_id=' + ENV_FILE['APP42_UID'] + \
                 '&redirect_uri=' + ENV_FILE['APP42_OAUTH_REDIRECT'] + \
                 '&response_type=code'
+    print("api_view :: api_url : ", api_url)
     return (redirect(api_url))
 
 #  Create a url will return the access token link
