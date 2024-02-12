@@ -60,6 +60,7 @@ let _on_game_event = function(event) {
     else if (data.ev === "start") {
         // Trigger event received when game should start. Sent by websocket when all players have signaled their readiness.
         console.log('RECEIVED START SIGNAL FROM SERVER !');
+        player_is_ready = false;
         loadGame()
     }
     else if (data.ev === "end") {
@@ -162,6 +163,8 @@ let loadMegaModule = function (gameType) {
         throw new EvalError("You can't connect to a game while already connected to another.");
     }
     is_requesting_join_game = true;
+
+    player_is_ready = false;
 
     // Resets lobby state
     reset_default_lobby();
