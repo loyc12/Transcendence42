@@ -44,7 +44,7 @@ let select_hero_content = function (key) {
     if (!contentElems)
         return;
     let navContentElem = document.getElementById(contentElems['navBar']);
-    console.log('select_hero_content after navContentElem' + navContentElem);
+    console.log('>>> select_hero_content after navContentElem' + navContentElem + ' :  KEY >> ' + key );
     let heroContentElem = document.getElementById(contentElems['heroDiv']);
     if (navContentElem)
         navContentElem.style.display = 'block';
@@ -65,15 +65,21 @@ let select_hero_content = function (key) {
             console.log('Special case contentHelp loadModule(Help)')
             loadModule('help')
         }
-        console.log('Current content vs requested content : ' + current_content + ' vs ' + key)
-        console.log('previous content page : ' + key)
+        console.log('** Current content vs requested content : ' + current_content + ' vs ' + key)
+        // console.log('previous content page : ' + key)
 
         if (current_content == key)
             return ;
         else
         {
-            history.pushState(key, '', null);
-            console.log('pushState previous content page : : ' + key)
+            // Should be null because we haven't modified the history stack yet
+            // console.log("--** History.state before pushState: ", history.state);
+            // console.log('** before pushState history len == ' + history.length)
+            
+            history.pushState(key, '');
+            console.log('** pushState history ADD content page : : ' + key)
+            console.log('** after pushState history len == ' + history.length)
+            console.log("==** History.state after pushState: ", history.state);
             hide_all_hero_content();
         }
 
@@ -89,7 +95,7 @@ let select_hero_content = function (key) {
         console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
         heroContentElem.style.display = 'block';
         current_content = key;
-        console.log('current content page : ' + current_content)
+        console.log('** current content page : ' + current_content)
         if (current_content === 'login')
         {
             console.log('Special case login : a suivre')
