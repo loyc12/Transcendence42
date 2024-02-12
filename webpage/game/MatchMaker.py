@@ -238,9 +238,15 @@ class MatchMaker:
         return self.__find_player_in_lobby(user) is not None
 
     def get_tournament(self):
-        if not self._gameLobby['Tournament']:
+        print("MatchMaker :: GET TOURNAMENT ")
+        if not ('Tournament' in self._gameLobby):
             return None
-        return self._gameLobby['Tournament'][0]
+        tournament_list = self._gameLobby['Tournament']
+        print("MatchMaker :: tournament_list : ", tournament_list)
+        if not tournament_list:
+            return None
+        print("MatchMaker :: tournament_list[0] : ", tournament_list[0])
+        return tournament_list[0]
 
     def __find_existing_game_such_as(self, user: User, form: GameCreationForm|dict):
 
@@ -297,8 +303,10 @@ class MatchMaker:
             raise ValueError('Missing one or more fields in form.')
         if gameMode not in self._gameLobby:
             raise ValueError(f"Game Mode {gameMode} does not exit.")
+        if user in self or user.current_game is not None:
+            raise MatchMakerWarning(f'User {user.login} tried to join a game twice. Stop that !')
         
-        if gameType == 'Tournament' and (lgame := self.get_tournament()) is not None and  lgame.is_full:
+        if gameMode == 'Tournament' and (lgame := self.get_tournament()) is not None and  lgame.is_full:
             raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
 
         lgame = self.__find_existing_game_such_as(user, form)

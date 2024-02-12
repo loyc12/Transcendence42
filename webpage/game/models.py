@@ -130,7 +130,6 @@ class Game(models.Model):
     def timestamp_end(self):
         self.ended_at = datetime.now()
 
-
     @sync_to_async
     def stop_and_register_results(self, scores: dict[int, int], quitter=0):
         '''
