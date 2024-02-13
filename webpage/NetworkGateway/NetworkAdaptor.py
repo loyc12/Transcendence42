@@ -46,7 +46,7 @@ class GameGateway(BaseGateway):
         self.__event_loop = None
 
         # TOURNAMENT
-        # There can only be one live tournament going on at the same time
+        # There can only be one live tournament going on at the same time.
         self._live_tournament: LiveTournament = None
 
     @property
@@ -71,6 +71,31 @@ class GameGateway(BaseGateway):
     @property
     def is_tournament_started(self):
         return self._live_tournament is not None
+    
+
+    async def __check_live_tournament_exists(self, user):
+        eprint("\nGame Gateway :: __check_live_tournament_exists :: Entered !")
+        async with self.__gateway_lock:
+            if self._live_tournament is not None:
+                if user in self._live_tournament:
+                    return (True, "You are trying to join a tournament you are already a member of. This is very naughty and will be reported to the authorities.")
+                elif self._live_tournament.tournament is not None and self._live_tournament.tournament.check_is_running():
+                    return (True, "Cannot join a live tournament will another one is already running. Try again later.")
+        
+        return (False, "")
+
+    def sync_validate_join_tournament_request(self, user) -> bool:
+        """ Method build for being called by the game_join() view method.
+        Dispatches a call, when a join tournament request is made by the user,
+        to check weither a live tournament already exist. """
+        eprint("\nGame Gateway :: sync_validate_join_tournament_request :: Try sync check if live tournament exists !!")
+        if not self.__event_loop:
+            return False
+        status, msg = asyncio.run_coroutine_threadsafe(self.__check_live_tournament_exists(user), self.__event_loop).result()
+        #status, msg = self.__check_live_tournament_exists(user)
+        eprint(f"Game Gateway :: sync_validate_join_tournament_request :: exited")
+        if status == True:
+            raise GameGatewayException(msg)
 
 
     async def join_game(self, user: User, form: dict):

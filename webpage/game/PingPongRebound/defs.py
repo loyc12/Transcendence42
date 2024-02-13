@@ -30,7 +30,7 @@ PLAYER_HARD_BREAK = False
 GOALS = 1
 HITS = 2
 
-WIN_SCORE = 4
+WIN_SCORE = 2
 MAX_MISS = 2
 
 # game states
@@ -56,11 +56,11 @@ BOT_PLAY_FREQUENCY = 12
 BOT_M_FACTOR = 3 #			how many times dx or dy can the bot move at
 
 BOT_INSTANT_REACT = False #	TODO : put me to false before pushing (overrides BOT_SEE_FREQUENCY everywhere)
-BOT_QUICK_REACT = True #	TODO : put me to false before pushing (overides BOT_SEE_FREQUENCY close to the bot)
+BOT_QUICK_REACT = False #	TODO : put me to false before pushing (overides BOT_SEE_FREQUENCY close to the bot)
 BOT_SEE_FREQUENCY = 60 #	TODO : put me to cfg.FRAME_RATE (aka 1 tps) before pushing
 
 BOT_CAN_KICK = True
-BOT_KICK_DIST = 160
+BOT_KICK_DIST = 160 #		used by BOT_CAN_KICK
 BOT_REACT_DIST = 320 #		used by BOT_QUICK_REACT
 BOT_KICK_SPEED = 1
 BOT_PRECISION = 50 #		max = rSize / 2 (80) : how far from the center of the racket will the AI tolerate to hit with

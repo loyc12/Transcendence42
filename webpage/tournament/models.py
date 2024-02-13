@@ -131,6 +131,10 @@ class Tournament(models.Model):
         if save:
             self.save()
 
+    @sync_to_async
+    def check_is_running(self):
+        return self.is_running
+
     def join_tournament(self, tournament):
         cur_tournament = self.current_tournament
         if cur_tournament == tournament:

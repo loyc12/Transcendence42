@@ -29,7 +29,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         self.liveTour = await self.netGateway.connect_to_tournament(self.user, self)
 
     async def disconnect(self, event):
-        eprint('TournamentConsumer :: disconnecting and wipping sessions data')
+        eprint('TournamentConsumer :: disconnecting and wiping sessions data')
         self.netGateway.disconnect_tournament_member(self.user, self)
 
         raise StopConsumer
