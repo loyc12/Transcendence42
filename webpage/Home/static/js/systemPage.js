@@ -1,5 +1,7 @@
 
 let current_content = null;
+let last_content = null;
+
 
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin', 'NavBarHelp',
                         'contentHome', 'contentInfo', 'contentGame', 'contentLogin', 'contentHelp',
@@ -65,6 +67,7 @@ let select_hero_content = function (key) {
             console.log('Special case contentHelp loadModule(Help)')
             loadModule('help')
         }
+        last_content = key;
         console.log('** Current content vs requested content : ' + current_content + ' vs ' + key)
         // console.log('previous content page : ' + key)
 
@@ -74,12 +77,13 @@ let select_hero_content = function (key) {
         {
             // Should be null because we haven't modified the history stack yet
             // console.log("--** History.state before pushState: ", history.state);
-            // console.log('** before pushState history len == ' + history.length)
-            
-            history.pushState(key, '');
-            console.log('** pushState history ADD content page : : ' + key)
-            console.log('** after pushState history len == ' + history.length)
-            console.log("==** History.state after pushState: ", history.state);
+            console.log('** before pushState history len == ' + history.length)            
+            history.pushState(key, current_content);
+            //history.pushState(navState, current_content);
+
+            // console.log('** pushState history ADD content page : : ' + key)
+            // console.log('** after pushState history LEN ==>> ' + history.length)
+            console.log("@@==** History.state after pushState: ", navState, ' ==>>  LEN', history.length);          
             hide_all_hero_content();
         }
 
@@ -92,7 +96,7 @@ let select_hero_content = function (key) {
             console.log('Special case contentInfo : fetch profile template.')
             fetch_user_profile()
         }
-        console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
+        // console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
         heroContentElem.style.display = 'block';
         current_content = key;
         console.log('** current content page : ' + current_content)

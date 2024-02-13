@@ -1,11 +1,16 @@
 
 let currrentState = 'init';
+let navStack = [];
 
 window.onpopstate = function (event) {
     if (event.state) {
         console.log('[***] THIS IS BROWSER EVENT STATE onpopstate: ', event.state);
-        handleStateChange(event.state);
+        //history.pushState({ forward: true }, event.state );
+        currrentState = event.state;
+        console.log('[***] currentState ', currrentState);
+        handleStateChange(currrentState);
     }
+
 };
 
 function setupBeforeUnload() {
@@ -19,22 +24,38 @@ function setupBeforeUnload() {
 }
 
 window.onload = function (event) {
-    console.log('{***} THIS IS BROWSER EVENT STATE onload: ', event);
-    setupBeforeUnload()
+    
+    console.log('<<< {{onload}} ** event.state **  >>> ', event);
+    // Assuming newState is the state object representing the initial state
+    var newState =  event ;
+    
+    console.log('{***} THIS IS BROWSER EVENT STATE {{onload}} ** newState ** :: ', newState);
+
+    //history.pushState(newStack, newState);
+
+    handleStateChange(newState);
+    
+    setupBeforeUnload();
 };
 
+document.getElementById("go-back").addEventListener("click", () => {
+    history.back();
+  });
+
+document.getElementById("go-forward").addEventListener("click", (e) => {
+    history.forward();
+  });
+
 addEventListener("beforeunload", (event) => {});
+
 onbeforeunload = (event) => {};
 
 
-function navigateForward(newState) {
-    console.log('*** THIS IS BROWSER EVENT STATE navigateForward: ', newState);
-    history.forward();
-}
-
-
 function handleStateChange(newState) {
-    console.log('Navigated to: ', newState);
+
+
+    console.log('### newState ### Navigated to: ', newState);
+    
     if (newState === 'lobby' || newState === 'game' || newState === 'aftergame'|| newState === 'tournament') {
         select_hero_content('init');
     }
@@ -48,4 +69,5 @@ function handleStateChange(newState) {
         select_hero_content('gameOnline');
     else
         select_hero_content('init');
+    //console.log('### AFTER handleStateChange ### Navigated to: ', newState);
 }

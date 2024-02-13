@@ -9,7 +9,7 @@ function loadModule(moduleName) {
     console.log('Entered ladModule with moduleName : ' + moduleName)
     // Flush all submodule content
     for (c of full_game_page_states_list) {
-        console.log('Trying to hide ' + c + ' module display.')
+        // console.log('Trying to hide ' + c + ' module display.')
         document.getElementById(c).style.display = 'none'
     }
     // Select desired submodule
