@@ -24,6 +24,8 @@ let _on_tour_event = function(event) {
     else if (data.ev === 'game_connect') {
         console.log('Client Received Game connection order from tournament socket')
         console.log('Game connect order received data : ' + data)
+        
+        player_is_ready = false;
         reset_default_lobby();
         gameType = data.form.gameMode;
         console.log('_on_tour_event :: data.form.gameMode; : ' + data.form.gameMode);

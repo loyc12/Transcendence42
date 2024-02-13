@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from users.models import User
 from game.forms import GameCreationForm
+from asgiref.sync import sync_to_async
 
 ''' We can assume this msg struct is correct since the frontend UI
 can only propose valid choices. '''
@@ -308,6 +309,31 @@ class MatchMaker:
         
         if gameMode == 'Tournament' and (lgame := self.get_tournament()) is not None and  lgame.is_full:
             raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
+
+        lgame = self.__find_existing_game_such_as(user, form)
+
+        lply = LobbyPlayer(user=user, is_connected=False, is_ready=False)
+        if lgame:
+            if user in lgame:
+                raise MatchMakerWarning(f'User {user.login} tried to join a game twice. Stop that !')
+            if lgame.is_live_tournament:
+                raise MatchMakerWarning(f"Cannot start new tournament while another one is happening. Try again later.")
+
+            # Game should be fully validated at this point
+            lgame.add_player(lply)
+            #lgame.players.append(lply)
+        else:
+            lgame = LobbyGame(form=form, players=[lply])
+            self._gameLobby[gameMode].append(lgame)
+            print("Match Maker Game Lobby : ", self._gameLobby)
+
+        return lgame
+    
+    def unsafe_join_lobby(self, user: User, form: GameCreationForm|dict):
+        ''' Can accept either GameCreationForm.cleaned_data objects or
+        popperly formated dict with valid entries for "gameMode" and "gameType". '''
+
+        gameMode = form.get('gameMode')
 
         lgame = self.__find_existing_game_such_as(user, form)
 

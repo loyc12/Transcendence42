@@ -30,7 +30,7 @@ PLAYER_HARD_BREAK = False
 GOALS = 1
 HITS = 2
 
-WIN_SCORE = 4
+WIN_SCORE = 2
 MAX_MISS = 2
 
 # game states

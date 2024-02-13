@@ -39,6 +39,8 @@ let hide_all_hero_content = function () {
 
 let select_hero_content = function (key) {
 
+    // check_user_is_connected();
+
     console.log('select_hero_content after hide')
     let contentElems = all_hero_content2[key];
     if (!contentElems)
