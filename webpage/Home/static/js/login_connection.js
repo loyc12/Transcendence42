@@ -16,7 +16,13 @@ let _on_close_disconnect = function (event) {
     userDisconnectedSocket = true;
 }
 
-
+// let check_user_is_connected = function () {
+//     console.log("check_user_is_connected :: entered !")
+//     if (user_id != null && userWebSock != null && userWebSock.CLOSED) {
+//         console.log("check_user_is_connected :: RELOAD !")
+//         window.location.reload();
+//     }
+// }
 
 let _build_user_ws_path = function(sockID) {
     return 'wss://' + window.location.host + '/users/ws/' + sockID + '/';

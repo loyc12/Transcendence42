@@ -120,9 +120,9 @@ class LiveTournament:
         players = self.__init_lobby.players
 
         for ply in players[:2]:
-            self._groupA = self.__match_maker.join_lobby(ply.user, formStage1A)
+            self._groupA = self.__match_maker.unsafe_join_lobby(ply.user, formStage1A)
         for ply in players[2:]:
-            self._groupB = self.__match_maker.join_lobby(ply.user, formStage1B)
+            self._groupB = self.__match_maker.unsafe_join_lobby(ply.user, formStage1B)
 
         await self.tournament.declare_started()
 
@@ -187,13 +187,13 @@ class LiveTournament:
         formStage1C = self.build_match_maker_form(self.__init_lobby.sockID, 'C')
         if self._groupC is None:
             eprint(f'\nLiveTournament :: join_final_game :: CREATING GROUP C GAME !!\n')
-            self._groupC = self.__match_maker.join_lobby(user, formStage1C)
+            self._groupC = self.__match_maker.unsafe_join_lobby(user, formStage1C)
             gconn = self.gameConnectorFactory(self._groupC.sockID)
             self._groupC.set_game_connector(gconn)
             gconn.set_lobby_game(self._groupC)
         else:
             eprint(f'\nLiveTournament :: join_final_game :: JOINING GROUP C GAME !!\n')
-            self.__match_maker.join_lobby(user, formStage1C)
+            self.__match_maker.unsafe_join_lobby(user, formStage1C)
 
         eprint(f'\nLiveTournament :: join_final_game :: send_stage_initializer_to_finale_user !!\n')
         await self.connector.send_stage_initializer_to_finale_user(self._groupC, user)

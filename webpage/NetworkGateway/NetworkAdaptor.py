@@ -79,8 +79,8 @@ class GameGateway(BaseGateway):
             if self._live_tournament is not None:
                 if user in self._live_tournament:
                     return (True, "You are trying to join a tournament you are already a member of. This is very naughty and will be reported to the authorities.")
-                else:
-                    raise (True, "Cannot join a live tournament will another one is already running. Try again later.")
+                elif self._live_tournament.tournament is not None and self._live_tournament.tournament.check_is_running():
+                    return (True, "Cannot join a live tournament will another one is already running. Try again later.")
         
         return (False, "")
 
@@ -92,6 +92,7 @@ class GameGateway(BaseGateway):
         if not self.__event_loop:
             return False
         status, msg = asyncio.run_coroutine_threadsafe(self.__check_live_tournament_exists(user), self.__event_loop).result()
+        #status, msg = self.__check_live_tournament_exists(user)
         eprint(f"Game Gateway :: sync_validate_join_tournament_request :: exited")
         if status == True:
             raise GameGatewayException(msg)

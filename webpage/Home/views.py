@@ -27,6 +27,7 @@ def home_view(request):
         token = get_access_token(authorization_code)
         #This request is to separate the access token from the response
         token_code = requests.post(token, timeout=10)
+        eprint(f"\n\n !!!! Token code : {token_code.json()} \n\n")
         access_token = token_code.json()['access_token']
         headers = {'Authorization': 'Bearer ' + access_token}
         url = get_api_data()

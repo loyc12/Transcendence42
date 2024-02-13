@@ -154,6 +154,8 @@ let get_default_init_state = function(gameType) {
 let is_requesting_join_game = false;
 let loadMegaModule = function (gameType) {
 
+    // check_user_is_connected();
+
     if (is_requesting_join_game)
         return;
     console.log('LOAD MEGA MODULE STARTING GAME JOIN PROCESS !')
@@ -201,13 +203,14 @@ let loadMegaModule = function (gameType) {
                 tourWebSockID = gameData.tourSockID;
                 tourWebSockPath = _build_tour_ws_path(tourWebSockID);
                 console.log('Tournament socket path : ' + tourWebSockPath);
-                tourWebSock = _connect_to_tour_socket(tourWebSockPath)
+                tourWebSock = _connect_to_tour_socket(tourWebSockPath);
                 _prepare_tour_websocket(tourWebSock);
                 isTournament = true;
             }
             else if (!isTournament){
                 console.log('request_join_game :: is NOT Tournament');
                 wipe_tournament_data();
+                isTournament = false;
             }
 
             // Load the lobby page.
