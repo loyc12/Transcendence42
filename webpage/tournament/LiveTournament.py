@@ -108,6 +108,7 @@ class LiveTournament:
         formStage1B = self.build_match_maker_form(self.__init_lobby.sockID, 'B')
 
         plys = self.__init_lobby.players
+        self.__match_maker.remove_lobby_game(self.__init_lobby)
 
         if len(plys) != 4:
             raise ValueError(f'LiveTournament trying to setup_game_lobbies_start while missing players in init_lobby ({len(plys)}).')
@@ -147,7 +148,7 @@ class LiveTournament:
         return lgame
 
     def won_first_game(self, user: User) -> bool:
-        eprint('LiveTournament :: check if won_first_game ')
+        eprint('LiveTournament :: check if won_first_game and returns the LobbyGame if so.')
 
         if user in self._groupA:
             lgame = self._groupA
@@ -155,7 +156,6 @@ class LiveTournament:
             lgame = self._groupB
         else:
             return None
-
 
         if lgame and lgame.game_connector and lgame.game_connector.game and (lgame.game_connector.game.winner == user.id):
             return lgame

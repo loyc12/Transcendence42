@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from game.forms import GameCreationForm
 from game.apps import GameConfig as app
 from game.MatchMaker import MatchMakerWarning
+from NetworkGateway.NetworkAdaptor import GameGatewayException
 import json
 
 def _build_error_payload(msg):
@@ -28,6 +29,15 @@ def game_join(request):
     form = GameCreationForm(jsonform)
     if not form.is_valid():
         return JsonResponse(_build_error_payload('Trying to create a game, but either no game creation form was sent or is missing fields.'), status=400)
+
+    if form.cleaned_data["gameMode"] == "Tournament":
+
+        gg = app.get_game_gateway()
+        try:
+            print("\nGame Join :: Try sync check if live tournament exists !!")
+            gg.sync_validate_join_tournament_request(request.user)
+        except GameGatewayException as e:
+            return JsonResponse(_build_error_payload(str(e)), status=400)
 
     mm = app.get_match_maker()
     try:

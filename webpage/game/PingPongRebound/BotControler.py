@@ -180,9 +180,9 @@ class BotControler( gc.GameControler ):
 			return False
 		if self.game.score_count < 2:
 			return False
-		if not self.isInFrontOf( self.lastBall ):
+		if not self.isInFrontOf( self.game.balls[ 0 ] ):
 			return False
-		if not self.isCloserThan( self.lastBall, self.getKickDist() ):
+		if not self.isCloserThan( self.game.balls[ 0 ], self.getKickDist() ):
 			return False
 		return True
 
@@ -193,7 +193,7 @@ class BotControler( gc.GameControler ):
 			return
 
 		rack = self.racket
-		ball = self.lastBall
+		ball = self.game.balls[ 0 ]
 
 		if self.racketDir == 'x':
 			if ball.isGoingLeft():
