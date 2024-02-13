@@ -1,15 +1,26 @@
 
 let currrentState = 'init';
-let navStack = [];
+const routes = [
+    { path: '#init', component: 'init' },
+    { path: '#help', component: 'help' },
+    { path: '#info', component: 'info' },
+    { path: '#game', component: 'game' },
+  ];
+  
+  
 
 window.onpopstate = function (event) {
+    console.log('--- onpopstate ---');
+
     if (event.state) {
         console.log('[***] THIS IS BROWSER EVENT STATE onpopstate: ', event.state);
-        //history.pushState({ forward: true }, event.state );
+        // history.pushState(navStack, event.state );
         currrentState = event.state;
-        console.log('[***] currentState ', currrentState);
+        // location.hash = currrentState;
+        // console.log('[***] LOCATION HASH  ', location.hash);
         handleStateChange(currrentState);
     }
+   
 
 };
 
@@ -25,26 +36,19 @@ function setupBeforeUnload() {
 
 window.onload = function (event) {
     
-    console.log('<<< {{onload}} ** event.state **  >>> ', event);
+    // console.log('<<< {{onload}} ** event.state **  >>> ', event);
     // Assuming newState is the state object representing the initial state
     var newState =  event ;
     
-    console.log('{***} THIS IS BROWSER EVENT STATE {{onload}} ** newState ** :: ', newState);
+    // console.log('{***} THIS IS BROWSER EVENT STATE {{onload}} ** newState ** :: ', newState);
 
     //history.pushState(newStack, newState);
 
-    handleStateChange(newState);
+    // handleStateChange(newState);
     
     setupBeforeUnload();
 };
 
-document.getElementById("go-back").addEventListener("click", () => {
-    history.back();
-  });
-
-document.getElementById("go-forward").addEventListener("click", (e) => {
-    history.forward();
-  });
 
 addEventListener("beforeunload", (event) => {});
 
@@ -53,9 +57,11 @@ onbeforeunload = (event) => {};
 
 function handleStateChange(newState) {
 
+    // console.log('### newState ### Navigated to: ', newState);
+    console.log(' ---  handleStateChange  ---  Change to <<>> ', newState);
+    const hash = window.location.hash;
+    console.log('&&& Hash Change:', hash);
 
-    console.log('### newState ### Navigated to: ', newState);
-    
     if (newState === 'lobby' || newState === 'game' || newState === 'aftergame'|| newState === 'tournament') {
         select_hero_content('init');
     }
@@ -64,10 +70,9 @@ function handleStateChange(newState) {
     else if (newState === 'gameMode')
         select_hero_content('gameMode');
     else if (newState === 'gameTypeLocal')
-        select_hero_content('gameTypeLocal');
+       select_hero_content('gameTypeLocal');
     else if (newState === 'gameTypeOnline')
-        select_hero_content('gameOnline');
+      select_hero_content('gameOnline');
     else
-        select_hero_content('init');
-    //console.log('### AFTER handleStateChange ### Navigated to: ', newState);
+      select_hero_content('init');
 }

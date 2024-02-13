@@ -211,6 +211,7 @@ let loadMegaModule = function (gameType) {
             }
 
             // Load the lobby page.
+            location.hash = 'init';
             loadModule('lobby');
 
             console.log('Before update_tournament_brackets()');
