@@ -27,7 +27,7 @@ let all_hero_content2 = {
         'heroDiv': 'contentHelp'
     },
 }
-
+  
 let hide_all_hero_content = function () {
 
     for (c of content_flush) {
@@ -146,5 +146,5 @@ if (buttonModule3)
     buttonModule3.addEventListener('click', function () { select_hero_content('login');})
 if (buttonModule4)
     buttonModule4.addEventListener('click', function () { select_hero_content('help');})
-select_hero_content('init')
+// select_hero_content('init')
 
