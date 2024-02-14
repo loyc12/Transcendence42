@@ -1,6 +1,9 @@
 
 let current_content = null;
 
+let navigationState = [];
+
+
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin', 'NavBarHelp',
                         'contentHome', 'contentInfo', 'contentGame', 'contentLogin', 'contentHelp',
                         'gameTypeLocal', 'gameTypeOnline', 'lobby', 'game', 'aftergame', 'tournament']
@@ -37,15 +40,21 @@ let hide_all_hero_content = function () {
     }
 }
 
+function pushStateAndUpdate(state, title) {
+    history.pushState(state, title);
+    navigationState.push(state);
+    // Add additional logic to update the content based on the state
+  }
+
 let select_hero_content = function (key) {
 
-    // console.log('select_hero_content after hide')
+    //// console.log('select_hero_content after hide')
     let contentElems = all_hero_content2[key];
     if (!contentElems)
         return;
     ///
     let navContentElem = document.getElementById(contentElems['navBar']);
-    console.log('>>> select_hero_content after navContentElem' + navContentElem + ' :  KEY >> ' + key );
+    //// console.log('>>> select_hero_content after navContentElem' + navContentElem + ' :  KEY >> ' + key );
     let heroContentElem = document.getElementById(contentElems['heroDiv']);
     console.log('>>> select_hero_content after heroContentElem' + heroContentElem + ' :  KEY >> ' + key );
     ///
@@ -56,12 +65,14 @@ let select_hero_content = function (key) {
     ///
     if (heroContentElem)
     {
-        ///// -----
+        //// -----
         // Herodiv = [local | remote ]
         if (contentElems['heroDiv'] === 'contentGame') {
             console.log('Special case contentGame loadModule(gameMode)')
             // set hash tag to game here
             location.hash = 'game'
+            // history.pushState(localStorage, location.hash);
+            pushStateAndUpdate(location.hash, location.hash);
             loadModule('gameMode')
             console.log('select_hero_content :: 1 :: disconnecting sockets ');
             disconnect_socket()
@@ -72,12 +83,16 @@ let select_hero_content = function (key) {
             console.log('Special case contentHelp loadModule(Help)')
             // set hash tag to help here
             location.hash = 'help'
+            // history.pushState(localStorage, location.hash);
+            pushStateAndUpdate(location.hash, location.hash);
             loadModule('help')
         }
         // Herodiv = [ contentInfo ]
         if (contentElems['heroDiv'] === 'contentInfo') {
             console.log('Special case contentInfo : fetch profile template.')
             location.hash = 'info'
+            // history.pushState(window.localStorage, location.hash);
+            pushStateAndUpdate(location.hash, location.hash);
             fetch_user_profile()
         }
         
@@ -86,16 +101,22 @@ let select_hero_content = function (key) {
         else
         {
             // set hash tag to dont know what here , but smthimg changed!!!
-            history.pushState(key, '');
-            console.log('** pushState history ADD content page : : ' + key)
+            // history.pushState(window.localStorage, key);
+            //// console.log('** pushState history ADD content page : : ' + key)
             console.log('** after pushState history len == ' + history.length)
             console.log("** History.state after pushState: ", history.state);
+            console.log("--- [] [] systemPage VALUE navigationState [] []: ", navigationState);
             hide_all_hero_content();
         }
 
         ///
         if (navContentElem)
+        {
+            console.log('[[[navContentCall]]] init!?');
+            location.hash = 'init';
+            // pushStateAndUpdate(location.hash, location.hash);
             navContentElem.style.display = 'block';
+        }
         else
             console.log('navContentElem NOT FOUND')
         ///

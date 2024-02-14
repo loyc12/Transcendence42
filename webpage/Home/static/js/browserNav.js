@@ -1,11 +1,13 @@
 
 let currrentState = 'init';
-const routes = [
-    { path: '#init', component: 'init' },
-    { path: '#help', component: 'help' },
-    { path: '#info', component: 'info' },
-    { path: '#game', component: 'game' },
-  ];
+
+// const routes = [
+//     { path: '#init', component: 'init' },
+//     { path: '#help', component: 'help' },
+//     { path: '#info', component: 'info' },
+//     { path: '#game', component: 'game' },
+//   ];
+
 
 
 
@@ -13,11 +15,10 @@ window.onpopstate = function (event) {
     console.log('--- onpopstate ---');
 
     if (event.state) {
-        console.log('[***] THIS IS BROWSER EVENT STATE onpopstate: ', event.state);
-        // currrentState = event.state;
-        history.pushState(location.hash, event.state );
+        console.log('[***] THIS IS BROWSER EVENT  onpopstate: ', event.state);
+        currrentState = event.state;
         // location.hash = currrentState;
-        console.log('[***] LOCATION HASH  ', location.hash);
+        // console.log('[***] LOCATION HASH  ', location.hash);
         handleStateChange(currrentState);
     }
     else {
@@ -25,9 +26,6 @@ window.onpopstate = function (event) {
         console.log('[###] THIS BROWSER EVENT  onpopstate ELSE ');
         handleStateChange(currrentState);
     }
-    // else if (event) {
-    // }
-   
 
 };
 
@@ -51,21 +49,24 @@ window.onload = function (event) {
     setupBeforeUnload();
 };
 
-window.addEventListener('popstate', function(e) {
-    var location = e.state;
+window.addEventListener('popstate', function(event) {
 
-    if (location != null) {
-        console.log('__ LOCATION is SET to ::', location);
-        // console.log('__ LOCATION.state is equal to ::', window.location.state);
-        history.pushState(location.hash, location );
-        handleStateChange(location);
-        // loadBodyContent(location,false);
-        // $('.addedMenuNavBarItem').remove();
+    console.log('--- addEventListener --- popstate ---');
 
+    if (event.state != null) {
+        console.log('__ LOCATION is SET to ::', event.state);
+    
+        //// history.pushState(localStorage, event.state );
+        // new add a simili-global function to set state of history
+        // pushStateAndUpdate(event.state, event.state);
+        handleStateChange(event.state);
     }
-    //  else {
-    //     window.history.back();
-    // }
+    else {
+
+        console.log('__ LOCATION is NOT SET ___ ');
+        console.log("** [] [] browserNav VALUE navigationState [] []: ", navigationState);
+        window.history.back();
+    }
 });
 
 addEventListener("beforeunload", (event) => {});
@@ -75,10 +76,8 @@ onbeforeunload = (event) => {};
 
 function handleStateChange(newState) {
 
-    // console.log('### newState ### Navigated to: ', newState);
     console.log(' ---  handleStateChange  ---  Change to <<>> ', newState);
-    // window.location.hash = newState;
-    console.log('&&& Hash Change:', location.hash);
+    // console.log('&&& Hash Change:', location.hash);
 
     if (newState === 'lobby' || newState === 'game' || newState === 'aftergame'|| newState === 'tournament') {
         select_hero_content('init');
