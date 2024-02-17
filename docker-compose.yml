@@ -11,7 +11,7 @@ services:
       context: ./nginx
       dockerfile: ./Dockerfile
     ports:
-      - "88:88"
+      #- "88:88"
       - "443:443"
     networks:
       trans_net:

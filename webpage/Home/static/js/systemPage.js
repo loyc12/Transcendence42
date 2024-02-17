@@ -42,13 +42,18 @@ let hide_all_hero_content = function () {
 
 function pushStateAndUpdate(state, title) {
     console.log('((INFO)) pushStateAndUpdate => ', state);
-    // history.pushState(state, title);
-    navigationState.push(state);
+    stateID = stateID + 1;
+    var pstate = {
+        "state": state,
+        "id": stateID
+    }
+    window.history.pushState(pstate, "", "");
+    navigationState.push(pstate);
     // Add additional logic to update the content based on the state
     console.log(navigationState);
   }
 
-let select_hero_content = function (key) {
+let select_hero_content = function (key, doPushState=true) {
 
     //// console.log('select_hero_content after hide')
     console.log('=== select_hero_content >> ', key);
@@ -125,10 +130,11 @@ let select_hero_content = function (key) {
         console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
         heroContentElem.style.display = 'block';
         current_content = key;
-        if (current_content != location.hash){
-            console.log('** location.hash : ' + location.hash)
-            pushStateAndUpdate(current_content, current_content)
-        }
+        // if (current_content != location.hash){
+            // console.log('** location.hash : ' + location.hash)
+        if (doPushState)
+            pushStateAndUpdate(current_content, current_content);
+        // }
 
         console.log('** current content page : ' + current_content)
         // console.log("--- [] [] systemPage VALUE navigationState [] []: ", navigationState);
