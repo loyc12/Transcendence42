@@ -40,8 +40,27 @@ let hide_all_hero_content = function () {
     }
 }
 
+function pushStateAndUpdate(state, title) {
+    console.log('((INFO)) pushStateAndUpdate => ', state);
+    stateID = stateID + 1;
+    var pstate = {
+        "state": state,
+        "id": stateID
+    }
+    console.log(" -- history len before push : " + window.history.length);
+    console.log(" -- history state before push : " + window.history.state.state);
 
-let select_hero_content = function (key) {
+    window.history.pushState(pstate, "", null);
+    // window.history.replaceState(pstate, "", null);
+    //window.history.go(1);
+    console.log(" -- history len after push : " + window.history.length);
+    console.log(" -- history state after push : " + window.history.state.state);
+    //navigationState.push(pstate);
+    // Add additional logic to update the content based on the state
+    //console.log(navigationState);
+  }
+
+let select_hero_content = function (key, doPushState=true) {
 
     //// console.log('select_hero_content after hide')
     console.log('=== select_hero_content >> ', key);
@@ -71,7 +90,7 @@ let select_hero_content = function (key) {
         if (contentElems['heroDiv'] === 'contentGame') {
             console.log('Special case contentGame loadModule(gameMode)')
             // set hash tag to game here
-            location.hash = 'game'
+            // location.hash = 'game'
             loadModule('gameMode')
             console.log('select_hero_content :: 1 :: disconnecting sockets ');
             disconnect_socket()
@@ -81,13 +100,13 @@ let select_hero_content = function (key) {
         if (contentElems['heroDiv'] === 'contentHelp') {
             console.log('Special case contentHelp loadModule(Help)')
             // set hash tag to help here
-            location.hash = 'help'
+            // location.hash = 'help'
             loadModule('help')
         }
         // Herodiv = [ contentInfo ]
         if (contentElems['heroDiv'] === 'contentInfo') {
             console.log('Special case contentInfo : fetch profile template.')
-            location.hash = 'info'
+            // location.hash = 'info'
             fetch_user_profile()
         }
         
@@ -98,10 +117,10 @@ let select_hero_content = function (key) {
             if (location.hash != key)
                 location.hash = key;
             // set hash tag to dont know what here , but smthimg changed!!!
-            console.log('[[]] currentContent is != key __<<>>__ key ==', key);
-            console.log('[[** after pushState history len == ' + history.length)
-            console.log('[[** after pushState history.state == ' + history.state)
-            // console.log('[[]] navigationState len == ' + navigationState.length)
+            console.log('[[]] currentContent is ', current_content, '!= key __ ', key);
+            console.log('[[** after pushState history len == ' + window.history.length)
+            console.log('[[** after pushState history.state == ' + window.history.state)
+            console.log('[[]] navigationState len == ' + navigationState.length)
 
             hide_all_hero_content();
         }
@@ -110,7 +129,7 @@ let select_hero_content = function (key) {
         if (navContentElem)
         {
             // location.hash = 'init;'
-            console.log('[[[ navContentElem ]]] ??? block display ...', location.hash );
+            // console.log('[[[ navContentElem ]]] ??? block display ...', location.hash );
             navContentElem.style.display = 'block';
         }
         else
@@ -120,11 +139,11 @@ let select_hero_content = function (key) {
         console.log('heroContentElem ' + contentElems['heroDiv'] + ' FOUND !')
         heroContentElem.style.display = 'block';
         current_content = key;
-        if (current_content != location.hash){
-            console.log('** location.hash : ' + location.hash)
-            console.log('** history.state : ' + history.state)
-            // pushStateAndUpdate(current_content, current_content)
-        }
+        // if (current_content != location.hash){
+            // console.log('** location.hash : ' + location.hash)
+        if (doPushState)
+            pushStateAndUpdate(current_content, current_content);
+        // }
 
         console.log('** current content page : ' + current_content)
         // console.log("--- [] [] systemPage VALUE navigationState [] []: ", navigationState);
@@ -137,7 +156,7 @@ let select_hero_content = function (key) {
         }
         try {
             console.log('select_hero_content :: 3 :: disconnecting sockets ');
-            disconnect_socket()// Closes the currently open websocket if exists, else does nothing.
+            disconnect_socket()// Closes the currently open game websocket if exists, else does nothing.
             disconnect_tour_socket()
             if (userDisconnectedSocket) {
                 disconnect_user_socket();
