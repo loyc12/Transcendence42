@@ -2,32 +2,32 @@
 let currrentState = 'init';
 
 
-function goBackAndRemoveLast() {
-    console.log('--- goBack CALL ---');
-    // console.log(navigationState);
-    // Check if there are states to go back to
-    if (navigationState.length > 1) {
-        // Remove the last state from your custom stack
-        navigationState.pop();  
-    }
-    // Use history.back() to navigate back one step
-    history.back();
+// function goBackAndRemoveLast() {
+//     console.log('--- goBack CALL ---');
+//     // console.log(navigationState);
+//     // Check if there are states to go back to
+//     if (navigationState.length > 1) {
+//         // Remove the last state from your custom stack
+//         navigationState.pop();  
+//     }
+//     // Use history.back() to navigate back one step
+//     history.back();
 
-    console.log('--- removeLast CALL ---');
-    console.log(history);
-  }
+//     console.log('--- removeLast CALL ---');
+//     console.log(history);
+//   }
 
 window.onpopstate = function (event) {
     console.log('--- onpopstate ---');
 
     if (event.state) {
         console.log('[***] THIS IS BROWSER EVENT  onpopstate --: event.state ', event.state);
-        goBackAndRemoveLast();
+        // goBackAndRemoveLast();
         
         currrentState = event.state;
         console.log('___  call handleStateChange\n ___currentState  ', currrentState);
         handleStateChange(currrentState);
-        goBackAndRemoveLast();
+        // goBackAndRemoveLast();
     }
     else {
 
@@ -65,13 +65,20 @@ window.addEventListener('popstate', function(event) {
     if (event.state != null) {
         console.log('\t __ popstate handleStateChange __', event.state);
         // new add a simili-global function to set state of history
-        pushStateAndUpdate(event.state, event.state);
+        // pushStateAndUpdate(event.state, event.state);
         handleStateChange(event.state);
     }
     else {
-
+        
         console.log('\t__ popstate __ event.state IS NULL  ___');
         console.log('__ LOCATION is NOT SET ___ location.hash >>', this.location.hash);
+        if (event.state == null && this.history.length > 5) {
+            console.log('history.back() is call');
+            this.history.back();
+        }
+        // this.history.replaceState(key, key, location.hash);
+
+
     }
 });
 
@@ -88,6 +95,7 @@ function handleStateChange(newState) {
 
     if (newState === 'lobby'  || newState === 'aftergame'|| newState === 'tournament') {
         console.log('----handleStateChange == select_hero_content >> INIT');
+        location.hash = 'init';
         select_hero_content('init');
     }
     else if (newState === 'info')

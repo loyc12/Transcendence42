@@ -1,7 +1,7 @@
 
 let current_content = null;
 
-let navigationState = [];
+// let navigationState = [];
 
 
 let content_flush = ['NavBarInit', 'NavBarInfo', 'NavBarGame', 'NavBarLogin', 'NavBarHelp',
@@ -40,13 +40,6 @@ let hide_all_hero_content = function () {
     }
 }
 
-function pushStateAndUpdate(state, title) {
-    console.log('((INFO)) pushStateAndUpdate => ', state);
-    // history.pushState(state, title);
-    navigationState.push(state);
-    // Add additional logic to update the content based on the state
-    console.log(navigationState);
-  }
 
 let select_hero_content = function (key) {
 
@@ -102,11 +95,13 @@ let select_hero_content = function (key) {
             return ;
         else
         {
+            if (location.hash != key)
+                location.hash = key;
             // set hash tag to dont know what here , but smthimg changed!!!
-            console.log('[[]] currentContent is ', current_content, '!= key __ ', key);
+            console.log('[[]] currentContent is != key __<<>>__ key ==', key);
             console.log('[[** after pushState history len == ' + history.length)
             console.log('[[** after pushState history.state == ' + history.state)
-            console.log('[[]] navigationState len == ' + navigationState.length)
+            // console.log('[[]] navigationState len == ' + navigationState.length)
 
             hide_all_hero_content();
         }
@@ -127,7 +122,8 @@ let select_hero_content = function (key) {
         current_content = key;
         if (current_content != location.hash){
             console.log('** location.hash : ' + location.hash)
-            pushStateAndUpdate(current_content, current_content)
+            console.log('** history.state : ' + history.state)
+            // pushStateAndUpdate(current_content, current_content)
         }
 
         console.log('** current content page : ' + current_content)
