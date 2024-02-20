@@ -56,7 +56,6 @@ function printCurrentParam (currentGameInfo) {
 
 let setCanvasSize = function () {
 
-    console.log('setCanvasSize begin_ ' );
     const parent = canvas.parentElement
 
     //Use initial dimensions if the parent is smaller
@@ -151,9 +150,6 @@ function parseInitData (init_data) {
     currentGameInfo = init_data;
     canvas.width = width;
     canvas.height = height;
-    console.log('canvas.width : ' + canvas.width);
-    console.log('canvas.height : ' + canvas.height);
-    console.log('currentGameInfo  nbPlayer: ' + currentGameInfo.racketCount);
     console.log('>>> Player Color: ' + getPlayerColor(1));
 
     /// Pre calculations used in rendering functions

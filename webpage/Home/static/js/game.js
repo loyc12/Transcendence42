@@ -1,4 +1,4 @@
-//COLLE
+
 function myFunction() {
     alert("Hello from a static file!");
 }
@@ -30,10 +30,7 @@ let _build_join_request_payload = function (gameMode, gameType, withAI=false, ev
 
 let _http_join_request = async function (payload) {
 
-  console.log('request join game path : ' + 'https://' + window.location.host + '/game/join/')
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  console.log('csrftoken : ' + csrftoken)
-  console.log('csrf from query selector : ' + document.querySelector('[name=csrfmiddlewaretoken]').value);
 
   return fetch('https://' + window.location.host + '/game/join/', {
       method: "POST",
@@ -48,20 +45,11 @@ let _http_join_request = async function (payload) {
   })
   .then (function(data) {
     if (data.status === 'failure') {
-      alert('Join game request failed because : \n\t - ' + data.reason)
       throw new reportError('Join game request failed because : ' + data.reason)
     }
     if (data.sockID) {
-      console.log('Returned data from game join request : ' + data);
-      console.log('response status : ', data.status);
-      console.log('response reason : ', data.reason);
-      console.log('response sockID : ', data.sockID);
-      console.log('response gameType : ', data.gameType);
-      console.log('response gameMode : ', data.gameMode);
-      console.log('response withAI : ', data.withAI);
-      console.log('response eventID : ', data.eventID);
       return data;
-    } 
+    }
   })
   .catch(err => console.log(err));
 }
@@ -84,7 +72,6 @@ let request_join_game = async function (gameType) {
   }
 
   gameData = await _http_join_request(payload)
-  console.log('gameData : ' + gameData)
 
   return gameData;
 }

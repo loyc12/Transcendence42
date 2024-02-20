@@ -33,11 +33,9 @@ let _https_api_request = async function (api_path) {
 let _api_request_move = async function (api_path) {
 
     api_resp = await _https_api_request(api_path);
-    console.log('api_resp : ' + api_resp);
-  
     return api_resp;
   }
-  
+
 
 let api_controler = async function (key) {
     let req_path = _build_api_request_path(key);

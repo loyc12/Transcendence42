@@ -16,14 +16,6 @@ let _on_close_disconnect = function (event) {
     userDisconnectedSocket = true;
 }
 
-// let check_user_is_connected = function () {
-//     console.log("check_user_is_connected :: entered !")
-//     if (user_id != null && userWebSock != null && userWebSock.CLOSED) {
-//         console.log("check_user_is_connected :: RELOAD !")
-//         window.location.reload();
-//     }
-// }
-
 let _build_user_ws_path = function(sockID) {
     return 'wss://' + window.location.host + '/users/ws/' + sockID + '/';
 }
@@ -31,7 +23,6 @@ let _build_user_ws_path = function(sockID) {
 let _connect_to_user_socket = function (userWebSockPath) {
     let sock;
 
-    console.log('Connecting to USER websocket at : ', userWebSockPath)
     try {
         sock = new WebSocket(userWebSockPath);
     } catch (err) {
@@ -43,7 +34,6 @@ let _connect_to_user_socket = function (userWebSockPath) {
 
 let fetch_user_logout = function () {
 
-    console.log('Inside fetch_user_logout()')
     fetch('https://' + window.location.host + '/users/profile/logout')
     .then (data => {
 
@@ -51,19 +41,13 @@ let fetch_user_logout = function () {
             console.log('Force logout status returned : ' + text)
         })
     })
-    // .catch(function (err) {
-    //   console.log('fetch of user logout failed !');
-    //   console.log(err);
-    // })
 }
 
 let disconnect_user_socket = function() {
 
     fetch_user_logout()
     if (userWebSock != null) {
-        console.log('Trying to close userWebSock connection')
         userWebSock.close()
-        console.log('userWebSock.readyState : ' + userWebSock.readyState)
 
         userWebSock = null;
         userWebSockID = null;
@@ -73,13 +57,11 @@ let disconnect_user_socket = function() {
 
 let _on_server_side_user_disconnect = function(e) {
     console.error('The server disconnecter USER');
-    console.log('Server closed USER websocket connection. Current socket readyState : ');
     user_id = null;
 
 };
 
 let _prepare_user_websocket = function (ws) {
-    console.log('PREPARING WEBSOCKET')
     userWebSock = ws;
     ws.onmessage = _on_user_event;
     ws.onclose = _on_close_disconnect;
@@ -87,14 +69,13 @@ let _prepare_user_websocket = function (ws) {
 
 let login_click_disabled = false;
 let initiate_42_login = function (login_addr) {
-    
+
     if (login_click_disabled) {
         console.log('LOGIN CLICK BLOCKED !! Your welcome.');
         return;
     }
     console.log('Trying to redirect to : ' + login_addr + ' while login_click_disabled is ' + login_click_disabled);
     login_click_disabled = true;
-    console.log('Starting login request.');
     window.location.replace(login_addr);
 }
 
@@ -110,5 +91,4 @@ if (user_id != null) {
 
     // setup websocket
     _prepare_user_websocket(userWebSock);
-    console.log('USER WEBSOCKET SUCCESSFULLY CONNECTED');
 }

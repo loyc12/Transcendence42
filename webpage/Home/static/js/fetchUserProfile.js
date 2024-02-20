@@ -8,20 +8,18 @@ let get_text_from_readable_stream = async function(stream) {
   } else {
     console.log(value);
   }
-  return 
+  return
 }
 
 let loading_profile = false;
 let fetch_user_profile = function () {
-
-  console.log('Inside fetch_user_profile()')
   if (loading_profile)
     return;
   loading_profile = true;
   fetch('https://' + window.location.host + '/users/profile/get')
   .then (data => {
     elem = document.getElementById('profile');
-    
+
     data.text().then(text => {
         if (elem)
             elem.innerHTML = text;
